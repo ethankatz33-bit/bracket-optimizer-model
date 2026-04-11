@@ -1,0 +1,36 @@
+{
+  "conservative": {
+    "avg_accuracy": 0.6061,
+    "e8_upsets_dist": {
+      "1": 27
+    },
+    "ff_seed_mix": {
+      "1": "81 (75%)",
+      "2": "27 (25%)"
+    },
+    "pct_1seed_ff": 0.75
+  },
+  "balanced": {
+    "avg_accuracy": 0.592,
+    "e8_upsets_dist": {
+      "2": 13,
+      "1": 14
+    },
+    "ff_seed_mix": {
+      "1": "68 (63%)",
+      "2": "40 (37%)"
+    },
+    "pct_1seed_ff": 0.63
+  },
+  "upset_heavy": {
+    "avg_accuracy": 0.5785,
+    "e8_upsets_dist": {
+      "2": 27
+    },
+    "ff_seed_mix": {
+      "1": "54 (50%)",
+      "2": "54 (50%)"
+    },
+    "pct_1seed_ff": 0.5
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "year": 1991,
+  "mode": "conservative",
+  "pretournament_seasons": 6,
+  "pretournament_range": "1985\u20131990",
+  "predicted_final_four": [
+    {
+      "name": "T1393",
+      "seed": 2
+    },
+    {
+      "name": "T1116",
+      "seed": 1
+    },
+    {
+      "name": "T1326",
+      "seed": 1
+    },
+    {
+      "name": "T1424",
+      "seed": 1
+    }
+  ],
+  "actual_final_four": [
+    {
+      "name": "T1242",
+      "seed": 3
+    },
+    {
+      "name": "T1424",
+      "seed": 1
+    },
+    {
+      "name": "T1181",
+      "seed": 2
+    },
+    {
+      "name": "T1314",
+      "seed": 1
+    }
+  ],
+  "predicted_champion": {
+    "name": "T1393",
+    "seed": 2
+  },
+  "actual_champion": {
+    "name": "T1181",
+    "seed": 2
+  },
+  "total_correct": 40,
+  "total_possible": 63,
+  "by_round": {
+    "Round of 64": 23,
+    "Round of 32": 12,
+    "Sweet 16": 4,
+    "Elite 8": 1,
+    "Final Four": 0,
+    "Championship": 0
+  },
+  "by_round_detail": {
+    "Round of 64": {
+      "correct": 23,
+      "possible": 32
+    },
+    "Round of 32": {
+      "correct": 12,
+      "possible": 16
+    },
+    "Sweet 16": {
+      "correct": 4,
+      "possible": 8
+    },
+    "Elite 8": {
+      "correct": 1,
+      "possible": 4
+    },
+    "Final Four": {
+      "correct": 0,
+      "possible": 2
+    },
+    "Championship": {
+      "correct": 0,
+      "possible": 1
+    }
+  },
+  "diagnostics": {
+    "chalkiness_assessment": "Very chalky: all 4/4 predicted Final Four teams were 1- or 2-seeds. The bracket leaned heavily on chalk.",
+    "upset_assessment": "Under-picked upsets: only 8 upsets predicted. Tournaments historically average ~15\u201316 upsets (range 9\u201321). Note: fewer upset picks tends to improve bracket score because correctly predicting the specific upset is harder than picking the favorite.",
+    "sweet_16_double_digit_review": "Predicted DD seed: T1208 (seed 11) (forced by structure constraint). This team did NOT reach the actual Sweet 16 in 1991.",
+    "champion_review": "Champion incorrect: predicted T1393 (seed 2), actual champion was T1181. A seed-2 champion is uncommon but within the historical range."
+  }
+}

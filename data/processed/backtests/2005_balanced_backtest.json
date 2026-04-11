@@ -1,0 +1,92 @@
+{
+  "year": 2005,
+  "mode": "balanced",
+  "pretournament_seasons": 20,
+  "pretournament_range": "1985\u20132004",
+  "predicted_final_four": [
+    {
+      "name": "T1448",
+      "seed": 2
+    },
+    {
+      "name": "T1329",
+      "seed": 2
+    },
+    {
+      "name": "T1181",
+      "seed": 1
+    },
+    {
+      "name": "T1314",
+      "seed": 1
+    }
+  ],
+  "actual_final_four": [
+    {
+      "name": "T1228",
+      "seed": 1
+    },
+    {
+      "name": "T1257",
+      "seed": 4
+    },
+    {
+      "name": "T1277",
+      "seed": 5
+    },
+    {
+      "name": "T1314",
+      "seed": 1
+    }
+  ],
+  "predicted_champion": {
+    "name": "T1329",
+    "seed": 2
+  },
+  "actual_champion": {
+    "name": "T1314",
+    "seed": 1
+  },
+  "total_correct": 32,
+  "total_possible": 63,
+  "by_round": {
+    "Round of 64": 21,
+    "Round of 32": 7,
+    "Sweet 16": 2,
+    "Elite 8": 1,
+    "Final Four": 1,
+    "Championship": 0
+  },
+  "by_round_detail": {
+    "Round of 64": {
+      "correct": 21,
+      "possible": 32
+    },
+    "Round of 32": {
+      "correct": 7,
+      "possible": 16
+    },
+    "Sweet 16": {
+      "correct": 2,
+      "possible": 8
+    },
+    "Elite 8": {
+      "correct": 1,
+      "possible": 4
+    },
+    "Final Four": {
+      "correct": 1,
+      "possible": 2
+    },
+    "Championship": {
+      "correct": 0,
+      "possible": 1
+    }
+  },
+  "diagnostics": {
+    "chalkiness_assessment": "Very chalky: all 4/4 predicted Final Four teams were 1- or 2-seeds. The bracket leaned heavily on chalk.",
+    "upset_assessment": "Reasonable upset volume: 12 upsets predicted (historical mean ~15.5, range 9\u201321). Conservative brackets (~11\u201312) tend to outscore balanced ones because wrong upset picks are doubly costly in bracket scoring.",
+    "sweet_16_double_digit_review": "Predicted DD seed: T1234 (seed 10) (forced by structure constraint). This team did NOT reach the actual Sweet 16 in 2005.",
+    "champion_review": "Champion incorrect: predicted T1329 (seed 2), actual champion was T1314. A seed-2 champion is uncommon but within the historical range."
+  }
+}

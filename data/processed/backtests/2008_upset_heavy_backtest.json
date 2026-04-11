@@ -1,0 +1,92 @@
+{
+  "year": 2008,
+  "mode": "upset_heavy",
+  "pretournament_seasons": 23,
+  "pretournament_range": "1985\u20132007",
+  "predicted_final_four": [
+    {
+      "name": "T1397",
+      "seed": 2
+    },
+    {
+      "name": "T1207",
+      "seed": 2
+    },
+    {
+      "name": "T1272",
+      "seed": 1
+    },
+    {
+      "name": "T1417",
+      "seed": 1
+    }
+  ],
+  "actual_final_four": [
+    {
+      "name": "T1314",
+      "seed": 1
+    },
+    {
+      "name": "T1417",
+      "seed": 1
+    },
+    {
+      "name": "T1242",
+      "seed": 1
+    },
+    {
+      "name": "T1272",
+      "seed": 1
+    }
+  ],
+  "predicted_champion": {
+    "name": "T1207",
+    "seed": 2
+  },
+  "actual_champion": {
+    "name": "T1242",
+    "seed": 1
+  },
+  "total_correct": 36,
+  "total_possible": 63,
+  "by_round": {
+    "Round of 64": 20,
+    "Round of 32": 10,
+    "Sweet 16": 4,
+    "Elite 8": 2,
+    "Final Four": 0,
+    "Championship": 0
+  },
+  "by_round_detail": {
+    "Round of 64": {
+      "correct": 20,
+      "possible": 32
+    },
+    "Round of 32": {
+      "correct": 10,
+      "possible": 16
+    },
+    "Sweet 16": {
+      "correct": 4,
+      "possible": 8
+    },
+    "Elite 8": {
+      "correct": 2,
+      "possible": 4
+    },
+    "Final Four": {
+      "correct": 0,
+      "possible": 2
+    },
+    "Championship": {
+      "correct": 0,
+      "possible": 1
+    }
+  },
+  "diagnostics": {
+    "chalkiness_assessment": "Very chalky: all 4/4 predicted Final Four teams were 1- or 2-seeds. The bracket leaned heavily on chalk.",
+    "upset_assessment": "Reasonable upset volume: 15 upsets predicted (historical mean ~15.5, range 9\u201321). Conservative brackets (~11\u201312) tend to outscore balanced ones because wrong upset picks are doubly costly in bracket scoring.",
+    "sweet_16_double_digit_review": "Predicted DD seed: T1388 (seed 10) (forced by structure constraint). This team did NOT reach the actual Sweet 16 in 2008.",
+    "champion_review": "Champion incorrect: predicted T1207 (seed 2), actual champion was T1242. A seed-2 champion is uncommon but within the historical range."
+  }
+}
