@@ -108,6 +108,21 @@ def _parse_seed_num(raw) -> int | None:
 # Pre-tournament model construction
 # ════════════════════════════════════════════════════════════════════════════
 
+# ── Recency weighting ─────────────────────────────────────────────────────────
+# Newer seasons are weighted more heavily when computing upset rates and
+# advancement rates so the model reflects modern basketball trends.
+#
+#   2015–2025  → 1.00  (modern era — full weight)
+#   2005–2014  → 0.70  (mid-era)
+#   1990–2004  → 0.40  (early era — structurally similar but noisier / older)
+def _season_weight(year: int) -> float:
+    if year >= 2015:
+        return 1.0
+    if year >= 2005:
+        return 0.7
+    return 0.4
+
+
 def _build_historical_df(
     results: pd.DataFrame,
     seeds: pd.DataFrame,
@@ -117,8 +132,9 @@ def _build_historical_df(
     In-memory replication of the load_data + clean_data pipeline for all
     seasons in [1985, max_year).
 
-    Produces a DataFrame in the same format as cleaned_games.csv:
-      year, round, winning_seed, losing_seed, matchup, upset
+    Produces a DataFrame in the same format as cleaned_games.csv plus a
+    'weight' column for recency-weighted probability estimation:
+      year, round, winning_seed, losing_seed, matchup, upset, weight
     """
     # Parse numeric seeds
     s = seeds.copy()
@@ -156,16 +172,20 @@ def _build_historical_df(
         axis=1,
     )
     is_8_9 = df["winning_seed"].isin([8, 9]) & df["losing_seed"].isin([8, 9])
-    df["upset"] = ((df["winning_seed"] > df["losing_seed"]) & ~is_8_9).astype(int)
+    df["upset"]  = ((df["winning_seed"] > df["losing_seed"]) & ~is_8_9).astype(int)
+    df["weight"] = df["year"].map(_season_weight)
 
     return df.sort_values(["year", "round"]).reset_index(drop=True)
 
 
 def _compute_matchup_win_rates(df: pd.DataFrame) -> dict[str, float]:
     """
-    Upset win-rate per seed matchup, keyed as "{higher}_vs_{lower}".
-    Mirrors compute_probabilities.compute_matchup_win_rates() exactly.
+    Recency-weighted upset win-rate per seed matchup, keyed as "{higher}_vs_{lower}".
+
+    Each game is weighted by _season_weight(year): recent seasons contribute more
+    to the upset rates than older seasons, reflecting modern basketball trends.
     """
+    w_col = df["weight"] if "weight" in df.columns else pd.Series(1.0, index=df.index)
     rates: dict[str, float] = {}
     for matchup, grp in df.groupby("matchup"):
         parts       = matchup.split("_vs_")
@@ -173,9 +193,10 @@ def _compute_matchup_win_rates(df: pd.DataFrame) -> dict[str, float]:
         higher_seed = int(parts[1])
         if lower_seed == higher_seed:
             continue
-        total      = len(grp)
-        upset_wins = int((grp["winning_seed"] == higher_seed).sum())
-        rates[f"{higher_seed}_vs_{lower_seed}"] = round(upset_wins / total, 4)
+        grp_w       = w_col.loc[grp.index]
+        total_w     = float(grp_w.sum())
+        upset_w     = float(grp_w[grp["winning_seed"] == higher_seed].sum())
+        rates[f"{higher_seed}_vs_{lower_seed}"] = round(upset_w / total_w, 4) if total_w > 0 else 0.0
     return dict(
         sorted(rates.items(),
                key=lambda kv: (int(kv[0].split("_vs_")[0]),
@@ -185,26 +206,36 @@ def _compute_matchup_win_rates(df: pd.DataFrame) -> dict[str, float]:
 
 def _compute_advancement_rates(df: pd.DataFrame) -> dict[str, dict[str, float]]:
     """
-    Per-seed fraction of R64 appearances that reached each subsequent round.
-    Mirrors compute_probabilities.compute_advancement_rates() exactly.
+    Recency-weighted per-seed fraction of R64 appearances reaching each round.
+
+    Denominators and numerators are both weighted sums so the rates naturally
+    reflect how seed tiers have performed in recent years vs. the full history.
     """
-    r1 = df[df["round"] == 1]
-    appearances = {
-        seed: int(((r1["winning_seed"] == seed) | (r1["losing_seed"] == seed)).sum())
+    w_col = df["weight"] if "weight" in df.columns else pd.Series(1.0, index=df.index)
+    r1    = df[df["round"] == 1]
+    r1_w  = w_col.loc[r1.index]
+
+    appearances_w = {
+        seed: float(
+            r1_w[(r1["winning_seed"] == seed) | (r1["losing_seed"] == seed)].sum()
+        )
         for seed in range(1, 17)
     }
+
     advancement: dict[str, dict[str, float]] = {}
     for seed in range(1, 17):
-        n = appearances.get(seed, 0)
-        if n == 0:
+        n_w = appearances_w.get(seed, 0.0)
+        if n_w == 0:
             continue
-        r64_wins = int((r1["winning_seed"] == seed).sum())
-        rates: dict[str, float] = {"round_64": round(r64_wins / n, 4)}
+        r64_w  = float(r1_w[r1["winning_seed"] == seed].sum())
+        rates: dict[str, float] = {"round_64": round(r64_w / n_w, 4)}
         for round_num, label in [(2, "sweet_16"), (3, "elite_8"), (4, "final_four")]:
-            wins = int((df[df["round"] == round_num]["winning_seed"] == seed).sum())
-            rates[label] = round(wins / n, 4)
-        champ_wins = int((df[df["round"] == 6]["winning_seed"] == seed).sum())
-        rates["champion"] = round(champ_wins / n, 4)
+            rnd   = df[df["round"] == round_num]
+            wins_w = float(w_col.loc[rnd.index][rnd["winning_seed"] == seed].sum())
+            rates[label] = round(wins_w / n_w, 4)
+        champ   = df[df["round"] == 6]
+        champ_w = float(w_col.loc[champ.index][champ["winning_seed"] == seed].sum())
+        rates["champion"] = round(champ_w / n_w, 4)
         advancement[str(seed)] = rates
     return advancement
 
@@ -277,6 +308,14 @@ def _resolve_playin_winners(
     return winner_for
 
 
+def _is_numeric_seed_format(year_seeds: pd.DataFrame) -> bool:
+    """Return True when TourneySeeds uses plain integer seeds (2018+ format)."""
+    if year_seeds.empty:
+        return False
+    sample = year_seeds["Seed"].iloc[0]
+    return str(sample).isdigit()
+
+
 def _build_year_teams(
     target_year:   int,
     results:       pd.DataFrame,
@@ -286,14 +325,13 @@ def _build_year_teams(
     Build the 64-team field for target_year in the same format as MOCK_TEAMS:
       { region_name: { seed_num: {"name": "T{id}", "rating": float} } }
 
-    For each (region, seed) slot:
-      - Direct-entry seeds: one team per slot, used as-is.
-      - Play-in slots (a/b pair): resolved to the actual play-in winner.
+    Handles two TourneySeeds.csv formats:
+      • W/X/Y/Z prefix format (1985–2017): region is encoded in the seed string.
+      • Plain-integer format (2018+): seed is a bare number; teams are
+        distributed across the 4 regions in sorted team_id order.
 
-    Team name is "T{team_id}" because no name-mapping file is available in
-    this dataset.  Ratings use SEED_BASE_RATING (seed-tier averages) so the
-    simulation is anchored to historical seed performance, not fabricated
-    individual team strength.
+    Play-in winners are resolved from TourneyCompactResults (Daynum 134/135)
+    when the Daynum column is present.  If not, the first listed team is used.
     """
     year_seeds = seeds[seeds["Season"] == target_year].copy()
     year_seeds["seed_num"]      = year_seeds["Seed"].apply(_parse_seed_num)
@@ -302,35 +340,70 @@ def _build_year_teams(
     year_seeds = year_seeds.dropna(subset=["seed_num"])
     year_seeds["seed_num"] = year_seeds["seed_num"].astype(int)
 
-    playin_winners = _resolve_playin_winners(target_year, results, seeds)
-
     team_field: dict[str, dict[int, dict]] = {
         name: {} for name in REGION_LETTER_TO_NAME.values()
     }
 
-    for region_letter, region_name in REGION_LETTER_TO_NAME.items():
-        region_df = year_seeds[year_seeds["region_letter"] == region_letter]
+    if _is_numeric_seed_format(year_seeds):
+        # ── 2018+ plain-integer format ────────────────────────────────────
+        # Resolve play-in winners from Daynum 134/135 games (if present).
+        year_results = results[results["Season"] == target_year]
+        playin_games = year_results[year_results["Daynum"].isin([134, 135])]
+        playin_winner_ids: set[int] = set(playin_games["Wteam"].astype(int).tolist())
+        playin_loser_ids:  set[int] = set(playin_games["Lteam"].astype(int).tolist())
+
+        region_names = list(REGION_LETTER_TO_NAME.values())  # 4 regions
 
         for seed_num in range(1, 17):
-            slot_teams = region_df[region_df["seed_num"] == seed_num]
+            seed_teams = (
+                year_seeds[year_seeds["seed_num"] == seed_num]
+                .sort_values("Team")
+                .reset_index(drop=True)
+            )
 
-            if slot_teams.empty:
-                # Seed slot missing — use a placeholder (data gap)
-                team_id = seed_num * 9000
-            elif len(slot_teams) == 1 and not slot_teams.iloc[0]["is_playin"]:
-                # Standard direct entry
-                team_id = int(slot_teams.iloc[0]["Team"])
+            # Exclude known play-in losers; prefer known play-in winners.
+            if not playin_loser_ids:
+                # No play-in data — use all listed teams
+                bracket_teams = seed_teams
             else:
-                # Play-in slot: use the actual winner
-                team_id = playin_winners.get(
-                    (region_letter, seed_num),
-                    int(slot_teams.iloc[0]["Team"]),  # fallback: first listed
-                )
+                non_losers  = seed_teams[~seed_teams["Team"].isin(playin_loser_ids)]
+                bracket_teams = non_losers if not non_losers.empty else seed_teams
 
-            team_field[region_name][seed_num] = {
-                "name":   f"T{team_id}",
-                "rating": SEED_BASE_RATING.get(seed_num, 20.0),
-            }
+            bracket_ids = bracket_teams["Team"].astype(int).tolist()
+
+            for i, region_name in enumerate(region_names):
+                if i < len(bracket_ids):
+                    team_id = bracket_ids[i]
+                else:
+                    team_id = seed_num * 9000  # placeholder for missing slot
+                team_field[region_name][seed_num] = {
+                    "name":   f"T{team_id}",
+                    "rating": SEED_BASE_RATING.get(seed_num, 20.0),
+                }
+    else:
+        # ── Original W/X/Y/Z prefix format (1985–2017) ───────────────────
+        playin_winners = _resolve_playin_winners(target_year, results, seeds)
+
+        for region_letter, region_name in REGION_LETTER_TO_NAME.items():
+            region_df = year_seeds[year_seeds["region_letter"] == region_letter]
+
+            for seed_num in range(1, 17):
+                slot_teams = region_df[region_df["seed_num"] == seed_num]
+
+                if slot_teams.empty:
+                    team_id = seed_num * 9000
+                elif len(slot_teams) == 1 and not slot_teams.iloc[0]["is_playin"]:
+                    team_id = int(slot_teams.iloc[0]["Team"])
+                else:
+                    team_id = playin_winners.get(
+                        (region_letter, seed_num),
+                        int(slot_teams.iloc[0]["Team"]),
+                    )
+
+                team_field[region_name][seed_num] = {
+                    "name":   f"T{team_id}",
+                    "rating": SEED_BASE_RATING.get(seed_num, 20.0),
+                }
 
     return team_field
 
@@ -645,6 +718,7 @@ def run_backtest(year: int, mode: str = "balanced") -> dict:
     # ── Step 3: generate bracket ──────────────────────────────────────────
     predicted = simulate_bracket(
         mode,
+        season=year,
         _teams_override=teams,
         _probs_override=probs,
         _structure_override=structures,
@@ -661,7 +735,10 @@ def run_backtest(year: int, mode: str = "balanced") -> dict:
 
     # ── Step 7: assemble output record ───────────────────────────────────
     def _team_summary(t: dict) -> dict:
-        return {"name": t["name"], "seed": t["seed"]}
+        d = {"name": t["name"], "seed": t["seed"]}
+        if "profile_score" in t:
+            d["profile_score"] = t["profile_score"]
+        return d
 
     def _winner_list(game_list) -> list[dict]:
         if isinstance(game_list, dict):
@@ -699,6 +776,10 @@ def run_backtest(year: int, mode: str = "balanced") -> dict:
         },
         "by_round_detail":        scoring["by_round"],
         "diagnostics":            diagnostics,
+        "ratings_diagnostics":    predicted.get("ratings_diagnostics", {}),
+        "champion_value_score":   predicted.get("champion_value_score"),
+        "champion_win_prob":      predicted.get("champion_win_prob"),
+        "champion_public_pct":    predicted.get("champion_public_pct"),
     }
 
     # ── Step 8: save JSON ─────────────────────────────────────────────────

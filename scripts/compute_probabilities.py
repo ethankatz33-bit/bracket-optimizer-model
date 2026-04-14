@@ -26,31 +26,44 @@ ROUND_LABELS = {
     6: "championship",
 }
 
+# ── Recency weighting ─────────────────────────────────────────────────────────
+# Mirrors the weights used in lib/backtest.py.  Newer seasons contribute more
+# to upset rates and advancement rates so the model reflects modern trends.
+def _season_weight(year: int) -> float:
+    if year >= 2013:
+        return 1.0
+    if year >= 2005:
+        return 0.7
+    return 0.4
+
 
 # ────────────────────────────────────────────────────────────────────────────
 # 1. Matchup win rates
 # ────────────────────────────────────────────────────────────────────────────
 def compute_matchup_win_rates(df: pd.DataFrame) -> dict[str, float]:
     """
-    For every seed matchup observed across all rounds, compute the win rate
-    of the higher (underdog) seed.  Key format: "{higher}_vs_{lower}".
+    Recency-weighted upset win-rate for every seed matchup.
+    Key format: "{higher}_vs_{lower}".
+
+    Each game is weighted by _season_weight(year) so recent seasons contribute
+    more than older ones.  Requires a 'year' column in df.
     """
+    w_col = df["year"].map(_season_weight) if "year" in df.columns else pd.Series(1.0, index=df.index)
     rates: dict[str, float] = {}
 
     for matchup, grp in df.groupby("matchup"):
         parts = matchup.split("_vs_")
-        lower_seed  = int(parts[0])   # numerically lower  = favored team
-        higher_seed = int(parts[1])   # numerically higher = underdog
+        lower_seed  = int(parts[0])
+        higher_seed = int(parts[1])
 
         if lower_seed == higher_seed:
             continue
 
-        total       = len(grp)
-        upset_wins  = int((grp["winning_seed"] == higher_seed).sum())
-        key         = f"{higher_seed}_vs_{lower_seed}"
-        rates[key]  = round(upset_wins / total, 4)
+        grp_w      = w_col.loc[grp.index]
+        total_w    = float(grp_w.sum())
+        upset_w    = float(grp_w[grp["winning_seed"] == higher_seed].sum())
+        rates[f"{higher_seed}_vs_{lower_seed}"] = round(upset_w / total_w, 4) if total_w > 0 else 0.0
 
-    # Sort nicely: primary = higher seed, secondary = lower seed
     rates = dict(
         sorted(rates.items(),
                key=lambda kv: (int(kv[0].split("_vs_")[0]),
@@ -64,53 +77,49 @@ def compute_matchup_win_rates(df: pd.DataFrame) -> dict[str, float]:
 # ────────────────────────────────────────────────────────────────────────────
 def compute_advancement_rates(df: pd.DataFrame) -> dict[str, dict[str, float]]:
     """
-    For each seed (1-16), compute the fraction of Round-of-64 appearances
-    that advanced to each subsequent stage.
+    Recency-weighted per-seed advancement rates.
 
-    Denominator is always total Round-of-64 appearances for that seed so
-    all rates are directly comparable and monotonically non-increasing.
+    For each seed (1-16), the fraction of weighted Round-of-64 appearances
+    that advanced to each subsequent stage.  Recent seasons are up-weighted
+    relative to older ones via _season_weight(year).
 
     round_64   = P(win the opening game)
-    sweet_16   = P(reached Sweet 16) = wins in Round of 32 / R1 appearances
-    elite_8    = P(reached Elite 8)  = wins in Sweet 16  / R1 appearances
-    final_four = P(reached Final Four) = wins in Elite 8  / R1 appearances
-    champion   = P(won the title)    = wins in Championship / R1 appearances
+    sweet_16   = P(reached Sweet 16)
+    elite_8    = P(reached Elite 8)
+    final_four = P(reached Final Four)
+    champion   = P(won the title)
     """
-    r1 = df[df["round"] == 1]
+    w_col = df["year"].map(_season_weight) if "year" in df.columns else pd.Series(1.0, index=df.index)
+    r1    = df[df["round"] == 1]
+    r1_w  = w_col.loc[r1.index]
 
-    # Total Round-of-64 appearances per seed (should be ~4 × n_years for each)
-    appearances: dict[int, int] = {}
+    appearances_w: dict[int, float] = {}
     for seed in range(1, 17):
-        n = int(((r1["winning_seed"] == seed) | (r1["losing_seed"] == seed)).sum())
-        appearances[seed] = n
+        mask = (r1["winning_seed"] == seed) | (r1["losing_seed"] == seed)
+        appearances_w[seed] = float(r1_w[mask].sum())
 
     advancement: dict[str, dict[str, float]] = {}
 
     for seed in range(1, 17):
-        n = appearances.get(seed, 0)
-        if n == 0:
+        n_w = appearances_w.get(seed, 0.0)
+        if n_w == 0:
             continue
 
-        rates: dict[str, float] = {}
+        r64_w = float(r1_w[r1["winning_seed"] == seed].sum())
+        rates: dict[str, float] = {"round_64": round(r64_w / n_w, 4)}
 
-        # Round-of-64 win %
-        r64_wins = int((r1["winning_seed"] == seed).sum())
-        rates["round_64"] = round(r64_wins / n, 4)
-
-        # Reaching each subsequent round = winning the *previous* round
-        # round_num  round that produces the survivor
-        # label      the stage you *reach* by winning it
         for round_num, label in [
             (2, "sweet_16"),
             (3, "elite_8"),
             (4, "final_four"),
         ]:
-            wins = int((df[df["round"] == round_num]["winning_seed"] == seed).sum())
-            rates[label] = round(wins / n, 4)
+            rnd    = df[df["round"] == round_num]
+            wins_w = float(w_col.loc[rnd.index][rnd["winning_seed"] == seed].sum())
+            rates[label] = round(wins_w / n_w, 4)
 
-        # Winning the Championship game (round 6) = being crowned champion
-        champ_wins = int((df[df["round"] == 6]["winning_seed"] == seed).sum())
-        rates["champion"] = round(champ_wins / n, 4)
+        champ   = df[df["round"] == 6]
+        champ_w = float(w_col.loc[champ.index][champ["winning_seed"] == seed].sum())
+        rates["champion"] = round(champ_w / n_w, 4)
 
         advancement[str(seed)] = rates
 

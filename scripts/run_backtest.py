@@ -193,6 +193,28 @@ def print_s16_notes(result: dict) -> None:
         print(f"  • {note}")
 
 
+def print_ratings_diagnostics(result: dict) -> None:
+    diag = result.get("ratings_diagnostics", {})
+    if not diag or diag.get("source") is None:
+        return
+    total  = diag.get("total_teams", 64)
+    by_id  = diag.get("matched_by_id",   0)
+    by_nm  = diag.get("matched_by_name", 0)
+    sfb    = diag.get("seed_fallback",   total)
+    source = diag.get("source", "?")
+    matched = by_id + by_nm
+
+    print(f"\n{THIN}")
+    print(f"  TEAM RATINGS COVERAGE  (season {diag.get('season', '?')})")
+    print(THIN)
+    print(f"  Source              : {source}")
+    print(f"  Total teams         : {total}")
+    print(f"  Matched by team_id  : {by_id:>3}  ({by_id/total:.0%})" if total else "")
+    print(f"  Matched by name     : {by_nm:>3}  ({by_nm/total:.0%})" if total else "")
+    print(f"  Real ratings used   : {matched:>3}  ({matched/total:.0%})" if total else "")
+    print(f"  Seed-only fallback  : {sfb:>3}  ({sfb/total:.0%})" if total else "")
+
+
 def print_footer(result: dict) -> None:
     print(f"\n{SEP}")
     print(f"  Saved → {result['_output_file']}")
@@ -230,6 +252,7 @@ def main() -> None:
 
     # ── Print results ─────────────────────────────────────────────────────
     print_header(year, mode, result["_hist_range"])
+    print_ratings_diagnostics(result)
     print_final_four_comparison(result)
     print_champion_comparison(result)
     print_accuracy(result)
