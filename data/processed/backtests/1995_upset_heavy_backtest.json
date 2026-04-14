@@ -86,7 +86,15 @@
   "diagnostics": {
     "chalkiness_assessment": "Very chalky: all 4/4 predicted Final Four teams were 1- or 2-seeds. The bracket leaned heavily on chalk.",
     "upset_assessment": "Reasonable upset volume: 13 upsets predicted (historical mean ~15.5, range 9\u201321). Conservative brackets (~11\u201312) tend to outscore balanced ones because wrong upset picks are doubly costly in bracket scoring.",
-    "sweet_16_double_digit_review": "Predicted DD seed: T1257 (seed 11) (forced by structure constraint). This team did NOT reach the actual Sweet 16 in 1995.",
+    "sweet_16_double_digit_review": "Predicted DD seed: T1228 (seed 11) (forced by structure constraint). This team did NOT reach the actual Sweet 16 in 1995.",
     "champion_review": "Champion incorrect: predicted T1163 (seed 2), actual champion was T1417. A seed-2 champion is uncommon but within the historical range."
+  },
+  "ratings_diagnostics": {
+    "season": 1995,
+    "source": "historical_team_ratings.csv",
+    "matched_by_id": 64,
+    "matched_by_name": 0,
+    "seed_fallback": 0,
+    "total_teams": 64
   }
 }

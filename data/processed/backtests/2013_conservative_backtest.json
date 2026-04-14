@@ -5,8 +5,8 @@
   "pretournament_range": "1985\u20132012",
   "predicted_final_four": [
     {
-      "name": "T1274",
-      "seed": 2
+      "name": "T1231",
+      "seed": 1
     },
     {
       "name": "T1242",
@@ -17,8 +17,8 @@
       "seed": 1
     },
     {
-      "name": "T1211",
-      "seed": 1
+      "name": "T1326",
+      "seed": 2
     }
   ],
   "actual_final_four": [
@@ -40,17 +40,17 @@
     }
   ],
   "predicted_champion": {
-    "name": "T1274",
+    "name": "T1326",
     "seed": 2
   },
   "actual_champion": {
     "name": "T1257",
     "seed": 1
   },
-  "total_correct": 34,
+  "total_correct": 37,
   "total_possible": 63,
   "by_round": {
-    "Round of 64": 19,
+    "Round of 64": 22,
     "Round of 32": 11,
     "Sweet 16": 3,
     "Elite 8": 1,
@@ -59,7 +59,7 @@
   },
   "by_round_detail": {
     "Round of 64": {
-      "correct": 19,
+      "correct": 22,
       "possible": 32
     },
     "Round of 32": {
@@ -87,6 +87,14 @@
     "chalkiness_assessment": "Very chalky: all 4/4 predicted Final Four teams were 1- or 2-seeds. The bracket leaned heavily on chalk.",
     "upset_assessment": "Under-picked upsets: only 10 upsets predicted. Tournaments historically average ~15\u201316 upsets (range 9\u201321). Note: fewer upset picks tends to improve bracket score because correctly predicting the specific upset is harder than picking the favorite.",
     "sweet_16_double_digit_review": "Predicted DD seed: T1328 (seed 10) (forced by structure constraint). This team did NOT reach the actual Sweet 16 in 2013.",
-    "champion_review": "Champion incorrect: predicted T1274 (seed 2), actual champion was T1257. A seed-2 champion is uncommon but within the historical range."
+    "champion_review": "Champion incorrect: predicted T1326 (seed 2), actual champion was T1257. A seed-2 champion is uncommon but within the historical range."
+  },
+  "ratings_diagnostics": {
+    "season": 2013,
+    "source": "historical_team_ratings.csv",
+    "matched_by_id": 64,
+    "matched_by_name": 0,
+    "seed_fallback": 0,
+    "total_teams": 64
   }
 }

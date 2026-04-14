@@ -5,12 +5,12 @@
   "pretournament_range": "1985\u20132006",
   "predicted_final_four": [
     {
-      "name": "T1207",
-      "seed": 2
+      "name": "T1314",
+      "seed": 1
     },
     {
-      "name": "T1326",
-      "seed": 1
+      "name": "T1272",
+      "seed": 2
     },
     {
       "name": "T1196",
@@ -40,26 +40,26 @@
     }
   ],
   "predicted_champion": {
-    "name": "T1207",
+    "name": "T1272",
     "seed": 2
   },
   "actual_champion": {
     "name": "T1196",
     "seed": 1
   },
-  "total_correct": 41,
+  "total_correct": 42,
   "total_possible": 63,
   "by_round": {
-    "Round of 64": 22,
+    "Round of 64": 24,
     "Round of 32": 10,
-    "Sweet 16": 6,
-    "Elite 8": 3,
+    "Sweet 16": 7,
+    "Elite 8": 1,
     "Final Four": 0,
     "Championship": 0
   },
   "by_round_detail": {
     "Round of 64": {
-      "correct": 22,
+      "correct": 24,
       "possible": 32
     },
     "Round of 32": {
@@ -67,11 +67,11 @@
       "possible": 16
     },
     "Sweet 16": {
-      "correct": 6,
+      "correct": 7,
       "possible": 8
     },
     "Elite 8": {
-      "correct": 3,
+      "correct": 1,
       "possible": 4
     },
     "Final Four": {
@@ -85,8 +85,16 @@
   },
   "diagnostics": {
     "chalkiness_assessment": "Very chalky: all 4/4 predicted Final Four teams were 1- or 2-seeds. The bracket leaned heavily on chalk.",
-    "upset_assessment": "Under-picked upsets: only 10 upsets predicted. Tournaments historically average ~15\u201316 upsets (range 9\u201321). Note: fewer upset picks tends to improve bracket score because correctly predicting the specific upset is harder than picking the favorite.",
-    "sweet_16_double_digit_review": "Predicted DD seed: T1166 (seed 10) (forced by structure constraint). This team did NOT reach the actual Sweet 16 in 2007.",
-    "champion_review": "Champion incorrect: predicted T1207 (seed 2), actual champion was T1196. A seed-2 champion is uncommon but within the historical range."
+    "upset_assessment": "Under-picked upsets: only 9 upsets predicted. Tournaments historically average ~15\u201316 upsets (range 9\u201321). Note: fewer upset picks tends to improve bracket score because correctly predicting the specific upset is harder than picking the favorite.",
+    "sweet_16_double_digit_review": "Predicted DD seed: T1228 (seed 12) (forced by structure constraint). This team did NOT reach the actual Sweet 16 in 2007.",
+    "champion_review": "Champion incorrect: predicted T1272 (seed 2), actual champion was T1196. A seed-2 champion is uncommon but within the historical range."
+  },
+  "ratings_diagnostics": {
+    "season": 2007,
+    "source": "historical_team_ratings.csv",
+    "matched_by_id": 64,
+    "matched_by_name": 0,
+    "seed_fallback": 0,
+    "total_teams": 64
   }
 }

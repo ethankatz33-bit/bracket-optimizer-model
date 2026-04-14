@@ -5,20 +5,24 @@
   "pretournament_range": "1985\u20131999",
   "predicted_final_four": [
     {
-      "name": "T1396",
-      "seed": 2
+      "name": "T1181",
+      "seed": 1,
+      "profile_score": 0.8456
     },
     {
-      "name": "T1390",
-      "seed": 1
+      "name": "T1153",
+      "seed": 2,
+      "profile_score": 0.7844
     },
     {
-      "name": "T1277",
-      "seed": 1
+      "name": "T1268",
+      "seed": 3,
+      "profile_score": 0.5708
     },
     {
       "name": "T1112",
-      "seed": 1
+      "seed": 1,
+      "profile_score": 0.813
     }
   ],
   "actual_final_four": [
@@ -40,38 +44,39 @@
     }
   ],
   "predicted_champion": {
-    "name": "T1396",
-    "seed": 2
+    "name": "T1112",
+    "seed": 1,
+    "profile_score": 0.813
   },
   "actual_champion": {
     "name": "T1277",
     "seed": 1
   },
-  "total_correct": 36,
+  "total_correct": 35,
   "total_possible": 63,
   "by_round": {
-    "Round of 64": 28,
-    "Round of 32": 6,
-    "Sweet 16": 1,
-    "Elite 8": 1,
+    "Round of 64": 25,
+    "Round of 32": 8,
+    "Sweet 16": 2,
+    "Elite 8": 0,
     "Final Four": 0,
     "Championship": 0
   },
   "by_round_detail": {
     "Round of 64": {
-      "correct": 28,
+      "correct": 25,
       "possible": 32
     },
     "Round of 32": {
-      "correct": 6,
+      "correct": 8,
       "possible": 16
     },
     "Sweet 16": {
-      "correct": 1,
+      "correct": 2,
       "possible": 8
     },
     "Elite 8": {
-      "correct": 1,
+      "correct": 0,
       "possible": 4
     },
     "Final Four": {
@@ -84,9 +89,20 @@
     }
   },
   "diagnostics": {
-    "chalkiness_assessment": "Very chalky: all 4/4 predicted Final Four teams were 1- or 2-seeds. The bracket leaned heavily on chalk.",
+    "chalkiness_assessment": "Slightly chalky: 3/4 predicted Final Four teams were 1- or 2-seeds. Modestly conservative.",
     "upset_assessment": "Reasonable upset volume: 12 upsets predicted (historical mean ~15.5, range 9\u201321). Conservative brackets (~11\u201312) tend to outscore balanced ones because wrong upset picks are doubly costly in bracket scoring.",
-    "sweet_16_double_digit_review": "Predicted DD seed: T1166 (seed 10) (forced by structure constraint). This team did NOT reach the actual Sweet 16 in 2000.",
-    "champion_review": "Champion incorrect: predicted T1396 (seed 2), actual champion was T1277. A seed-2 champion is uncommon but within the historical range."
-  }
+    "sweet_16_double_digit_review": "Predicted DD seed: T1371 (seed 10) (forced by structure constraint). This team did NOT reach the actual Sweet 16 in 2000.",
+    "champion_review": "Champion incorrect: predicted T1112 (seed 1), actual champion was T1277. Picking a 1-seed is historically sound (~15% of titles). The model made the high-probability choice."
+  },
+  "ratings_diagnostics": {
+    "season": 2000,
+    "source": "historical_team_ratings.csv",
+    "matched_by_id": 64,
+    "matched_by_name": 0,
+    "seed_fallback": 0,
+    "total_teams": 64
+  },
+  "champion_value_score": -0.1898,
+  "champion_win_prob": 0.5538,
+  "champion_public_pct": 0.7436
 }

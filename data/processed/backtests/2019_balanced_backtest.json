@@ -1,0 +1,108 @@
+{
+  "year": 2019,
+  "mode": "balanced",
+  "pretournament_seasons": 34,
+  "pretournament_range": "1985\u20132018",
+  "predicted_final_four": [
+    {
+      "name": "T1173",
+      "seed": 2,
+      "profile_score": 0.8708
+    },
+    {
+      "name": "T1314",
+      "seed": 1,
+      "profile_score": 0.959
+    },
+    {
+      "name": "T1403",
+      "seed": 3,
+      "profile_score": 0.899
+    },
+    {
+      "name": "T1437",
+      "seed": 1,
+      "profile_score": 0.8849
+    }
+  ],
+  "actual_final_four": [
+    {
+      "name": "T3006",
+      "seed": 5
+    },
+    {
+      "name": "T1323",
+      "seed": 1
+    },
+    {
+      "name": "T1181",
+      "seed": 2
+    },
+    {
+      "name": "T1403",
+      "seed": 3
+    }
+  ],
+  "predicted_champion": {
+    "name": "T1314",
+    "seed": 1,
+    "profile_score": 0.959
+  },
+  "actual_champion": {
+    "name": "T1323",
+    "seed": 1
+  },
+  "total_correct": 43,
+  "total_possible": 63,
+  "by_round": {
+    "Round of 64": 23,
+    "Round of 32": 12,
+    "Sweet 16": 6,
+    "Elite 8": 1,
+    "Final Four": 1,
+    "Championship": 0
+  },
+  "by_round_detail": {
+    "Round of 64": {
+      "correct": 23,
+      "possible": 32
+    },
+    "Round of 32": {
+      "correct": 12,
+      "possible": 16
+    },
+    "Sweet 16": {
+      "correct": 6,
+      "possible": 8
+    },
+    "Elite 8": {
+      "correct": 1,
+      "possible": 4
+    },
+    "Final Four": {
+      "correct": 1,
+      "possible": 2
+    },
+    "Championship": {
+      "correct": 0,
+      "possible": 1
+    }
+  },
+  "diagnostics": {
+    "chalkiness_assessment": "Slightly chalky: 3/4 predicted Final Four teams were 1- or 2-seeds. Modestly conservative.",
+    "upset_assessment": "Reasonable upset volume: 12 upsets predicted (historical mean ~15.5, range 9\u201321). Conservative brackets (~11\u201312) tend to outscore balanced ones because wrong upset picks are doubly costly in bracket scoring.",
+    "sweet_16_double_digit_review": "Predicted DD seed: T1438 (seed 10) (forced by structure constraint). This team did NOT reach the actual Sweet 16 in 2019.",
+    "champion_review": "Champion incorrect: predicted T1314 (seed 1), actual champion was T1323. Picking a 1-seed is historically sound (~15% of titles). The model made the high-probability choice."
+  },
+  "ratings_diagnostics": {
+    "season": 2019,
+    "source": "historical_team_ratings.csv",
+    "matched_by_id": 64,
+    "matched_by_name": 0,
+    "seed_fallback": 0,
+    "total_teams": 64
+  },
+  "champion_value_score": -0.2034,
+  "champion_win_prob": 0.6495,
+  "champion_public_pct": 0.8529
+}

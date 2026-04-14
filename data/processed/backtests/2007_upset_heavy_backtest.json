@@ -5,8 +5,8 @@
   "pretournament_range": "1985\u20132006",
   "predicted_final_four": [
     {
-      "name": "T1207",
-      "seed": 2
+      "name": "T1314",
+      "seed": 1
     },
     {
       "name": "T1272",
@@ -17,8 +17,8 @@
       "seed": 1
     },
     {
-      "name": "T1242",
-      "seed": 1
+      "name": "T1417",
+      "seed": 2
     }
   ],
   "actual_final_four": [
@@ -40,26 +40,26 @@
     }
   ],
   "predicted_champion": {
-    "name": "T1272",
+    "name": "T1417",
     "seed": 2
   },
   "actual_champion": {
     "name": "T1196",
     "seed": 1
   },
-  "total_correct": 41,
+  "total_correct": 40,
   "total_possible": 63,
   "by_round": {
-    "Round of 64": 23,
+    "Round of 64": 21,
     "Round of 32": 10,
-    "Sweet 16": 6,
+    "Sweet 16": 7,
     "Elite 8": 2,
     "Final Four": 0,
     "Championship": 0
   },
   "by_round_detail": {
     "Round of 64": {
-      "correct": 23,
+      "correct": 21,
       "possible": 32
     },
     "Round of 32": {
@@ -67,7 +67,7 @@
       "possible": 16
     },
     "Sweet 16": {
-      "correct": 6,
+      "correct": 7,
       "possible": 8
     },
     "Elite 8": {
@@ -87,6 +87,14 @@
     "chalkiness_assessment": "Very chalky: all 4/4 predicted Final Four teams were 1- or 2-seeds. The bracket leaned heavily on chalk.",
     "upset_assessment": "Reasonable upset volume: 15 upsets predicted (historical mean ~15.5, range 9\u201321). Conservative brackets (~11\u201312) tend to outscore balanced ones because wrong upset picks are doubly costly in bracket scoring.",
     "sweet_16_double_digit_review": "Predicted DD seed: T1210 (seed 10) (forced by structure constraint). This team did NOT reach the actual Sweet 16 in 2007.",
-    "champion_review": "Champion incorrect: predicted T1272 (seed 2), actual champion was T1196. A seed-2 champion is uncommon but within the historical range."
+    "champion_review": "Champion incorrect: predicted T1417 (seed 2), actual champion was T1196. A seed-2 champion is uncommon but within the historical range."
+  },
+  "ratings_diagnostics": {
+    "season": 2007,
+    "source": "historical_team_ratings.csv",
+    "matched_by_id": 64,
+    "matched_by_name": 0,
+    "seed_fallback": 0,
+    "total_teams": 64
   }
 }

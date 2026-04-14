@@ -1,0 +1,108 @@
+{
+  "year": 2023,
+  "mode": "balanced",
+  "pretournament_seasons": 37,
+  "pretournament_range": "1985\u20132022",
+  "predicted_final_four": [
+    {
+      "name": "T1124",
+      "seed": 2,
+      "profile_score": 0.9067
+    },
+    {
+      "name": "T1257",
+      "seed": 2,
+      "profile_score": 0.9115
+    },
+    {
+      "name": "T3003",
+      "seed": 1,
+      "profile_score": 0.8795
+    },
+    {
+      "name": "T1332",
+      "seed": 2,
+      "profile_score": 0.9115
+    }
+  ],
+  "actual_final_four": [
+    {
+      "name": "T1458",
+      "seed": 5
+    },
+    {
+      "name": "T3046",
+      "seed": 9
+    },
+    {
+      "name": "T3005",
+      "seed": 1
+    },
+    {
+      "name": "T1361",
+      "seed": 5
+    }
+  ],
+  "predicted_champion": {
+    "name": "T1332",
+    "seed": 2,
+    "profile_score": 0.9115
+  },
+  "actual_champion": {
+    "name": "T1361",
+    "seed": 5
+  },
+  "total_correct": 27,
+  "total_possible": 63,
+  "by_round": {
+    "Round of 64": 21,
+    "Round of 32": 6,
+    "Sweet 16": 0,
+    "Elite 8": 0,
+    "Final Four": 0,
+    "Championship": 0
+  },
+  "by_round_detail": {
+    "Round of 64": {
+      "correct": 21,
+      "possible": 32
+    },
+    "Round of 32": {
+      "correct": 6,
+      "possible": 16
+    },
+    "Sweet 16": {
+      "correct": 0,
+      "possible": 8
+    },
+    "Elite 8": {
+      "correct": 0,
+      "possible": 4
+    },
+    "Final Four": {
+      "correct": 0,
+      "possible": 2
+    },
+    "Championship": {
+      "correct": 0,
+      "possible": 1
+    }
+  },
+  "diagnostics": {
+    "chalkiness_assessment": "Very chalky: all 4/4 predicted Final Four teams were 1- or 2-seeds. The bracket leaned heavily on chalk.",
+    "upset_assessment": "Reasonable upset volume: 12 upsets predicted (historical mean ~15.5, range 9\u201321). Conservative brackets (~11\u201312) tend to outscore balanced ones because wrong upset picks are doubly costly in bracket scoring.",
+    "sweet_16_double_digit_review": "Predicted DD seed: T1462 (seed 11) (forced by structure constraint). This team did NOT reach the actual Sweet 16 in 2023.",
+    "champion_review": "Champion incorrect: predicted T1332 (seed 2), actual champion was T1361. A seed-2 champion is uncommon but within the historical range."
+  },
+  "ratings_diagnostics": {
+    "season": 2023,
+    "source": "historical_team_ratings.csv",
+    "matched_by_id": 62,
+    "matched_by_name": 0,
+    "seed_fallback": 2,
+    "total_teams": 64
+  },
+  "champion_value_score": 0.0,
+  "champion_win_prob": 0.5,
+  "champion_public_pct": 0.5
+}
