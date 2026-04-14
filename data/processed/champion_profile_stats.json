@@ -1,0 +1,247 @@
+{
+  "champion": {
+    "n": 33,
+    "features": {
+      "offense_rating": {
+        "mean": 97.31,
+        "std": 21.78,
+        "p25": 77.42,
+        "p75": 120.52
+      },
+      "efficiency_margin": {
+        "mean": 17.34,
+        "std": 11.9,
+        "p25": 6.89,
+        "p75": 29.18
+      },
+      "defense_rating": {
+        "mean": 79.97,
+        "std": 10.39,
+        "p25": 69.64,
+        "p75": 90.78
+      },
+      "recent_form": {
+        "mean": 0.62,
+        "std": 0.15,
+        "p25": 0.5,
+        "p75": 0.73
+      },
+      "strength_of_schedule": {
+        "mean": 0.75,
+        "std": 0.19,
+        "p25": 0.57,
+        "p75": 0.96
+      }
+    },
+    "percentile_means": {
+      "offense_rating": 0.828,
+      "efficiency_margin": 0.903,
+      "defense_rating": 0.755,
+      "recent_form": 0.71,
+      "strength_of_schedule": 0.577
+    },
+    "flags": {},
+    "profile_score": {
+      "mean": 0.8081,
+      "std": 0.1092,
+      "p25": 0.7216,
+      "p75": 0.9047
+    }
+  },
+  "title_game": {
+    "n": 66,
+    "features": {
+      "offense_rating": {
+        "mean": 96.11,
+        "std": 21.97,
+        "p25": 77.05,
+        "p75": 117.72
+      },
+      "efficiency_margin": {
+        "mean": 15.56,
+        "std": 11.56,
+        "p25": 5.44,
+        "p75": 27.92
+      },
+      "defense_rating": {
+        "mean": 80.56,
+        "std": 11.43,
+        "p25": 69.63,
+        "p75": 91.34
+      },
+      "recent_form": {
+        "mean": 0.6,
+        "std": 0.2,
+        "p25": 0.5,
+        "p75": 0.73
+      },
+      "strength_of_schedule": {
+        "mean": 0.75,
+        "std": 0.18,
+        "p25": 0.57,
+        "p75": 0.95
+      }
+    },
+    "percentile_means": {
+      "offense_rating": 0.771,
+      "efficiency_margin": 0.843,
+      "defense_rating": 0.702,
+      "recent_form": 0.699,
+      "strength_of_schedule": 0.554
+    },
+    "flags": {},
+    "profile_score": {
+      "mean": 0.7567,
+      "std": 0.1351,
+      "p25": 0.6765,
+      "p75": 0.8648
+    }
+  },
+  "final_four": {
+    "n": 132,
+    "features": {
+      "offense_rating": {
+        "mean": 95.03,
+        "std": 21.66,
+        "p25": 75.2,
+        "p75": 116.43
+      },
+      "efficiency_margin": {
+        "mean": 14.33,
+        "std": 11.46,
+        "p25": 4.6,
+        "p75": 24.15
+      },
+      "defense_rating": {
+        "mean": 80.72,
+        "std": 11.4,
+        "p25": 69.81,
+        "p75": 92.7
+      },
+      "recent_form": {
+        "mean": 0.57,
+        "std": 0.23,
+        "p25": 0.5,
+        "p75": 0.73
+      },
+      "strength_of_schedule": {
+        "mean": 0.75,
+        "std": 0.18,
+        "p25": 0.58,
+        "p75": 0.93
+      }
+    },
+    "percentile_means": {
+      "offense_rating": 0.739,
+      "efficiency_margin": 0.813,
+      "defense_rating": 0.702,
+      "recent_form": 0.67,
+      "strength_of_schedule": 0.568
+    },
+    "flags": {},
+    "profile_score": {
+      "mean": 0.7343,
+      "std": 0.1434,
+      "p25": 0.6572,
+      "p75": 0.8389
+    }
+  },
+  "elite_8": {
+    "n": 264,
+    "features": {
+      "offense_rating": {
+        "mean": 94.51,
+        "std": 21.63,
+        "p25": 74.95,
+        "p75": 116.55
+      },
+      "efficiency_margin": {
+        "mean": 13.13,
+        "std": 11.73,
+        "p25": 3.63,
+        "p75": 24.2
+      },
+      "defense_rating": {
+        "mean": 81.43,
+        "std": 11.87,
+        "p25": 69.92,
+        "p75": 93.1
+      },
+      "recent_form": {
+        "mean": 0.57,
+        "std": 0.23,
+        "p25": 0.5,
+        "p75": 0.72
+      },
+      "strength_of_schedule": {
+        "mean": 0.75,
+        "std": 0.17,
+        "p25": 0.58,
+        "p75": 0.93
+      }
+    },
+    "percentile_means": {
+      "offense_rating": 0.715,
+      "efficiency_margin": 0.763,
+      "defense_rating": 0.656,
+      "recent_form": 0.664,
+      "strength_of_schedule": 0.55
+    },
+    "flags": {},
+    "profile_score": {
+      "mean": 0.699,
+      "std": 0.1717,
+      "p25": 0.5782,
+      "p75": 0.8351
+    }
+  },
+  "all_teams": {
+    "n": 2141,
+    "features": {
+      "offense_rating": {
+        "mean": 90.51,
+        "std": 21.46,
+        "p25": 71.76,
+        "p75": 111.3
+      },
+      "efficiency_margin": {
+        "mean": 5.94,
+        "std": 12.73,
+        "p25": -1.5,
+        "p75": 15.9
+      },
+      "defense_rating": {
+        "mean": 84.58,
+        "std": 13.14,
+        "p25": 72.0,
+        "p75": 95.9
+      },
+      "recent_form": {
+        "mean": 0.41,
+        "std": 0.29,
+        "p25": 0.0,
+        "p75": 0.67
+      },
+      "strength_of_schedule": {
+        "mean": 0.73,
+        "std": 0.16,
+        "p25": 0.59,
+        "p75": 0.88
+      }
+    },
+    "percentile_means": {
+      "offense_rating": 0.508,
+      "efficiency_margin": 0.508,
+      "defense_rating": 0.508,
+      "recent_form": 0.511,
+      "strength_of_schedule": 0.508
+    },
+    "flags": {},
+    "profile_score": {
+      "mean": 0.5043,
+      "std": 0.2172,
+      "p25": 0.3528,
+      "p75": 0.6678
+    }
+  }
+}

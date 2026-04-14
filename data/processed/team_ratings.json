@@ -1,0 +1,450 @@
+[
+  {
+    "season": 2025,
+    "team_name": "Midland",
+    "seed": 1,
+    "team_rating": 1.0,
+    "champion_profile_score": 1.0
+  },
+  {
+    "season": 2025,
+    "team_name": "Summit",
+    "seed": 1,
+    "team_rating": 0.9846,
+    "champion_profile_score": 0.9944
+  },
+  {
+    "season": 2025,
+    "team_name": "Riverside",
+    "seed": 1,
+    "team_rating": 0.9485,
+    "champion_profile_score": 0.9602
+  },
+  {
+    "season": 2025,
+    "team_name": "Lakewood",
+    "seed": 2,
+    "team_rating": 0.9183,
+    "champion_profile_score": 0.9146
+  },
+  {
+    "season": 2025,
+    "team_name": "Northland",
+    "seed": 1,
+    "team_rating": 0.9098,
+    "champion_profile_score": 0.9317
+  },
+  {
+    "season": 2025,
+    "team_name": "Millfield",
+    "seed": 3,
+    "team_rating": 0.8762,
+    "champion_profile_score": 0.8597
+  },
+  {
+    "season": 2025,
+    "team_name": "Harborview",
+    "seed": 2,
+    "team_rating": 0.8684,
+    "champion_profile_score": 0.8817
+  },
+  {
+    "season": 2025,
+    "team_name": "Bluewater",
+    "seed": 4,
+    "team_rating": 0.8545,
+    "champion_profile_score": 0.8051
+  },
+  {
+    "season": 2025,
+    "team_name": "Hillcrest",
+    "seed": 2,
+    "team_rating": 0.8422,
+    "champion_profile_score": 0.8586
+  },
+  {
+    "season": 2025,
+    "team_name": "Bayshore",
+    "seed": 4,
+    "team_rating": 0.8375,
+    "champion_profile_score": 0.7926
+  },
+  {
+    "season": 2025,
+    "team_name": "Southport",
+    "seed": 2,
+    "team_rating": 0.8188,
+    "champion_profile_score": 0.847
+  },
+  {
+    "season": 2025,
+    "team_name": "Ironwood",
+    "seed": 4,
+    "team_rating": 0.8082,
+    "champion_profile_score": 0.7712
+  },
+  {
+    "season": 2025,
+    "team_name": "Eastgate",
+    "seed": 3,
+    "team_rating": 0.7995,
+    "champion_profile_score": 0.7993
+  },
+  {
+    "season": 2025,
+    "team_name": "Cliffside",
+    "seed": 3,
+    "team_rating": 0.7745,
+    "champion_profile_score": 0.7771
+  },
+  {
+    "season": 2025,
+    "team_name": "Crestview",
+    "seed": 3,
+    "team_rating": 0.7659,
+    "champion_profile_score": 0.7747
+  },
+  {
+    "season": 2025,
+    "team_name": "Sunridge",
+    "seed": 5,
+    "team_rating": 0.7342,
+    "champion_profile_score": 0.7019
+  },
+  {
+    "season": 2025,
+    "team_name": "Westmont",
+    "seed": 5,
+    "team_rating": 0.7079,
+    "champion_profile_score": 0.6825
+  },
+  {
+    "season": 2025,
+    "team_name": "Cannonball",
+    "seed": 6,
+    "team_rating": 0.706,
+    "champion_profile_score": 0.6653
+  },
+  {
+    "season": 2025,
+    "team_name": "Cascadia",
+    "seed": 5,
+    "team_rating": 0.6903,
+    "champion_profile_score": 0.6695
+  },
+  {
+    "season": 2025,
+    "team_name": "Creekside",
+    "seed": 4,
+    "team_rating": 0.6801,
+    "champion_profile_score": 0.6767
+  },
+  {
+    "season": 2025,
+    "team_name": "Prairieton",
+    "seed": 5,
+    "team_rating": 0.6456,
+    "champion_profile_score": 0.6367
+  },
+  {
+    "season": 2025,
+    "team_name": "Hillbrook",
+    "seed": 6,
+    "team_rating": 0.6261,
+    "champion_profile_score": 0.6068
+  },
+  {
+    "season": 2025,
+    "team_name": "Redwood",
+    "seed": 6,
+    "team_rating": 0.6188,
+    "champion_profile_score": 0.6011
+  },
+  {
+    "season": 2025,
+    "team_name": "Glendale",
+    "seed": 7,
+    "team_rating": 0.6042,
+    "champion_profile_score": 0.5761
+  },
+  {
+    "season": 2025,
+    "team_name": "Palmview",
+    "seed": 6,
+    "team_rating": 0.6042,
+    "champion_profile_score": 0.5906
+  },
+  {
+    "season": 2025,
+    "team_name": "Oakdale",
+    "seed": 7,
+    "team_rating": 0.5888,
+    "champion_profile_score": 0.5648
+  },
+  {
+    "season": 2025,
+    "team_name": "Lakeview",
+    "seed": 7,
+    "team_rating": 0.5676,
+    "champion_profile_score": 0.549
+  },
+  {
+    "season": 2025,
+    "team_name": "Northport",
+    "seed": 8,
+    "team_rating": 0.562,
+    "champion_profile_score": 0.5302
+  },
+  {
+    "season": 2025,
+    "team_name": "Pinehurst",
+    "seed": 9,
+    "team_rating": 0.5557,
+    "champion_profile_score": 0.5125
+  },
+  {
+    "season": 2025,
+    "team_name": "Westfield",
+    "seed": 8,
+    "team_rating": 0.5362,
+    "champion_profile_score": 0.5111
+  },
+  {
+    "season": 2025,
+    "team_name": "Eastbrook",
+    "seed": 9,
+    "team_rating": 0.5234,
+    "champion_profile_score": 0.4885
+  },
+  {
+    "season": 2025,
+    "team_name": "Thornwood",
+    "seed": 10,
+    "team_rating": 0.5143,
+    "champion_profile_score": 0.4662
+  },
+  {
+    "season": 2025,
+    "team_name": "Lakeside",
+    "seed": 9,
+    "team_rating": 0.5139,
+    "champion_profile_score": 0.4814
+  },
+  {
+    "season": 2025,
+    "team_name": "Belmont",
+    "seed": 12,
+    "team_rating": 0.5113,
+    "champion_profile_score": 0.4352
+  },
+  {
+    "season": 2025,
+    "team_name": "Cornbury",
+    "seed": 9,
+    "team_rating": 0.511,
+    "champion_profile_score": 0.4793
+  },
+  {
+    "season": 2025,
+    "team_name": "Sycamore",
+    "seed": 10,
+    "team_rating": 0.5086,
+    "champion_profile_score": 0.4622
+  },
+  {
+    "season": 2025,
+    "team_name": "Wheatfield",
+    "seed": 8,
+    "team_rating": 0.5083,
+    "champion_profile_score": 0.4906
+  },
+  {
+    "season": 2025,
+    "team_name": "Irondale",
+    "seed": 10,
+    "team_rating": 0.4967,
+    "champion_profile_score": 0.4536
+  },
+  {
+    "season": 2025,
+    "team_name": "Pineridge",
+    "seed": 10,
+    "team_rating": 0.4858,
+    "champion_profile_score": 0.4452
+  },
+  {
+    "season": 2025,
+    "team_name": "Redstone",
+    "seed": 7,
+    "team_rating": 0.4847,
+    "champion_profile_score": 0.4879
+  },
+  {
+    "season": 2025,
+    "team_name": "Fernwood",
+    "seed": 8,
+    "team_rating": 0.4761,
+    "champion_profile_score": 0.4669
+  },
+  {
+    "season": 2025,
+    "team_name": "Silverstone",
+    "seed": 11,
+    "team_rating": 0.4645,
+    "champion_profile_score": 0.4153
+  },
+  {
+    "season": 2025,
+    "team_name": "Elmhurst",
+    "seed": 12,
+    "team_rating": 0.4479,
+    "champion_profile_score": 0.3885
+  },
+  {
+    "season": 2025,
+    "team_name": "Holloway",
+    "seed": 11,
+    "team_rating": 0.4475,
+    "champion_profile_score": 0.4028
+  },
+  {
+    "season": 2025,
+    "team_name": "Rosewood",
+    "seed": 11,
+    "team_rating": 0.4342,
+    "champion_profile_score": 0.3929
+  },
+  {
+    "season": 2025,
+    "team_name": "Copperhill",
+    "seed": 12,
+    "team_rating": 0.4273,
+    "champion_profile_score": 0.3732
+  },
+  {
+    "season": 2025,
+    "team_name": "Clearwater",
+    "seed": 11,
+    "team_rating": 0.4248,
+    "champion_profile_score": 0.3858
+  },
+  {
+    "season": 2025,
+    "team_name": "Foxhill",
+    "seed": 12,
+    "team_rating": 0.42,
+    "champion_profile_score": 0.368
+  },
+  {
+    "season": 2025,
+    "team_name": "Ridgemont",
+    "seed": 13,
+    "team_rating": 0.3481,
+    "champion_profile_score": 0.3003
+  },
+  {
+    "season": 2025,
+    "team_name": "Springdale",
+    "seed": 13,
+    "team_rating": 0.3232,
+    "champion_profile_score": 0.282
+  },
+  {
+    "season": 2025,
+    "team_name": "Dusty Mesa",
+    "seed": 13,
+    "team_rating": 0.2969,
+    "champion_profile_score": 0.2627
+  },
+  {
+    "season": 2025,
+    "team_name": "Fairfield",
+    "seed": 13,
+    "team_rating": 0.2939,
+    "champion_profile_score": 0.2605
+  },
+  {
+    "season": 2025,
+    "team_name": "Deerfield",
+    "seed": 14,
+    "team_rating": 0.2722,
+    "champion_profile_score": 0.2293
+  },
+  {
+    "season": 2025,
+    "team_name": "Timberline",
+    "seed": 15,
+    "team_rating": 0.2353,
+    "champion_profile_score": 0.1879
+  },
+  {
+    "season": 2025,
+    "team_name": "Flatrock",
+    "seed": 14,
+    "team_rating": 0.2253,
+    "champion_profile_score": 0.1947
+  },
+  {
+    "season": 2025,
+    "team_name": "Greendale",
+    "seed": 14,
+    "team_rating": 0.2223,
+    "champion_profile_score": 0.1926
+  },
+  {
+    "season": 2025,
+    "team_name": "Weston",
+    "seed": 15,
+    "team_rating": 0.222,
+    "champion_profile_score": 0.1783
+  },
+  {
+    "season": 2025,
+    "team_name": "Maplewood",
+    "seed": 15,
+    "team_rating": 0.2052,
+    "champion_profile_score": 0.1656
+  },
+  {
+    "season": 2025,
+    "team_name": "Cedarville",
+    "seed": 14,
+    "team_rating": 0.2009,
+    "champion_profile_score": 0.1769
+  },
+  {
+    "season": 2025,
+    "team_name": "Ashford",
+    "seed": 15,
+    "team_rating": 0.1318,
+    "champion_profile_score": 0.1119
+  },
+  {
+    "season": 2025,
+    "team_name": "Brookhaven",
+    "seed": 16,
+    "team_rating": 0.1284,
+    "champion_profile_score": 0.0943
+  },
+  {
+    "season": 2025,
+    "team_name": "Plainview",
+    "seed": 16,
+    "team_rating": 0.078,
+    "champion_profile_score": 0.0574
+  },
+  {
+    "season": 2025,
+    "team_name": "Stonegate",
+    "seed": 16,
+    "team_rating": 0.0307,
+    "champion_profile_score": 0.0225
+  },
+  {
+    "season": 2025,
+    "team_name": "Riverdale",
+    "seed": 16,
+    "team_rating": 0.0,
+    "champion_profile_score": 0.0
+  }
+]
