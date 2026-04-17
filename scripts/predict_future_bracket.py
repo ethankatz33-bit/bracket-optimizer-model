@@ -22,6 +22,9 @@ Options
   --output FILE   Output JSON path (default: data/processed/future_bracket_{season}.json)
   --monte-carlo   Run Monte Carlo simulations for advancement probability estimates
   --sims N        Number of Monte Carlo simulations (default: 10000)
+  --public-picks-file FILE
+                  CSV with public pick %% by team (canonical_team_name + public_pick_pct).
+                  Overrides CSV column; lower priority than --picks.
 
 Input CSV schema
 ----------------
@@ -72,6 +75,7 @@ from lib.bracket_strategy import (
     extract_candidates,
     generate_portfolio,
     format_portfolio,
+    DEFAULT_PUBLIC_PCT,
 )
 try:
     from lib.monte_carlo import run_monte_carlo, format_mc_summary
@@ -290,20 +294,273 @@ def _build_teams_override(df: pd.DataFrame) -> dict[str, dict[int, dict]]:
     return teams_override
 
 
-def _extract_public_picks(df: pd.DataFrame, overrides: dict[str, float]) -> dict[str, float]:
+# ── Public pick % ingestion ───────────────────────────────────────────────────
+
+# Flexible column name aliases accepted in a --public-picks-file
+_PICK_NAME_COLS = ("canonical_team_name", "team_name", "name")
+_PICK_PCT_COLS  = ("public_pick_pct", "pick_pct", "champion_pick_pct", "pct")
+
+# Minimum title probability to include a team in value_score tables
+_PICKS_MIN_TITLE = 0.01
+
+
+def _load_public_picks_file(path: Path) -> dict[str, float]:
     """
-    Build public_picks dict: CSV column first, then --picks overrides win.
+    Load public pick percentages from a standalone CSV.
+
+    Accepts column names: canonical_team_name / team_name / name
+                          public_pick_pct / pick_pct / champion_pick_pct / pct
     """
-    picks: dict[str, float] = {}
+    try:
+        picks_df = pd.read_csv(path)
+    except Exception as e:
+        print(f"\n  ERROR: Cannot read public picks file '{path}': {e}",
+              file=sys.stderr)
+        sys.exit(1)
+
+    name_col = next((c for c in _PICK_NAME_COLS if c in picks_df.columns), None)
+    pct_col  = next((c for c in _PICK_PCT_COLS  if c in picks_df.columns), None)
+
+    if name_col is None or pct_col is None:
+        print(
+            f"\n  ERROR: public picks file must have a team name column "
+            f"({'/'.join(_PICK_NAME_COLS)}) and a pick % column "
+            f"({'/'.join(_PICK_PCT_COLS)}).",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    out: dict[str, float] = {}
+    for _, row in picks_df.iterrows():
+        val = row.get(pct_col)
+        if pd.notna(val):
+            v = float(val)
+            if v > 0:
+                out[str(row[name_col]).strip()] = v
+    return out
+
+
+def _build_public_picks(
+    df:        pd.DataFrame,
+    file_picks: dict[str, float],
+    overrides:  dict[str, float],
+) -> tuple[dict[str, float], list[dict]]:
+    """
+    Merge all pick % sources with priority: --picks > file > CSV column > seed fallback.
+
+    Returns
+    -------
+    picks   : {team_name: fraction} for all teams in df
+    missing : list of {name, seed, source} for teams that fell back to seed default
+    """
+    # Source 1: CSV column
+    csv_picks: dict[str, float] = {}
     if "public_pick_pct" in df.columns:
         for _, row in df.iterrows():
             val = row.get("public_pick_pct")
             if pd.notna(val):
                 v = float(val)
                 if v > 0:
-                    picks[str(row["canonical_team_name"])] = v
-    picks.update(overrides)     # --picks flag always wins
-    return picks
+                    csv_picks[str(row["canonical_team_name"])] = v
+
+    # Merge priority: overrides > file > csv
+    merged: dict[str, float] = {}
+    merged.update(csv_picks)
+    merged.update(file_picks)
+    merged.update(overrides)
+
+    # Fill missing with seed-based fallback; build missing report
+    missing: list[dict] = []
+    for _, row in df.iterrows():
+        name = str(row["canonical_team_name"])
+        seed = int(row["seed"])
+        if name not in merged:
+            fallback = DEFAULT_PUBLIC_PCT.get(seed, 0.001)
+            merged[name] = fallback
+            source = (
+                "seed default"
+                if not (csv_picks.get(name) or file_picks.get(name) or overrides.get(name))
+                else "partial"
+            )
+            missing.append({
+                "name":         name,
+                "seed":         seed,
+                "fallback_pct": round(fallback, 5),
+                "source":       source,
+            })
+
+    return merged, missing
+
+
+# Normalization window: skip normalization when sum is already "close enough"
+_NORM_LOW  = 0.95
+_NORM_HIGH = 1.05
+
+
+def _normalize_public_picks(
+    picks: dict[str, float],
+) -> tuple[dict[str, float], float, bool]:
+    """
+    Normalize pick percentages so they sum to 1.0.
+
+    Normalization is applied only when the current sum is outside
+    [_NORM_LOW, _NORM_HIGH] (i.e. outside [95%, 105%]).
+
+    Returns
+    -------
+    normalized_picks : dict with rescaled values (copy, not in-place)
+    original_sum     : sum before normalization
+    applied          : True if normalization was performed
+    """
+    original_sum = sum(picks.values())
+    if _NORM_LOW <= original_sum <= _NORM_HIGH:
+        return dict(picks), original_sum, False
+
+    factor = original_sum if original_sum > 0 else 1.0
+    normalized = {name: pct / factor for name, pct in picks.items()}
+    return normalized, original_sum, True
+
+
+# ── Picks analysis ────────────────────────────────────────────────────────────
+
+def _build_picks_rows(
+    mc_results,
+    public_picks: dict[str, float],
+    df:           pd.DataFrame,
+) -> list[dict]:
+    """
+    Build a joined table row per team with: seed, region, public_pct,
+    MC title_prob, MC ff_prob, value_score.
+    """
+    rows = []
+    for _, row in df.iterrows():
+        name   = str(row["canonical_team_name"])
+        seed   = int(row["seed"])
+        region = str(row["region"])
+        pub    = public_picks.get(name, DEFAULT_PUBLIC_PCT.get(seed, 0.001))
+
+        if mc_results is not None:
+            title = mc_results.title_prob(name)
+            ff    = mc_results.ff_prob(name)
+        else:
+            title = 0.0
+            ff    = 0.0
+
+        value = round(title / max(pub, 0.0001), 3) if title >= _PICKS_MIN_TITLE else 0.0
+
+        rows.append({
+            "name": name, "seed": seed, "region": region,
+            "public_pct": pub, "title_prob": title,
+            "ff_prob": ff, "value_score": value,
+        })
+    return rows
+
+
+def _print_picks_analysis(
+    mc_results,
+    public_picks:  dict[str, float],
+    df:            pd.DataFrame,
+    orig_sum:      float = 0.0,
+    norm_applied:  bool  = False,
+) -> None:
+    rows    = _build_picks_rows(mc_results, public_picks, df)
+    cur_sum = sum(public_picks.values())
+    has_mc  = mc_results is not None
+
+    print()
+    print(SEP)
+    print("  PICK SHARE ANALYSIS".center(W))
+    print(SEP)
+    if norm_applied:
+        print(f"\n  Normalization  : applied")
+        print(f"  Original sum   : {orig_sum:.3%}")
+        print(f"  Normalized sum : {cur_sum:.3%}")
+    else:
+        print(f"\n  Normalization  : not needed  (sum={cur_sum:.3%}, within [95%, 105%])")
+
+    # ── Table 1: Top 10 by MC title probability ───────────────────────
+    if has_mc:
+        by_title = sorted(rows, key=lambda r: r["title_prob"], reverse=True)[:10]
+        print(f"\n  TOP 10 BY TITLE PROBABILITY")
+        print(f"  {'#':<3} {'Name':<22} {'s':>2}  {'Region':<8}  "
+              f"{'Title%':>6}  {'FF%':>5}  {'Public%':>7}  {'Value':>6}")
+        print("  " + "─" * 64)
+        for i, r in enumerate(by_title, 1):
+            vs = f"{r['value_score']:.2f}x" if r["value_score"] > 0 else "   —"
+            print(f"  {i:<3} {r['name']:<22} {r['seed']:>2}  {r['region']:<8}  "
+                  f"{r['title_prob']:>6.1%}  {r['ff_prob']:>5.1%}  "
+                  f"{r['public_pct']:>7.2%}  {vs:>6}")
+
+    # ── Table 2: Top 10 by public pick % ─────────────────────────────
+    by_pub = sorted(rows, key=lambda r: r["public_pct"], reverse=True)[:10]
+    print(f"\n  TOP 10 BY PUBLIC PICK %")
+    hdr2 = (f"  {'#':<3} {'Name':<22} {'s':>2}  {'Region':<8}  "
+            f"{'Public%':>7}  {'Title%':>6}  {'Value':>6}"
+            if has_mc else
+            f"  {'#':<3} {'Name':<22} {'s':>2}  {'Region':<8}  {'Public%':>7}")
+    print(hdr2)
+    print("  " + "─" * (64 if has_mc else 44))
+    for i, r in enumerate(by_pub, 1):
+        if has_mc:
+            vs = f"{r['value_score']:.2f}x" if r["value_score"] > 0 else "   —"
+            print(f"  {i:<3} {r['name']:<22} {r['seed']:>2}  {r['region']:<8}  "
+                  f"{r['public_pct']:>7.2%}  {r['title_prob']:>6.1%}  {vs:>6}")
+        else:
+            print(f"  {i:<3} {r['name']:<22} {r['seed']:>2}  {r['region']:<8}  "
+                  f"{r['public_pct']:>7.2%}")
+
+    # ── Table 3: Top 10 by value score (requires MC) ──────────────────
+    if has_mc:
+        viable = [r for r in rows if r["value_score"] > 0]
+        by_val = sorted(viable, key=lambda r: r["value_score"], reverse=True)[:10]
+        print(f"\n  TOP 10 BY VALUE SCORE  (title% ÷ public%,  min title {_PICKS_MIN_TITLE:.0%})")
+        print(f"  {'#':<3} {'Name':<22} {'s':>2}  {'Region':<8}  "
+              f"{'Value':>6}  {'Title%':>6}  {'Public%':>7}  {'FF%':>5}")
+        print("  " + "─" * 64)
+        for i, r in enumerate(by_val, 1):
+            print(f"  {i:<3} {r['name']:<22} {r['seed']:>2}  {r['region']:<8}  "
+                  f"{r['value_score']:>6.2f}x  {r['title_prob']:>6.1%}  "
+                  f"{r['public_pct']:>7.2%}  {r['ff_prob']:>5.1%}")
+
+    print()
+
+
+def _picks_analysis_dict(
+    mc_results,
+    public_picks:  dict[str, float],
+    df:            pd.DataFrame,
+    orig_sum:      float = 0.0,
+    norm_applied:  bool  = False,
+) -> dict:
+    rows = _build_picks_rows(mc_results, public_picks, df)
+
+    def _top(sorted_rows: list[dict], n: int = 10) -> list[dict]:
+        return [
+            {k: round(v, 4) if isinstance(v, float) else v
+             for k, v in r.items()}
+            for r in sorted_rows[:n]
+        ]
+
+    cur_sum = sum(public_picks.values())
+    out: dict = {
+        "normalization": {
+            "applied":        norm_applied,
+            "original_sum":   round(orig_sum, 6),
+            "normalized_sum": round(cur_sum,  6),
+            "threshold_min":  _NORM_LOW,
+            "threshold_max":  _NORM_HIGH,
+        },
+        "total_public_pct": round(cur_sum, 6),
+    }
+    if mc_results is not None:
+        out["top_by_title_prob"] = _top(
+            sorted(rows, key=lambda r: r["title_prob"], reverse=True))
+        out["top_by_value_score"] = _top(
+            sorted([r for r in rows if r["value_score"] > 0],
+                   key=lambda r: r["value_score"], reverse=True))
+    out["top_by_public_pct"] = _top(
+        sorted(rows, key=lambda r: r["public_pct"], reverse=True))
+    return out
 
 
 def _parse_picks(raw: str | None) -> dict[str, float]:
@@ -533,6 +790,9 @@ def main() -> None:
                         help="Run Monte Carlo simulations to estimate advancement probabilities")
     parser.add_argument("--sims", type=int, default=10000,
                         help="Number of Monte Carlo simulations (default: 10000)")
+    parser.add_argument("--public-picks-file", default=None, metavar="FILE",
+                        help="CSV with columns canonical_team_name + public_pick_pct "
+                             "(overrides CSV column, lower priority than --picks)")
     args = parser.parse_args()
 
     picks_override = _parse_picks(args.picks)
@@ -561,13 +821,46 @@ def main() -> None:
         _print_first_four(first_four_results)
         print(f"\n  Proceeding with {len(df)} main-draw teams")
 
-    # ── Build team overrides ───────────────────────────────────────────
+    # ── Load public picks file (if provided) ──────────────────────────
+    file_picks: dict[str, float] = {}
+    if args.public_picks_file:
+        pp_path = Path(args.public_picks_file)
+        if not pp_path.exists():
+            print(f"\n  ERROR: Public picks file not found: {pp_path}", file=sys.stderr)
+            sys.exit(1)
+        file_picks = _load_public_picks_file(pp_path)
+        print(f"  Loaded {len(file_picks)} pick % entries from {pp_path.name}")
+
+    # ── Build team overrides + public picks ───────────────────────────
     print("  Computing team ratings from efficiency stats...", end="", flush=True)
     teams_override = _build_teams_override(df)
-    public_picks   = _extract_public_picks(df, picks_override)
+    public_picks, missing_picks = _build_public_picks(df, file_picks, picks_override)
     print("  done")
 
-    # Show top-5 teams by computed team_rating for a quick sanity check
+    # Normalize pick percentages
+    public_picks, orig_sum, norm_applied = _normalize_public_picks(public_picks)
+
+    # Pick coverage report
+    n_real = len(public_picks) - len(missing_picks)
+    print(f"\n  Public pick % coverage: {n_real}/{len(df)} teams with real data, "
+          f"{len(missing_picks)} at seed defaults")
+    if norm_applied:
+        print(f"  Normalization applied:  {orig_sum:.3%} → {sum(public_picks.values()):.3%}")
+    else:
+        print(f"  Normalization skipped:  sum={sum(public_picks.values()):.3%} within [95%, 105%]")
+    if missing_picks:
+        print(f"  Seed-fallback teams ({len(missing_picks)}):")
+        for m in sorted(missing_picks, key=lambda x: x["seed"])[:8]:
+            print(f"    #{m['seed']:>2} {m['name']:<26}  → {m['fallback_pct']:.3%}")
+        if len(missing_picks) > 8:
+            print(f"    ... +{len(missing_picks) - 8} more")
+
+    # Top-5 by public pick % (quick sanity check)
+    top5_picks = sorted(public_picks.items(), key=lambda x: -x[1])[:5]
+    print(f"\n  Top 5 by public pick %:  "
+          + "  ".join(f"{nm}={pct:.2%}" for nm, pct in top5_picks))
+
+    # Top-5 by efficiency margin (model sanity check)
     top5 = df.copy()
     top5["_tr"] = df["efficiency_margin"].rank(ascending=False, method="min")
     top5 = top5.sort_values("_tr").head(5)
@@ -578,13 +871,6 @@ def main() -> None:
         print(f"  {r['canonical_team_name']:<24} {int(r['seed']):>2}  "
               f"{r['region']:<8}  {r['efficiency_margin']:>6.1f}  "
               f"{r['offensive_efficiency']:>6.1f}  {r['defensive_efficiency']:>6.1f}")
-
-    if public_picks:
-        print(f"\n  Public pick data: {len(public_picks)} team(s)")
-        for nm, pct in sorted(public_picks.items(), key=lambda x: -x[1])[:5]:
-            print(f"    {nm}: {pct:.1%}")
-        if len(public_picks) > 5:
-            print(f"    ... +{len(public_picks) - 5} more")
 
     # ── Simulate bracket ───────────────────────────────────────────────
     print(f"\n  Simulating {args.mode} bracket...", end="", flush=True)
@@ -608,6 +894,10 @@ def main() -> None:
             )
             print("  done")
             print(format_mc_summary(mc_results, top_n=10))
+
+    # ── Picks analysis (title prob + public pick + value) ──────────────
+    _print_picks_analysis(mc_results, public_picks, df,
+                          orig_sum=orig_sum, norm_applied=norm_applied)
 
     # ── Champion candidates (always computed when MC run or portfolio requested)
     candidates = []
@@ -700,6 +990,11 @@ def main() -> None:
         },
         "bracket": _clean_for_json(bracket),
     }
+
+    output["picks_analysis"] = _picks_analysis_dict(mc_results, public_picks, df,
+                                                     orig_sum=orig_sum,
+                                                     norm_applied=norm_applied)
+    output["picks_missing"]  = missing_picks
 
     if summary is not None:
         output["strategy_summary"] = summary

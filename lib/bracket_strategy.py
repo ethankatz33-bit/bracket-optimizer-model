@@ -46,7 +46,7 @@ except ImportError:
 # Approximates ESPN bracket challenge champion pick distributions.
 # Four 1-seeds collectively draw ~55%; each averages ~14%.
 # Override with real data via public_picks argument.
-_DEFAULT_PUBLIC_PCT: dict[int, float] = {
+DEFAULT_PUBLIC_PCT: dict[int, float] = {
     1:  0.140,
     2:  0.055,
     3:  0.025,
@@ -342,7 +342,7 @@ def extract_candidates(
         pub_pct = (
             public_picks.get(name)
             if public_picks and name in public_picks
-            else _DEFAULT_PUBLIC_PCT.get(seed, 0.001)
+            else DEFAULT_PUBLIC_PCT.get(seed, 0.001)
         )
 
         # Win probability: prefer MC title_prob over path-based estimate
