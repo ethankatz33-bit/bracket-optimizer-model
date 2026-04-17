@@ -1,0 +1,65 @@
+season,team_name_raw,canonical_team_name,seed,region,offensive_efficiency,defensive_efficiency,efficiency_margin,kenpom_rank,bart_torvik_rank,ap_top12_flag,public_pick_pct,conference,recent_form,strength_of_schedule
+2026,Duke,Duke,1,East,122.3,89.8,32.5,2,1,1,0.22,ACC,W10,82.1
+2026,Michigan St,Michigan St,2,East,117.8,93.2,24.6,8,6,1,0.08,Big Ten,W8,79.4
+2026,Kentucky,Kentucky,3,East,114.9,95.1,19.8,14,12,0,0.03,SEC,W7,80.2
+2026,Wisconsin,Wisconsin,4,East,111.7,97.3,14.4,21,19,0,0.012,Big Ten,W6,76.8
+2026,Iowa St,Iowa St,5,East,108.6,99.4,9.2,30,28,0,0.006,Big 12,W5,74.3
+2026,Xavier,Xavier,6,East,106.8,101.2,5.6,40,38,0,0.003,Big East,W4,72.1
+2026,Penn St,Penn St,7,East,105.1,103.0,2.1,52,50,0,0.002,Big Ten,W4,71.0
+2026,Arkansas,Arkansas,8,East,103.4,104.2,-0.8,65,63,0,0.001,SEC,W3,69.5
+2026,Drake,Drake,9,East,101.2,105.8,-4.6,78,76,0,0.001,Missouri Valley,W3,65.2
+2026,College of Charleston,College of Charleston,10,East,99.8,107.1,-7.3,88,90,0,0.001,Colonial,W4,63.8
+2026,NC State,NC State,11,East,98.9,107.5,-8.6,100,98,0,0.000,ACC,W3,68.4
+2026,Colorado St,Colorado St,12,East,97.7,108.3,-10.6,112,115,0,0.000,Mountain West,W4,64.1
+2026,Winthrop,Winthrop,13,East,96.8,109.2,-12.4,128,130,0,0.000,Big South,W5,59.3
+2026,Morehead St,Morehead St,14,East,95.6,110.1,-14.5,148,150,0,0.000,Ohio Valley,W4,57.8
+2026,Vermont,Vermont,15,East,94.9,111.3,-16.4,168,165,0,0.000,America East,W5,55.2
+2026,Howard,Howard,16,East,93.8,113.2,-19.4,200,198,0,0.000,MEAC,W3,52.1
+2026,Kansas,Kansas,1,West,122.8,90.2,32.6,1,3,1,0.25,Big 12,W10,83.4
+2026,Gonzaga,Gonzaga,2,West,118.3,92.8,25.5,6,8,1,0.10,WCC,W9,78.6
+2026,Baylor,Baylor,3,West,115.4,94.6,20.8,12,14,0,0.04,Big 12,W7,80.5
+2026,Illinois,Illinois,4,West,112.2,96.8,15.4,20,22,0,0.015,Big Ten,W6,77.2
+2026,South Carolina,South Carolina,5,West,109.1,98.9,10.2,29,31,0,0.007,SEC,W5,73.9
+2026,Dayton,Dayton,6,West,107.3,100.8,6.5,38,40,0,0.003,Atlantic 10,W4,71.8
+2026,Oregon,Oregon,7,West,105.6,102.5,3.1,50,52,0,0.002,Pac-12,W4,70.7
+2026,Nevada,Nevada,8,West,103.9,103.8,0.1,63,65,0,0.001,Mountain West,W3,68.2
+2026,TCU,TCU,9,West,101.7,105.4,-3.7,76,78,0,0.001,Big 12,W3,67.1
+2026,Mississippi St,Mississippi St,10,West,100.3,106.7,-6.4,87,89,0,0.001,SEC,W2,65.5
+2026,Providence,Providence,11,West,99.4,107.1,-7.7,99,101,0,0.000,Big East,W3,67.3
+2026,Grand Canyon,Grand Canyon,12,West,98.2,107.9,-9.7,111,113,0,0.000,WAC,W4,62.8
+2026,Iona,Iona,13,West,97.3,108.8,-11.5,127,129,0,0.000,MAAC,W5,58.9
+2026,Montana,Montana,14,West,96.1,109.7,-13.6,147,149,0,0.000,Big Sky,W5,56.4
+2026,Northern Iowa,Northern Iowa,15,West,95.4,110.9,-15.5,167,169,0,0.000,Missouri Valley,W4,54.8
+2026,Alcorn St,Alcorn St,16,West,94.3,112.8,-18.5,199,201,0,0.000,SWAC,W4,51.3
+2026,Auburn,Auburn,1,South,121.8,89.4,32.4,3,2,1,0.20,SEC,W11,82.7
+2026,Tennessee,Tennessee,2,South,117.3,93.6,23.7,9,7,1,0.07,SEC,W8,80.1
+2026,Houston,Houston,3,South,114.4,95.6,18.8,16,13,0,0.03,Big 12,W7,79.8
+2026,Indiana,Indiana,4,South,111.2,97.8,13.4,23,21,0,0.012,Big Ten,W5,76.5
+2026,Ohio St,Ohio St,5,South,108.1,99.9,8.2,32,30,0,0.005,Big Ten,W5,74.0
+2026,Louisville,Louisville,6,South,106.3,101.7,4.6,42,39,0,0.003,ACC,W4,71.4
+2026,Michigan,Michigan,7,South,104.6,103.5,1.1,54,51,0,0.002,Big Ten,W3,70.2
+2026,Florida St,Florida St,8,South,102.9,104.7,-1.8,67,64,0,0.001,ACC,W3,68.8
+2026,Vanderbilt,Vanderbilt,9,South,100.7,106.3,-5.6,80,77,0,0.001,SEC,W2,66.9
+2026,Wake Forest,Wake Forest,10,South,99.3,107.6,-8.3,90,91,0,0.001,ACC,W3,66.2
+2026,UAB,UAB,11,South,98.4,108.0,-9.6,102,99,0,0.000,American Athletic,W3,65.1
+2026,New Mexico,New Mexico,12,South,97.2,108.8,-11.6,114,116,0,0.000,Mountain West,W4,63.5
+2026,Northern Kentucky,Northern Kentucky,13,South,96.3,109.7,-13.4,130,132,0,0.000,Horizon,W4,59.0
+2026,Murray St,Murray St,14,South,95.1,110.6,-15.5,150,152,0,0.000,Ohio Valley,W5,57.3
+2026,Colgate,Colgate,15,South,94.4,111.8,-17.4,170,167,0,0.000,Patriot,W5,54.5
+2026,Kennesaw St,Kennesaw St,16,South,93.3,113.7,-20.4,202,200,0,0.000,ASUN,W3,51.8
+2026,Connecticut,Connecticut,1,Midwest,121.3,90.7,30.6,4,5,1,0.18,Big East,W9,81.9
+2026,Marquette,Marquette,2,Midwest,116.8,94.1,22.7,10,9,1,0.06,Big East,W8,79.2
+2026,Purdue,Purdue,3,Midwest,113.9,96.1,17.8,18,16,0,0.025,Big Ten,W6,78.8
+2026,Creighton,Creighton,4,Midwest,110.7,98.3,12.4,25,24,0,0.010,Big East,W6,75.9
+2026,Utah St,Utah St,5,Midwest,107.6,100.4,7.2,34,33,0,0.005,Mountain West,W5,73.4
+2026,Texas Tech,Texas Tech,6,Midwest,105.8,102.2,3.6,44,42,0,0.002,Big 12,W4,71.1
+2026,Florida Atlantic,Florida Atlantic,7,Midwest,104.1,104.0,0.1,56,54,0,0.001,American Athletic,W4,69.8
+2026,Cincinnati,Cincinnati,8,Midwest,102.4,105.2,-2.8,69,67,0,0.001,Big 12,W3,68.0
+2026,Nebraska,Nebraska,9,Midwest,100.2,106.8,-6.6,82,80,0,0.001,Big Ten,W2,66.7
+2026,Clemson,Clemson,10,Midwest,98.8,108.1,-9.3,92,94,0,0.001,ACC,W3,65.8
+2026,Bradley,Bradley,11,Midwest,97.9,108.5,-10.6,104,102,0,0.000,Missouri Valley,W4,63.7
+2026,Richmond,Richmond,12,Midwest,96.7,109.3,-12.6,116,118,0,0.000,Atlantic 10,W4,62.4
+2026,Furman,Furman,13,Midwest,95.8,110.2,-14.4,132,134,0,0.000,Southern,W4,58.7
+2026,Oral Roberts,Oral Roberts,14,Midwest,94.6,111.1,-16.5,152,154,0,0.000,Summit League,W5,56.9
+2026,UNCW,UNCW,15,Midwest,93.9,112.3,-18.4,172,170,0,0.000,Colonial,W4,54.2
+2026,Wagner,Wagner,16,Midwest,92.8,114.2,-21.4,204,202,0,0.000,NEC,W3,51.1

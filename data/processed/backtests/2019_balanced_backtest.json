@@ -91,7 +91,7 @@
   "diagnostics": {
     "chalkiness_assessment": "Slightly chalky: 3/4 predicted Final Four teams were 1- or 2-seeds. Modestly conservative.",
     "upset_assessment": "Reasonable upset volume: 12 upsets predicted (historical mean ~15.5, range 9\u201321). Conservative brackets (~11\u201312) tend to outscore balanced ones because wrong upset picks are doubly costly in bracket scoring.",
-    "sweet_16_double_digit_review": "Predicted DD seed: T1438 (seed 10) (forced by structure constraint). This team did NOT reach the actual Sweet 16 in 2019.",
+    "sweet_16_double_digit_review": "Predicted DD seed: T1326 (seed 11) (forced by structure constraint). This team did NOT reach the actual Sweet 16 in 2019.",
     "champion_review": "Champion incorrect: predicted T1314 (seed 1), actual champion was T1323. Picking a 1-seed is historically sound (~15% of titles). The model made the high-probability choice."
   },
   "ratings_diagnostics": {

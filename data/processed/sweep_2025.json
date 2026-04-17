@@ -120,11 +120,11 @@
     "act_seed": 1
   },
   "2002": {
-    "correct": 35,
+    "correct": 36,
     "possible": 63,
     "champ": false,
-    "ff": 2,
-    "pred_champ": "T1181",
+    "ff": 3,
+    "pred_champ": "T1242",
     "act_champ": "T1268",
     "pred_seed": 1,
     "act_seed": 1
@@ -230,7 +230,7 @@
     "act_seed": 1
   },
   "2013": {
-    "correct": 34,
+    "correct": 35,
     "possible": 63,
     "champ": false,
     "ff": 0,

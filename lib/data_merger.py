@@ -13,23 +13,31 @@ Responsibilities
 
 Team-ID mapping strategy
 ------------------------
-Stage 1 — Tournament path (definitive):
-    Key = (season, seed, round_reached, is_champion)
-    Unique when no other same-seed team in that season reached the same round.
+NOTE: TourneySeeds.csv seed values are NOT reliably comparable to cbb.csv
+seed values.  Seed is therefore NOT used as a primary join key.
 
-Stage 2 — Rank-based within ambiguous groups:
-    For groups of N cbb teams and N Kaggle teams sharing the same
-    (season, seed, round_reached), match by sorted offensive efficiency rank.
-    cbb: rank by ADJOE descending  ↔  Kaggle: rank by proxy offense_rating descending.
-    This assumes within-group rank ordering is consistent across the two datasets.
-    Matches are flagged RANK_MATCH to distinguish from definitive ones.
+Stage 1 — Canonical name lookup (CONFIRMED):
+    Build a name → team_id canonical map from:
+      a) Official Teams.csv if supplied via teams_path, OR
+      b) Bootstrap: champion and runner-up are unambiguous 1:1 per season;
+         accumulate across all cbb seasons; only names with a single
+         consistent team_id are kept.
+    For each cbb team, look up its normalized name in the canonical map.
+    If the returned team_id is present in the season's correct-round Kaggle
+    pool, assign it as CONFIRMED.  Unique remaining slots (1:1 after
+    canonical extractions) are also CONFIRMED.
 
-Stage 3 — Unmatched:
-    Any remaining teams where the group sizes differ (data inconsistency).
-    These keep all cbb features but have no team_id.
+Stage 2 — Rank-based within equal-size groups (RANK_MATCH):
+    After canonical matches are removed from a (season, max_round) bucket,
+    if remaining cbb count == remaining Kaggle count > 1: sort cbb by ADJOE
+    descending and Kaggle by offense_rating descending (fallback: seed_num
+    ascending, then team_id ascending).  Match positionally.
+
+Unmatched — size mismatch or no name/round signal.
 """
 
 import re
+from collections import defaultdict
 from pathlib import Path
 
 import pandas as pd
@@ -254,6 +262,20 @@ _POSTSEASON_TO_ROUND: dict[str, int] = {
     "R68":       0,
 }
 
+# Depth ordering used for 2017+ global assignment.
+# "Champions" ranks higher than "2ND" so the champion sorts before the runner-up
+# when both share max_round=6 in the Kaggle sort.
+_POSTSEASON_DEPTH: dict[str, int] = {
+    "Champions": 7,
+    "2ND":       6,
+    "F4":        5,
+    "E8":        4,
+    "S16":       3,
+    "R32":       2,
+    "R64":       1,
+    "R68":       0,
+}
+
 
 def _build_kaggle_paths(
     results_path: str | Path,
@@ -265,7 +287,11 @@ def _build_kaggle_paths(
     """
     results = pd.read_csv(results_path)
     seeds   = pd.read_csv(seeds_path)
-    seeds["seed_num"] = seeds["Seed"].str.extract(r"(\d+)").astype(int)
+    # TourneySeeds may have numeric seeds (e.g. 1) or string seeds (e.g. "W01").
+    # Extract the numeric portion in either case.
+    seeds["seed_num"] = (
+        seeds["Seed"].astype(str).str.extract(r"(\d+)")[0].astype(int)
+    )
     seeds = seeds.rename(columns={"Season": "season", "Team": "team_id"})
 
     # Map Daynum → round
@@ -299,7 +325,14 @@ def _build_kaggle_paths(
     paths = game_df.groupby(["season", "team_id"]).apply(
         _summarize, include_groups=False
     ).reset_index()
-    paths = paths.merge(seeds[["season", "team_id", "seed_num"]], on=["season", "team_id"])
+    # Left join: keep all teams from game results even if TourneySeeds lacks an entry.
+    # Teams without a seed row (e.g., certain play-in participants) get seed_num=NaN.
+    paths = paths.merge(
+        seeds[["season", "team_id", "seed_num"]],
+        on=["season", "team_id"],
+        how="left",
+    )
+    paths["seed_num"] = paths["seed_num"].astype("Int64")  # nullable int
     return paths
 
 
@@ -310,109 +343,174 @@ def build_team_id_map(
     results_path: str | Path,
     seeds_path:   str | Path,
     hist_path:    str | Path | None = None,
+    teams_path:   str | Path | None = None,
 ) -> tuple[dict[tuple, int], dict[tuple, str], list[str]]:
     """
     Map (season, cbb_team_name) → kaggle_team_id.
 
+    See module docstring for full strategy.  Seed is NOT a primary join key.
+
     Returns
     -------
-    confirmed : {(season, team_name): team_id}   — definitive path matches
-    estimated : {(season, team_name): team_id}   — rank-based matches (uncertain)
+    confirmed : {(season, team_name): team_id}   — Stage 1 name / unique-slot
+    estimated : {(season, team_name): team_id}   — Stage 2 rank-based
     unmatched : list of "season|team_name_raw"   — could not resolve
     """
-    kaggle_paths = _build_kaggle_paths(results_path, seeds_path)
+    kp = _build_kaggle_paths(results_path, seeds_path)
 
-    # Optionally load proxy features for rank-based disambiguation
     hist_df: pd.DataFrame | None = None
     if hist_path and Path(hist_path).exists():
         hist_df = pd.read_csv(hist_path)
+
+    # ── Build canonical name → team_id map ────────────────────────────────────
+    _canonical: dict[str, int] = {}
+
+    # Priority A: official Teams.csv (Kaggle March Madness format)
+    if teams_path and Path(teams_path).exists():
+        teams_df = pd.read_csv(teams_path)
+        teams_df.columns = [c.strip() for c in teams_df.columns]
+        id_col   = next((c for c in teams_df.columns if c.lower() in ("teamid",  "team_id")),  None)
+        name_col = next((c for c in teams_df.columns if c.lower() in ("teamname", "team_name")), None)
+        if id_col and name_col:
+            for _, row in teams_df.iterrows():
+                _canonical[normalize_name(str(row[name_col]))] = int(row[id_col])
+
+    # Priority B: bootstrap from champion / runner-up (1:1 per season, no seed)
+    if not _canonical:
+        _name_id_sets: dict[str, set[int]] = defaultdict(set)
+        for _s, _s_cbb in cbb_df.groupby("season"):
+            _s   = int(_s)
+            _skp = kp[kp["season"] == _s]
+            for _post, _ic in [("Champions", True), ("2ND", False)]:
+                _cbb_sub = _s_cbb[_s_cbb["postseason"] == _post]
+                _kp_sub  = _skp[
+                    (_skp["max_round"]   == 6) &
+                    (_skp["is_champion"] == _ic)
+                ]
+                if len(_cbb_sub) == 1 and len(_kp_sub) == 1:
+                    _name_id_sets[_cbb_sub.iloc[0]["team_name"]].add(
+                        int(_kp_sub.iloc[0]["team_id"])
+                    )
+        # Keep only names with a single consistent team_id across all seasons
+        _canonical = {
+            nm: next(iter(ids))
+            for nm, ids in _name_id_sets.items()
+            if len(ids) == 1
+        }
 
     confirmed: dict[tuple, int] = {}
     estimated: dict[tuple, int] = {}
     unmatched: list[str]        = []
 
-    # Process one season at a time
+    # Process postseason labels deepest-first so canonical IDs are reserved
+    # before shallower rounds attempt to consume the same Kaggle pool.
+    _POST_ORDER = ["Champions", "2ND", "F4", "E8", "S16", "R32", "R64", "R68"]
+
     for season, season_cbb in cbb_df.groupby("season"):
-        season_kp = kaggle_paths[kaggle_paths["season"] == season]
+        season    = int(season)
+        season_kp = kp[kp["season"] == season]
+
         if season_kp.empty:
             for _, row in season_cbb.iterrows():
                 unmatched.append(f"{season}|{row['team_name_raw']}")
             continue
 
-        for postseason, ps_group_cbb in season_cbb.groupby("postseason"):
-            round_reached = _POSTSEASON_TO_ROUND.get(postseason)
-            if round_reached is None:
-                for _, row in ps_group_cbb.iterrows():
-                    unmatched.append(f"{season}|{row['team_name_raw']}")
+        # Kaggle IDs assigned so far this season (prevents double-use)
+        assigned: set[int] = set()
+
+        for post in _POST_ORDER:
+            round_num = _POSTSEASON_TO_ROUND.get(post)
+            if round_num is None:
                 continue
 
-            # All cbb teams in this (season, postseason) bucket
-            cbb_rows = ps_group_cbb.copy()
+            cbb_sub = season_cbb[season_cbb["postseason"] == post]
+            if cbb_sub.empty:
+                continue
 
-            for seed_val, seed_group_cbb in cbb_rows.groupby("seed"):
-                # Matching Kaggle teams: same season, seed, round
-                kp_cands = season_kp[
-                    (season_kp["seed_num"] == seed_val) &
-                    (season_kp["max_round"] == round_reached)
+            # Kaggle pool for this round (excluding already-assigned IDs)
+            if round_num == 6:
+                is_champ = (post == "Champions")
+                kp_pool = season_kp[
+                    (season_kp["max_round"]   == 6) &
+                    (season_kp["is_champion"] == is_champ) &
+                    (~season_kp["team_id"].astype(int).isin(assigned))
+                ].copy()
+            else:
+                kp_pool = season_kp[
+                    (season_kp["max_round"] == round_num) &
+                    (~season_kp["team_id"].astype(int).isin(assigned))
                 ].copy()
 
-                # For round 6: distinguish champion (won) from runner-up (lost)
-                if round_reached == 6:
-                    is_champ = (postseason == "Champions")
-                    kp_cands = kp_cands[kp_cands["is_champion"] == is_champ]
+            avail: set[int] = set(kp_pool["team_id"].astype(int))
 
-                n_cbb = len(seed_group_cbb)
-                n_kp  = len(kp_cands)
-
-                if n_cbb == 0 or n_kp == 0:
-                    for _, row in seed_group_cbb.iterrows():
-                        unmatched.append(f"{season}|{row['team_name_raw']}")
+            # ── Sub-pass A: canonical name lookup ─────────────────────────────
+            remaining: list[pd.Series] = []
+            for _, row in cbb_sub.iterrows():
+                key = (season, row["team_name"])
+                if key in confirmed or key in estimated:
                     continue
-
-                if n_cbb != n_kp:
-                    # Size mismatch — can't resolve
-                    for _, row in seed_group_cbb.iterrows():
-                        unmatched.append(
-                            f"{season}|{row['team_name_raw']} "
-                            f"(group size: cbb={n_cbb}, kaggle={n_kp})"
-                        )
-                    continue
-
-                if n_cbb == 1:
-                    # ── Stage 1: definitive path match ──────────────────
-                    tid = int(kp_cands.iloc[0]["team_id"])
-                    key = (int(season), seed_group_cbb.iloc[0]["team_name"])
-                    confirmed[key] = tid
+                cid = _canonical.get(row["team_name"])
+                if cid is not None and cid in avail:
+                    confirmed[key] = cid
+                    assigned.add(cid)
+                    avail.discard(cid)
                 else:
-                    # ── Stage 2: rank-based disambiguation ───────────────
-                    # Sort cbb group by adjoe descending (best offense first)
-                    cbb_sorted = seed_group_cbb.sort_values(
-                        "adjoe", ascending=False
+                    remaining.append(row)
+
+            kp_pool = kp_pool[kp_pool["team_id"].astype(int).isin(avail)]
+            n_c = len(remaining)
+            n_k = len(kp_pool)
+
+            if n_c == 0:
+                continue
+
+            # ── Sub-pass B: unique remaining slot → Stage 1 confirmed ────────
+            if n_c == 1 and n_k == 1:
+                tid = int(kp_pool.iloc[0]["team_id"])
+                key = (season, remaining[0]["team_name"])
+                confirmed[key] = tid
+                assigned.add(tid)
+                continue
+
+            # ── Sub-pass C: equal-size rank-based match → Stage 2 ────────────
+            if n_c == n_k and n_c > 1:
+                cbb_sorted = sorted(
+                    remaining,
+                    key=lambda r: float(r["adjoe"]) if pd.notna(r["adjoe"]) else 0.0,
+                    reverse=True,
+                )
+
+                if hist_df is not None and "offense_rating" in hist_df.columns:
+                    kp_aug = kp_pool.merge(
+                        hist_df[["season", "team_id", "offense_rating"]],
+                        on=["season", "team_id"],
+                        how="left",
+                    )
+                    kp_sorted = kp_aug.sort_values(
+                        ["offense_rating", "team_id"],
+                        ascending=[False, True],
+                        na_position="last",
+                    ).reset_index(drop=True)
+                else:
+                    # Fallback: seed_num asc (lower seed = stronger), team_id asc
+                    # seed_num may be NaN for unseeded play-in participants — sort last
+                    kp_sorted = kp_pool.sort_values(
+                        ["seed_num", "team_id"],
+                        ascending=[True, True],
+                        na_position="last",
                     ).reset_index(drop=True)
 
-                    # Sort Kaggle group by proxy offense descending (if available)
-                    if hist_df is not None:
-                        kp_with_feat = kp_cands.merge(
-                            hist_df[["season", "team_id", "offense_rating"]],
-                            on=["season", "team_id"],
-                            how="left",
-                        )
-                        kp_sorted = kp_with_feat.sort_values(
-                            "offense_rating", ascending=False
-                        ).reset_index(drop=True)
-                    else:
-                        # No proxy data: sort by team_id as stable tiebreak
-                        kp_sorted = kp_cands.sort_values(
-                            "team_id"
-                        ).reset_index(drop=True)
+                for i, row in enumerate(cbb_sorted):
+                    tid = int(kp_sorted.iloc[i]["team_id"])
+                    key = (season, row["team_name"])
+                    estimated[key] = tid
+                    assigned.add(tid)
 
-                    for idx in range(n_cbb):
-                        tid = int(kp_sorted.iloc[idx]["team_id"])
-                        key = (
-                            int(season),
-                            cbb_sorted.iloc[idx]["team_name"],
-                        )
-                        estimated[key] = tid
+            else:
+                # Size mismatch — unmatched
+                for row in remaining:
+                    if post != "R68":
+                        unmatched.append(f"{season}|{row['team_name_raw']}")
 
     return confirmed, estimated, unmatched
 
@@ -431,11 +529,15 @@ def build_merged_stats(
 
     Columns
     -------
-    season, team_name_raw, team_name, seed, postseason,
+    season, canonical_team_name, team_name_raw, team_name, seed, postseason,
     team_id, match_type,
     offensive_efficiency, defensive_efficiency, efficiency_margin,
     kenpom_torvik_rating,
     ap_rank_week6, ap_top12_flag
+
+    canonical_team_name is the stable identity key for all downstream joins.
+    It equals normalize_name(team_name_raw) and is identical to team_name.
+    team_id is kept only for Kaggle-specific lookups (max_round, game results).
     """
     rows = []
     for _, r in cbb_df.iterrows():
@@ -453,8 +555,9 @@ def build_merged_stats(
 
         row: dict = {
             "season":               int(r["season"]),
+            "canonical_team_name":  r["team_name"],       # primary identity key
             "team_name_raw":        r["team_name_raw"],
-            "team_name":            r["team_name"],
+            "team_name":            r["team_name"],       # kept for compatibility
             "seed":                 int(r["seed"]),
             "postseason":           r["postseason"],
             "team_id":              tid,

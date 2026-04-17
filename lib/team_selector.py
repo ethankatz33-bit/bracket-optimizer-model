@@ -309,6 +309,20 @@ _SEED_PUBLIC_PICK_LATE: dict[int, float] = {
 _CLOSE_MATCHUP_WP_BAND: float = 0.12   # |wp − 0.5| < 0.12 → "close"
 _CLOSE_MATCHUP_VALUE_WEIGHT: float = 0.05
 
+# Elite-seed protection: when the favorite has seed ≤ this value AND
+# the team_rating gap exceeds the threshold, multiply desirability down.
+#
+# Rationale: a 1- or 2-seed with a large efficiency advantage should not be
+# routed out early by the historical seed-vs-seed upset rates alone.  The
+# team_rating gap threshold of 0.16 corresponds to roughly 10 AdjEM points
+# in a typical 64-team field (team_rating is min-max normalised 0.10–0.95
+# over ~52 EM points, so 0.16 ≈ 10 EM).  Below the threshold the matchup
+# is close enough that normal upset logic applies.
+_ELITE_PROTECT_MAX_SEED:    int   = 2     # seed ≤ 2 gets protection
+_ELITE_PROTECT_RATING_GAP:  float = 0.16  # team_rating gap ≈ 10 AdjEM pts
+_ELITE_PROTECT_MULTIPLIER:  float = 0.50  # halve desirability when gap exceeded
+
+
 
 # ════════════════════════════════════════════════════════════════════════════
 # Game-selection helpers
@@ -403,7 +417,7 @@ def _upset_desirability(
         wp = _predict_win_probability(und, fav)["team_a"]
 
         # value_score: underdog modeled win prob vs. public expectation
-        und_pub    = _get_public_pick_pct(und, fav)
+        und_pub     = _get_public_pick_pct(und, fav)
         value_score = wp - und_pub
 
         if round_name in _LATE_ROUNDS and "champion_profile_score" in und:
@@ -427,17 +441,33 @@ def _upset_desirability(
                     f"(late_term {late_term_pre:.4f} → {late_term:.4f})"
                 )
 
-            return round(0.60 * late_term + 0.20 * hist_rate + 0.20 * score_ratio, 5)
+            score = round(0.60 * late_term + 0.20 * hist_rate + 0.20 * score_ratio, 5)
 
-        base = round(0.60 * wp + 0.20 * hist_rate + 0.20 * score_ratio, 5)
+        else:
+            score = round(0.60 * wp + 0.20 * hist_rate + 0.20 * score_ratio, 5)
 
-        # Close matchup value boost (non-late or no profile data)
-        if abs(wp - 0.5) < _CLOSE_MATCHUP_WP_BAND:
-            base = round(base + _CLOSE_MATCHUP_VALUE_WEIGHT * value_score, 5)
-        return base
+            # Close matchup value boost (non-late or no profile data)
+            if abs(wp - 0.5) < _CLOSE_MATCHUP_WP_BAND:
+                score = round(score + _CLOSE_MATCHUP_VALUE_WEIGHT * value_score, 5)
 
-    # ── Seed-based fallback ───────────────────────────────────────────────
-    return round(hist_rate * score_ratio, 5)
+    else:
+        # ── Seed-based fallback ───────────────────────────────────────────
+        score = round(hist_rate * score_ratio, 5)
+
+    # ── Elite-seed protection ─────────────────────────────────────────────
+    # When the favorite is a 1- or 2-seed and the team_rating gap is large
+    # (≈ > 10 AdjEM pts), halve the desirability score.  This makes it very
+    # unlikely the upset clears the min_desirability gate, preventing elite
+    # teams from being routed out by historically plausible but tactically
+    # implausible matchups (e.g. a #10 seed beating a dominant #2 seed).
+    # The check requires team_rating to be present on both teams; the fallback
+    # path (no ratings) is unaffected.
+    if (fav["seed"] <= _ELITE_PROTECT_MAX_SEED
+            and "team_rating" in fav and "team_rating" in und
+            and (fav["team_rating"] - und["team_rating"]) > _ELITE_PROTECT_RATING_GAP):
+        score = round(score * _ELITE_PROTECT_MULTIPLIER, 5)
+
+    return score
 
 
 def _select_upset_indices(
@@ -719,6 +749,8 @@ def _enforce_s16_dd_constraint(
 # Round simulation
 # ════════════════════════════════════════════════════════════════════════════
 
+
+
 def _play_game(
     team_a:        dict,
     team_b:        dict,
@@ -849,7 +881,7 @@ def _apply_champion_filter(
         # Exactly one qualifies — that team wins
         winner_should_be_a = a_in
 
-    # Determine what the current champ_sel would produce
+    # Determine what the current champ_sel would produce.
     is_upset = (0 in champ_sel)
     if team_a["seed"] <= team_b["seed"]:
         current_winner_is_a = not is_upset
@@ -1066,7 +1098,6 @@ def simulate_bracket(
                    reverse=True)
         )
     }
-
     def _is_champion_candidate(t: dict) -> bool:
         seed = t["seed"]
         if seed <= 2:

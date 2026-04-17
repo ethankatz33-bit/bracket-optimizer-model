@@ -331,6 +331,15 @@ def load_team_data(path: str | Path) -> pd.DataFrame:
 
     df = pd.read_csv(path)
 
+    # Accept either canonical_team_name or team_name as the identity column.
+    # If only canonical_team_name is present, alias it to team_name so all
+    # downstream rating and simulation code continues to work unchanged.
+    if "canonical_team_name" in df.columns and "team_name" not in df.columns:
+        df = df.rename(columns={"canonical_team_name": "team_name"})
+    elif "canonical_team_name" in df.columns:
+        # Both present — keep team_name; canonical_team_name is extra context
+        pass
+
     required = {"season", "team_name", "seed"}
     missing  = required - set(df.columns)
     if missing:

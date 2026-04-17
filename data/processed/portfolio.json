@@ -1,0 +1,6791 @@
+{
+  "pool_size": 10,
+  "mode": "balanced",
+  "n_brackets": 5,
+  "base_champion": {
+    "name": "Harborview",
+    "seed": 2
+  },
+  "brackets": [
+    {
+      "index": 1,
+      "champion": "Riverside",
+      "seed": 1,
+      "region": "East",
+      "win_prob": 0.15,
+      "public_pct": 0.14,
+      "value_score": 1.071,
+      "composite": 0.14142,
+      "in_base_ff": false,
+      "rationale": "Riverside \u2014 seed 1, East\nStrategy:  small-pool (win-probability weighted)\nWin prob:  15.0%   Public pick: 14.0%   Value score: 1.07x   Composite: 0.1414\nLeverage:  NEUTRAL \u2014 priced fairly by public\nPath:      model does NOT predict this team to reach the Final Four \u2014 speculative pick",
+      "ev_note": "Champion pick contributes 32 pts if correct.\nExpected relative return vs consensus champion: 1.07x\nRiverside is fairly priced \u2014 win probability closely matches their public pick share.",
+      "bracket": {
+        "mode": "balanced",
+        "round_of_64": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Stonegate",
+              "rating": 23.5,
+              "seed": 16,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Fernwood",
+              "rating": 57.5,
+              "seed": 8,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Pinehurst",
+              "rating": 52.5,
+              "seed": 9,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Westmont",
+              "rating": 71.5,
+              "seed": 5,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Elmhurst",
+              "rating": 41.0,
+              "seed": 12,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Creekside",
+              "rating": 76.0,
+              "seed": 4,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Ridgemont",
+              "rating": 37.5,
+              "seed": 13,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Clearwater",
+              "rating": 44.5,
+              "seed": 11,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Hillbrook",
+              "rating": 66.5,
+              "seed": 6,
+              "region": "East"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "East",
+            "upset_quality": 0.22584
+          },
+          {
+            "winner": {
+              "name": "Millfield",
+              "rating": 81.5,
+              "seed": 3,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Cedarville",
+              "rating": 33.5,
+              "seed": 14,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Sycamore",
+              "rating": 48.5,
+              "seed": 10,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Oakdale",
+              "rating": 62.0,
+              "seed": 7,
+              "region": "East"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "East",
+            "upset_quality": 0.25826
+          },
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Maplewood",
+              "rating": 29.0,
+              "seed": 15,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Brookhaven",
+              "rating": 23.0,
+              "seed": 16,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Northport",
+              "rating": 58.0,
+              "seed": 8,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Eastbrook",
+              "rating": 53.0,
+              "seed": 9,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Cascadia",
+              "rating": 72.0,
+              "seed": 5,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Belmont",
+              "rating": 40.5,
+              "seed": 12,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Bayshore",
+              "rating": 77.5,
+              "seed": 4,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Fairfield",
+              "rating": 37.0,
+              "seed": 13,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Holloway",
+              "rating": 45.5,
+              "seed": 11,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Redwood",
+              "rating": 67.5,
+              "seed": 6,
+              "region": "West"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "West",
+            "upset_quality": 0.22872
+          },
+          {
+            "winner": {
+              "name": "Cliffside",
+              "rating": 82.5,
+              "seed": 3,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Greendale",
+              "rating": 33.0,
+              "seed": 14,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Pineridge",
+              "rating": 49.5,
+              "seed": 10,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Lakeview",
+              "rating": 63.0,
+              "seed": 7,
+              "region": "West"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "West",
+            "upset_quality": 0.26022
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Ashford",
+              "rating": 29.5,
+              "seed": 15,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Riverdale",
+              "rating": 22.5,
+              "seed": 16,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Westfield",
+              "rating": 56.5,
+              "seed": 8,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Lakeside",
+              "rating": 53.5,
+              "seed": 9,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Sunridge",
+              "rating": 72.5,
+              "seed": 5,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Foxhill",
+              "rating": 42.5,
+              "seed": 12,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Ironwood",
+              "rating": 78.0,
+              "seed": 4,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Springdale",
+              "rating": 36.5,
+              "seed": 13,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Palmview",
+              "rating": 68.0,
+              "seed": 6,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "South",
+            "upset_quality": 0.23012
+          },
+          {
+            "winner": {
+              "name": "Crestview",
+              "rating": 80.5,
+              "seed": 3,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Deerfield",
+              "rating": 32.5,
+              "seed": 14,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Thornwood",
+              "rating": 50.0,
+              "seed": 10,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Glendale",
+              "rating": 61.5,
+              "seed": 7,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "South",
+            "upset_quality": 0.26949
+          },
+          {
+            "winner": {
+              "name": "Southport",
+              "rating": 88.0,
+              "seed": 2,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Weston",
+              "rating": 28.0,
+              "seed": 15,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Plainview",
+              "rating": 22.0,
+              "seed": 16,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Wheatfield",
+              "rating": 57.0,
+              "seed": 8,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Cornbury",
+              "rating": 51.5,
+              "seed": 9,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Prairieton",
+              "rating": 71.0,
+              "seed": 5,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Copperhill",
+              "rating": 39.5,
+              "seed": 12,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Bluewater",
+              "rating": 75.5,
+              "seed": 4,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Dusty Mesa",
+              "rating": 36.0,
+              "seed": 13,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Cannonball",
+              "rating": 66.0,
+              "seed": 6,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Silverstone",
+              "rating": 43.0,
+              "seed": 11,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Eastgate",
+              "rating": 83.0,
+              "seed": 3,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Flatrock",
+              "rating": 32.0,
+              "seed": 14,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Irondale",
+              "rating": 47.5,
+              "seed": 10,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Redstone",
+              "rating": 62.5,
+              "seed": 7,
+              "region": "Midwest"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "Midwest",
+            "upset_quality": 0.25014
+          },
+          {
+            "winner": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Timberline",
+              "rating": 28.5,
+              "seed": 15,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          }
+        ],
+        "round_of_32": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Fernwood",
+              "rating": 57.5,
+              "seed": 8,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Creekside",
+              "rating": 76.0,
+              "seed": 4,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Westmont",
+              "rating": 71.5,
+              "seed": 5,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Millfield",
+              "rating": 81.5,
+              "seed": 3,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Clearwater",
+              "rating": 44.5,
+              "seed": 11,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Sycamore",
+              "rating": 48.5,
+              "seed": 10,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Northport",
+              "rating": 58.0,
+              "seed": 8,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Bayshore",
+              "rating": 77.5,
+              "seed": 4,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Cascadia",
+              "rating": 72.0,
+              "seed": 5,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Cliffside",
+              "rating": 82.5,
+              "seed": 3,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Holloway",
+              "rating": 45.5,
+              "seed": 11,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Pineridge",
+              "rating": 49.5,
+              "seed": 10,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Westfield",
+              "rating": 56.5,
+              "seed": 8,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Ironwood",
+              "rating": 78.0,
+              "seed": 4,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Sunridge",
+              "rating": 72.5,
+              "seed": 5,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Crestview",
+              "rating": 80.5,
+              "seed": 3,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Round of 32",
+            "region": "South",
+            "upset_quality": 0.16644
+          },
+          {
+            "winner": {
+              "name": "Southport",
+              "rating": 88.0,
+              "seed": 2,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Thornwood",
+              "rating": 50.0,
+              "seed": 10,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Wheatfield",
+              "rating": 57.0,
+              "seed": 8,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Bluewater",
+              "rating": 75.5,
+              "seed": 4,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Prairieton",
+              "rating": 71.0,
+              "seed": 5,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Eastgate",
+              "rating": 83.0,
+              "seed": 3,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Cannonball",
+              "rating": 66.0,
+              "seed": 6,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Irondale",
+              "rating": 47.5,
+              "seed": 10,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          }
+        ],
+        "sweet_16": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Creekside",
+              "rating": 76.0,
+              "seed": 4,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Millfield",
+              "rating": 81.5,
+              "seed": 3,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Bayshore",
+              "rating": 77.5,
+              "seed": 4,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Cliffside",
+              "rating": 82.5,
+              "seed": 3,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Ironwood",
+              "rating": 78.0,
+              "seed": 4,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Southport",
+              "rating": 88.0,
+              "seed": 2,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Sweet 16",
+            "region": "South",
+            "upset_quality": 0.08447
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Bluewater",
+              "rating": 75.5,
+              "seed": 4,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Eastgate",
+              "rating": 83.0,
+              "seed": 3,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "Midwest"
+          }
+        ],
+        "elite_8": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Elite 8",
+            "region": "East",
+            "upset_quality": 0.54839
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "is_upset": true,
+            "round": "Elite 8",
+            "region": "West",
+            "upset_quality": 0.5445
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Elite 8",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Elite 8",
+            "region": "Midwest"
+          }
+        ],
+        "final_four": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "round": "Final Four",
+            "region": "National",
+            "is_upset": false,
+            "upset_quality": null
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Final Four",
+            "region": "National"
+          }
+        ],
+        "championship": {
+          "winner": {
+            "name": "Riverside",
+            "rating": 94.0,
+            "seed": 1,
+            "region": "East"
+          },
+          "loser": {
+            "name": "Northland",
+            "rating": 95.5,
+            "seed": 1,
+            "region": "Midwest"
+          },
+          "round": "Championship",
+          "region": "National",
+          "is_upset": false,
+          "upset_quality": null
+        },
+        "champion": {
+          "name": "Riverside",
+          "rating": 94.0,
+          "seed": 1,
+          "region": "East"
+        },
+        "s16_constraint_notes": [
+          "S16 constraint (balanced): removed Clearwater (seed 11), advanced Millfield (seed 3) instead",
+          "S16 constraint (balanced): removed Holloway (seed 11), advanced Cliffside (seed 3) instead"
+        ],
+        "champion_value_score": null,
+        "champion_win_prob": null,
+        "champion_public_pct": null,
+        "reasoning": {
+          "champion": "Harborview (seed 2, rating 86.0) won the championship over Northland (seed 1, rating 95.5). Score differential: -0.2179. Bracket total upsets: 12.",
+          "total_upsets": 12,
+          "notable_upsets": [
+            "Clearwater (seed 11) over Hillbrook (seed 6) \u2014 Round of 64",
+            "Sycamore (seed 10) over Oakdale (seed 7) \u2014 Round of 64",
+            "Holloway (seed 11) over Redwood (seed 6) \u2014 Round of 64",
+            "Pineridge (seed 10) over Lakeview (seed 7) \u2014 Round of 64",
+            "Rosewood (seed 11) over Palmview (seed 6) \u2014 Round of 64",
+            "Thornwood (seed 10) over Glendale (seed 7) \u2014 Round of 64",
+            "Irondale (seed 10) over Redstone (seed 7) \u2014 Round of 64",
+            "Rosewood (seed 11) over Crestview (seed 3) \u2014 Round of 32",
+            "Rosewood (seed 11) over Southport (seed 2) \u2014 Sweet 16"
+          ]
+        },
+        "structure_check": {
+          "mode": "balanced",
+          "double_digit_in_sweet16": {
+            "actual": 1,
+            "target": "1",
+            "target_min": 1,
+            "target_max": 1,
+            "ok": true
+          },
+          "upset_compliance": {
+            "Round of 64": {
+              "target": 6,
+              "actual": 7,
+              "ok": true,
+              "informational": true
+            },
+            "Round of 32": {
+              "target": 5,
+              "actual": 1,
+              "ok": true,
+              "informational": true
+            },
+            "Sweet 16": {
+              "target": 2,
+              "actual": 1,
+              "ok": true,
+              "informational": true
+            },
+            "Elite 8": {
+              "target": 2,
+              "actual": 2,
+              "ok": true,
+              "informational": true
+            },
+            "Final Four": {
+              "target": 1,
+              "actual": 0,
+              "ok": true,
+              "informational": true
+            },
+            "Championship": {
+              "target": 0,
+              "actual": 1,
+              "ok": true,
+              "informational": true
+            }
+          },
+          "seed_compliance": {
+            "round_of_32": {
+              "target": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                5,
+                5,
+                5,
+                6,
+                6,
+                6,
+                7,
+                7,
+                8,
+                8,
+                9,
+                9,
+                10,
+                10,
+                11,
+                12,
+                13,
+                14
+              ],
+              "actual": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                3,
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                4,
+                5,
+                5,
+                5,
+                5,
+                6,
+                8,
+                8,
+                8,
+                8,
+                10,
+                10,
+                10,
+                10,
+                11,
+                11,
+                11
+              ],
+              "ok": false
+            },
+            "sweet_16": {
+              "target": [
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                3,
+                3,
+                4,
+                4,
+                5,
+                6,
+                7,
+                10,
+                11,
+                12
+              ],
+              "actual": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                4,
+                11
+              ],
+              "ok": false
+            },
+            "elite_8": {
+              "target": [
+                1,
+                1,
+                1,
+                2,
+                2,
+                3,
+                4,
+                6
+              ],
+              "actual": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                11
+              ],
+              "ok": false
+            },
+            "final_four": {
+              "target": [
+                1,
+                1,
+                2,
+                3
+              ],
+              "actual": [
+                1,
+                1,
+                2,
+                2
+              ],
+              "ok": false
+            },
+            "championship": {
+              "target": [
+                1,
+                2
+              ],
+              "actual": [
+                1,
+                2
+              ],
+              "ok": true
+            }
+          },
+          "fully_compliant": true
+        },
+        "ratings_diagnostics": {
+          "season": null,
+          "source": null,
+          "matched_by_id": 0,
+          "matched_by_name": 0,
+          "seed_fallback": 0,
+          "total_teams": 64
+        }
+      }
+    },
+    {
+      "index": 2,
+      "champion": "Summit",
+      "seed": 1,
+      "region": "West",
+      "win_prob": 0.15,
+      "public_pct": 0.14,
+      "value_score": 1.071,
+      "composite": 0.14142,
+      "in_base_ff": false,
+      "rationale": "Summit \u2014 seed 1, West\nStrategy:  small-pool (win-probability weighted)\nWin prob:  15.0%   Public pick: 14.0%   Value score: 1.07x   Composite: 0.1414\nLeverage:  NEUTRAL \u2014 priced fairly by public\nPath:      model does NOT predict this team to reach the Final Four \u2014 speculative pick",
+      "ev_note": "Champion pick contributes 32 pts if correct.\nExpected relative return vs consensus champion: 1.07x\nSummit is fairly priced \u2014 win probability closely matches their public pick share.",
+      "bracket": {
+        "mode": "balanced",
+        "round_of_64": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Stonegate",
+              "rating": 23.5,
+              "seed": 16,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Fernwood",
+              "rating": 57.5,
+              "seed": 8,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Pinehurst",
+              "rating": 52.5,
+              "seed": 9,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Westmont",
+              "rating": 71.5,
+              "seed": 5,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Elmhurst",
+              "rating": 41.0,
+              "seed": 12,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Creekside",
+              "rating": 76.0,
+              "seed": 4,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Ridgemont",
+              "rating": 37.5,
+              "seed": 13,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Clearwater",
+              "rating": 44.5,
+              "seed": 11,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Hillbrook",
+              "rating": 66.5,
+              "seed": 6,
+              "region": "East"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "East",
+            "upset_quality": 0.22584
+          },
+          {
+            "winner": {
+              "name": "Millfield",
+              "rating": 81.5,
+              "seed": 3,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Cedarville",
+              "rating": 33.5,
+              "seed": 14,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Sycamore",
+              "rating": 48.5,
+              "seed": 10,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Oakdale",
+              "rating": 62.0,
+              "seed": 7,
+              "region": "East"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "East",
+            "upset_quality": 0.25826
+          },
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Maplewood",
+              "rating": 29.0,
+              "seed": 15,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Brookhaven",
+              "rating": 23.0,
+              "seed": 16,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Northport",
+              "rating": 58.0,
+              "seed": 8,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Eastbrook",
+              "rating": 53.0,
+              "seed": 9,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Cascadia",
+              "rating": 72.0,
+              "seed": 5,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Belmont",
+              "rating": 40.5,
+              "seed": 12,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Bayshore",
+              "rating": 77.5,
+              "seed": 4,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Fairfield",
+              "rating": 37.0,
+              "seed": 13,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Holloway",
+              "rating": 45.5,
+              "seed": 11,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Redwood",
+              "rating": 67.5,
+              "seed": 6,
+              "region": "West"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "West",
+            "upset_quality": 0.22872
+          },
+          {
+            "winner": {
+              "name": "Cliffside",
+              "rating": 82.5,
+              "seed": 3,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Greendale",
+              "rating": 33.0,
+              "seed": 14,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Pineridge",
+              "rating": 49.5,
+              "seed": 10,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Lakeview",
+              "rating": 63.0,
+              "seed": 7,
+              "region": "West"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "West",
+            "upset_quality": 0.26022
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Ashford",
+              "rating": 29.5,
+              "seed": 15,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Riverdale",
+              "rating": 22.5,
+              "seed": 16,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Westfield",
+              "rating": 56.5,
+              "seed": 8,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Lakeside",
+              "rating": 53.5,
+              "seed": 9,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Sunridge",
+              "rating": 72.5,
+              "seed": 5,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Foxhill",
+              "rating": 42.5,
+              "seed": 12,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Ironwood",
+              "rating": 78.0,
+              "seed": 4,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Springdale",
+              "rating": 36.5,
+              "seed": 13,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Palmview",
+              "rating": 68.0,
+              "seed": 6,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "South",
+            "upset_quality": 0.23012
+          },
+          {
+            "winner": {
+              "name": "Crestview",
+              "rating": 80.5,
+              "seed": 3,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Deerfield",
+              "rating": 32.5,
+              "seed": 14,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Thornwood",
+              "rating": 50.0,
+              "seed": 10,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Glendale",
+              "rating": 61.5,
+              "seed": 7,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "South",
+            "upset_quality": 0.26949
+          },
+          {
+            "winner": {
+              "name": "Southport",
+              "rating": 88.0,
+              "seed": 2,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Weston",
+              "rating": 28.0,
+              "seed": 15,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Plainview",
+              "rating": 22.0,
+              "seed": 16,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Wheatfield",
+              "rating": 57.0,
+              "seed": 8,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Cornbury",
+              "rating": 51.5,
+              "seed": 9,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Prairieton",
+              "rating": 71.0,
+              "seed": 5,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Copperhill",
+              "rating": 39.5,
+              "seed": 12,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Bluewater",
+              "rating": 75.5,
+              "seed": 4,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Dusty Mesa",
+              "rating": 36.0,
+              "seed": 13,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Cannonball",
+              "rating": 66.0,
+              "seed": 6,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Silverstone",
+              "rating": 43.0,
+              "seed": 11,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Eastgate",
+              "rating": 83.0,
+              "seed": 3,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Flatrock",
+              "rating": 32.0,
+              "seed": 14,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Irondale",
+              "rating": 47.5,
+              "seed": 10,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Redstone",
+              "rating": 62.5,
+              "seed": 7,
+              "region": "Midwest"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "Midwest",
+            "upset_quality": 0.25014
+          },
+          {
+            "winner": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Timberline",
+              "rating": 28.5,
+              "seed": 15,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          }
+        ],
+        "round_of_32": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Fernwood",
+              "rating": 57.5,
+              "seed": 8,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Creekside",
+              "rating": 76.0,
+              "seed": 4,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Westmont",
+              "rating": 71.5,
+              "seed": 5,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Millfield",
+              "rating": 81.5,
+              "seed": 3,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Clearwater",
+              "rating": 44.5,
+              "seed": 11,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Sycamore",
+              "rating": 48.5,
+              "seed": 10,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Northport",
+              "rating": 58.0,
+              "seed": 8,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Bayshore",
+              "rating": 77.5,
+              "seed": 4,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Cascadia",
+              "rating": 72.0,
+              "seed": 5,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Cliffside",
+              "rating": 82.5,
+              "seed": 3,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Holloway",
+              "rating": 45.5,
+              "seed": 11,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Pineridge",
+              "rating": 49.5,
+              "seed": 10,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Westfield",
+              "rating": 56.5,
+              "seed": 8,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Ironwood",
+              "rating": 78.0,
+              "seed": 4,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Sunridge",
+              "rating": 72.5,
+              "seed": 5,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Crestview",
+              "rating": 80.5,
+              "seed": 3,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Round of 32",
+            "region": "South",
+            "upset_quality": 0.16644
+          },
+          {
+            "winner": {
+              "name": "Southport",
+              "rating": 88.0,
+              "seed": 2,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Thornwood",
+              "rating": 50.0,
+              "seed": 10,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Wheatfield",
+              "rating": 57.0,
+              "seed": 8,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Bluewater",
+              "rating": 75.5,
+              "seed": 4,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Prairieton",
+              "rating": 71.0,
+              "seed": 5,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Eastgate",
+              "rating": 83.0,
+              "seed": 3,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Cannonball",
+              "rating": 66.0,
+              "seed": 6,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Irondale",
+              "rating": 47.5,
+              "seed": 10,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          }
+        ],
+        "sweet_16": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Creekside",
+              "rating": 76.0,
+              "seed": 4,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Millfield",
+              "rating": 81.5,
+              "seed": 3,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Bayshore",
+              "rating": 77.5,
+              "seed": 4,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Cliffside",
+              "rating": 82.5,
+              "seed": 3,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Ironwood",
+              "rating": 78.0,
+              "seed": 4,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Southport",
+              "rating": 88.0,
+              "seed": 2,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Sweet 16",
+            "region": "South",
+            "upset_quality": 0.08447
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Bluewater",
+              "rating": 75.5,
+              "seed": 4,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Eastgate",
+              "rating": 83.0,
+              "seed": 3,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "Midwest"
+          }
+        ],
+        "elite_8": [
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "is_upset": true,
+            "round": "Elite 8",
+            "region": "East",
+            "upset_quality": 0.54839
+          },
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Elite 8",
+            "region": "West",
+            "upset_quality": 0.5445
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Elite 8",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Elite 8",
+            "region": "Midwest"
+          }
+        ],
+        "final_four": [
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "round": "Final Four",
+            "region": "National",
+            "is_upset": false,
+            "upset_quality": null
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Final Four",
+            "region": "National"
+          }
+        ],
+        "championship": {
+          "winner": {
+            "name": "Summit",
+            "rating": 93.0,
+            "seed": 1,
+            "region": "West"
+          },
+          "loser": {
+            "name": "Northland",
+            "rating": 95.5,
+            "seed": 1,
+            "region": "Midwest"
+          },
+          "round": "Championship",
+          "region": "National",
+          "is_upset": false,
+          "upset_quality": null
+        },
+        "champion": {
+          "name": "Summit",
+          "rating": 93.0,
+          "seed": 1,
+          "region": "West"
+        },
+        "s16_constraint_notes": [
+          "S16 constraint (balanced): removed Clearwater (seed 11), advanced Millfield (seed 3) instead",
+          "S16 constraint (balanced): removed Holloway (seed 11), advanced Cliffside (seed 3) instead"
+        ],
+        "champion_value_score": null,
+        "champion_win_prob": null,
+        "champion_public_pct": null,
+        "reasoning": {
+          "champion": "Harborview (seed 2, rating 86.0) won the championship over Northland (seed 1, rating 95.5). Score differential: -0.2179. Bracket total upsets: 12.",
+          "total_upsets": 12,
+          "notable_upsets": [
+            "Clearwater (seed 11) over Hillbrook (seed 6) \u2014 Round of 64",
+            "Sycamore (seed 10) over Oakdale (seed 7) \u2014 Round of 64",
+            "Holloway (seed 11) over Redwood (seed 6) \u2014 Round of 64",
+            "Pineridge (seed 10) over Lakeview (seed 7) \u2014 Round of 64",
+            "Rosewood (seed 11) over Palmview (seed 6) \u2014 Round of 64",
+            "Thornwood (seed 10) over Glendale (seed 7) \u2014 Round of 64",
+            "Irondale (seed 10) over Redstone (seed 7) \u2014 Round of 64",
+            "Rosewood (seed 11) over Crestview (seed 3) \u2014 Round of 32",
+            "Rosewood (seed 11) over Southport (seed 2) \u2014 Sweet 16"
+          ]
+        },
+        "structure_check": {
+          "mode": "balanced",
+          "double_digit_in_sweet16": {
+            "actual": 1,
+            "target": "1",
+            "target_min": 1,
+            "target_max": 1,
+            "ok": true
+          },
+          "upset_compliance": {
+            "Round of 64": {
+              "target": 6,
+              "actual": 7,
+              "ok": true,
+              "informational": true
+            },
+            "Round of 32": {
+              "target": 5,
+              "actual": 1,
+              "ok": true,
+              "informational": true
+            },
+            "Sweet 16": {
+              "target": 2,
+              "actual": 1,
+              "ok": true,
+              "informational": true
+            },
+            "Elite 8": {
+              "target": 2,
+              "actual": 2,
+              "ok": true,
+              "informational": true
+            },
+            "Final Four": {
+              "target": 1,
+              "actual": 0,
+              "ok": true,
+              "informational": true
+            },
+            "Championship": {
+              "target": 0,
+              "actual": 1,
+              "ok": true,
+              "informational": true
+            }
+          },
+          "seed_compliance": {
+            "round_of_32": {
+              "target": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                5,
+                5,
+                5,
+                6,
+                6,
+                6,
+                7,
+                7,
+                8,
+                8,
+                9,
+                9,
+                10,
+                10,
+                11,
+                12,
+                13,
+                14
+              ],
+              "actual": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                3,
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                4,
+                5,
+                5,
+                5,
+                5,
+                6,
+                8,
+                8,
+                8,
+                8,
+                10,
+                10,
+                10,
+                10,
+                11,
+                11,
+                11
+              ],
+              "ok": false
+            },
+            "sweet_16": {
+              "target": [
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                3,
+                3,
+                4,
+                4,
+                5,
+                6,
+                7,
+                10,
+                11,
+                12
+              ],
+              "actual": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                4,
+                11
+              ],
+              "ok": false
+            },
+            "elite_8": {
+              "target": [
+                1,
+                1,
+                1,
+                2,
+                2,
+                3,
+                4,
+                6
+              ],
+              "actual": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                11
+              ],
+              "ok": false
+            },
+            "final_four": {
+              "target": [
+                1,
+                1,
+                2,
+                3
+              ],
+              "actual": [
+                1,
+                1,
+                2,
+                2
+              ],
+              "ok": false
+            },
+            "championship": {
+              "target": [
+                1,
+                2
+              ],
+              "actual": [
+                1,
+                2
+              ],
+              "ok": true
+            }
+          },
+          "fully_compliant": true
+        },
+        "ratings_diagnostics": {
+          "season": null,
+          "source": null,
+          "matched_by_id": 0,
+          "matched_by_name": 0,
+          "seed_fallback": 0,
+          "total_teams": 64
+        }
+      }
+    },
+    {
+      "index": 3,
+      "champion": "Midland",
+      "seed": 1,
+      "region": "South",
+      "win_prob": 0.15,
+      "public_pct": 0.14,
+      "value_score": 1.071,
+      "composite": 0.14142,
+      "in_base_ff": true,
+      "rationale": "Midland \u2014 seed 1, South\nStrategy:  small-pool (win-probability weighted)\nWin prob:  15.0%   Public pick: 14.0%   Value score: 1.07x   Composite: 0.1414\nLeverage:  NEUTRAL \u2014 priced fairly by public\nPath:      model predicts this team reaches the Final Four",
+      "ev_note": "Champion pick contributes 32 pts if correct.\nExpected relative return vs consensus champion: 1.07x\nMidland is fairly priced \u2014 win probability closely matches their public pick share.",
+      "bracket": {
+        "mode": "balanced",
+        "round_of_64": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Stonegate",
+              "rating": 23.5,
+              "seed": 16,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Fernwood",
+              "rating": 57.5,
+              "seed": 8,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Pinehurst",
+              "rating": 52.5,
+              "seed": 9,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Westmont",
+              "rating": 71.5,
+              "seed": 5,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Elmhurst",
+              "rating": 41.0,
+              "seed": 12,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Creekside",
+              "rating": 76.0,
+              "seed": 4,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Ridgemont",
+              "rating": 37.5,
+              "seed": 13,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Clearwater",
+              "rating": 44.5,
+              "seed": 11,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Hillbrook",
+              "rating": 66.5,
+              "seed": 6,
+              "region": "East"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "East",
+            "upset_quality": 0.22584
+          },
+          {
+            "winner": {
+              "name": "Millfield",
+              "rating": 81.5,
+              "seed": 3,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Cedarville",
+              "rating": 33.5,
+              "seed": 14,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Sycamore",
+              "rating": 48.5,
+              "seed": 10,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Oakdale",
+              "rating": 62.0,
+              "seed": 7,
+              "region": "East"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "East",
+            "upset_quality": 0.25826
+          },
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Maplewood",
+              "rating": 29.0,
+              "seed": 15,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Brookhaven",
+              "rating": 23.0,
+              "seed": 16,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Northport",
+              "rating": 58.0,
+              "seed": 8,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Eastbrook",
+              "rating": 53.0,
+              "seed": 9,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Cascadia",
+              "rating": 72.0,
+              "seed": 5,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Belmont",
+              "rating": 40.5,
+              "seed": 12,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Bayshore",
+              "rating": 77.5,
+              "seed": 4,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Fairfield",
+              "rating": 37.0,
+              "seed": 13,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Holloway",
+              "rating": 45.5,
+              "seed": 11,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Redwood",
+              "rating": 67.5,
+              "seed": 6,
+              "region": "West"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "West",
+            "upset_quality": 0.22872
+          },
+          {
+            "winner": {
+              "name": "Cliffside",
+              "rating": 82.5,
+              "seed": 3,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Greendale",
+              "rating": 33.0,
+              "seed": 14,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Pineridge",
+              "rating": 49.5,
+              "seed": 10,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Lakeview",
+              "rating": 63.0,
+              "seed": 7,
+              "region": "West"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "West",
+            "upset_quality": 0.26022
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Ashford",
+              "rating": 29.5,
+              "seed": 15,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Riverdale",
+              "rating": 22.5,
+              "seed": 16,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Westfield",
+              "rating": 56.5,
+              "seed": 8,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Lakeside",
+              "rating": 53.5,
+              "seed": 9,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Sunridge",
+              "rating": 72.5,
+              "seed": 5,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Foxhill",
+              "rating": 42.5,
+              "seed": 12,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Ironwood",
+              "rating": 78.0,
+              "seed": 4,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Springdale",
+              "rating": 36.5,
+              "seed": 13,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Palmview",
+              "rating": 68.0,
+              "seed": 6,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "South",
+            "upset_quality": 0.23012
+          },
+          {
+            "winner": {
+              "name": "Crestview",
+              "rating": 80.5,
+              "seed": 3,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Deerfield",
+              "rating": 32.5,
+              "seed": 14,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Thornwood",
+              "rating": 50.0,
+              "seed": 10,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Glendale",
+              "rating": 61.5,
+              "seed": 7,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "South",
+            "upset_quality": 0.26949
+          },
+          {
+            "winner": {
+              "name": "Southport",
+              "rating": 88.0,
+              "seed": 2,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Weston",
+              "rating": 28.0,
+              "seed": 15,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Plainview",
+              "rating": 22.0,
+              "seed": 16,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Wheatfield",
+              "rating": 57.0,
+              "seed": 8,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Cornbury",
+              "rating": 51.5,
+              "seed": 9,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Prairieton",
+              "rating": 71.0,
+              "seed": 5,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Copperhill",
+              "rating": 39.5,
+              "seed": 12,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Bluewater",
+              "rating": 75.5,
+              "seed": 4,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Dusty Mesa",
+              "rating": 36.0,
+              "seed": 13,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Cannonball",
+              "rating": 66.0,
+              "seed": 6,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Silverstone",
+              "rating": 43.0,
+              "seed": 11,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Eastgate",
+              "rating": 83.0,
+              "seed": 3,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Flatrock",
+              "rating": 32.0,
+              "seed": 14,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Irondale",
+              "rating": 47.5,
+              "seed": 10,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Redstone",
+              "rating": 62.5,
+              "seed": 7,
+              "region": "Midwest"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "Midwest",
+            "upset_quality": 0.25014
+          },
+          {
+            "winner": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Timberline",
+              "rating": 28.5,
+              "seed": 15,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          }
+        ],
+        "round_of_32": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Fernwood",
+              "rating": 57.5,
+              "seed": 8,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Creekside",
+              "rating": 76.0,
+              "seed": 4,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Westmont",
+              "rating": 71.5,
+              "seed": 5,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Millfield",
+              "rating": 81.5,
+              "seed": 3,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Clearwater",
+              "rating": 44.5,
+              "seed": 11,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Sycamore",
+              "rating": 48.5,
+              "seed": 10,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Northport",
+              "rating": 58.0,
+              "seed": 8,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Bayshore",
+              "rating": 77.5,
+              "seed": 4,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Cascadia",
+              "rating": 72.0,
+              "seed": 5,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Cliffside",
+              "rating": 82.5,
+              "seed": 3,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Holloway",
+              "rating": 45.5,
+              "seed": 11,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Pineridge",
+              "rating": 49.5,
+              "seed": 10,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Westfield",
+              "rating": 56.5,
+              "seed": 8,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Ironwood",
+              "rating": 78.0,
+              "seed": 4,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Sunridge",
+              "rating": 72.5,
+              "seed": 5,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Crestview",
+              "rating": 80.5,
+              "seed": 3,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Round of 32",
+            "region": "South",
+            "upset_quality": 0.16644
+          },
+          {
+            "winner": {
+              "name": "Southport",
+              "rating": 88.0,
+              "seed": 2,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Thornwood",
+              "rating": 50.0,
+              "seed": 10,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Wheatfield",
+              "rating": 57.0,
+              "seed": 8,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Bluewater",
+              "rating": 75.5,
+              "seed": 4,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Prairieton",
+              "rating": 71.0,
+              "seed": 5,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Eastgate",
+              "rating": 83.0,
+              "seed": 3,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Cannonball",
+              "rating": 66.0,
+              "seed": 6,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Irondale",
+              "rating": 47.5,
+              "seed": 10,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          }
+        ],
+        "sweet_16": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Creekside",
+              "rating": 76.0,
+              "seed": 4,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Millfield",
+              "rating": 81.5,
+              "seed": 3,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Bayshore",
+              "rating": 77.5,
+              "seed": 4,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Cliffside",
+              "rating": 82.5,
+              "seed": 3,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Ironwood",
+              "rating": 78.0,
+              "seed": 4,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Southport",
+              "rating": 88.0,
+              "seed": 2,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Sweet 16",
+            "region": "South",
+            "upset_quality": 0.08447
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Bluewater",
+              "rating": 75.5,
+              "seed": 4,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Eastgate",
+              "rating": 83.0,
+              "seed": 3,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "Midwest"
+          }
+        ],
+        "elite_8": [
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "is_upset": true,
+            "round": "Elite 8",
+            "region": "East",
+            "upset_quality": 0.54839
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "is_upset": true,
+            "round": "Elite 8",
+            "region": "West",
+            "upset_quality": 0.5445
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Elite 8",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Elite 8",
+            "region": "Midwest"
+          }
+        ],
+        "final_four": [
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Final Four",
+            "region": "National"
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "round": "Final Four",
+            "region": "National",
+            "is_upset": false,
+            "upset_quality": null
+          }
+        ],
+        "championship": {
+          "winner": {
+            "name": "Midland",
+            "rating": 92.0,
+            "seed": 1,
+            "region": "South"
+          },
+          "loser": {
+            "name": "Harborview",
+            "rating": 86.0,
+            "seed": 2,
+            "region": "West"
+          },
+          "round": "Championship",
+          "region": "National",
+          "is_upset": false,
+          "upset_quality": null
+        },
+        "champion": {
+          "name": "Midland",
+          "rating": 92.0,
+          "seed": 1,
+          "region": "South"
+        },
+        "s16_constraint_notes": [
+          "S16 constraint (balanced): removed Clearwater (seed 11), advanced Millfield (seed 3) instead",
+          "S16 constraint (balanced): removed Holloway (seed 11), advanced Cliffside (seed 3) instead"
+        ],
+        "champion_value_score": null,
+        "champion_win_prob": null,
+        "champion_public_pct": null,
+        "reasoning": {
+          "champion": "Harborview (seed 2, rating 86.0) won the championship over Northland (seed 1, rating 95.5). Score differential: -0.2179. Bracket total upsets: 12.",
+          "total_upsets": 12,
+          "notable_upsets": [
+            "Clearwater (seed 11) over Hillbrook (seed 6) \u2014 Round of 64",
+            "Sycamore (seed 10) over Oakdale (seed 7) \u2014 Round of 64",
+            "Holloway (seed 11) over Redwood (seed 6) \u2014 Round of 64",
+            "Pineridge (seed 10) over Lakeview (seed 7) \u2014 Round of 64",
+            "Rosewood (seed 11) over Palmview (seed 6) \u2014 Round of 64",
+            "Thornwood (seed 10) over Glendale (seed 7) \u2014 Round of 64",
+            "Irondale (seed 10) over Redstone (seed 7) \u2014 Round of 64",
+            "Rosewood (seed 11) over Crestview (seed 3) \u2014 Round of 32",
+            "Rosewood (seed 11) over Southport (seed 2) \u2014 Sweet 16"
+          ]
+        },
+        "structure_check": {
+          "mode": "balanced",
+          "double_digit_in_sweet16": {
+            "actual": 1,
+            "target": "1",
+            "target_min": 1,
+            "target_max": 1,
+            "ok": true
+          },
+          "upset_compliance": {
+            "Round of 64": {
+              "target": 6,
+              "actual": 7,
+              "ok": true,
+              "informational": true
+            },
+            "Round of 32": {
+              "target": 5,
+              "actual": 1,
+              "ok": true,
+              "informational": true
+            },
+            "Sweet 16": {
+              "target": 2,
+              "actual": 1,
+              "ok": true,
+              "informational": true
+            },
+            "Elite 8": {
+              "target": 2,
+              "actual": 2,
+              "ok": true,
+              "informational": true
+            },
+            "Final Four": {
+              "target": 1,
+              "actual": 0,
+              "ok": true,
+              "informational": true
+            },
+            "Championship": {
+              "target": 0,
+              "actual": 1,
+              "ok": true,
+              "informational": true
+            }
+          },
+          "seed_compliance": {
+            "round_of_32": {
+              "target": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                5,
+                5,
+                5,
+                6,
+                6,
+                6,
+                7,
+                7,
+                8,
+                8,
+                9,
+                9,
+                10,
+                10,
+                11,
+                12,
+                13,
+                14
+              ],
+              "actual": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                3,
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                4,
+                5,
+                5,
+                5,
+                5,
+                6,
+                8,
+                8,
+                8,
+                8,
+                10,
+                10,
+                10,
+                10,
+                11,
+                11,
+                11
+              ],
+              "ok": false
+            },
+            "sweet_16": {
+              "target": [
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                3,
+                3,
+                4,
+                4,
+                5,
+                6,
+                7,
+                10,
+                11,
+                12
+              ],
+              "actual": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                4,
+                11
+              ],
+              "ok": false
+            },
+            "elite_8": {
+              "target": [
+                1,
+                1,
+                1,
+                2,
+                2,
+                3,
+                4,
+                6
+              ],
+              "actual": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                11
+              ],
+              "ok": false
+            },
+            "final_four": {
+              "target": [
+                1,
+                1,
+                2,
+                3
+              ],
+              "actual": [
+                1,
+                1,
+                2,
+                2
+              ],
+              "ok": false
+            },
+            "championship": {
+              "target": [
+                1,
+                2
+              ],
+              "actual": [
+                1,
+                2
+              ],
+              "ok": true
+            }
+          },
+          "fully_compliant": true
+        },
+        "ratings_diagnostics": {
+          "season": null,
+          "source": null,
+          "matched_by_id": 0,
+          "matched_by_name": 0,
+          "seed_fallback": 0,
+          "total_teams": 64
+        }
+      }
+    },
+    {
+      "index": 4,
+      "champion": "Northland",
+      "seed": 1,
+      "region": "Midwest",
+      "win_prob": 0.15,
+      "public_pct": 0.14,
+      "value_score": 1.071,
+      "composite": 0.14142,
+      "in_base_ff": true,
+      "rationale": "Northland \u2014 seed 1, Midwest\nStrategy:  small-pool (win-probability weighted)\nWin prob:  15.0%   Public pick: 14.0%   Value score: 1.07x   Composite: 0.1414\nLeverage:  NEUTRAL \u2014 priced fairly by public\nPath:      model predicts this team reaches the Final Four",
+      "ev_note": "Champion pick contributes 32 pts if correct.\nExpected relative return vs consensus champion: 1.07x\nNorthland is fairly priced \u2014 win probability closely matches their public pick share.",
+      "bracket": {
+        "mode": "balanced",
+        "round_of_64": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Stonegate",
+              "rating": 23.5,
+              "seed": 16,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Fernwood",
+              "rating": 57.5,
+              "seed": 8,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Pinehurst",
+              "rating": 52.5,
+              "seed": 9,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Westmont",
+              "rating": 71.5,
+              "seed": 5,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Elmhurst",
+              "rating": 41.0,
+              "seed": 12,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Creekside",
+              "rating": 76.0,
+              "seed": 4,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Ridgemont",
+              "rating": 37.5,
+              "seed": 13,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Clearwater",
+              "rating": 44.5,
+              "seed": 11,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Hillbrook",
+              "rating": 66.5,
+              "seed": 6,
+              "region": "East"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "East",
+            "upset_quality": 0.22584
+          },
+          {
+            "winner": {
+              "name": "Millfield",
+              "rating": 81.5,
+              "seed": 3,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Cedarville",
+              "rating": 33.5,
+              "seed": 14,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Sycamore",
+              "rating": 48.5,
+              "seed": 10,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Oakdale",
+              "rating": 62.0,
+              "seed": 7,
+              "region": "East"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "East",
+            "upset_quality": 0.25826
+          },
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Maplewood",
+              "rating": 29.0,
+              "seed": 15,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Brookhaven",
+              "rating": 23.0,
+              "seed": 16,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Northport",
+              "rating": 58.0,
+              "seed": 8,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Eastbrook",
+              "rating": 53.0,
+              "seed": 9,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Cascadia",
+              "rating": 72.0,
+              "seed": 5,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Belmont",
+              "rating": 40.5,
+              "seed": 12,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Bayshore",
+              "rating": 77.5,
+              "seed": 4,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Fairfield",
+              "rating": 37.0,
+              "seed": 13,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Holloway",
+              "rating": 45.5,
+              "seed": 11,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Redwood",
+              "rating": 67.5,
+              "seed": 6,
+              "region": "West"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "West",
+            "upset_quality": 0.22872
+          },
+          {
+            "winner": {
+              "name": "Cliffside",
+              "rating": 82.5,
+              "seed": 3,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Greendale",
+              "rating": 33.0,
+              "seed": 14,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Pineridge",
+              "rating": 49.5,
+              "seed": 10,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Lakeview",
+              "rating": 63.0,
+              "seed": 7,
+              "region": "West"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "West",
+            "upset_quality": 0.26022
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Ashford",
+              "rating": 29.5,
+              "seed": 15,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Riverdale",
+              "rating": 22.5,
+              "seed": 16,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Westfield",
+              "rating": 56.5,
+              "seed": 8,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Lakeside",
+              "rating": 53.5,
+              "seed": 9,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Sunridge",
+              "rating": 72.5,
+              "seed": 5,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Foxhill",
+              "rating": 42.5,
+              "seed": 12,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Ironwood",
+              "rating": 78.0,
+              "seed": 4,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Springdale",
+              "rating": 36.5,
+              "seed": 13,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Palmview",
+              "rating": 68.0,
+              "seed": 6,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "South",
+            "upset_quality": 0.23012
+          },
+          {
+            "winner": {
+              "name": "Crestview",
+              "rating": 80.5,
+              "seed": 3,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Deerfield",
+              "rating": 32.5,
+              "seed": 14,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Thornwood",
+              "rating": 50.0,
+              "seed": 10,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Glendale",
+              "rating": 61.5,
+              "seed": 7,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "South",
+            "upset_quality": 0.26949
+          },
+          {
+            "winner": {
+              "name": "Southport",
+              "rating": 88.0,
+              "seed": 2,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Weston",
+              "rating": 28.0,
+              "seed": 15,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Plainview",
+              "rating": 22.0,
+              "seed": 16,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Wheatfield",
+              "rating": 57.0,
+              "seed": 8,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Cornbury",
+              "rating": 51.5,
+              "seed": 9,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Prairieton",
+              "rating": 71.0,
+              "seed": 5,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Copperhill",
+              "rating": 39.5,
+              "seed": 12,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Bluewater",
+              "rating": 75.5,
+              "seed": 4,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Dusty Mesa",
+              "rating": 36.0,
+              "seed": 13,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Cannonball",
+              "rating": 66.0,
+              "seed": 6,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Silverstone",
+              "rating": 43.0,
+              "seed": 11,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Eastgate",
+              "rating": 83.0,
+              "seed": 3,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Flatrock",
+              "rating": 32.0,
+              "seed": 14,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Irondale",
+              "rating": 47.5,
+              "seed": 10,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Redstone",
+              "rating": 62.5,
+              "seed": 7,
+              "region": "Midwest"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "Midwest",
+            "upset_quality": 0.25014
+          },
+          {
+            "winner": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Timberline",
+              "rating": 28.5,
+              "seed": 15,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          }
+        ],
+        "round_of_32": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Fernwood",
+              "rating": 57.5,
+              "seed": 8,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Creekside",
+              "rating": 76.0,
+              "seed": 4,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Westmont",
+              "rating": 71.5,
+              "seed": 5,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Millfield",
+              "rating": 81.5,
+              "seed": 3,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Clearwater",
+              "rating": 44.5,
+              "seed": 11,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Sycamore",
+              "rating": 48.5,
+              "seed": 10,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Northport",
+              "rating": 58.0,
+              "seed": 8,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Bayshore",
+              "rating": 77.5,
+              "seed": 4,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Cascadia",
+              "rating": 72.0,
+              "seed": 5,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Cliffside",
+              "rating": 82.5,
+              "seed": 3,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Holloway",
+              "rating": 45.5,
+              "seed": 11,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Pineridge",
+              "rating": 49.5,
+              "seed": 10,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Westfield",
+              "rating": 56.5,
+              "seed": 8,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Ironwood",
+              "rating": 78.0,
+              "seed": 4,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Sunridge",
+              "rating": 72.5,
+              "seed": 5,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Crestview",
+              "rating": 80.5,
+              "seed": 3,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Round of 32",
+            "region": "South",
+            "upset_quality": 0.16644
+          },
+          {
+            "winner": {
+              "name": "Southport",
+              "rating": 88.0,
+              "seed": 2,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Thornwood",
+              "rating": 50.0,
+              "seed": 10,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Wheatfield",
+              "rating": 57.0,
+              "seed": 8,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Bluewater",
+              "rating": 75.5,
+              "seed": 4,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Prairieton",
+              "rating": 71.0,
+              "seed": 5,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Eastgate",
+              "rating": 83.0,
+              "seed": 3,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Cannonball",
+              "rating": 66.0,
+              "seed": 6,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Irondale",
+              "rating": 47.5,
+              "seed": 10,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          }
+        ],
+        "sweet_16": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Creekside",
+              "rating": 76.0,
+              "seed": 4,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Millfield",
+              "rating": 81.5,
+              "seed": 3,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Bayshore",
+              "rating": 77.5,
+              "seed": 4,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Cliffside",
+              "rating": 82.5,
+              "seed": 3,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Ironwood",
+              "rating": 78.0,
+              "seed": 4,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Southport",
+              "rating": 88.0,
+              "seed": 2,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Sweet 16",
+            "region": "South",
+            "upset_quality": 0.08447
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Bluewater",
+              "rating": 75.5,
+              "seed": 4,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Eastgate",
+              "rating": 83.0,
+              "seed": 3,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "Midwest"
+          }
+        ],
+        "elite_8": [
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "is_upset": true,
+            "round": "Elite 8",
+            "region": "East",
+            "upset_quality": 0.54839
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "is_upset": true,
+            "round": "Elite 8",
+            "region": "West",
+            "upset_quality": 0.5445
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Elite 8",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Elite 8",
+            "region": "Midwest"
+          }
+        ],
+        "final_four": [
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Final Four",
+            "region": "National"
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "round": "Final Four",
+            "region": "National",
+            "is_upset": false,
+            "upset_quality": null
+          }
+        ],
+        "championship": {
+          "winner": {
+            "name": "Northland",
+            "rating": 95.5,
+            "seed": 1,
+            "region": "Midwest"
+          },
+          "loser": {
+            "name": "Harborview",
+            "rating": 86.0,
+            "seed": 2,
+            "region": "West"
+          },
+          "round": "Championship",
+          "region": "National",
+          "is_upset": false,
+          "upset_quality": null
+        },
+        "champion": {
+          "name": "Northland",
+          "rating": 95.5,
+          "seed": 1,
+          "region": "Midwest"
+        },
+        "s16_constraint_notes": [
+          "S16 constraint (balanced): removed Clearwater (seed 11), advanced Millfield (seed 3) instead",
+          "S16 constraint (balanced): removed Holloway (seed 11), advanced Cliffside (seed 3) instead"
+        ],
+        "champion_value_score": null,
+        "champion_win_prob": null,
+        "champion_public_pct": null,
+        "reasoning": {
+          "champion": "Harborview (seed 2, rating 86.0) won the championship over Northland (seed 1, rating 95.5). Score differential: -0.2179. Bracket total upsets: 12.",
+          "total_upsets": 12,
+          "notable_upsets": [
+            "Clearwater (seed 11) over Hillbrook (seed 6) \u2014 Round of 64",
+            "Sycamore (seed 10) over Oakdale (seed 7) \u2014 Round of 64",
+            "Holloway (seed 11) over Redwood (seed 6) \u2014 Round of 64",
+            "Pineridge (seed 10) over Lakeview (seed 7) \u2014 Round of 64",
+            "Rosewood (seed 11) over Palmview (seed 6) \u2014 Round of 64",
+            "Thornwood (seed 10) over Glendale (seed 7) \u2014 Round of 64",
+            "Irondale (seed 10) over Redstone (seed 7) \u2014 Round of 64",
+            "Rosewood (seed 11) over Crestview (seed 3) \u2014 Round of 32",
+            "Rosewood (seed 11) over Southport (seed 2) \u2014 Sweet 16"
+          ]
+        },
+        "structure_check": {
+          "mode": "balanced",
+          "double_digit_in_sweet16": {
+            "actual": 1,
+            "target": "1",
+            "target_min": 1,
+            "target_max": 1,
+            "ok": true
+          },
+          "upset_compliance": {
+            "Round of 64": {
+              "target": 6,
+              "actual": 7,
+              "ok": true,
+              "informational": true
+            },
+            "Round of 32": {
+              "target": 5,
+              "actual": 1,
+              "ok": true,
+              "informational": true
+            },
+            "Sweet 16": {
+              "target": 2,
+              "actual": 1,
+              "ok": true,
+              "informational": true
+            },
+            "Elite 8": {
+              "target": 2,
+              "actual": 2,
+              "ok": true,
+              "informational": true
+            },
+            "Final Four": {
+              "target": 1,
+              "actual": 0,
+              "ok": true,
+              "informational": true
+            },
+            "Championship": {
+              "target": 0,
+              "actual": 1,
+              "ok": true,
+              "informational": true
+            }
+          },
+          "seed_compliance": {
+            "round_of_32": {
+              "target": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                5,
+                5,
+                5,
+                6,
+                6,
+                6,
+                7,
+                7,
+                8,
+                8,
+                9,
+                9,
+                10,
+                10,
+                11,
+                12,
+                13,
+                14
+              ],
+              "actual": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                3,
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                4,
+                5,
+                5,
+                5,
+                5,
+                6,
+                8,
+                8,
+                8,
+                8,
+                10,
+                10,
+                10,
+                10,
+                11,
+                11,
+                11
+              ],
+              "ok": false
+            },
+            "sweet_16": {
+              "target": [
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                3,
+                3,
+                4,
+                4,
+                5,
+                6,
+                7,
+                10,
+                11,
+                12
+              ],
+              "actual": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                4,
+                11
+              ],
+              "ok": false
+            },
+            "elite_8": {
+              "target": [
+                1,
+                1,
+                1,
+                2,
+                2,
+                3,
+                4,
+                6
+              ],
+              "actual": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                11
+              ],
+              "ok": false
+            },
+            "final_four": {
+              "target": [
+                1,
+                1,
+                2,
+                3
+              ],
+              "actual": [
+                1,
+                1,
+                2,
+                2
+              ],
+              "ok": false
+            },
+            "championship": {
+              "target": [
+                1,
+                2
+              ],
+              "actual": [
+                1,
+                2
+              ],
+              "ok": true
+            }
+          },
+          "fully_compliant": true
+        },
+        "ratings_diagnostics": {
+          "season": null,
+          "source": null,
+          "matched_by_id": 0,
+          "matched_by_name": 0,
+          "seed_fallback": 0,
+          "total_teams": 64
+        }
+      }
+    },
+    {
+      "index": 5,
+      "champion": "Lakewood",
+      "seed": 2,
+      "region": "East",
+      "win_prob": 0.055,
+      "public_pct": 0.055,
+      "value_score": 1.0,
+      "composite": 0.064,
+      "in_base_ff": true,
+      "rationale": "Lakewood \u2014 seed 2, East\nStrategy:  small-pool (win-probability weighted)\nWin prob:  5.5%   Public pick: 5.5%   Value score: 1.00x   Composite: 0.0640\nLeverage:  NEUTRAL \u2014 priced fairly by public\nPath:      model predicts this team reaches the Final Four",
+      "ev_note": "Champion pick contributes 32 pts if correct.\nExpected relative return vs consensus champion: 1.00x\nLakewood is fairly priced \u2014 win probability closely matches their public pick share.",
+      "bracket": {
+        "mode": "balanced",
+        "round_of_64": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Stonegate",
+              "rating": 23.5,
+              "seed": 16,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Fernwood",
+              "rating": 57.5,
+              "seed": 8,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Pinehurst",
+              "rating": 52.5,
+              "seed": 9,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Westmont",
+              "rating": 71.5,
+              "seed": 5,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Elmhurst",
+              "rating": 41.0,
+              "seed": 12,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Creekside",
+              "rating": 76.0,
+              "seed": 4,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Ridgemont",
+              "rating": 37.5,
+              "seed": 13,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Clearwater",
+              "rating": 44.5,
+              "seed": 11,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Hillbrook",
+              "rating": 66.5,
+              "seed": 6,
+              "region": "East"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "East",
+            "upset_quality": 0.22584
+          },
+          {
+            "winner": {
+              "name": "Millfield",
+              "rating": 81.5,
+              "seed": 3,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Cedarville",
+              "rating": 33.5,
+              "seed": 14,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Sycamore",
+              "rating": 48.5,
+              "seed": 10,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Oakdale",
+              "rating": 62.0,
+              "seed": 7,
+              "region": "East"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "East",
+            "upset_quality": 0.25826
+          },
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Maplewood",
+              "rating": 29.0,
+              "seed": 15,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Brookhaven",
+              "rating": 23.0,
+              "seed": 16,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Northport",
+              "rating": 58.0,
+              "seed": 8,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Eastbrook",
+              "rating": 53.0,
+              "seed": 9,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Cascadia",
+              "rating": 72.0,
+              "seed": 5,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Belmont",
+              "rating": 40.5,
+              "seed": 12,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Bayshore",
+              "rating": 77.5,
+              "seed": 4,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Fairfield",
+              "rating": 37.0,
+              "seed": 13,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Holloway",
+              "rating": 45.5,
+              "seed": 11,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Redwood",
+              "rating": 67.5,
+              "seed": 6,
+              "region": "West"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "West",
+            "upset_quality": 0.22872
+          },
+          {
+            "winner": {
+              "name": "Cliffside",
+              "rating": 82.5,
+              "seed": 3,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Greendale",
+              "rating": 33.0,
+              "seed": 14,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Pineridge",
+              "rating": 49.5,
+              "seed": 10,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Lakeview",
+              "rating": 63.0,
+              "seed": 7,
+              "region": "West"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "West",
+            "upset_quality": 0.26022
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Ashford",
+              "rating": 29.5,
+              "seed": 15,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Riverdale",
+              "rating": 22.5,
+              "seed": 16,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Westfield",
+              "rating": 56.5,
+              "seed": 8,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Lakeside",
+              "rating": 53.5,
+              "seed": 9,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Sunridge",
+              "rating": 72.5,
+              "seed": 5,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Foxhill",
+              "rating": 42.5,
+              "seed": 12,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Ironwood",
+              "rating": 78.0,
+              "seed": 4,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Springdale",
+              "rating": 36.5,
+              "seed": 13,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Palmview",
+              "rating": 68.0,
+              "seed": 6,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "South",
+            "upset_quality": 0.23012
+          },
+          {
+            "winner": {
+              "name": "Crestview",
+              "rating": 80.5,
+              "seed": 3,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Deerfield",
+              "rating": 32.5,
+              "seed": 14,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Thornwood",
+              "rating": 50.0,
+              "seed": 10,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Glendale",
+              "rating": 61.5,
+              "seed": 7,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "South",
+            "upset_quality": 0.26949
+          },
+          {
+            "winner": {
+              "name": "Southport",
+              "rating": 88.0,
+              "seed": 2,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Weston",
+              "rating": 28.0,
+              "seed": 15,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Plainview",
+              "rating": 22.0,
+              "seed": 16,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Wheatfield",
+              "rating": 57.0,
+              "seed": 8,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Cornbury",
+              "rating": 51.5,
+              "seed": 9,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Prairieton",
+              "rating": 71.0,
+              "seed": 5,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Copperhill",
+              "rating": 39.5,
+              "seed": 12,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Bluewater",
+              "rating": 75.5,
+              "seed": 4,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Dusty Mesa",
+              "rating": 36.0,
+              "seed": 13,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Cannonball",
+              "rating": 66.0,
+              "seed": 6,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Silverstone",
+              "rating": 43.0,
+              "seed": 11,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Eastgate",
+              "rating": 83.0,
+              "seed": 3,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Flatrock",
+              "rating": 32.0,
+              "seed": 14,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Irondale",
+              "rating": 47.5,
+              "seed": 10,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Redstone",
+              "rating": 62.5,
+              "seed": 7,
+              "region": "Midwest"
+            },
+            "is_upset": true,
+            "round": "Round of 64",
+            "region": "Midwest",
+            "upset_quality": 0.25014
+          },
+          {
+            "winner": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Timberline",
+              "rating": 28.5,
+              "seed": 15,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 64",
+            "region": "Midwest"
+          }
+        ],
+        "round_of_32": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Fernwood",
+              "rating": 57.5,
+              "seed": 8,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Creekside",
+              "rating": 76.0,
+              "seed": 4,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Westmont",
+              "rating": 71.5,
+              "seed": 5,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Millfield",
+              "rating": 81.5,
+              "seed": 3,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Clearwater",
+              "rating": 44.5,
+              "seed": 11,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Sycamore",
+              "rating": 48.5,
+              "seed": 10,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Northport",
+              "rating": 58.0,
+              "seed": 8,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Bayshore",
+              "rating": 77.5,
+              "seed": 4,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Cascadia",
+              "rating": 72.0,
+              "seed": 5,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Cliffside",
+              "rating": 82.5,
+              "seed": 3,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Holloway",
+              "rating": 45.5,
+              "seed": 11,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Pineridge",
+              "rating": 49.5,
+              "seed": 10,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Westfield",
+              "rating": 56.5,
+              "seed": 8,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Ironwood",
+              "rating": 78.0,
+              "seed": 4,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Sunridge",
+              "rating": 72.5,
+              "seed": 5,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Crestview",
+              "rating": 80.5,
+              "seed": 3,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Round of 32",
+            "region": "South",
+            "upset_quality": 0.16644
+          },
+          {
+            "winner": {
+              "name": "Southport",
+              "rating": 88.0,
+              "seed": 2,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Thornwood",
+              "rating": 50.0,
+              "seed": 10,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Wheatfield",
+              "rating": 57.0,
+              "seed": 8,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Bluewater",
+              "rating": 75.5,
+              "seed": 4,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Prairieton",
+              "rating": 71.0,
+              "seed": 5,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Eastgate",
+              "rating": 83.0,
+              "seed": 3,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Cannonball",
+              "rating": 66.0,
+              "seed": 6,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Irondale",
+              "rating": 47.5,
+              "seed": 10,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Round of 32",
+            "region": "Midwest"
+          }
+        ],
+        "sweet_16": [
+          {
+            "winner": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Creekside",
+              "rating": 76.0,
+              "seed": 4,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Millfield",
+              "rating": 81.5,
+              "seed": 3,
+              "region": "East"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "East"
+          },
+          {
+            "winner": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Bayshore",
+              "rating": 77.5,
+              "seed": 4,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Cliffside",
+              "rating": 82.5,
+              "seed": 3,
+              "region": "West"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "West"
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Ironwood",
+              "rating": 78.0,
+              "seed": 4,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Southport",
+              "rating": 88.0,
+              "seed": 2,
+              "region": "South"
+            },
+            "is_upset": true,
+            "round": "Sweet 16",
+            "region": "South",
+            "upset_quality": 0.08447
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Bluewater",
+              "rating": 75.5,
+              "seed": 4,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "Midwest"
+          },
+          {
+            "winner": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Eastgate",
+              "rating": 83.0,
+              "seed": 3,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Sweet 16",
+            "region": "Midwest"
+          }
+        ],
+        "elite_8": [
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Riverside",
+              "rating": 94.0,
+              "seed": 1,
+              "region": "East"
+            },
+            "is_upset": true,
+            "round": "Elite 8",
+            "region": "East",
+            "upset_quality": 0.54839
+          },
+          {
+            "winner": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "loser": {
+              "name": "Summit",
+              "rating": 93.0,
+              "seed": 1,
+              "region": "West"
+            },
+            "is_upset": true,
+            "round": "Elite 8",
+            "region": "West",
+            "upset_quality": 0.5445
+          },
+          {
+            "winner": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "loser": {
+              "name": "Rosewood",
+              "rating": 46.0,
+              "seed": 11,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Elite 8",
+            "region": "South"
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Hillcrest",
+              "rating": 85.0,
+              "seed": 2,
+              "region": "Midwest"
+            },
+            "is_upset": false,
+            "round": "Elite 8",
+            "region": "Midwest"
+          }
+        ],
+        "final_four": [
+          {
+            "winner": {
+              "name": "Lakewood",
+              "rating": 87.5,
+              "seed": 2,
+              "region": "East"
+            },
+            "loser": {
+              "name": "Harborview",
+              "rating": 86.0,
+              "seed": 2,
+              "region": "West"
+            },
+            "round": "Final Four",
+            "region": "National",
+            "is_upset": false,
+            "upset_quality": null
+          },
+          {
+            "winner": {
+              "name": "Northland",
+              "rating": 95.5,
+              "seed": 1,
+              "region": "Midwest"
+            },
+            "loser": {
+              "name": "Midland",
+              "rating": 92.0,
+              "seed": 1,
+              "region": "South"
+            },
+            "is_upset": false,
+            "round": "Final Four",
+            "region": "National"
+          }
+        ],
+        "championship": {
+          "winner": {
+            "name": "Lakewood",
+            "rating": 87.5,
+            "seed": 2,
+            "region": "East"
+          },
+          "loser": {
+            "name": "Northland",
+            "rating": 95.5,
+            "seed": 1,
+            "region": "Midwest"
+          },
+          "round": "Championship",
+          "region": "National",
+          "is_upset": true,
+          "upset_quality": null
+        },
+        "champion": {
+          "name": "Lakewood",
+          "rating": 87.5,
+          "seed": 2,
+          "region": "East"
+        },
+        "s16_constraint_notes": [
+          "S16 constraint (balanced): removed Clearwater (seed 11), advanced Millfield (seed 3) instead",
+          "S16 constraint (balanced): removed Holloway (seed 11), advanced Cliffside (seed 3) instead"
+        ],
+        "champion_value_score": null,
+        "champion_win_prob": null,
+        "champion_public_pct": null,
+        "reasoning": {
+          "champion": "Harborview (seed 2, rating 86.0) won the championship over Northland (seed 1, rating 95.5). Score differential: -0.2179. Bracket total upsets: 12.",
+          "total_upsets": 12,
+          "notable_upsets": [
+            "Clearwater (seed 11) over Hillbrook (seed 6) \u2014 Round of 64",
+            "Sycamore (seed 10) over Oakdale (seed 7) \u2014 Round of 64",
+            "Holloway (seed 11) over Redwood (seed 6) \u2014 Round of 64",
+            "Pineridge (seed 10) over Lakeview (seed 7) \u2014 Round of 64",
+            "Rosewood (seed 11) over Palmview (seed 6) \u2014 Round of 64",
+            "Thornwood (seed 10) over Glendale (seed 7) \u2014 Round of 64",
+            "Irondale (seed 10) over Redstone (seed 7) \u2014 Round of 64",
+            "Rosewood (seed 11) over Crestview (seed 3) \u2014 Round of 32",
+            "Rosewood (seed 11) over Southport (seed 2) \u2014 Sweet 16"
+          ]
+        },
+        "structure_check": {
+          "mode": "balanced",
+          "double_digit_in_sweet16": {
+            "actual": 1,
+            "target": "1",
+            "target_min": 1,
+            "target_max": 1,
+            "ok": true
+          },
+          "upset_compliance": {
+            "Round of 64": {
+              "target": 6,
+              "actual": 7,
+              "ok": true,
+              "informational": true
+            },
+            "Round of 32": {
+              "target": 5,
+              "actual": 1,
+              "ok": true,
+              "informational": true
+            },
+            "Sweet 16": {
+              "target": 2,
+              "actual": 1,
+              "ok": true,
+              "informational": true
+            },
+            "Elite 8": {
+              "target": 2,
+              "actual": 2,
+              "ok": true,
+              "informational": true
+            },
+            "Final Four": {
+              "target": 1,
+              "actual": 0,
+              "ok": true,
+              "informational": true
+            },
+            "Championship": {
+              "target": 0,
+              "actual": 1,
+              "ok": true,
+              "informational": true
+            }
+          },
+          "seed_compliance": {
+            "round_of_32": {
+              "target": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                5,
+                5,
+                5,
+                6,
+                6,
+                6,
+                7,
+                7,
+                8,
+                8,
+                9,
+                9,
+                10,
+                10,
+                11,
+                12,
+                13,
+                14
+              ],
+              "actual": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                3,
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                4,
+                5,
+                5,
+                5,
+                5,
+                6,
+                8,
+                8,
+                8,
+                8,
+                10,
+                10,
+                10,
+                10,
+                11,
+                11,
+                11
+              ],
+              "ok": false
+            },
+            "sweet_16": {
+              "target": [
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                3,
+                3,
+                4,
+                4,
+                5,
+                6,
+                7,
+                10,
+                11,
+                12
+              ],
+              "actual": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                3,
+                3,
+                3,
+                4,
+                4,
+                4,
+                4,
+                11
+              ],
+              "ok": false
+            },
+            "elite_8": {
+              "target": [
+                1,
+                1,
+                1,
+                2,
+                2,
+                3,
+                4,
+                6
+              ],
+              "actual": [
+                1,
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                11
+              ],
+              "ok": false
+            },
+            "final_four": {
+              "target": [
+                1,
+                1,
+                2,
+                3
+              ],
+              "actual": [
+                1,
+                1,
+                2,
+                2
+              ],
+              "ok": false
+            },
+            "championship": {
+              "target": [
+                1,
+                2
+              ],
+              "actual": [
+                1,
+                2
+              ],
+              "ok": true
+            }
+          },
+          "fully_compliant": true
+        },
+        "ratings_diagnostics": {
+          "season": null,
+          "source": null,
+          "matched_by_id": 0,
+          "matched_by_name": 0,
+          "seed_fallback": 0,
+          "total_teams": 64
+        }
+      }
+    }
+  ]
+}

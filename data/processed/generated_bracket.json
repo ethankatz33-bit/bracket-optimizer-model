@@ -1,15 +1,15 @@
 {
-  "mode": "upset_heavy",
+  "mode": "balanced",
   "round_of_64": [
     {
       "winner": {
-        "name": "Duke",
+        "name": "Riverside",
         "rating": 94.0,
         "seed": 1,
         "region": "East"
       },
       "loser": {
-        "name": "Norfolk State",
+        "name": "Stonegate",
         "rating": 23.5,
         "seed": 16,
         "region": "East"
@@ -20,13 +20,13 @@
     },
     {
       "winner": {
-        "name": "California",
+        "name": "Fernwood",
         "rating": 57.5,
         "seed": 8,
         "region": "East"
       },
       "loser": {
-        "name": "USC",
+        "name": "Pinehurst",
         "rating": 52.5,
         "seed": 9,
         "region": "East"
@@ -37,13 +37,13 @@
     },
     {
       "winner": {
-        "name": "Connecticut",
+        "name": "Westmont",
         "rating": 71.5,
         "seed": 5,
         "region": "East"
       },
       "loser": {
-        "name": "New Mexico St",
+        "name": "Elmhurst",
         "rating": 41.0,
         "seed": 12,
         "region": "East"
@@ -54,13 +54,13 @@
     },
     {
       "winner": {
-        "name": "Georgetown",
+        "name": "Creekside",
         "rating": 76.0,
         "seed": 4,
         "region": "East"
       },
       "loser": {
-        "name": "Murray State",
+        "name": "Ridgemont",
         "rating": 37.5,
         "seed": 13,
         "region": "East"
@@ -71,13 +71,13 @@
     },
     {
       "winner": {
-        "name": "Providence",
+        "name": "Clearwater",
         "rating": 44.5,
         "seed": 11,
         "region": "East"
       },
       "loser": {
-        "name": "Texas",
+        "name": "Hillbrook",
         "rating": 66.5,
         "seed": 6,
         "region": "East"
@@ -85,17 +85,17 @@
       "is_upset": true,
       "round": "Round of 64",
       "region": "East",
-      "upset_quality": 0.18874
+      "upset_quality": 0.22584
     },
     {
       "winner": {
-        "name": "North Carolina",
+        "name": "Millfield",
         "rating": 81.5,
         "seed": 3,
         "region": "East"
       },
       "loser": {
-        "name": "Montana",
+        "name": "Cedarville",
         "rating": 33.5,
         "seed": 14,
         "region": "East"
@@ -106,13 +106,13 @@
     },
     {
       "winner": {
-        "name": "Colorado",
+        "name": "Sycamore",
         "rating": 48.5,
         "seed": 10,
         "region": "East"
       },
       "loser": {
-        "name": "Mississippi St",
+        "name": "Oakdale",
         "rating": 62.0,
         "seed": 7,
         "region": "East"
@@ -120,17 +120,17 @@
       "is_upset": true,
       "round": "Round of 64",
       "region": "East",
-      "upset_quality": 0.2635
+      "upset_quality": 0.25826
     },
     {
       "winner": {
-        "name": "Villanova",
+        "name": "Lakewood",
         "rating": 87.5,
         "seed": 2,
         "region": "East"
       },
       "loser": {
-        "name": "UC Santa Barbara",
+        "name": "Maplewood",
         "rating": 29.0,
         "seed": 15,
         "region": "East"
@@ -141,13 +141,13 @@
     },
     {
       "winner": {
-        "name": "Kansas",
+        "name": "Summit",
         "rating": 93.0,
         "seed": 1,
         "region": "West"
       },
       "loser": {
-        "name": "Hampton",
+        "name": "Brookhaven",
         "rating": 23.0,
         "seed": 16,
         "region": "West"
@@ -158,13 +158,13 @@
     },
     {
       "winner": {
-        "name": "Penn State",
+        "name": "Northport",
         "rating": 58.0,
         "seed": 8,
         "region": "West"
       },
       "loser": {
-        "name": "Richmond",
+        "name": "Eastbrook",
         "rating": 53.0,
         "seed": 9,
         "region": "West"
@@ -175,13 +175,13 @@
     },
     {
       "winner": {
-        "name": "Iowa State",
+        "name": "Cascadia",
         "rating": 72.0,
         "seed": 5,
         "region": "West"
       },
       "loser": {
-        "name": "Missouri State",
+        "name": "Belmont",
         "rating": 40.5,
         "seed": 12,
         "region": "West"
@@ -192,13 +192,13 @@
     },
     {
       "winner": {
-        "name": "Purdue",
+        "name": "Bayshore",
         "rating": 77.5,
         "seed": 4,
         "region": "West"
       },
       "loser": {
-        "name": "Chattanooga",
+        "name": "Fairfield",
         "rating": 37.0,
         "seed": 13,
         "region": "West"
@@ -209,13 +209,13 @@
     },
     {
       "winner": {
-        "name": "Marquette",
+        "name": "Holloway",
         "rating": 45.5,
         "seed": 11,
         "region": "West"
       },
       "loser": {
-        "name": "Clemson",
+        "name": "Redwood",
         "rating": 67.5,
         "seed": 6,
         "region": "West"
@@ -223,17 +223,17 @@
       "is_upset": true,
       "round": "Round of 64",
       "region": "West",
-      "upset_quality": 0.19117
+      "upset_quality": 0.22872
     },
     {
       "winner": {
-        "name": "Indiana",
+        "name": "Cliffside",
         "rating": 82.5,
         "seed": 3,
         "region": "West"
       },
       "loser": {
-        "name": "Mercer",
+        "name": "Greendale",
         "rating": 33.0,
         "seed": 14,
         "region": "West"
@@ -244,13 +244,13 @@
     },
     {
       "winner": {
-        "name": "BYU",
+        "name": "Pineridge",
         "rating": 49.5,
         "seed": 10,
         "region": "West"
       },
       "loser": {
-        "name": "Wichita State",
+        "name": "Lakeview",
         "rating": 63.0,
         "seed": 7,
         "region": "West"
@@ -258,17 +258,17 @@
       "is_upset": true,
       "round": "Round of 64",
       "region": "West",
-      "upset_quality": 0.26549
+      "upset_quality": 0.26022
     },
     {
       "winner": {
-        "name": "Michigan State",
+        "name": "Harborview",
         "rating": 86.0,
         "seed": 2,
         "region": "West"
       },
       "loser": {
-        "name": "Oral Roberts",
+        "name": "Ashford",
         "rating": 29.5,
         "seed": 15,
         "region": "West"
@@ -279,13 +279,13 @@
     },
     {
       "winner": {
-        "name": "Kentucky",
+        "name": "Midland",
         "rating": 92.0,
         "seed": 1,
         "region": "South"
       },
       "loser": {
-        "name": "Abilene Christian",
+        "name": "Riverdale",
         "rating": 22.5,
         "seed": 16,
         "region": "South"
@@ -296,13 +296,13 @@
     },
     {
       "winner": {
-        "name": "Seton Hall",
+        "name": "Westfield",
         "rating": 56.5,
         "seed": 8,
         "region": "South"
       },
       "loser": {
-        "name": "TCU",
+        "name": "Lakeside",
         "rating": 53.5,
         "seed": 9,
         "region": "South"
@@ -313,13 +313,13 @@
     },
     {
       "winner": {
-        "name": "Wisconsin",
+        "name": "Sunridge",
         "rating": 72.5,
         "seed": 5,
         "region": "South"
       },
       "loser": {
-        "name": "Oregon State",
+        "name": "Foxhill",
         "rating": 42.5,
         "seed": 12,
         "region": "South"
@@ -330,13 +330,13 @@
     },
     {
       "winner": {
-        "name": "UCLA",
+        "name": "Ironwood",
         "rating": 78.0,
         "seed": 4,
         "region": "South"
       },
       "loser": {
-        "name": "Vermont",
+        "name": "Springdale",
         "rating": 36.5,
         "seed": 13,
         "region": "South"
@@ -347,13 +347,13 @@
     },
     {
       "winner": {
-        "name": "Loyola Chicago",
+        "name": "Rosewood",
         "rating": 46.0,
         "seed": 11,
         "region": "South"
       },
       "loser": {
-        "name": "Georgia Tech",
+        "name": "Palmview",
         "rating": 68.0,
         "seed": 6,
         "region": "South"
@@ -361,17 +361,17 @@
       "is_upset": true,
       "round": "Round of 64",
       "region": "South",
-      "upset_quality": 0.19234
+      "upset_quality": 0.23012
     },
     {
       "winner": {
-        "name": "Louisville",
+        "name": "Crestview",
         "rating": 80.5,
         "seed": 3,
         "region": "South"
       },
       "loser": {
-        "name": "Winthrop",
+        "name": "Deerfield",
         "rating": 32.5,
         "seed": 14,
         "region": "South"
@@ -382,13 +382,13 @@
     },
     {
       "winner": {
-        "name": "Oregon",
+        "name": "Thornwood",
         "rating": 50.0,
         "seed": 10,
         "region": "South"
       },
       "loser": {
-        "name": "Texas Tech",
+        "name": "Glendale",
         "rating": 61.5,
         "seed": 7,
         "region": "South"
@@ -396,17 +396,17 @@
       "is_upset": true,
       "round": "Round of 64",
       "region": "South",
-      "upset_quality": 0.27496
+      "upset_quality": 0.26949
     },
     {
       "winner": {
-        "name": "Arizona",
+        "name": "Southport",
         "rating": 88.0,
         "seed": 2,
         "region": "South"
       },
       "loser": {
-        "name": "Jacksonville St",
+        "name": "Weston",
         "rating": 28.0,
         "seed": 15,
         "region": "South"
@@ -417,13 +417,13 @@
     },
     {
       "winner": {
-        "name": "Gonzaga",
+        "name": "Northland",
         "rating": 95.5,
         "seed": 1,
         "region": "Midwest"
       },
       "loser": {
-        "name": "Texas Southern",
+        "name": "Plainview",
         "rating": 22.0,
         "seed": 16,
         "region": "Midwest"
@@ -434,13 +434,13 @@
     },
     {
       "winner": {
-        "name": "Notre Dame",
+        "name": "Wheatfield",
         "rating": 57.0,
         "seed": 8,
         "region": "Midwest"
       },
       "loser": {
-        "name": "Davidson",
+        "name": "Cornbury",
         "rating": 51.5,
         "seed": 9,
         "region": "Midwest"
@@ -451,13 +451,13 @@
     },
     {
       "winner": {
-        "name": "Iowa",
+        "name": "Prairieton",
         "rating": 71.0,
         "seed": 5,
         "region": "Midwest"
       },
       "loser": {
-        "name": "Cincinnati",
+        "name": "Copperhill",
         "rating": 39.5,
         "seed": 12,
         "region": "Midwest"
@@ -468,13 +468,13 @@
     },
     {
       "winner": {
-        "name": "Arkansas",
+        "name": "Bluewater",
         "rating": 75.5,
         "seed": 4,
         "region": "Midwest"
       },
       "loser": {
-        "name": "Bucknell",
+        "name": "Dusty Mesa",
         "rating": 36.0,
         "seed": 13,
         "region": "Midwest"
@@ -485,31 +485,30 @@
     },
     {
       "winner": {
-        "name": "St. Louis",
-        "rating": 43.0,
-        "seed": 11,
-        "region": "Midwest"
-      },
-      "loser": {
-        "name": "Utah",
+        "name": "Cannonball",
         "rating": 66.0,
         "seed": 6,
         "region": "Midwest"
       },
-      "is_upset": true,
+      "loser": {
+        "name": "Silverstone",
+        "rating": 43.0,
+        "seed": 11,
+        "region": "Midwest"
+      },
+      "is_upset": false,
       "round": "Round of 64",
-      "region": "Midwest",
-      "upset_quality": 0.18225
+      "region": "Midwest"
     },
     {
       "winner": {
-        "name": "Syracuse",
+        "name": "Eastgate",
         "rating": 83.0,
         "seed": 3,
         "region": "Midwest"
       },
       "loser": {
-        "name": "Bradley",
+        "name": "Flatrock",
         "rating": 32.0,
         "seed": 14,
         "region": "Midwest"
@@ -520,13 +519,13 @@
     },
     {
       "winner": {
-        "name": "Pittsburgh",
+        "name": "Irondale",
         "rating": 47.5,
         "seed": 10,
         "region": "Midwest"
       },
       "loser": {
-        "name": "Alabama",
+        "name": "Redstone",
         "rating": 62.5,
         "seed": 7,
         "region": "Midwest"
@@ -534,17 +533,17 @@
       "is_upset": true,
       "round": "Round of 64",
       "region": "Midwest",
-      "upset_quality": 0.25521
+      "upset_quality": 0.25014
     },
     {
       "winner": {
-        "name": "Florida",
+        "name": "Hillcrest",
         "rating": 85.0,
         "seed": 2,
         "region": "Midwest"
       },
       "loser": {
-        "name": "Pacific",
+        "name": "Timberline",
         "rating": 28.5,
         "seed": 15,
         "region": "Midwest"
@@ -557,13 +556,13 @@
   "round_of_32": [
     {
       "winner": {
-        "name": "Duke",
+        "name": "Riverside",
         "rating": 94.0,
         "seed": 1,
         "region": "East"
       },
       "loser": {
-        "name": "California",
+        "name": "Fernwood",
         "rating": 57.5,
         "seed": 8,
         "region": "East"
@@ -574,13 +573,13 @@
     },
     {
       "winner": {
-        "name": "Georgetown",
+        "name": "Creekside",
         "rating": 76.0,
         "seed": 4,
         "region": "East"
       },
       "loser": {
-        "name": "Connecticut",
+        "name": "Westmont",
         "rating": 71.5,
         "seed": 5,
         "region": "East"
@@ -591,13 +590,13 @@
     },
     {
       "winner": {
-        "name": "North Carolina",
+        "name": "Millfield",
         "rating": 81.5,
         "seed": 3,
         "region": "East"
       },
       "loser": {
-        "name": "Providence",
+        "name": "Clearwater",
         "rating": 44.5,
         "seed": 11,
         "region": "East"
@@ -608,13 +607,13 @@
     },
     {
       "winner": {
-        "name": "Villanova",
+        "name": "Lakewood",
         "rating": 87.5,
         "seed": 2,
         "region": "East"
       },
       "loser": {
-        "name": "Colorado",
+        "name": "Sycamore",
         "rating": 48.5,
         "seed": 10,
         "region": "East"
@@ -625,13 +624,13 @@
     },
     {
       "winner": {
-        "name": "Kansas",
+        "name": "Summit",
         "rating": 93.0,
         "seed": 1,
         "region": "West"
       },
       "loser": {
-        "name": "Penn State",
+        "name": "Northport",
         "rating": 58.0,
         "seed": 8,
         "region": "West"
@@ -642,13 +641,13 @@
     },
     {
       "winner": {
-        "name": "Purdue",
+        "name": "Bayshore",
         "rating": 77.5,
         "seed": 4,
         "region": "West"
       },
       "loser": {
-        "name": "Iowa State",
+        "name": "Cascadia",
         "rating": 72.0,
         "seed": 5,
         "region": "West"
@@ -659,13 +658,13 @@
     },
     {
       "winner": {
-        "name": "Indiana",
+        "name": "Cliffside",
         "rating": 82.5,
         "seed": 3,
         "region": "West"
       },
       "loser": {
-        "name": "Marquette",
+        "name": "Holloway",
         "rating": 45.5,
         "seed": 11,
         "region": "West"
@@ -676,31 +675,30 @@
     },
     {
       "winner": {
-        "name": "BYU",
-        "rating": 49.5,
-        "seed": 10,
-        "region": "West"
-      },
-      "loser": {
-        "name": "Michigan State",
+        "name": "Harborview",
         "rating": 86.0,
         "seed": 2,
         "region": "West"
       },
-      "is_upset": true,
+      "loser": {
+        "name": "Pineridge",
+        "rating": 49.5,
+        "seed": 10,
+        "region": "West"
+      },
+      "is_upset": false,
       "round": "Round of 32",
-      "region": "West",
-      "upset_quality": 0.17225
+      "region": "West"
     },
     {
       "winner": {
-        "name": "Kentucky",
+        "name": "Midland",
         "rating": 92.0,
         "seed": 1,
         "region": "South"
       },
       "loser": {
-        "name": "Seton Hall",
+        "name": "Westfield",
         "rating": 56.5,
         "seed": 8,
         "region": "South"
@@ -711,13 +709,13 @@
     },
     {
       "winner": {
-        "name": "UCLA",
+        "name": "Ironwood",
         "rating": 78.0,
         "seed": 4,
         "region": "South"
       },
       "loser": {
-        "name": "Wisconsin",
+        "name": "Sunridge",
         "rating": 72.5,
         "seed": 5,
         "region": "South"
@@ -728,15 +726,33 @@
     },
     {
       "winner": {
-        "name": "Louisville",
+        "name": "Rosewood",
+        "rating": 46.0,
+        "seed": 11,
+        "region": "South"
+      },
+      "loser": {
+        "name": "Crestview",
         "rating": 80.5,
         "seed": 3,
         "region": "South"
       },
+      "is_upset": true,
+      "round": "Round of 32",
+      "region": "South",
+      "upset_quality": 0.16644
+    },
+    {
+      "winner": {
+        "name": "Southport",
+        "rating": 88.0,
+        "seed": 2,
+        "region": "South"
+      },
       "loser": {
-        "name": "Loyola Chicago",
-        "rating": 46.0,
-        "seed": 11,
+        "name": "Thornwood",
+        "rating": 50.0,
+        "seed": 10,
         "region": "South"
       },
       "is_upset": false,
@@ -745,31 +761,13 @@
     },
     {
       "winner": {
-        "name": "Oregon",
-        "rating": 50.0,
-        "seed": 10,
-        "region": "South"
-      },
-      "loser": {
-        "name": "Arizona",
-        "rating": 88.0,
-        "seed": 2,
-        "region": "South"
-      },
-      "is_upset": true,
-      "round": "Round of 32",
-      "region": "South",
-      "upset_quality": 0.17082
-    },
-    {
-      "winner": {
-        "name": "Gonzaga",
+        "name": "Northland",
         "rating": 95.5,
         "seed": 1,
         "region": "Midwest"
       },
       "loser": {
-        "name": "Notre Dame",
+        "name": "Wheatfield",
         "rating": 57.0,
         "seed": 8,
         "region": "Midwest"
@@ -780,13 +778,13 @@
     },
     {
       "winner": {
-        "name": "Arkansas",
+        "name": "Bluewater",
         "rating": 75.5,
         "seed": 4,
         "region": "Midwest"
       },
       "loser": {
-        "name": "Iowa",
+        "name": "Prairieton",
         "rating": 71.0,
         "seed": 5,
         "region": "Midwest"
@@ -797,15 +795,15 @@
     },
     {
       "winner": {
-        "name": "Syracuse",
+        "name": "Eastgate",
         "rating": 83.0,
         "seed": 3,
         "region": "Midwest"
       },
       "loser": {
-        "name": "St. Louis",
-        "rating": 43.0,
-        "seed": 11,
+        "name": "Cannonball",
+        "rating": 66.0,
+        "seed": 6,
         "region": "Midwest"
       },
       "is_upset": false,
@@ -814,13 +812,13 @@
     },
     {
       "winner": {
-        "name": "Florida",
+        "name": "Hillcrest",
         "rating": 85.0,
         "seed": 2,
         "region": "Midwest"
       },
       "loser": {
-        "name": "Pittsburgh",
+        "name": "Irondale",
         "rating": 47.5,
         "seed": 10,
         "region": "Midwest"
@@ -833,13 +831,13 @@
   "sweet_16": [
     {
       "winner": {
-        "name": "Duke",
+        "name": "Riverside",
         "rating": 94.0,
         "seed": 1,
         "region": "East"
       },
       "loser": {
-        "name": "Georgetown",
+        "name": "Creekside",
         "rating": 76.0,
         "seed": 4,
         "region": "East"
@@ -850,13 +848,13 @@
     },
     {
       "winner": {
-        "name": "Villanova",
+        "name": "Lakewood",
         "rating": 87.5,
         "seed": 2,
         "region": "East"
       },
       "loser": {
-        "name": "North Carolina",
+        "name": "Millfield",
         "rating": 81.5,
         "seed": 3,
         "region": "East"
@@ -867,13 +865,13 @@
     },
     {
       "winner": {
-        "name": "Kansas",
+        "name": "Summit",
         "rating": 93.0,
         "seed": 1,
         "region": "West"
       },
       "loser": {
-        "name": "Purdue",
+        "name": "Bayshore",
         "rating": 77.5,
         "seed": 4,
         "region": "West"
@@ -884,31 +882,30 @@
     },
     {
       "winner": {
-        "name": "BYU",
-        "rating": 49.5,
-        "seed": 10,
+        "name": "Harborview",
+        "rating": 86.0,
+        "seed": 2,
         "region": "West"
       },
       "loser": {
-        "name": "Indiana",
+        "name": "Cliffside",
         "rating": 82.5,
         "seed": 3,
         "region": "West"
       },
-      "is_upset": true,
+      "is_upset": false,
       "round": "Sweet 16",
-      "region": "West",
-      "upset_quality": 0.14162
+      "region": "West"
     },
     {
       "winner": {
-        "name": "Kentucky",
+        "name": "Midland",
         "rating": 92.0,
         "seed": 1,
         "region": "South"
       },
       "loser": {
-        "name": "UCLA",
+        "name": "Ironwood",
         "rating": 78.0,
         "seed": 4,
         "region": "South"
@@ -919,31 +916,31 @@
     },
     {
       "winner": {
-        "name": "Oregon",
-        "rating": 50.0,
-        "seed": 10,
+        "name": "Rosewood",
+        "rating": 46.0,
+        "seed": 11,
         "region": "South"
       },
       "loser": {
-        "name": "Louisville",
-        "rating": 80.5,
-        "seed": 3,
+        "name": "Southport",
+        "rating": 88.0,
+        "seed": 2,
         "region": "South"
       },
       "is_upset": true,
       "round": "Sweet 16",
       "region": "South",
-      "upset_quality": 0.14635
+      "upset_quality": 0.08447
     },
     {
       "winner": {
-        "name": "Gonzaga",
+        "name": "Northland",
         "rating": 95.5,
         "seed": 1,
         "region": "Midwest"
       },
       "loser": {
-        "name": "Arkansas",
+        "name": "Bluewater",
         "rating": 75.5,
         "seed": 4,
         "region": "Midwest"
@@ -954,13 +951,13 @@
     },
     {
       "winner": {
-        "name": "Florida",
+        "name": "Hillcrest",
         "rating": 85.0,
         "seed": 2,
         "region": "Midwest"
       },
       "loser": {
-        "name": "Syracuse",
+        "name": "Eastgate",
         "rating": 83.0,
         "seed": 3,
         "region": "Midwest"
@@ -973,13 +970,13 @@
   "elite_8": [
     {
       "winner": {
-        "name": "Villanova",
+        "name": "Lakewood",
         "rating": 87.5,
         "seed": 2,
         "region": "East"
       },
       "loser": {
-        "name": "Duke",
+        "name": "Riverside",
         "rating": 94.0,
         "seed": 1,
         "region": "East"
@@ -987,36 +984,37 @@
       "is_upset": true,
       "round": "Elite 8",
       "region": "East",
-      "upset_quality": 0.5751
+      "upset_quality": 0.54839
     },
     {
       "winner": {
-        "name": "Kansas",
+        "name": "Harborview",
+        "rating": 86.0,
+        "seed": 2,
+        "region": "West"
+      },
+      "loser": {
+        "name": "Summit",
         "rating": 93.0,
         "seed": 1,
         "region": "West"
       },
-      "loser": {
-        "name": "BYU",
-        "rating": 49.5,
-        "seed": 10,
-        "region": "West"
-      },
-      "is_upset": false,
+      "is_upset": true,
       "round": "Elite 8",
-      "region": "West"
+      "region": "West",
+      "upset_quality": 0.5445
     },
     {
       "winner": {
-        "name": "Kentucky",
+        "name": "Midland",
         "rating": 92.0,
         "seed": 1,
         "region": "South"
       },
       "loser": {
-        "name": "Oregon",
-        "rating": 50.0,
-        "seed": 10,
+        "name": "Rosewood",
+        "rating": 46.0,
+        "seed": 11,
         "region": "South"
       },
       "is_upset": false,
@@ -1025,131 +1023,129 @@
     },
     {
       "winner": {
-        "name": "Florida",
-        "rating": 85.0,
-        "seed": 2,
-        "region": "Midwest"
-      },
-      "loser": {
-        "name": "Gonzaga",
+        "name": "Northland",
         "rating": 95.5,
         "seed": 1,
         "region": "Midwest"
       },
-      "is_upset": true,
+      "loser": {
+        "name": "Hillcrest",
+        "rating": 85.0,
+        "seed": 2,
+        "region": "Midwest"
+      },
+      "is_upset": false,
       "round": "Elite 8",
-      "region": "Midwest",
-      "upset_quality": 0.55436
+      "region": "Midwest"
     }
   ],
   "final_four": [
     {
       "winner": {
-        "name": "Villanova",
+        "name": "Harborview",
+        "rating": 86.0,
+        "seed": 2,
+        "region": "West"
+      },
+      "loser": {
+        "name": "Lakewood",
         "rating": 87.5,
         "seed": 2,
         "region": "East"
       },
-      "loser": {
-        "name": "Kansas",
-        "rating": 93.0,
-        "seed": 1,
-        "region": "West"
-      },
-      "is_upset": true,
+      "is_upset": false,
       "round": "Final Four",
-      "region": "National",
-      "upset_quality": 0.3865
+      "region": "National"
     },
     {
       "winner": {
-        "name": "Florida",
-        "rating": 85.0,
-        "seed": 2,
+        "name": "Northland",
+        "rating": 95.5,
+        "seed": 1,
         "region": "Midwest"
       },
       "loser": {
-        "name": "Kentucky",
+        "name": "Midland",
         "rating": 92.0,
         "seed": 1,
         "region": "South"
       },
-      "is_upset": true,
+      "is_upset": false,
       "round": "Final Four",
-      "region": "National",
-      "upset_quality": 0.38014
+      "region": "National"
     }
   ],
   "championship": {
     "winner": {
-      "name": "Florida",
-      "rating": 85.0,
+      "name": "Harborview",
+      "rating": 86.0,
       "seed": 2,
-      "region": "Midwest"
+      "region": "West"
     },
     "loser": {
-      "name": "Villanova",
-      "rating": 87.5,
-      "seed": 2,
-      "region": "East"
+      "name": "Northland",
+      "rating": 95.5,
+      "seed": 1,
+      "region": "Midwest"
     },
-    "is_upset": false,
+    "is_upset": true,
     "round": "Championship",
-    "region": "National"
+    "region": "National",
+    "upset_quality": 0.35578
   },
   "champion": {
-    "name": "Florida",
-    "rating": 85.0,
+    "name": "Harborview",
+    "rating": 86.0,
     "seed": 2,
-    "region": "Midwest"
+    "region": "West"
   },
   "s16_constraint_notes": [
-    "S16 constraint (upset_heavy): removed Pittsburgh (seed 10), advanced Florida (seed 2) instead",
-    "S16 constraint (upset_heavy): removed Colorado (seed 10), advanced Villanova (seed 2) instead"
+    "S16 constraint (balanced): removed Clearwater (seed 11), advanced Millfield (seed 3) instead",
+    "S16 constraint (balanced): removed Holloway (seed 11), advanced Cliffside (seed 3) instead"
   ],
+  "champion_value_score": null,
+  "champion_win_prob": null,
+  "champion_public_pct": null,
   "reasoning": {
-    "champion": "Florida (seed 2, rating 85.0) won the championship over Villanova (seed 2, rating 87.5). Score differential: -0.0197. Bracket total upsets: 16.",
-    "total_upsets": 16,
+    "champion": "Harborview (seed 2, rating 86.0) won the championship over Northland (seed 1, rating 95.5). Score differential: -0.2179. Bracket total upsets: 12.",
+    "total_upsets": 12,
     "notable_upsets": [
-      "Providence (seed 11) over Texas (seed 6) \u2014 Round of 64",
-      "Colorado (seed 10) over Mississippi St (seed 7) \u2014 Round of 64",
-      "Marquette (seed 11) over Clemson (seed 6) \u2014 Round of 64",
-      "BYU (seed 10) over Wichita State (seed 7) \u2014 Round of 64",
-      "Loyola Chicago (seed 11) over Georgia Tech (seed 6) \u2014 Round of 64",
-      "Oregon (seed 10) over Texas Tech (seed 7) \u2014 Round of 64",
-      "St. Louis (seed 11) over Utah (seed 6) \u2014 Round of 64",
-      "Pittsburgh (seed 10) over Alabama (seed 7) \u2014 Round of 64",
-      "BYU (seed 10) over Michigan State (seed 2) \u2014 Round of 32",
-      "Oregon (seed 10) over Arizona (seed 2) \u2014 Round of 32",
-      "BYU (seed 10) over Indiana (seed 3) \u2014 Sweet 16",
-      "Oregon (seed 10) over Louisville (seed 3) \u2014 Sweet 16"
+      "Clearwater (seed 11) over Hillbrook (seed 6) \u2014 Round of 64",
+      "Sycamore (seed 10) over Oakdale (seed 7) \u2014 Round of 64",
+      "Holloway (seed 11) over Redwood (seed 6) \u2014 Round of 64",
+      "Pineridge (seed 10) over Lakeview (seed 7) \u2014 Round of 64",
+      "Rosewood (seed 11) over Palmview (seed 6) \u2014 Round of 64",
+      "Thornwood (seed 10) over Glendale (seed 7) \u2014 Round of 64",
+      "Irondale (seed 10) over Redstone (seed 7) \u2014 Round of 64",
+      "Rosewood (seed 11) over Crestview (seed 3) \u2014 Round of 32",
+      "Rosewood (seed 11) over Southport (seed 2) \u2014 Sweet 16"
     ]
   },
   "structure_check": {
-    "mode": "upset_heavy",
+    "mode": "balanced",
     "double_digit_in_sweet16": {
-      "actual": 2,
-      "target": "1\u20132",
+      "actual": 1,
+      "target": "1",
       "target_min": 1,
-      "target_max": 2,
+      "target_max": 1,
       "ok": true
     },
     "upset_compliance": {
       "Round of 64": {
-        "target": 7,
-        "actual": 8,
+        "target": 6,
+        "actual": 7,
         "ok": true,
         "informational": true
       },
       "Round of 32": {
-        "target": 6,
-        "actual": 2,
+        "target": 5,
+        "actual": 1,
         "ok": true,
         "informational": true
       },
       "Sweet 16": {
-        "target": 3,
-        "actual": 2,
+        "target": 2,
+        "actual": 1,
         "ok": true,
         "informational": true
       },
@@ -1161,13 +1157,13 @@
       },
       "Final Four": {
         "target": 1,
-        "actual": 2,
+        "actual": 0,
         "ok": true,
         "informational": true
       },
       "Championship": {
         "target": 0,
-        "actual": 0,
+        "actual": 1,
         "ok": true,
         "informational": true
       }
@@ -1178,6 +1174,8 @@
           1,
           1,
           1,
+          1,
+          2,
           2,
           2,
           2,
@@ -1192,6 +1190,7 @@
           5,
           6,
           6,
+          6,
           7,
           7,
           8,
@@ -1201,12 +1200,9 @@
           10,
           10,
           11,
-          11,
-          12,
           12,
           13,
-          14,
-          15
+          14
         ],
         "actual": [
           1,
@@ -1229,6 +1225,7 @@
           5,
           5,
           5,
+          6,
           8,
           8,
           8,
@@ -1237,7 +1234,6 @@
           10,
           10,
           10,
-          11,
           11,
           11,
           11
@@ -1248,6 +1244,8 @@
         "target": [
           1,
           1,
+          1,
+          2,
           2,
           2,
           3,
@@ -1257,11 +1255,9 @@
           5,
           6,
           7,
-          8,
           10,
           11,
-          12,
-          13
+          12
         ],
         "actual": [
           1,
@@ -1270,7 +1266,8 @@
           1,
           2,
           2,
-          3,
+          2,
+          2,
           3,
           3,
           3,
@@ -1278,8 +1275,7 @@
           4,
           4,
           4,
-          10,
-          10
+          11
         ],
         "ok": false
       },
@@ -1287,12 +1283,12 @@
         "target": [
           1,
           1,
+          1,
+          2,
           2,
           3,
           4,
-          5,
-          6,
-          7
+          6
         ],
         "actual": [
           1,
@@ -1301,17 +1297,17 @@
           1,
           2,
           2,
-          10,
-          10
+          2,
+          11
         ],
         "ok": false
       },
       "final_four": {
         "target": [
           1,
+          1,
           2,
-          3,
-          4
+          3
         ],
         "actual": [
           1,
@@ -1327,12 +1323,20 @@
           2
         ],
         "actual": [
-          2,
+          1,
           2
         ],
-        "ok": false
+        "ok": true
       }
     },
     "fully_compliant": true
+  },
+  "ratings_diagnostics": {
+    "season": null,
+    "source": null,
+    "matched_by_id": 0,
+    "matched_by_name": 0,
+    "seed_fallback": 0,
+    "total_teams": 64
   }
 }

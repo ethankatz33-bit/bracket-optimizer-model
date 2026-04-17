@@ -180,15 +180,22 @@ def _enrich_historical(hist_df: pd.DataFrame, merged_df: pd.DataFrame) -> pd.Dat
     # Filter merged to matched rows within enrich seasons only
     matched = merged_df[
         (merged_df["season"].isin(ENRICH_SEASONS)) &
-        (merged_df["match_type"].isin(["CONFIRMED", "RANK_MATCH"])) &
-        (merged_df["team_id"].notna())
+        (merged_df["match_type"].isin(["CONFIRMED", "RANK_MATCH"]))
     ].copy()
-    matched["team_id"] = matched["team_id"].astype(int)
 
-    # Build lookup: (season, team_id) → real feature dict
+    # Build lookup: (season, canonical_team_name) → real feature dict.
+    # canonical_team_name is the stable identity key; team_id is NOT used here
+    # because team_id assignments may be wrong for some schools (mapping conflicts).
+    has_canonical = "canonical_team_name" in matched.columns
     real_lookup: dict[tuple, dict] = {}
     for _, row in matched.iterrows():
-        key = (int(row["season"]), int(row["team_id"]))
+        if has_canonical and pd.notna(row.get("canonical_team_name")):
+            key: tuple = (int(row["season"]), str(row["canonical_team_name"]))
+        elif pd.notna(row.get("team_id")):
+            # Fallback: use team_id for files built before canonical_team_name existed
+            key = (int(row["season"]), int(row["team_id"]))
+        else:
+            continue
         real_lookup[key] = {
             "offense_rating":        row["offensive_efficiency"],
             "defense_rating":        row["defensive_efficiency"],
@@ -198,12 +205,19 @@ def _enrich_historical(hist_df: pd.DataFrame, merged_df: pd.DataFrame) -> pd.Dat
             "ap_top12_flag":         row.get("ap_top12_flag", np.nan),
         }
 
-    # Pass 1: apply real features to matched teams
+    # Pass 1: apply real features to matched teams.
+    # hist_df team_name is "T{id}" for proxy-era entries.  For modern (2013+)
+    # seasons the canonical_team_name column (if present) takes priority;
+    # otherwise fall back to team_id matching so pre-canonical files still work.
+    hist_has_canonical = "canonical_team_name" in df.columns
     n_enriched = 0
     for idx, row in df.iterrows():
         if int(row["season"]) not in ENRICH_SEASONS:
             continue
-        key = (int(row["season"]), int(row["team_id"]))
+        if hist_has_canonical and pd.notna(row.get("canonical_team_name")):
+            key = (int(row["season"]), str(row["canonical_team_name"]))
+        else:
+            key = (int(row["season"]), int(row["team_id"]))
         if key in real_lookup:
             r = real_lookup[key]
             df.at[idx, "offense_rating"]       = r["offense_rating"]
