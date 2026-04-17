@@ -87,10 +87,10 @@ _HIST_WIN_PROB: dict[int, float] = {
     16: 0.0001,
 }
 
-# Pool size thresholds
-_SMALL_POOL  = 20    # ≤ 20 people  → heavily favor win probability
-_MEDIUM_POOL = 200   # 21–200       → blend
-# > 200               → heavily favor value_score / differentiation
+# Pool size thresholds (must match lib/pool_strategy.py tier boundaries)
+_SMALL_POOL  = 25    # ≤ 25  → heavily favor win probability
+_MEDIUM_POOL = 100   # 26–100 → blend
+# > 100               → heavily favor value_score / differentiation
 
 # Final Four region pairings (mirrors FF_REGION_PAIRS in team_selector.py).
 # (East, West) share one FF game; (South, Midwest) share the other.
@@ -127,9 +127,10 @@ class ChampionCandidate:
     region:      str
     team_rating: float
     cps:         float        # champion_profile_score (0–1)
-    win_prob:    float        # estimated P(team wins tournament)
+    win_prob:    float        # estimated P(team wins tournament) — MC title_prob when available
     public_pct:  float        # estimated fraction of public picking this team
     value_score: float        # win_prob / public_pct (>1 = positive value)
+    mc_ff_prob:  float = 0.0  # MC Final Four probability (0 when MC not run)
     composite:   float = 0.0  # pool-size blended ranking score (set by portfolio fn)
     in_base_ff:  bool  = False
     in_base_e8:  bool  = False
@@ -256,23 +257,48 @@ def _region_of(team_name: str, base_bracket: dict) -> str | None:
     return None
 
 
+def _find_team_in_bracket(bracket: dict, name: str) -> dict | None:
+    """Search all bracket rounds for a team dict by name."""
+    for rnd_key in ("round_of_64", "round_of_32", "sweet_16", "elite_8", "final_four"):
+        games = bracket.get(rnd_key, [])
+        if isinstance(games, dict):
+            games = [games]
+        for game in (games or []):
+            for side in ("winner", "loser"):
+                t = game.get(side, {})
+                if t.get("name") == name:
+                    return t
+    cg = bracket.get("championship")
+    if cg:
+        for side in ("winner", "loser"):
+            t = cg.get(side, {})
+            if t.get("name") == name:
+                return t
+    return None
+
+
 def extract_candidates(
     base_bracket:  dict,
     public_picks:  dict[str, float] | None = None,
+    mc_results=None,
 ) -> list[ChampionCandidate]:
     """
-    Build the pool of champion candidates from E8 participants (8 teams).
+    Build the pool of champion candidates.
+
+    Base pool: E8 participants (8 teams).
+    If mc_results provided: also include any team with MC title_prob ≥ threshold
+    that was eliminated before the E8.  Win probabilities use MC title_prob when
+    available, falling back to the path-based estimate.
 
     Parameters
     ----------
     base_bracket  : output of simulate_bracket()
     public_picks  : optional {team_name: fraction} override for public pick %.
-                    Use ESPN/CBS pick data when available.
-                    Falls back to seed-based defaults when absent.
+    mc_results    : optional MCResults from run_monte_carlo().
 
     Returns
     -------
-    List of ChampionCandidate sorted by estimated win_prob descending.
+    List of ChampionCandidate sorted by win_prob descending.
     """
     ff_names = {
         t["name"]
@@ -281,40 +307,69 @@ def extract_candidates(
     }
     e8_winner_names = {g["winner"]["name"] for g in base_bracket.get("elite_8", [])}
 
-    candidates: list[ChampionCandidate] = []
+    # ── Collect team dicts: E8 first, then MC-only additions ─────────────
+    team_pool: list[dict] = []
     seen: set[str] = set()
 
     for team in _e8_participants(base_bracket):
-        name = team["name"]
-        if name in seen:
-            continue
-        seen.add(name)
+        if team["name"] not in seen:
+            seen.add(team["name"])
+            team_pool.append(team)
 
+    if mc_results is not None:
+        try:
+            from lib.monte_carlo import MC_CANDIDATE_MIN_TITLE_PROB
+        except ImportError:
+            MC_CANDIDATE_MIN_TITLE_PROB = 0.025
+        for mc_r in mc_results.candidates(MC_CANDIDATE_MIN_TITLE_PROB):
+            if mc_r.name not in seen:
+                team = _find_team_in_bracket(base_bracket, mc_r.name)
+                if team is not None:
+                    seen.add(mc_r.name)
+                    team_pool.append(team)
+
+    # ── Build ChampionCandidate for each team ─────────────────────────────
+    candidates: list[ChampionCandidate] = []
+
+    for team in team_pool:
+        name        = team["name"]
         seed        = team.get("seed", 16)
-        region      = _region_of(name, base_bracket) or "Unknown"
+        region      = _region_of(name, base_bracket) or team.get("region", "Unknown")
         team_rating = float(team.get("team_rating", 0.0))
         cps         = float(team.get("champion_profile_score",
                                      team.get("profile_score", 0.5)))
 
-        # Public pick %: use provided data, else seed-based default
         pub_pct = (
             public_picks.get(name)
             if public_picks and name in public_picks
             else _DEFAULT_PUBLIC_PCT.get(seed, 0.001)
         )
 
-        # Win probability: path-based estimate
-        win_prob = _path_win_prob(
-            ChampionCandidate(
-                name=name, seed=seed, region=region,
-                team_rating=team_rating, cps=cps,
-                win_prob=0.0, public_pct=pub_pct, value_score=0.0,
-                team_dict=team,
-            ),
-            base_bracket,
-        )
+        # Win probability: prefer MC title_prob over path-based estimate
+        if mc_results is not None:
+            mc_tp = mc_results.title_prob(name)
+            win_prob = mc_tp if mc_tp > 0 else _path_win_prob(
+                ChampionCandidate(
+                    name=name, seed=seed, region=region,
+                    team_rating=team_rating, cps=cps,
+                    win_prob=0.0, public_pct=pub_pct, value_score=0.0,
+                    team_dict=team,
+                ),
+                base_bracket,
+            )
+        else:
+            win_prob = _path_win_prob(
+                ChampionCandidate(
+                    name=name, seed=seed, region=region,
+                    team_rating=team_rating, cps=cps,
+                    win_prob=0.0, public_pct=pub_pct, value_score=0.0,
+                    team_dict=team,
+                ),
+                base_bracket,
+            )
 
         value_score = round(win_prob / max(pub_pct, 0.0001), 3)
+        mc_ff_prob  = round(mc_results.ff_prob(name), 4) if mc_results is not None else 0.0
 
         candidates.append(ChampionCandidate(
             name=name,
@@ -325,6 +380,7 @@ def extract_candidates(
             win_prob=round(win_prob, 4),
             public_pct=round(pub_pct, 4),
             value_score=value_score,
+            mc_ff_prob=mc_ff_prob,
             in_base_ff=name in ff_names,
             in_base_e8=name in e8_winner_names,
             team_dict=team,
@@ -339,20 +395,33 @@ def extract_candidates(
 
 def _composite_score(candidate: ChampionCandidate, pool_size: int) -> float:
     """
-    Blend win_prob and value_score according to pool size.
+    Blend win_prob, value_score, and (when available) MC Final Four probability.
 
-    Small pool  (≤ 20)  : 80% win_prob + 20% value_score
-                          Low headcount → being right matters more than leverage.
-    Medium pool (21–200): 50% each
-    Large pool  (> 200) : 20% win_prob + 80% value_score
-                          High headcount → differentiation dominates.
+    When mc_ff_prob > 0 the formula uses three components:
+      Small pool  (≤ 25)   : 72% win_prob + 18% value_score + 10% ff_prob
+      Medium pool (26–100) : 45% win_prob + 45% value_score + 10% ff_prob
+      Large pool  (> 100)  : 18% win_prob + 72% value_score + 10% ff_prob
 
-    Both components are normalised to [0,1] before blending.
+    Without mc_ff_prob (MC not run) the original two-component formula is used:
+      Small  : 80% / 20%    Medium : 50% / 50%    Large  : 20% / 80%
+
+    All components are normalised to [0,1] before blending.
     win_prob    → already in [0,1]
-    value_score → normalised by dividing by a reasonable maximum (10.0)
+    value_score → normalised by dividing by a ceiling of 10.0
+    mc_ff_prob  → already in [0,1]
     """
-    norm_wp  = candidate.win_prob
-    norm_vs  = min(candidate.value_score / 10.0, 1.0)
+    norm_wp = candidate.win_prob
+    norm_vs = min(candidate.value_score / 10.0, 1.0)
+
+    if candidate.mc_ff_prob > 0:
+        norm_ff = candidate.mc_ff_prob
+        if pool_size <= _SMALL_POOL:
+            w_wp, w_vs, w_ff = 0.72, 0.18, 0.10
+        elif pool_size <= _MEDIUM_POOL:
+            w_wp, w_vs, w_ff = 0.45, 0.45, 0.10
+        else:
+            w_wp, w_vs, w_ff = 0.18, 0.72, 0.10
+        return round(w_wp * norm_wp + w_vs * norm_vs + w_ff * norm_ff, 5)
 
     if pool_size <= _SMALL_POOL:
         w_wp, w_vs = 0.80, 0.20
@@ -454,6 +523,7 @@ def generate_portfolio(
     n:            int  = 5,
     pool_size:    int  = 100,
     public_picks: dict[str, float] | None = None,
+    mc_results=None,
 ) -> list[BracketEntry]:
     """
     Generate a portfolio of N diverse champion-first brackets.
@@ -464,13 +534,15 @@ def generate_portfolio(
     n             : number of brackets in portfolio (capped at # of E8 teams = 8)
     pool_size     : estimated number of entries in the pool
     public_picks  : optional {team_name: float} override for champion pick %.
+    mc_results    : optional MCResults — expands candidate pool and uses MC
+                    title probabilities for win_prob when available.
 
     Returns
     -------
     List of BracketEntry sorted by composite score, best first.
     Brackets are guaranteed to have distinct champions.
     """
-    candidates = extract_candidates(base_bracket, public_picks)
+    candidates = extract_candidates(base_bracket, public_picks, mc_results)
 
     # Attach composite scores and re-sort
     for c in candidates:
@@ -510,13 +582,14 @@ def generate_portfolio(
 # ════════════════════════════════════════════════════════════════════════════
 
 def _build_rationale(c: ChampionCandidate, pool_size: int, strategy: str) -> str:
+    ff_src = f"  MC FF prob: {c.mc_ff_prob:.1%}" if c.mc_ff_prob > 0 else ""
     lines = [
         f"{c.name} — seed {c.seed}, {c.region}",
         f"Strategy:  {strategy}",
-        f"Win prob:  {c.win_prob:.1%}   "
+        f"Title prob:{c.win_prob:>7.1%}   "
         f"Public pick: {c.public_pct:.1%}   "
         f"Value score: {c.value_score:.2f}x   "
-        f"Composite: {c.composite:.4f}",
+        f"Composite: {c.composite:.4f}" + ff_src,
     ]
     if c.value_score >= 2.0:
         lines.append("Leverage:  HIGH — win probability substantially exceeds pick share")
@@ -581,18 +654,32 @@ def format_portfolio(entries: list[BracketEntry], pool_size: int) -> str:
     lines.append(f"  BRACKET PORTFOLIO  ({len(entries)} brackets, pool size ≈ {pool_size})")
     lines.append("=" * W)
 
-    # Summary table
-    lines.append(f"\n  {'#':>2}  {'Champion':<22} {'s':>2}  {'Region':<8}  "
-                 f"{'Win%':>5}  {'Pick%':>6}  {'Value':>6}  {'Comp':>6}  Path")
-    lines.append("  " + "─" * (W - 2))
-    for e in entries:
-        c = e.champion
-        path = "FF" if c.in_base_ff else ("E8" if c.in_base_e8 else "spec")
-        lines.append(
-            f"  {e.index:>2}  {c.name:<22} {c.seed:>2}  {c.region:<8}  "
-            f"{c.win_prob:>5.1%}  {c.public_pct:>6.2%}  {c.value_score:>6.2f}x  "
-            f"{c.composite:>6.4f}  {path}"
-        )
+    # Summary table — add MC FF% column when MC data is available
+    has_mc = any(e.champion.mc_ff_prob > 0 for e in entries)
+    if has_mc:
+        lines.append(f"\n  {'#':>2}  {'Champion':<22} {'s':>2}  {'Region':<8}  "
+                     f"{'Title%':>6}  {'FF%':>5}  {'Pick%':>6}  {'Value':>6}  {'Comp':>6}  Path")
+        lines.append("  " + "─" * (W - 2))
+        for e in entries:
+            c = e.champion
+            path = "FF" if c.in_base_ff else ("E8" if c.in_base_e8 else "spec")
+            lines.append(
+                f"  {e.index:>2}  {c.name:<22} {c.seed:>2}  {c.region:<8}  "
+                f"{c.win_prob:>6.1%}  {c.mc_ff_prob:>5.1%}  {c.public_pct:>6.2%}  "
+                f"{c.value_score:>6.2f}x  {c.composite:>6.4f}  {path}"
+            )
+    else:
+        lines.append(f"\n  {'#':>2}  {'Champion':<22} {'s':>2}  {'Region':<8}  "
+                     f"{'Win%':>5}  {'Pick%':>6}  {'Value':>6}  {'Comp':>6}  Path")
+        lines.append("  " + "─" * (W - 2))
+        for e in entries:
+            c = e.champion
+            path = "FF" if c.in_base_ff else ("E8" if c.in_base_e8 else "spec")
+            lines.append(
+                f"  {e.index:>2}  {c.name:<22} {c.seed:>2}  {c.region:<8}  "
+                f"{c.win_prob:>5.1%}  {c.public_pct:>6.2%}  {c.value_score:>6.2f}x  "
+                f"{c.composite:>6.4f}  {path}"
+            )
 
     # Detail for each bracket
     for e in entries:

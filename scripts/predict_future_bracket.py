@@ -20,6 +20,8 @@ Options
   --picks K=V,…   Override public pick %% as comma-separated name=fraction pairs
                   Example: --picks "Duke=0.22,Kansas=0.18"
   --output FILE   Output JSON path (default: data/processed/future_bracket_{season}.json)
+  --monte-carlo   Run Monte Carlo simulations for advancement probability estimates
+  --sims N        Number of Monte Carlo simulations (default: 10000)
 
 Input CSV schema
 ----------------
@@ -48,6 +50,11 @@ Examples
   python3 scripts/predict_future_bracket.py \\
       --input data/future/future_bracket_2026.csv --season 2026 \\
       --pool 200 --n 6 --picks "Duke=0.22,Kansas=0.18"
+
+  # Monte Carlo mode: 10,000 sims + 3-bracket portfolio
+  python3 scripts/predict_future_bracket.py \\
+      --input data/future/future_bracket_2026.csv --season 2026 \\
+      --pool 200 --n 3 --monte-carlo --sims 10000
 """
 
 import argparse
@@ -66,6 +73,13 @@ from lib.bracket_strategy import (
     generate_portfolio,
     format_portfolio,
 )
+try:
+    from lib.monte_carlo import run_monte_carlo, format_mc_summary
+    _HAS_MC = True
+except ImportError:
+    _HAS_MC = False
+
+from lib.pool_strategy import build_recommendation, format_recommendation
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -259,6 +273,8 @@ def _build_teams_override(df: pd.DataFrame) -> dict[str, dict[int, dict]]:
 
         team_dict: dict = {
             "name":                   name,
+            "seed":                   seed,
+            "region":                 region,
             "rating":                 round(20.0 + team_rating * 76.0, 1),
             "team_rating":            round(team_rating, 4),
             "champion_profile_score": round(cps, 4),
@@ -305,6 +321,119 @@ def _parse_picks(raw: str | None) -> dict[str, float]:
             print(f"  Warning: could not parse pick '{token}' — skipping",
                   file=sys.stderr)
     return out
+
+
+# ── Strategy summary helpers ─────────────────────────────────────────────────
+
+_MIN_VIABLE_PROB    = 0.025   # floor for "viable" champion pick
+_CONTRARIAN_PUB_CAP = 0.05   # public pick % ceiling for "contrarian"
+
+
+def _build_strategy_summary(
+    bracket:    dict,
+    mc_results,           # MCResults | None
+    candidates: list,     # list[ChampionCandidate]
+) -> dict:
+    """
+    Derive the five headline strategy picks.
+
+    Returns a dict with keys:
+      deterministic_champion, mc_champion, safest_pick,
+      best_value_pick, most_contrarian_viable
+    Each value is a sub-dict with name/seed/region + relevant prob fields.
+    """
+    det_champ_dict = bracket.get("champion", {})
+    det = {
+        "name":   det_champ_dict.get("name", "?"),
+        "seed":   det_champ_dict.get("seed"),
+        "region": det_champ_dict.get("region"),
+    }
+
+    mc_champ = None
+    if mc_results is not None:
+        top = mc_results.top_by_title(1)
+        if top:
+            r = top[0]
+            mc_champ = {
+                "name":       r.name,
+                "seed":       r.seed,
+                "region":     r.region,
+                "title_prob": round(r.title_prob, 4),
+                "ff_prob":    round(r.ff_prob,    4),
+            }
+
+    viable = [c for c in candidates if c.win_prob >= _MIN_VIABLE_PROB]
+
+    safest = None
+    if viable:
+        c = max(viable, key=lambda x: x.win_prob)
+        safest = {
+            "name":       c.name, "seed": c.seed, "region": c.region,
+            "title_prob": c.win_prob, "ff_prob": c.mc_ff_prob,
+            "public_pct": c.public_pct,
+        }
+
+    best_value = None
+    if viable:
+        c = max(viable, key=lambda x: x.value_score)
+        best_value = {
+            "name":        c.name, "seed": c.seed, "region": c.region,
+            "title_prob":  c.win_prob, "ff_prob": c.mc_ff_prob,
+            "public_pct":  c.public_pct, "value_score": c.value_score,
+        }
+
+    contrarian_pool = [
+        c for c in viable if c.public_pct < _CONTRARIAN_PUB_CAP
+    ]
+    most_contrarian = None
+    if contrarian_pool:
+        c = max(contrarian_pool, key=lambda x: x.value_score)
+        most_contrarian = {
+            "name":        c.name, "seed": c.seed, "region": c.region,
+            "title_prob":  c.win_prob, "ff_prob": c.mc_ff_prob,
+            "public_pct":  c.public_pct, "value_score": c.value_score,
+        }
+
+    return {
+        "deterministic_champion": det,
+        "mc_champion":            mc_champ,
+        "safest_pick":            safest,
+        "best_value_pick":        best_value,
+        "most_contrarian_viable": most_contrarian,
+    }
+
+
+def _print_strategy_summary(summary: dict) -> None:
+    """Print the clean strategy summary block."""
+    W2  = 72
+    print()
+    print("=" * W2)
+    print("  STRATEGY SUMMARY".center(W2))
+    print("=" * W2)
+
+    def _fmt(label: str, d: dict | None) -> None:
+        if d is None:
+            print(f"  {label:<30}  —")
+            return
+        name_str = f"{d['name']} (#{d.get('seed','?')} {d.get('region','')})"
+        extras = []
+        if d.get("title_prob"):
+            extras.append(f"{d['title_prob']:.1%} title")
+        if d.get("ff_prob"):
+            extras.append(f"{d['ff_prob']:.1%} FF")
+        if d.get("value_score") and d.get("value_score") != d.get("title_prob"):
+            extras.append(f"{d['value_score']:.2f}× value")
+        if d.get("public_pct"):
+            extras.append(f"{d['public_pct']:.1%} public")
+        suffix = "  — " + ",  ".join(extras) if extras else ""
+        print(f"  {label:<30}  {name_str}{suffix}")
+
+    _fmt("Deterministic champion",  summary["deterministic_champion"])
+    _fmt("MC champion",             summary["mc_champion"])
+    _fmt("Safest pick",             summary["safest_pick"])
+    _fmt("Best value pick",         summary["best_value_pick"])
+    _fmt("Most contrarian viable",  summary["most_contrarian_viable"])
+    print("=" * W2)
 
 
 # ── Display helpers ───────────────────────────────────────────────────────────
@@ -400,6 +529,10 @@ def main() -> None:
                         help='Override public pick %% as "Name=0.18,..." pairs')
     parser.add_argument("--output", default=None,
                         help="Output JSON path (overrides default naming)")
+    parser.add_argument("--monte-carlo", action="store_true",
+                        help="Run Monte Carlo simulations to estimate advancement probabilities")
+    parser.add_argument("--sims", type=int, default=10000,
+                        help="Number of Monte Carlo simulations (default: 10000)")
     args = parser.parse_args()
 
     picks_override = _parse_picks(args.picks)
@@ -460,30 +593,72 @@ def main() -> None:
 
     _print_bracket_summary(bracket, season_label)
 
+    # ── Monte Carlo (optional) ─────────────────────────────────────────
+    mc_results = None
+    if args.monte_carlo:
+        if not _HAS_MC:
+            print("\n  WARNING: lib/monte_carlo.py not found — skipping MC.",
+                  file=sys.stderr)
+        else:
+            print(f"\n  Running Monte Carlo ({args.sims:,} simulations)...",
+                  end="", flush=True)
+            mc_results = run_monte_carlo(
+                teams_override=teams_override,
+                n_sims=args.sims,
+            )
+            print("  done")
+            print(format_mc_summary(mc_results, top_n=10))
+
+    # ── Champion candidates (always computed when MC run or portfolio requested)
+    candidates = []
+    if mc_results is not None or args.n > 0:
+        source = "MC title probs" if mc_results is not None else "path-based estimate"
+        print(f"\n  Extracting champion candidates ({source})...")
+        candidates = extract_candidates(bracket, public_picks or None, mc_results)
+        print(f"  Found {len(candidates)} candidates\n")
+        has_mc_ff = mc_results is not None
+        hdr = (f"  {'Name':<22} {'s':>2}  {'Region':<8}  "
+               f"{'Title%':>6}  {'FF%':>5}  {'Pick%':>6}  {'Value':>6}  {'E8/FF?':>6}"
+               if has_mc_ff else
+               f"  {'Name':<22} {'s':>2}  {'Region':<8}  "
+               f"{'WinP':>5}  {'PubP':>6}  {'Value':>6}  {'FF?':>4}")
+        print(hdr)
+        print("  " + "─" * (64 if has_mc_ff else 60))
+        for c in candidates:
+            ff_tag = "FF" if c.in_base_ff else ("E8" if c.in_base_e8 else "—")
+            if has_mc_ff:
+                print(f"  {c.name:<22} {c.seed:>2}  {c.region:<8}  "
+                      f"{c.win_prob:>6.1%}  {c.mc_ff_prob:>5.1%}  {c.public_pct:>6.2%}  "
+                      f"{c.value_score:>6.2f}x  {ff_tag:>6}")
+            else:
+                print(f"  {c.name:<22} {c.seed:>2}  {c.region:<8}  "
+                      f"{c.win_prob:>5.1%}  {c.public_pct:>6.2%}  "
+                      f"{c.value_score:>6.2f}x  {ff_tag:>4}")
+
     # ── Portfolio (optional) ───────────────────────────────────────────
     portfolio_entries = []
     if args.n > 0:
-        print(f"\n  Extracting champion candidates from E8...")
-        candidates = extract_candidates(bracket, public_picks or None)
-        print(f"  Found {len(candidates)} candidates\n")
-        print(f"  {'Name':<22} {'s':>2}  {'Region':<8}  "
-              f"{'WinP':>5}  {'PubP':>6}  {'Value':>6}  {'FF?':>4}")
-        print("  " + "─" * 60)
-        for c in candidates:
-            ff_tag = "YES" if c.in_base_ff else ("E8" if c.in_base_e8 else "no")
-            print(f"  {c.name:<22} {c.seed:>2}  {c.region:<8}  "
-                  f"{c.win_prob:>5.1%}  {c.public_pct:>6.2%}  "
-                  f"{c.value_score:>6.2f}x  {ff_tag:>4}")
-
         print(f"\n  Building {args.n}-bracket portfolio (pool={args.pool})...")
         portfolio_entries = generate_portfolio(
             base_bracket=bracket,
             n=args.n,
             pool_size=args.pool,
             public_picks=public_picks or None,
+            mc_results=mc_results,
         )
         print(f"  Generated {len(portfolio_entries)} bracket entries\n")
         print(format_portfolio(portfolio_entries, args.pool))
+
+    # ── Strategy summary + pool recommendation ────────────────────────
+    summary       = None
+    pool_rec      = None
+    if candidates or mc_results is not None:
+        summary = _build_strategy_summary(bracket, mc_results, candidates)
+        _print_strategy_summary(summary)
+
+    if candidates:
+        pool_rec = build_recommendation(candidates, args.pool)
+        print(format_recommendation(pool_rec))
 
     # ── Save JSON ──────────────────────────────────────────────────────
     season_str = str(args.season) if args.season else "future"
@@ -503,28 +678,37 @@ def main() -> None:
         "mode":        args.mode,
         "pool_size":   args.pool,
         "first_four":  first_four_results,
-        "champion":  {
+        "champion": {
             "name":   champ.get("name"),
             "seed":   champ.get("seed"),
             "region": champ.get("region"),
         },
         "final_four": [
             {
-                "winner": g.get("winner", {}).get("name"),
+                "winner":      g.get("winner", {}).get("name"),
                 "winner_seed": g.get("winner", {}).get("seed"),
-                "loser":  g.get("loser",  {}).get("name"),
+                "loser":       g.get("loser",  {}).get("name"),
                 "loser_seed":  g.get("loser",  {}).get("seed"),
             }
             for g in ff
         ],
         "championship": {
-            "winner": cg.get("winner", {}).get("name"),
+            "winner":      cg.get("winner", {}).get("name"),
             "winner_seed": cg.get("winner", {}).get("seed"),
-            "loser":  cg.get("loser",  {}).get("name"),
+            "loser":       cg.get("loser",  {}).get("name"),
             "loser_seed":  cg.get("loser",  {}).get("seed"),
         },
         "bracket": _clean_for_json(bracket),
     }
+
+    if summary is not None:
+        output["strategy_summary"] = summary
+
+    if pool_rec is not None:
+        output["pool_recommendation"] = pool_rec.to_dict()
+
+    if mc_results is not None:
+        output["monte_carlo"] = mc_results.to_dict()
 
     if portfolio_entries:
         output["portfolio"] = [
