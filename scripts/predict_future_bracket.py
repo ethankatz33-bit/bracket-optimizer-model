@@ -83,7 +83,12 @@ try:
 except ImportError:
     _HAS_MC = False
 
-from lib.pool_strategy import build_recommendation, format_recommendation
+from lib.pool_strategy import (
+    build_recommendation,
+    format_recommendation,
+    build_all_bracket_types,
+    format_bracket_type_summary,
+)
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -942,6 +947,7 @@ def main() -> None:
     # ── Strategy summary + pool recommendation ────────────────────────
     summary       = None
     pool_rec      = None
+    all_types     = None
     if candidates or mc_results is not None:
         summary = _build_strategy_summary(bracket, mc_results, candidates)
         _print_strategy_summary(summary)
@@ -949,6 +955,10 @@ def main() -> None:
     if candidates:
         pool_rec = build_recommendation(candidates, args.pool)
         print(format_recommendation(pool_rec))
+
+        det_champion = summary["deterministic_champion"] if summary else {}
+        all_types = build_all_bracket_types(candidates, det_champion)
+        print(format_bracket_type_summary(all_types, args.pool))
 
     # ── Save JSON ──────────────────────────────────────────────────────
     season_str = str(args.season) if args.season else "future"
@@ -1001,6 +1011,44 @@ def main() -> None:
 
     if pool_rec is not None:
         output["pool_recommendation"] = pool_rec.to_dict()
+
+    if all_types is not None:
+        def _cand_dict(c) -> dict | None:
+            if c is None:
+                return None
+            return {
+                "name":        c.name,
+                "seed":        c.seed,
+                "region":      c.region,
+                "title_prob":  round(c.win_prob,    4),
+                "ff_prob":     round(c.mc_ff_prob,  4),
+                "public_pct":  round(c.public_pct,  4),
+                "value_score": round(c.value_score, 3),
+            }
+
+        det = all_types["deterministic"]
+        output["deterministic_recommendation"] = {
+            "bracket_type": "deterministic",
+            "label":        det["label"],
+            "archetype":    det["archetype"],
+            "description":  det["description"],
+            "champion":     det.get("champion"),
+        }
+        for btype in ("safe", "value", "contrarian"):
+            entry = all_types[btype]
+            rec   = entry["recommendation"]
+            output[f"{btype}_recommendation"] = {
+                "bracket_type": btype,
+                "label":        entry["label"],
+                "archetype":    entry["archetype"],
+                "description":  entry["description"],
+                "pool_category": rec.tier,
+                "n_brackets":   rec.n_brackets,
+                "primary":      _cand_dict(rec.primary),
+                "primary_reason": rec.primary_reason,
+                "safest_alt":   _cand_dict(rec.safest_alt),
+                "value_alt":    _cand_dict(rec.value_alt),
+            }
 
     if mc_results is not None:
         output["monte_carlo"] = mc_results.to_dict()

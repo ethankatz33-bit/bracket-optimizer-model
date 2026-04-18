@@ -34,6 +34,74 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional
 
+# ── User-facing bracket type labels ──────────────────────────────────────────
+#
+# These are the four labels exposed to users.  Internally each type maps to a
+# pool-tier, which drives the pick-selection logic unchanged.
+#
+# Deterministic  — pure model output, no pool-size adjustment
+# Safe           — small_pool tier (maximize win probability)
+# Value          — medium_pool tier (positive leverage, seed ≤ 3)
+# Contrarian     — large_pool / mega_pool tier (max differentiation)
+
+BRACKET_TYPES: dict[str, dict] = {
+    "deterministic": {
+        "label":       "Deterministic",
+        "pool_tier":   None,          # bypasses tier logic
+        "archetype":   "Pure model output, no pool adjustment",
+        "description": (
+            "The model's single best prediction of the most likely tournament "
+            "outcome. No pool-size differentiation applied. Use this as your "
+            "baseline before layering in strategy."
+        ),
+    },
+    "safe": {
+        "label":       "Safe",
+        "pool_tier":   "small_pool",
+        "archetype":   "Small pool  (≤25 entrants)",
+        "description": (
+            "Low-variance champion pick. Maximizes title probability. Best for "
+            "shallow pools where being right matters more than differentiation "
+            "— consensus picks pay well when the field is small."
+        ),
+    },
+    "value": {
+        "label":       "Value",
+        "pool_tier":   "medium_pool",
+        "archetype":   "Medium pool (26–100 entrants)",
+        "description": (
+            "Balanced leverage. Targets a champion with positive value score "
+            "(win prob > pick share) and seed ≤ 3. The sweet spot of meaningful "
+            "win probability plus differentiation from the field."
+        ),
+    },
+    "contrarian": {
+        "label":       "Contrarian",
+        "pool_tier":   "large_pool",
+        "archetype":   "Large/mega pool (101+ entrants)",
+        "description": (
+            "Maximum differentiation. Targets the highest-leverage champion the "
+            "public is under-picking. Maximizes expected payout in crowded pools "
+            "where owning an unpopular champion is the only path to a big win."
+        ),
+    },
+}
+
+# Tier → bracket type (for tagging pool recommendations)
+TIER_TO_BRACKET_TYPE: dict[str, str] = {
+    "small_pool":  "safe",
+    "medium_pool": "value",
+    "large_pool":  "contrarian",
+    "mega_pool":   "contrarian",
+}
+
+# Representative pool sizes used when building all-type summaries
+_TYPE_POOL_SIZES: dict[str, int] = {
+    "safe":        15,
+    "value":       60,
+    "contrarian":  500,
+}
+
 # ── Tier boundaries ───────────────────────────────────────────────────────────
 
 SMALL_MIN  = 10
@@ -103,6 +171,8 @@ class Recommendation:
     safest_alt:          object = None   # ChampionCandidate | None
     value_alt:           object = None   # ChampionCandidate | None
 
+    bracket_type:        str    = ""     # "safe" | "value" | "contrarian"
+
     def to_dict(self) -> dict:
         def _c(cand) -> dict | None:
             if cand is None:
@@ -116,10 +186,15 @@ class Recommendation:
                 "public_pct":  round(cand.public_pct, 4),
                 "value_score": round(cand.value_score, 3),
             }
+        bt   = self.bracket_type
+        desc = BRACKET_TYPES.get(bt, {}).get("description", "") if bt else ""
         return {
             "pool_size":       self.pool_size,
             "tier":            self.tier,
             "tier_label":      self.tier_label,
+            "bracket_type":    bt,
+            "pool_category":   self.tier,
+            "explanation":     desc,
             "n_brackets":      self.n_brackets,
             "strategy_note":   self.strategy_note,
             "primary":         _c(self.primary),
@@ -297,6 +372,7 @@ def build_recommendation(
         pool_size       = pool_size,
         tier            = tier,
         tier_label      = label,
+        bracket_type    = TIER_TO_BRACKET_TYPE[tier],
         n_brackets      = n,
         strategy_note   = note,
         primary         = primary,
@@ -389,3 +465,105 @@ def _alt_line(lines: list, label: str, cand, primary) -> None:
         f"— {cand.win_prob:.1%} title, {cand.public_pct:.1%} public, "
         f"{cand.value_score:.2f}× value{ff_str}{tag}"
     )
+
+
+# ── All-type summary ──────────────────────────────────────────────────────────
+
+def build_all_bracket_types(
+    candidates:   list,
+    det_champion: dict,
+) -> dict:
+    """
+    Build champion recommendations for all four bracket types.
+
+    Parameters
+    ----------
+    candidates   : list[ChampionCandidate] — pool used by safe/value/contrarian
+    det_champion : {"name": ..., "seed": ..., "region": ...} — deterministic model pick
+
+    Returns
+    -------
+    dict with keys "deterministic", "safe", "value", "contrarian".
+    Each value is a sub-dict with bracket_type, label, archetype, description,
+    and either a champion dict (deterministic) or a Recommendation object.
+    """
+    out: dict = {
+        "deterministic": {
+            "bracket_type": "deterministic",
+            "label":        BRACKET_TYPES["deterministic"]["label"],
+            "archetype":    BRACKET_TYPES["deterministic"]["archetype"],
+            "description":  BRACKET_TYPES["deterministic"]["description"],
+            "champion":     det_champion,
+        }
+    }
+    for btype in ("safe", "value", "contrarian"):
+        pool_size = _TYPE_POOL_SIZES[btype]
+        rec = build_recommendation(candidates, pool_size)
+        out[btype] = {
+            "bracket_type":  btype,
+            "label":         BRACKET_TYPES[btype]["label"],
+            "archetype":     BRACKET_TYPES[btype]["archetype"],
+            "description":   BRACKET_TYPES[btype]["description"],
+            "recommendation": rec,
+        }
+    return out
+
+
+def format_bracket_type_summary(
+    all_types:     dict,
+    user_pool_size: int,
+) -> str:
+    """
+    Compact one-block display showing the champion pick for each bracket type.
+
+    Parameters
+    ----------
+    all_types      : return value of build_all_bracket_types()
+    user_pool_size : actual pool size (used to mark the applicable type)
+    """
+    user_tier  = classify_pool(user_pool_size)
+    user_btype = TIER_TO_BRACKET_TYPE[user_tier]
+
+    lines: list[str] = []
+    lines.append("=" * W)
+    lines.append("  BRACKET TYPE RECOMMENDATIONS".center(W))
+    lines.append("=" * W)
+
+    col_w = 14  # type label column width
+
+    for btype in ("deterministic", "safe", "value", "contrarian"):
+        entry  = all_types[btype]
+        label  = entry["label"].upper()
+        arch   = entry["archetype"]
+        is_you = (btype == user_btype and btype != "deterministic")
+        you_tag = f"  ← your pool ({user_pool_size:,})" if is_you else ""
+
+        lines.append("")
+        lines.append(f"  {label}  ({arch}){you_tag}")
+
+        if btype == "deterministic":
+            c = entry.get("champion") or {}
+            name   = c.get("name",   "—")
+            seed   = c.get("seed")
+            region = c.get("region", "")
+            seed_str = f"#{seed} " if seed is not None else ""
+            lines.append(f"  Champion: {name} ({seed_str}{region})")
+        else:
+            rec = entry["recommendation"]
+            c   = rec.primary
+            if c:
+                seed_str = f"#{c.seed} " if c.seed is not None else ""
+                ff_str   = f"   FF {c.mc_ff_prob:.1%}" if c.mc_ff_prob > 0 else ""
+                lines.append(
+                    f"  Champion: {c.name} ({seed_str}{c.region})"
+                )
+                lines.append(
+                    f"  Title {c.win_prob:.1%}   Public {c.public_pct:.1%}"
+                    f"   Value {c.value_score:.2f}×{ff_str}"
+                )
+            else:
+                lines.append("  Champion: — (no viable candidate)")
+
+    lines.append("")
+    lines.append("=" * W)
+    return "\n".join(lines)
