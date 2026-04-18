@@ -222,204 +222,278 @@ def run_pipeline(
 
 # ── Bracket visual helpers ────────────────────────────────────────────────────
 
-def _seed_badge(seed, color="#555") -> str:
-    return (
-        f'<span style="display:inline-block; background:{color}; color:#fff; '
-        f'font-size:0.7rem; font-weight:700; padding:1px 6px; border-radius:10px; '
-        f'margin-right:4px;">#{seed}</span>'
-    )
+# ── Traditional bracket HTML renderer ─────────────────────────────────────────
+#
+# Layout (left → center → right):
+#   Left  half: East (top) + West (bottom), rounds advancing →
+#   Center     : [FF Semifinal 1] → [Championship] ← [FF Semifinal 2]
+#   Right half : South (top) + Midwest (bottom), rounds advancing ←
+#
+# Dimensions:
+#   _BH  = game cell height (px)
+#   _BG  = vertical gap between adjacent R64 games (px)
+#   _BW  = round column width (px)
+#   _BCG = horizontal gap between round columns (px)
+#   _BRG = vertical gap between the two stacked regions (px)
+
+_BH  = 36
+_BG  = 4
+_BW  = 102
+_BCG = 5
+_BRG = 14
 
 
-def _team_pill(team: dict, highlight: bool = False, winner: bool = False) -> str:
-    name   = team.get("name", "?")
-    seed   = team.get("seed", "?")
-    region = team.get("region", "")
-    color  = REGION_COLORS.get(region, "#555")
-    bg     = f"{color}33" if highlight else "#1e1e2e"
-    border = f"2px solid {color}" if highlight else "1px solid #333"
-    badge  = _seed_badge(seed, color)
-    dim    = "" if winner else "opacity:0.65;"
+def _bk_tops() -> tuple[list, list, list, list, int]:
+    """Compute vertical top-offset (px) for each game slot in a 16-team region."""
+    H, G = _BH, _BG
+    t64  = [i * (H + G) for i in range(8)]
+    t32  = [(t64[2*j] + t64[2*j+1] + H) // 2 - H // 2 for j in range(4)]
+    ts16 = [(t32[2*k] + t32[2*k+1] + H) // 2 - H // 2 for k in range(2)]
+    te8  = [(ts16[0] + ts16[1] + H) // 2 - H // 2]
+    total_h = 8 * (H + G) - G
+    return t64, t32, ts16, te8, total_h
+
+
+def _bk_cell(w: dict, l: dict, champion_name: str, rc: str) -> str:
+    """HTML for one game cell: winner (highlighted) + loser (struck through)."""
+    wn, ws = w.get("name", "?"), w.get("seed", "?")
+    ln, ls = l.get("name", "?"), l.get("seed", "?")
+    hl = (wn == champion_name)
+    H, G = _BH, _BG
+    bd   = f"3px solid {rc}" if hl else f"2px solid #252535"
+    bg   = "#16162e" if hl else "#0d0d1c"
+    wc   = "#ffffff" if hl else "#cccccc"
+    ww   = "700"     if hl else "400"
     return (
-        f'<div style="padding:8px 12px; background:{bg}; border:{border}; '
-        f'border-radius:8px; margin:4px 0; {dim}">'
-        f'{badge}<span style="font-weight:{"700" if highlight else "400"};">{name}</span>'
-        f'<span style="font-size:0.7rem; color:#888; margin-left:6px;">{region}</span>'
+        f'<div style="height:{H}px; border-left:{bd}; background:{bg}; '
+        f'padding:2px 5px 2px 6px; overflow:hidden; margin-bottom:{G}px;">'
+        f'<div style="font-size:0.67rem; color:{wc}; font-weight:{ww}; '
+        f'white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">'
+        f'<span style="font-size:0.58rem; color:{rc}; margin-right:3px;">#{ws}</span>'
+        f'{wn}</div>'
+        f'<div style="font-size:0.62rem; color:#333345; text-decoration:line-through; '
+        f'white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">'
+        f'<span style="font-size:0.58rem; margin-right:3px;">#{ls}</span>{ln}</div>'
         f'</div>'
     )
 
 
-def render_champion_hero(champion: dict, candidate, style: str) -> None:
-    meta   = STYLE_META[style]
-    color  = meta["color"]
-    name   = champion.get("name", "?")
-    seed   = champion.get("seed", "?")
-    region = champion.get("region", "?")
+def _bk_col(games: list, tops: list, champion_name: str, rc: str, total_h: int) -> str:
+    """A round column: games absolutely positioned within a fixed-height container."""
+    cells = "".join(
+        f'<div style="position:absolute; top:{t}px; left:0; right:0;">'
+        + _bk_cell(g["winner"], g["loser"], champion_name, rc)
+        + '</div>'
+        for g, t in zip(games, tops)
+    )
+    return (
+        f'<div style="position:relative; width:{_BW}px; height:{total_h}px; '
+        f'flex-shrink:0;">{cells}</div>'
+    )
 
-    prob_line = ""
-    if candidate:
-        prob_line = (
-            f'<div style="margin-top:6px; font-size:0.85rem; color:#bbb;">'
-            f'{candidate.win_prob:.1%} title probability'
-            f'{"  ·  " + f"{candidate.mc_ff_prob:.1%} Final Four probability" if candidate.mc_ff_prob > 0 else ""}'
+
+def _bk_region(bracket: dict, region: str, champion_name: str, side: str) -> str:
+    """HTML for one 16-team region (R64→E8 left, E8→R64 right)."""
+    ri = {"East": 0, "West": 1, "South": 2, "Midwest": 3}[region]
+    g64  = bracket["round_of_64"][ri*8 : ri*8+8]
+    g32  = bracket["round_of_32"][ri*4 : ri*4+4]
+    gs16 = bracket["sweet_16"   ][ri*2 : ri*2+2]
+    ge8  = bracket["elite_8"    ][ri*1 : ri*1+1]
+
+    rc = REGION_COLORS.get(region, "#555")
+    t64, t32, ts16, te8, total_h = _bk_tops()
+
+    c64  = _bk_col(g64,  t64,  champion_name, rc, total_h)
+    c32  = _bk_col(g32,  t32,  champion_name, rc, total_h)
+    cs16 = _bk_col(gs16, ts16, champion_name, rc, total_h)
+    ce8  = _bk_col(ge8,  te8,  champion_name, rc, total_h)
+
+    def lbl(text: str, col: str) -> str:
+        return (
+            f'<div style="margin-right:{_BCG}px; flex-shrink:0;">'
+            f'<div style="font-size:0.5rem; color:#555; text-align:center; '
+            f'margin-bottom:3px; font-weight:600; letter-spacing:1px; '
+            f'text-transform:uppercase;">{text}</div>'
+            f'{col}</div>'
+        )
+
+    r_align = "left" if side == "left" else "right"
+    header  = (
+        f'<div style="font-size:0.57rem; color:{rc}; font-weight:700; '
+        f'text-transform:uppercase; letter-spacing:2px; margin-bottom:5px; '
+        f'text-align:{r_align};">{region}</div>'
+    )
+
+    if side == "left":
+        cols = lbl("R64", c64) + lbl("R32", c32) + lbl("S16", cs16) + lbl("E8", ce8)
+    else:
+        cols = lbl("E8", ce8) + lbl("S16", cs16) + lbl("R32", c32) + lbl("R64", c64)
+
+    return (
+        f'<div style="margin-bottom:{_BRG}px;">'
+        f'{header}'
+        f'<div style="display:flex; flex-direction:row;">{cols}</div>'
+        f'</div>'
+    )
+
+
+def _bk_center(bracket: dict, champion_name: str, color: str) -> str:
+    """
+    Center section: [FF Semifinal 1] → [Championship] ← [FF Semifinal 2].
+    All three games are vertically centered at the bracket midpoint.
+    """
+    ff_games = bracket.get("final_four", [])
+    ff0 = ff_games[0] if len(ff_games) > 0 else {}
+    ff1 = ff_games[1] if len(ff_games) > 1 else {}
+    cg  = bracket.get("championship") or {}
+
+    _, _, _, te8, region_h = _bk_tops()
+    half_h = region_h * 2 + _BRG   # two stacked regions
+    # E8 game center within a region:
+    e8_center = te8[0] + _BH // 2
+    # Vertical center between the two E8 games:
+    ff_center = (e8_center + region_h + _BRG + e8_center) // 2
+    # Center the three-game row at ff_center
+    row_top   = ff_center - 36   # approximate row height
+
+    def ff_cell(game: dict, label: str) -> str:
+        if not game:
+            return '<div style="width:106px;"></div>'
+        w = game.get("winner", {}); l = game.get("loser", {})
+        wn, ws = w.get("name", "?"), w.get("seed", "?")
+        ln, ls = l.get("name", "?"), l.get("seed", "?")
+        hl = (wn == champion_name)
+        bg = "#16162e" if hl else "#0d0d1c"
+        bd = f"2px solid {color}" if hl else "1px solid #252535"
+        wc = "#ffffff" if hl else "#cccccc"
+        ww = "700" if hl else "400"
+        regions = f'{w.get("region","?")} · {l.get("region","?")}'
+        return (
+            f'<div style="background:{bg}; border:{bd}; border-radius:5px; '
+            f'padding:4px 6px; width:106px; flex-shrink:0;">'
+            f'<div style="font-size:0.48rem; color:#555; margin-bottom:2px; '
+            f'white-space:nowrap;">{label} · {regions}</div>'
+            f'<div style="font-size:0.67rem; color:{wc}; font-weight:{ww}; '
+            f'white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">'
+            f'<span style="font-size:0.58rem; color:{color}; margin-right:2px;">#{ws}</span>{wn}</div>'
+            f'<div style="font-size:0.62rem; color:#333345; text-decoration:line-through; '
+            f'white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">'
+            f'<span style="font-size:0.58rem; margin-right:2px;">#{ls}</span>{ln}</div>'
             f'</div>'
         )
 
-    st.markdown(
-        f"""
-        <div style="text-align:center; padding:28px 20px;
-                    background:linear-gradient(160deg, {color}1a 0%, #0d0d1a 80%);
-                    border:2px solid {color}; border-radius:14px; margin-bottom:20px;">
-          <div style="font-size:0.72rem; color:{color}; font-weight:700;
-                      text-transform:uppercase; letter-spacing:3px; margin-bottom:8px;">
-            🏆 &nbsp; Champion Pick
-          </div>
-          <div style="font-size:2.8rem; font-weight:800; line-height:1.1; color:#fff;">
-            {name}
-          </div>
-          <div style="font-size:1rem; color:#999; margin-top:4px;">
-            #{seed} seed &nbsp;·&nbsp; {region} Region
-          </div>
-          {prob_line}
-        </div>
-        """,
-        unsafe_allow_html=True,
+    def champ_cell() -> str:
+        if not cg:
+            return '<div style="width:120px;"></div>'
+        w = cg.get("winner", {}); l = cg.get("loser", {})
+        wn, ws = w.get("name", "?"), w.get("seed", "?")
+        ln, ls = l.get("name", "?"), l.get("seed", "?")
+        return (
+            f'<div style="background:linear-gradient(160deg,{color}25,#0d0d1c); '
+            f'border:2px solid {color}; border-radius:7px; padding:7px 9px; '
+            f'width:120px; flex-shrink:0; text-align:center;">'
+            f'<div style="font-size:0.5rem; color:{color}; font-weight:700; '
+            f'letter-spacing:1px; margin-bottom:3px;">CHAMPIONSHIP</div>'
+            f'<div style="font-size:0.72rem; color:#fff; font-weight:700; '
+            f'white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">'
+            f'<span style="font-size:0.6rem; color:{color}; margin-right:3px;">#{ws}</span>{wn}</div>'
+            f'<div style="font-size:0.62rem; color:#444; text-decoration:line-through; '
+            f'white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">'
+            f'<span style="font-size:0.6rem; margin-right:3px;">#{ls}</span>{ln}</div>'
+            f'<div style="font-size:0.55rem; color:{color}; margin-top:4px; font-weight:700;">'
+            f'🏆 CHAMPION</div>'
+            f'</div>'
+        )
+
+    def arrow(ch: str) -> str:
+        return (
+            f'<div style="color:#333; font-size:0.9rem; padding:0 3px; '
+            f'display:flex; align-items:center;">{ch}</div>'
+        )
+
+    row = (
+        f'<div style="display:flex; flex-direction:row; align-items:center; gap:4px;">'
+        + ff_cell(ff0, "SF1") + arrow("→") + champ_cell() + arrow("←") + ff_cell(ff1, "SF2")
+        + f'</div>'
+    )
+
+    return (
+        f'<div style="position:relative; height:{half_h}px; '
+        f'width:370px; flex-shrink:0; padding:0 8px;">'
+        f'<div style="position:absolute; top:{row_top}px; left:8px; right:8px;">'
+        f'{row}'
+        f'</div>'
+        f'</div>'
     )
 
 
-def render_championship_game(bracket: dict, champion_name: str, color: str) -> None:
-    cg = bracket.get("championship") or {}
-    w  = cg.get("winner", {})
-    l  = cg.get("loser",  {})
-    if not w and not l:
-        return
+def render_traditional_bracket(bracket: dict, candidate, style: str) -> None:
+    """
+    Render the full 64-team bracket in a traditional left-right layout.
 
-    st.markdown(
-        f'<div style="text-align:center; font-size:0.7rem; color:#777; '
-        f'font-weight:600; text-transform:uppercase; letter-spacing:2px; '
-        f'margin:4px 0 10px;">Championship Game</div>',
-        unsafe_allow_html=True,
+    Left  half : East (top)  + West (bottom)   — rounds advancing →
+    Center     : [FF SF1] → [CHAMP] ← [FF SF2] — all at bracket midpoint
+    Right half : South (top) + Midwest (bottom) — rounds advancing ←
+    """
+    champion_name = bracket.get("champion", {}).get("name", "?")
+    color = STYLE_META.get(style, {}).get("color", "#4A90D9")
+
+    left   = _bk_region(bracket, "East",    champion_name, "left") \
+           + _bk_region(bracket, "West",    champion_name, "left")
+    center = _bk_center(bracket, champion_name, color)
+    right  = _bk_region(bracket, "South",   champion_name, "right") \
+           + _bk_region(bracket, "Midwest", champion_name, "right")
+
+    html = (
+        f'<div style="overflow-x:auto; background:#09091a; border-radius:10px; '
+        f'padding:16px 12px; margin-bottom:8px;">'
+        f'<div style="display:inline-flex; flex-direction:row; align-items:flex-start; '
+        f'gap:0;">'
+        f'<div style="flex-shrink:0;">{left}</div>'
+        f'{center}'
+        f'<div style="flex-shrink:0;">{right}</div>'
+        f'</div>'
+        f'</div>'
     )
-    c1, mid, c2 = st.columns([5, 1, 5])
-    with c1:
-        st.markdown(
-            _team_pill(w, highlight=(w.get("name") == champion_name), winner=True),
-            unsafe_allow_html=True,
-        )
-    with mid:
-        st.markdown(
-            '<div style="text-align:center;padding-top:12px;color:#555;font-weight:700;">VS</div>',
-            unsafe_allow_html=True,
-        )
-    with c2:
-        st.markdown(
-            _team_pill(l, highlight=False, winner=False),
-            unsafe_allow_html=True,
-        )
-
-
-def render_final_four(bracket: dict, champion_name: str) -> None:
-    """Render Final Four using actual game pairings from bracket["final_four"]."""
-    ff_games = bracket.get("final_four", [])
-    if not ff_games:
-        return
-
-    st.markdown(
-        '<div style="text-align:center; font-size:0.7rem; color:#777; font-weight:600; '
-        'text-transform:uppercase; letter-spacing:2px; margin:16px 0 10px;">Final Four</div>',
-        unsafe_allow_html=True,
-    )
-
-    # Show each semifinal as its own matchup: winner vs loser side-by-side
-    for game_idx, ff_game in enumerate(ff_games[:2]):
-        w = ff_game.get("winner", {})
-        l = ff_game.get("loser",  {})
-        # Determine which bracket half this game belongs to
-        regions_in_game = {w.get("region", ""), l.get("region", "")} - {""}
-        game_label = " vs ".join(sorted(regions_in_game)) if regions_in_game else f"Semifinal {game_idx + 1}"
-
-        if game_idx > 0:
-            st.markdown("")  # spacer between two semis
-        st.markdown(
-            f'<div style="font-size:0.65rem; color:#555; text-align:center; '
-            f'margin-bottom:4px;">Semifinal {game_idx + 1}  ·  {game_label}</div>',
-            unsafe_allow_html=True,
-        )
-        c1, mid, c2 = st.columns([5, 1, 5])
-        with c1:
-            st.markdown(
-                _team_pill(w, highlight=(w.get("name") == champion_name), winner=True),
-                unsafe_allow_html=True,
-            )
-        with mid:
-            st.markdown(
-                '<div style="text-align:center; padding-top:10px; color:#444; font-size:0.75rem;">vs</div>',
-                unsafe_allow_html=True,
-            )
-        with c2:
-            st.markdown(
-                _team_pill(l, highlight=(l.get("name") == champion_name), winner=False),
-                unsafe_allow_html=True,
-            )
-
-
-def render_elite_eight(bracket: dict, champion_name: str) -> None:
-    e8_games = bracket.get("elite_8", [])
-    st.markdown(
-        '<div style="text-align:center; font-size:0.7rem; color:#777; font-weight:600; '
-        'text-transform:uppercase; letter-spacing:2px; margin:16px 0 10px;">Elite Eight</div>',
-        unsafe_allow_html=True,
-    )
-    cols = st.columns(4)
-    for i, game in enumerate(e8_games[:4]):
-        w = game.get("winner", {})
-        l = game.get("loser",  {})
-        region = w.get("region", l.get("region", ""))
-        color  = REGION_COLORS.get(region, "#555")
-        with cols[i]:
-            st.markdown(
-                f'<div style="font-size:0.65rem; color:{color}; font-weight:700; '
-                f'text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">'
-                f'{region}</div>',
-                unsafe_allow_html=True,
-            )
-            st.markdown(
-                _team_pill(w, highlight=(w.get("name") == champion_name), winner=True),
-                unsafe_allow_html=True,
-            )
-            st.markdown(
-                _team_pill(l, highlight=False, winner=False),
-                unsafe_allow_html=True,
-            )
+    st.markdown(html, unsafe_allow_html=True)
 
 
 def render_upset_picks(bracket: dict) -> None:
     upsets: list[tuple[str, int, str, int, str]] = []
     for rnd_key, rnd_label in [
-        ("round_of_64", "Round of 64"),
-        ("round_of_32", "Round of 32"),
-        ("sweet_16",    "Sweet 16"),
-        ("elite_8",     "Elite Eight"),
+        ("round_of_64", "R64"),
+        ("round_of_32", "R32"),
+        ("sweet_16",    "S16"),
+        ("elite_8",     "E8"),
+        ("final_four",  "FF"),
     ]:
         games = bracket.get(rnd_key, [])
+        if isinstance(games, dict):
+            games = [games]
         for g in (games or []):
             ws = int(g.get("winner", {}).get("seed", 0))
             ls = int(g.get("loser",  {}).get("seed", 0))
             wn = g.get("winner", {}).get("name", "?")
             ln = g.get("loser",  {}).get("name", "?")
-            if ws > ls and ws >= 9:          # notable upsets: seed 9+
+            if ws > ls and ws >= 9:
                 upsets.append((rnd_label, ws, wn, ls, ln))
 
     if not upsets:
         st.caption("No major upsets predicted.")
         return
 
-    upsets.sort(key=lambda x: x[1])
-    for rnd, ws, wn, ls, ln in upsets[:8]:
-        st.markdown(f"- **#{ws} {wn}** over #{ls} {ln} &nbsp; <span style='color:#888;font-size:0.8em;'>{rnd}</span>", unsafe_allow_html=True)
+    upsets.sort(key=lambda x: (x[0], x[1]))
+    items = "  ".join(
+        f'<span style="margin-right:12px;"><b>#{ws} {wn}</b> over #{ls} {ln} '
+        f'<span style="color:#666;font-size:0.8em;">({rnd})</span></span>'
+        for rnd, ws, wn, ls, ln in upsets[:10]
+    )
+    st.markdown(f'<div style="font-size:0.82rem; line-height:1.9;">{items}</div>',
+                unsafe_allow_html=True)
 
 
 def render_full_rounds_expander(bracket: dict) -> None:
-    with st.expander("See all round-by-round picks", expanded=False):
+    with st.expander("Full round-by-round picks", expanded=False):
         for rnd_key, rnd_label in [
             ("round_of_64", "Round of 64"),
             ("round_of_32", "Round of 32"),
@@ -440,22 +514,6 @@ def render_full_rounds_expander(bracket: dict) -> None:
                     "Region":  w.get("region", ""),
                 })
             st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
-
-
-def render_full_bracket(bracket: dict, candidate, style: str) -> None:
-    """Master bracket rendering — champion hero → championship → FF → E8 → upsets."""
-    champion_name = bracket.get("champion", {}).get("name", "?")
-    color = STYLE_META[style]["color"]
-
-    render_champion_hero(bracket.get("champion", {}), candidate, style)
-    render_championship_game(bracket, champion_name, color)
-    render_final_four(bracket, champion_name)
-    render_elite_eight(bracket, champion_name)
-
-    st.markdown("---")
-    st.markdown("**Upset picks in this bracket** *(seed 9 or higher beating a favored team)*")
-    render_upset_picks(bracket)
-    render_full_rounds_expander(bracket)
 
 
 # ── Welcome screen (no results yet) ──────────────────────────────────────────
@@ -781,16 +839,49 @@ def show_results(res: dict, selected_style: str) -> None:
     ])
 
     with tab_bracket:
+        # ── Champion summary strip ────────────────────────────────────────
+        champ = style_bracket.get("champion", {})
+        cname = champ.get("name", "?")
+        cseed = champ.get("seed", "?")
+        creg  = champ.get("region", "?")
+        prob_txt = (
+            f" &nbsp;·&nbsp; {candidate.win_prob:.1%} title probability"
+            + (f" &nbsp;·&nbsp; {candidate.mc_ff_prob:.1%} FF prob" if candidate and candidate.mc_ff_prob > 0 else "")
+            if candidate else ""
+        )
+        st.markdown(
+            f'<div style="padding:10px 16px; background:{color}18; '
+            f'border-left:4px solid {color}; border-radius:6px; margin-bottom:10px; '
+            f'display:flex; align-items:center; gap:12px;">'
+            f'<span style="font-size:1.4rem;">🏆</span>'
+            f'<div>'
+            f'<span style="font-size:1.05rem; font-weight:700; color:#fff;">{cname}</span>'
+            f'<span style="font-size:0.8rem; color:#999; margin-left:8px;">'
+            f'#{cseed} seed &nbsp;·&nbsp; {creg} region{prob_txt}</span>'
+            f'</div></div>',
+            unsafe_allow_html=True,
+        )
+
+        # ── Traditional bracket visual ────────────────────────────────────
+        render_traditional_bracket(style_bracket, candidate, selected_style)
+
+        # ── Upsets & detail ───────────────────────────────────────────────
+        st.markdown(
+            '<div style="font-size:0.75rem; color:#666; margin:6px 0 2px;">'
+            'Key upset picks</div>',
+            unsafe_allow_html=True,
+        )
+        render_upset_picks(style_bracket)
+        render_full_rounds_expander(style_bracket)
+
         # First Four (if any)
         ff = res.get("first_four", [])
         if ff:
-            with st.expander(f"First Four play-in results ({len(ff)} games)", expanded=False):
+            with st.expander(f"First Four play-in games ({len(ff)})", expanded=False):
                 rows = [{"Region": g["region"], "Seed": g["seed"],
                          "Advances": g["winner"], "Eliminated": g["loser"]}
                         for g in ff]
                 st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
-
-        render_full_bracket(style_bracket, candidate, selected_style)
 
     with tab_odds:
         show_odds_tab(res)
