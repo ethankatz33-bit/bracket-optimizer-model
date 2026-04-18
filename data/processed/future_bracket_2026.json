@@ -1913,7 +1913,7 @@
   "picks_analysis": {
     "normalization": {
       "applied": true,
-      "original_sum": 1.136,
+      "original_sum": 1.13068,
       "normalized_sum": 1.0,
       "threshold_min": 0.95,
       "threshold_max": 1.05
@@ -1924,91 +1924,91 @@
         "name": "Michigan",
         "seed": 1,
         "region": "Midwest",
-        "public_pct": 0.1585,
-        "title_prob": 0.2486,
-        "ff_prob": 0.6154,
-        "value_score": 1.569
+        "public_pct": 0.1592,
+        "title_prob": 0.2426,
+        "ff_prob": 0.616,
+        "value_score": 1.524
       },
       {
         "name": "Duke",
         "seed": 1,
         "region": "East",
-        "public_pct": 0.1761,
-        "title_prob": 0.1922,
-        "ff_prob": 0.5642,
-        "value_score": 1.092
+        "public_pct": 0.1769,
+        "title_prob": 0.1954,
+        "ff_prob": 0.5638,
+        "value_score": 1.105
       },
       {
         "name": "Arizona",
         "seed": 1,
         "region": "West",
-        "public_pct": 0.132,
-        "title_prob": 0.1906,
-        "ff_prob": 0.5328,
-        "value_score": 1.443
+        "public_pct": 0.1327,
+        "title_prob": 0.1746,
+        "ff_prob": 0.529,
+        "value_score": 1.316
       },
       {
         "name": "Florida",
         "seed": 1,
         "region": "South",
-        "public_pct": 0.0792,
-        "title_prob": 0.0814,
-        "ff_prob": 0.3402,
-        "value_score": 1.027
+        "public_pct": 0.0796,
+        "title_prob": 0.0868,
+        "ff_prob": 0.3358,
+        "value_score": 1.09
       },
       {
         "name": "Illinois",
         "seed": 3,
         "region": "South",
-        "public_pct": 0.0264,
-        "title_prob": 0.0798,
-        "ff_prob": 0.2988,
-        "value_score": 3.022
+        "public_pct": 0.0265,
+        "title_prob": 0.0858,
+        "ff_prob": 0.3136,
+        "value_score": 3.234
       },
       {
         "name": "Houston",
         "seed": 2,
         "region": "South",
-        "public_pct": 0.0616,
-        "title_prob": 0.0358,
-        "ff_prob": 0.1912,
-        "value_score": 0.581
+        "public_pct": 0.0619,
+        "title_prob": 0.0338,
+        "ff_prob": 0.1776,
+        "value_score": 0.546
       },
       {
         "name": "Purdue",
         "seed": 2,
         "region": "West",
-        "public_pct": 0.0704,
-        "title_prob": 0.0274,
-        "ff_prob": 0.162,
-        "value_score": 0.389
+        "public_pct": 0.0708,
+        "title_prob": 0.0318,
+        "ff_prob": 0.1756,
+        "value_score": 0.449
       },
       {
         "name": "Connecticut",
         "seed": 2,
         "region": "East",
-        "public_pct": 0.0528,
-        "title_prob": 0.0262,
-        "ff_prob": 0.1874,
-        "value_score": 0.496
+        "public_pct": 0.0531,
+        "title_prob": 0.03,
+        "ff_prob": 0.1848,
+        "value_score": 0.565
       },
       {
         "name": "Iowa State",
         "seed": 2,
         "region": "Midwest",
-        "public_pct": 0.0616,
-        "title_prob": 0.0254,
-        "ff_prob": 0.1588,
-        "value_score": 0.412
+        "public_pct": 0.0619,
+        "title_prob": 0.0266,
+        "ff_prob": 0.1692,
+        "value_score": 0.43
       },
       {
         "name": "Gonzaga",
         "seed": 3,
         "region": "West",
-        "public_pct": 0.0352,
-        "title_prob": 0.0236,
-        "ff_prob": 0.1228,
-        "value_score": 0.67
+        "public_pct": 0.0354,
+        "title_prob": 0.0222,
+        "ff_prob": 0.119,
+        "value_score": 0.628
       }
     ],
     "top_by_value_score": [
@@ -2016,91 +2016,91 @@
         "name": "Illinois",
         "seed": 3,
         "region": "South",
-        "public_pct": 0.0264,
-        "title_prob": 0.0798,
-        "ff_prob": 0.2988,
-        "value_score": 3.022
+        "public_pct": 0.0265,
+        "title_prob": 0.0858,
+        "ff_prob": 0.3136,
+        "value_score": 3.234
       },
       {
-        "name": "Michigan",
-        "seed": 1,
-        "region": "Midwest",
-        "public_pct": 0.1585,
-        "title_prob": 0.2486,
-        "ff_prob": 0.6154,
-        "value_score": 1.569
+        "name": "BYU",
+        "seed": 6,
+        "region": "West",
+        "public_pct": 0.0044,
+        "title_prob": 0.01,
+        "ff_prob": 0.0786,
+        "value_score": 2.261
       },
       {
         "name": "Vanderbilt",
         "seed": 5,
         "region": "South",
-        "public_pct": 0.007,
-        "title_prob": 0.011,
-        "ff_prob": 0.0896,
-        "value_score": 1.562
+        "public_pct": 0.0071,
+        "title_prob": 0.0142,
+        "ff_prob": 0.0932,
+        "value_score": 2.007
+      },
+      {
+        "name": "Michigan",
+        "seed": 1,
+        "region": "Midwest",
+        "public_pct": 0.1592,
+        "title_prob": 0.2426,
+        "ff_prob": 0.616,
+        "value_score": 1.524
       },
       {
         "name": "Arizona",
         "seed": 1,
         "region": "West",
-        "public_pct": 0.132,
-        "title_prob": 0.1906,
-        "ff_prob": 0.5328,
-        "value_score": 1.443
+        "public_pct": 0.1327,
+        "title_prob": 0.1746,
+        "ff_prob": 0.529,
+        "value_score": 1.316
       },
       {
         "name": "Duke",
         "seed": 1,
         "region": "East",
-        "public_pct": 0.1761,
-        "title_prob": 0.1922,
-        "ff_prob": 0.5642,
-        "value_score": 1.092
+        "public_pct": 0.1769,
+        "title_prob": 0.1954,
+        "ff_prob": 0.5638,
+        "value_score": 1.105
       },
       {
         "name": "Florida",
         "seed": 1,
         "region": "South",
-        "public_pct": 0.0792,
-        "title_prob": 0.0814,
-        "ff_prob": 0.3402,
-        "value_score": 1.027
+        "public_pct": 0.0796,
+        "title_prob": 0.0868,
+        "ff_prob": 0.3358,
+        "value_score": 1.09
       },
       {
         "name": "Gonzaga",
         "seed": 3,
         "region": "West",
-        "public_pct": 0.0352,
-        "title_prob": 0.0236,
-        "ff_prob": 0.1228,
-        "value_score": 0.67
-      },
-      {
-        "name": "Houston",
-        "seed": 2,
-        "region": "South",
-        "public_pct": 0.0616,
-        "title_prob": 0.0358,
-        "ff_prob": 0.1912,
-        "value_score": 0.581
+        "public_pct": 0.0354,
+        "title_prob": 0.0222,
+        "ff_prob": 0.119,
+        "value_score": 0.628
       },
       {
         "name": "Connecticut",
         "seed": 2,
         "region": "East",
-        "public_pct": 0.0528,
-        "title_prob": 0.0262,
-        "ff_prob": 0.1874,
-        "value_score": 0.496
+        "public_pct": 0.0531,
+        "title_prob": 0.03,
+        "ff_prob": 0.1848,
+        "value_score": 0.565
       },
       {
-        "name": "Iowa State",
+        "name": "Houston",
         "seed": 2,
-        "region": "Midwest",
-        "public_pct": 0.0616,
-        "title_prob": 0.0254,
-        "ff_prob": 0.1588,
-        "value_score": 0.412
+        "region": "South",
+        "public_pct": 0.0619,
+        "title_prob": 0.0338,
+        "ff_prob": 0.1776,
+        "value_score": 0.546
       }
     ],
     "top_by_public_pct": [
@@ -2108,240 +2108,95 @@
         "name": "Duke",
         "seed": 1,
         "region": "East",
-        "public_pct": 0.1761,
-        "title_prob": 0.1922,
-        "ff_prob": 0.5642,
-        "value_score": 1.092
+        "public_pct": 0.1769,
+        "title_prob": 0.1954,
+        "ff_prob": 0.5638,
+        "value_score": 1.105
       },
       {
         "name": "Michigan",
         "seed": 1,
         "region": "Midwest",
-        "public_pct": 0.1585,
-        "title_prob": 0.2486,
-        "ff_prob": 0.6154,
-        "value_score": 1.569
+        "public_pct": 0.1592,
+        "title_prob": 0.2426,
+        "ff_prob": 0.616,
+        "value_score": 1.524
       },
       {
         "name": "Arizona",
         "seed": 1,
         "region": "West",
-        "public_pct": 0.132,
-        "title_prob": 0.1906,
-        "ff_prob": 0.5328,
-        "value_score": 1.443
+        "public_pct": 0.1327,
+        "title_prob": 0.1746,
+        "ff_prob": 0.529,
+        "value_score": 1.316
       },
       {
         "name": "Florida",
         "seed": 1,
         "region": "South",
-        "public_pct": 0.0792,
-        "title_prob": 0.0814,
-        "ff_prob": 0.3402,
-        "value_score": 1.027
+        "public_pct": 0.0796,
+        "title_prob": 0.0868,
+        "ff_prob": 0.3358,
+        "value_score": 1.09
       },
       {
         "name": "Purdue",
         "seed": 2,
         "region": "West",
-        "public_pct": 0.0704,
-        "title_prob": 0.0274,
-        "ff_prob": 0.162,
-        "value_score": 0.389
+        "public_pct": 0.0708,
+        "title_prob": 0.0318,
+        "ff_prob": 0.1756,
+        "value_score": 0.449
       },
       {
         "name": "Houston",
         "seed": 2,
         "region": "South",
-        "public_pct": 0.0616,
-        "title_prob": 0.0358,
-        "ff_prob": 0.1912,
-        "value_score": 0.581
+        "public_pct": 0.0619,
+        "title_prob": 0.0338,
+        "ff_prob": 0.1776,
+        "value_score": 0.546
       },
       {
         "name": "Iowa State",
         "seed": 2,
         "region": "Midwest",
-        "public_pct": 0.0616,
-        "title_prob": 0.0254,
-        "ff_prob": 0.1588,
-        "value_score": 0.412
+        "public_pct": 0.0619,
+        "title_prob": 0.0266,
+        "ff_prob": 0.1692,
+        "value_score": 0.43
       },
       {
         "name": "Connecticut",
         "seed": 2,
         "region": "East",
-        "public_pct": 0.0528,
-        "title_prob": 0.0262,
-        "ff_prob": 0.1874,
-        "value_score": 0.496
+        "public_pct": 0.0531,
+        "title_prob": 0.03,
+        "ff_prob": 0.1848,
+        "value_score": 0.565
       },
       {
         "name": "Gonzaga",
         "seed": 3,
         "region": "West",
-        "public_pct": 0.0352,
-        "title_prob": 0.0236,
-        "ff_prob": 0.1228,
-        "value_score": 0.67
+        "public_pct": 0.0354,
+        "title_prob": 0.0222,
+        "ff_prob": 0.119,
+        "value_score": 0.628
       },
       {
         "name": "Illinois",
         "seed": 3,
         "region": "South",
-        "public_pct": 0.0264,
-        "title_prob": 0.0798,
-        "ff_prob": 0.2988,
-        "value_score": 3.022
+        "public_pct": 0.0265,
+        "title_prob": 0.0858,
+        "ff_prob": 0.3136,
+        "value_score": 3.234
       }
     ]
   },
-  "picks_missing": [
-    {
-      "name": "South Florida",
-      "seed": 11,
-      "fallback_pct": 0.001,
-      "source": "seed default"
-    },
-    {
-      "name": "Northern Iowa",
-      "seed": 12,
-      "fallback_pct": 0.0008,
-      "source": "seed default"
-    },
-    {
-      "name": "California Baptist",
-      "seed": 13,
-      "fallback_pct": 0.0005,
-      "source": "seed default"
-    },
-    {
-      "name": "North Dakota State",
-      "seed": 14,
-      "fallback_pct": 0.0003,
-      "source": "seed default"
-    },
-    {
-      "name": "Furman",
-      "seed": 15,
-      "fallback_pct": 0.0001,
-      "source": "seed default"
-    },
-    {
-      "name": "Siena",
-      "seed": 16,
-      "fallback_pct": 5e-05,
-      "source": "seed default"
-    },
-    {
-      "name": "Texas",
-      "seed": 11,
-      "fallback_pct": 0.001,
-      "source": "seed default"
-    },
-    {
-      "name": "High Point",
-      "seed": 12,
-      "fallback_pct": 0.0008,
-      "source": "seed default"
-    },
-    {
-      "name": "Hawaii",
-      "seed": 13,
-      "fallback_pct": 0.0005,
-      "source": "seed default"
-    },
-    {
-      "name": "Kennesaw State",
-      "seed": 14,
-      "fallback_pct": 0.0003,
-      "source": "seed default"
-    },
-    {
-      "name": "Queens",
-      "seed": 15,
-      "fallback_pct": 0.0001,
-      "source": "seed default"
-    },
-    {
-      "name": "LIU",
-      "seed": 16,
-      "fallback_pct": 5e-05,
-      "source": "seed default"
-    },
-    {
-      "name": "VCU",
-      "seed": 11,
-      "fallback_pct": 0.001,
-      "source": "seed default"
-    },
-    {
-      "name": "McNeese",
-      "seed": 12,
-      "fallback_pct": 0.0008,
-      "source": "seed default"
-    },
-    {
-      "name": "Troy",
-      "seed": 13,
-      "fallback_pct": 0.0005,
-      "source": "seed default"
-    },
-    {
-      "name": "Penn",
-      "seed": 14,
-      "fallback_pct": 0.0003,
-      "source": "seed default"
-    },
-    {
-      "name": "Idaho",
-      "seed": 15,
-      "fallback_pct": 0.0001,
-      "source": "seed default"
-    },
-    {
-      "name": "Prairie View A&M",
-      "seed": 16,
-      "fallback_pct": 5e-05,
-      "source": "seed default"
-    },
-    {
-      "name": "Miami (OH)",
-      "seed": 11,
-      "fallback_pct": 0.001,
-      "source": "seed default"
-    },
-    {
-      "name": "Akron",
-      "seed": 12,
-      "fallback_pct": 0.0008,
-      "source": "seed default"
-    },
-    {
-      "name": "Hofstra",
-      "seed": 13,
-      "fallback_pct": 0.0005,
-      "source": "seed default"
-    },
-    {
-      "name": "Wright State",
-      "seed": 14,
-      "fallback_pct": 0.0003,
-      "source": "seed default"
-    },
-    {
-      "name": "Tennessee State",
-      "seed": 15,
-      "fallback_pct": 0.0001,
-      "source": "seed default"
-    },
-    {
-      "name": "Howard",
-      "seed": 16,
-      "fallback_pct": 5e-05,
-      "source": "seed default"
-    }
-  ],
+  "picks_missing": [],
   "strategy_summary": {
     "deterministic_champion": {
       "name": "Arizona",
@@ -2352,34 +2207,34 @@
       "name": "Michigan",
       "seed": 1,
       "region": "Midwest",
-      "title_prob": 0.2486,
-      "ff_prob": 0.6154
+      "title_prob": 0.2426,
+      "ff_prob": 0.616
     },
     "safest_pick": {
       "name": "Michigan",
       "seed": 1,
       "region": "Midwest",
-      "title_prob": 0.2486,
-      "ff_prob": 0.6154,
-      "public_pct": 0.1585
+      "title_prob": 0.2426,
+      "ff_prob": 0.616,
+      "public_pct": 0.1592
     },
     "best_value_pick": {
       "name": "Illinois",
       "seed": 3,
       "region": "South",
-      "title_prob": 0.0798,
-      "ff_prob": 0.2988,
-      "public_pct": 0.0264,
-      "value_score": 3.022
+      "title_prob": 0.0858,
+      "ff_prob": 0.3136,
+      "public_pct": 0.0265,
+      "value_score": 3.234
     },
     "most_contrarian_viable": {
       "name": "Illinois",
       "seed": 3,
       "region": "South",
-      "title_prob": 0.0798,
-      "ff_prob": 0.2988,
-      "public_pct": 0.0264,
-      "value_score": 3.022
+      "title_prob": 0.0858,
+      "ff_prob": 0.3136,
+      "public_pct": 0.0265,
+      "value_score": 3.234
     }
   },
   "pool_recommendation": {
@@ -2395,29 +2250,29 @@
       "name": "Illinois",
       "seed": 3,
       "region": "South",
-      "title_prob": 0.0798,
-      "ff_prob": 0.2988,
-      "public_pct": 0.0264,
-      "value_score": 3.022
+      "title_prob": 0.0858,
+      "ff_prob": 0.3136,
+      "public_pct": 0.0265,
+      "value_score": 3.234
     },
-    "primary_reason": "Illinois: 8.0% title probability, 2.6% public pick share (3.02\u00d7 value, 29.9% Final Four probability). Estimated ~8 other entries in your pool will pick this team \u2014 but at 3.0\u00d7 value, this is the highest-leverage champion available.",
+    "primary_reason": "Illinois: 8.6% title probability, 2.6% public pick share (3.23\u00d7 value, 31.4% Final Four probability). Estimated ~8 other entries in your pool will pick this team \u2014 but at 3.2\u00d7 value, this is the highest-leverage champion available.",
     "safest_alt": {
       "name": "Michigan",
       "seed": 1,
       "region": "Midwest",
-      "title_prob": 0.2486,
-      "ff_prob": 0.6154,
-      "public_pct": 0.1585,
-      "value_score": 1.569
+      "title_prob": 0.2426,
+      "ff_prob": 0.616,
+      "public_pct": 0.1592,
+      "value_score": 1.524
     },
     "value_alt": {
       "name": "Illinois",
       "seed": 3,
       "region": "South",
-      "title_prob": 0.0798,
-      "ff_prob": 0.2988,
-      "public_pct": 0.0264,
-      "value_score": 3.022
+      "title_prob": 0.0858,
+      "ff_prob": 0.3136,
+      "public_pct": 0.0265,
+      "value_score": 3.234
     }
   },
   "deterministic_recommendation": {
@@ -2429,8 +2284,8 @@
       "name": "Michigan",
       "seed": 1,
       "region": "Midwest",
-      "title_prob": 0.2486,
-      "ff_prob": 0.6154
+      "title_prob": 0.2426,
+      "ff_prob": 0.616
     }
   },
   "safe_recommendation": {
@@ -2444,29 +2299,29 @@
       "name": "Michigan",
       "seed": 1,
       "region": "Midwest",
-      "title_prob": 0.2486,
-      "ff_prob": 0.6154,
-      "public_pct": 0.1585,
-      "value_score": 1.569
+      "title_prob": 0.2426,
+      "ff_prob": 0.616,
+      "public_pct": 0.1592,
+      "value_score": 1.524
     },
-    "primary_reason": "Michigan has the highest title probability in the field (24.9%), 61.5% Final Four probability. In a shallow pool, picking the most likely winner maximises your chance of taking the pot outright.",
+    "primary_reason": "Michigan has the highest title probability in the field (24.3%), 61.6% Final Four probability. In a shallow pool, picking the most likely winner maximises your chance of taking the pot outright.",
     "safest_alt": {
       "name": "Michigan",
       "seed": 1,
       "region": "Midwest",
-      "title_prob": 0.2486,
-      "ff_prob": 0.6154,
-      "public_pct": 0.1585,
-      "value_score": 1.569
+      "title_prob": 0.2426,
+      "ff_prob": 0.616,
+      "public_pct": 0.1592,
+      "value_score": 1.524
     },
     "value_alt": {
       "name": "Illinois",
       "seed": 3,
       "region": "South",
-      "title_prob": 0.0798,
-      "ff_prob": 0.2988,
-      "public_pct": 0.0264,
-      "value_score": 3.022
+      "title_prob": 0.0858,
+      "ff_prob": 0.3136,
+      "public_pct": 0.0265,
+      "value_score": 3.234
     }
   },
   "value_recommendation": {
@@ -2480,29 +2335,29 @@
       "name": "Illinois",
       "seed": 3,
       "region": "South",
-      "title_prob": 0.0798,
-      "ff_prob": 0.2988,
-      "public_pct": 0.0264,
-      "value_score": 3.022
+      "title_prob": 0.0858,
+      "ff_prob": 0.3136,
+      "public_pct": 0.0265,
+      "value_score": 3.234
     },
-    "primary_reason": "Illinois carries a 8.0% title probability against only 2.6% public pick share \u2014 3.0\u00d7 value, 29.9% Final Four probability. In a 60-person pool this is the sweet spot: meaningful win probability AND differentiation from the field.",
+    "primary_reason": "Illinois carries a 8.6% title probability against only 2.6% public pick share \u2014 3.2\u00d7 value, 31.4% Final Four probability. In a 60-person pool this is the sweet spot: meaningful win probability AND differentiation from the field.",
     "safest_alt": {
       "name": "Michigan",
       "seed": 1,
       "region": "Midwest",
-      "title_prob": 0.2486,
-      "ff_prob": 0.6154,
-      "public_pct": 0.1585,
-      "value_score": 1.569
+      "title_prob": 0.2426,
+      "ff_prob": 0.616,
+      "public_pct": 0.1592,
+      "value_score": 1.524
     },
     "value_alt": {
       "name": "Illinois",
       "seed": 3,
       "region": "South",
-      "title_prob": 0.0798,
-      "ff_prob": 0.2988,
-      "public_pct": 0.0264,
-      "value_score": 3.022
+      "title_prob": 0.0858,
+      "ff_prob": 0.3136,
+      "public_pct": 0.0265,
+      "value_score": 3.234
     }
   },
   "contrarian_recommendation": {
@@ -2516,29 +2371,29 @@
       "name": "Illinois",
       "seed": 3,
       "region": "South",
-      "title_prob": 0.0798,
-      "ff_prob": 0.2988,
-      "public_pct": 0.0264,
-      "value_score": 3.022
+      "title_prob": 0.0858,
+      "ff_prob": 0.3136,
+      "public_pct": 0.0265,
+      "value_score": 3.234
     },
-    "primary_reason": "Illinois: 8.0% title probability, 2.6% public pick share (3.02\u00d7 value, 29.9% Final Four probability). Estimated ~13 other entries in your pool will pick this team \u2014 but at 3.0\u00d7 value, this is the highest-leverage champion available.",
+    "primary_reason": "Illinois: 8.6% title probability, 2.6% public pick share (3.23\u00d7 value, 31.4% Final Four probability). Estimated ~13 other entries in your pool will pick this team \u2014 but at 3.2\u00d7 value, this is the highest-leverage champion available.",
     "safest_alt": {
       "name": "Michigan",
       "seed": 1,
       "region": "Midwest",
-      "title_prob": 0.2486,
-      "ff_prob": 0.6154,
-      "public_pct": 0.1585,
-      "value_score": 1.569
+      "title_prob": 0.2426,
+      "ff_prob": 0.616,
+      "public_pct": 0.1592,
+      "value_score": 1.524
     },
     "value_alt": {
       "name": "Illinois",
       "seed": 3,
       "region": "South",
-      "title_prob": 0.0798,
-      "ff_prob": 0.2988,
-      "public_pct": 0.0264,
-      "value_score": 3.022
+      "title_prob": 0.0858,
+      "ff_prob": 0.3136,
+      "public_pct": 0.0265,
+      "value_score": 3.234
     }
   },
   "monte_carlo": {
@@ -2550,12 +2405,12 @@
         "region": "Midwest",
         "sims": 5000,
         "probs": {
-          "title": 0.2486,
-          "champ_game": 0.416,
-          "final_four": 0.6154,
-          "elite_8": 0.8032,
-          "sweet_16": 0.9312,
-          "round_of_32": 0.9918
+          "title": 0.2426,
+          "champ_game": 0.4024,
+          "final_four": 0.616,
+          "elite_8": 0.7988,
+          "sweet_16": 0.9348,
+          "round_of_32": 0.993
         }
       },
       {
@@ -2564,12 +2419,12 @@
         "region": "East",
         "sims": 5000,
         "probs": {
-          "title": 0.1922,
-          "champ_game": 0.3444,
-          "final_four": 0.5642,
-          "elite_8": 0.7558,
-          "sweet_16": 0.9062,
-          "round_of_32": 0.9928
+          "title": 0.1954,
+          "champ_game": 0.339,
+          "final_four": 0.5638,
+          "elite_8": 0.7534,
+          "sweet_16": 0.9118,
+          "round_of_32": 0.9938
         }
       },
       {
@@ -2578,12 +2433,12 @@
         "region": "West",
         "sims": 5000,
         "probs": {
-          "title": 0.1906,
-          "champ_game": 0.331,
-          "final_four": 0.5328,
-          "elite_8": 0.7654,
-          "sweet_16": 0.9054,
-          "round_of_32": 0.9908
+          "title": 0.1746,
+          "champ_game": 0.3228,
+          "final_four": 0.529,
+          "elite_8": 0.7604,
+          "sweet_16": 0.9126,
+          "round_of_32": 0.993
         }
       },
       {
@@ -2592,12 +2447,12 @@
         "region": "South",
         "sims": 5000,
         "probs": {
-          "title": 0.0814,
-          "champ_game": 0.1604,
-          "final_four": 0.3402,
-          "elite_8": 0.6194,
-          "sweet_16": 0.8814,
-          "round_of_32": 0.9858
+          "title": 0.0868,
+          "champ_game": 0.1666,
+          "final_four": 0.3358,
+          "elite_8": 0.612,
+          "sweet_16": 0.8774,
+          "round_of_32": 0.9856
         }
       },
       {
@@ -2606,12 +2461,12 @@
         "region": "South",
         "sims": 5000,
         "probs": {
-          "title": 0.0798,
-          "champ_game": 0.1506,
-          "final_four": 0.2988,
-          "elite_8": 0.5082,
-          "sweet_16": 0.8212,
-          "round_of_32": 0.975
+          "title": 0.0858,
+          "champ_game": 0.1628,
+          "final_four": 0.3136,
+          "elite_8": 0.5286,
+          "sweet_16": 0.8354,
+          "round_of_32": 0.9798
         }
       },
       {
@@ -2620,12 +2475,12 @@
         "region": "South",
         "sims": 5000,
         "probs": {
-          "title": 0.0358,
-          "champ_game": 0.0786,
-          "final_four": 0.1912,
-          "elite_8": 0.355,
-          "sweet_16": 0.7102,
-          "round_of_32": 0.9764
+          "title": 0.0338,
+          "champ_game": 0.0768,
+          "final_four": 0.1776,
+          "elite_8": 0.3386,
+          "sweet_16": 0.6994,
+          "round_of_32": 0.9744
         }
       },
       {
@@ -2634,12 +2489,12 @@
         "region": "West",
         "sims": 5000,
         "probs": {
-          "title": 0.0274,
-          "champ_game": 0.071,
-          "final_four": 0.162,
-          "elite_8": 0.3936,
-          "sweet_16": 0.7224,
-          "round_of_32": 0.9784
+          "title": 0.0318,
+          "champ_game": 0.0794,
+          "final_four": 0.1756,
+          "elite_8": 0.4016,
+          "sweet_16": 0.7276,
+          "round_of_32": 0.9722
         }
       },
       {
@@ -2648,12 +2503,12 @@
         "region": "East",
         "sims": 5000,
         "probs": {
-          "title": 0.0262,
-          "champ_game": 0.07,
-          "final_four": 0.1874,
-          "elite_8": 0.4648,
-          "sweet_16": 0.7244,
-          "round_of_32": 0.9688
+          "title": 0.03,
+          "champ_game": 0.08,
+          "final_four": 0.1848,
+          "elite_8": 0.4534,
+          "sweet_16": 0.721,
+          "round_of_32": 0.964
         }
       },
       {
@@ -2662,12 +2517,12 @@
         "region": "Midwest",
         "sims": 5000,
         "probs": {
-          "title": 0.0254,
-          "champ_game": 0.0698,
-          "final_four": 0.1588,
-          "elite_8": 0.4554,
-          "sweet_16": 0.7188,
-          "round_of_32": 0.9754
+          "title": 0.0266,
+          "champ_game": 0.0694,
+          "final_four": 0.1692,
+          "elite_8": 0.4566,
+          "sweet_16": 0.7172,
+          "round_of_32": 0.98
         }
       },
       {
@@ -2676,12 +2531,12 @@
         "region": "West",
         "sims": 5000,
         "probs": {
-          "title": 0.0236,
-          "champ_game": 0.055,
-          "final_four": 0.1228,
-          "elite_8": 0.3016,
-          "sweet_16": 0.5484,
-          "round_of_32": 0.9628
+          "title": 0.0222,
+          "champ_game": 0.053,
+          "final_four": 0.119,
+          "elite_8": 0.3076,
+          "sweet_16": 0.5674,
+          "round_of_32": 0.9678
         }
       },
       {
@@ -2690,12 +2545,12 @@
         "region": "South",
         "sims": 5000,
         "probs": {
-          "title": 0.011,
-          "champ_game": 0.031,
-          "final_four": 0.0896,
-          "elite_8": 0.2312,
-          "sweet_16": 0.5958,
-          "round_of_32": 0.9186
+          "title": 0.0142,
+          "champ_game": 0.0318,
+          "final_four": 0.0932,
+          "elite_8": 0.2404,
+          "sweet_16": 0.5956,
+          "round_of_32": 0.9208
         }
       },
       {
@@ -2704,11 +2559,11 @@
         "region": "West",
         "sims": 5000,
         "probs": {
-          "title": 0.009,
-          "champ_game": 0.0344,
-          "final_four": 0.0862,
-          "elite_8": 0.2212,
-          "sweet_16": 0.4374,
+          "title": 0.01,
+          "champ_game": 0.0316,
+          "final_four": 0.0786,
+          "elite_8": 0.2062,
+          "sweet_16": 0.4144,
           "round_of_32": 0.8928
         }
       },
@@ -2718,12 +2573,12 @@
         "region": "East",
         "sims": 5000,
         "probs": {
-          "title": 0.0076,
-          "champ_game": 0.0304,
-          "final_four": 0.0898,
-          "elite_8": 0.268,
-          "sweet_16": 0.5834,
-          "round_of_32": 0.9376
+          "title": 0.0064,
+          "champ_game": 0.029,
+          "final_four": 0.0856,
+          "elite_8": 0.2798,
+          "sweet_16": 0.593,
+          "round_of_32": 0.9388
         }
       },
       {
@@ -2732,40 +2587,12 @@
         "region": "Midwest",
         "sims": 5000,
         "probs": {
-          "title": 0.0076,
-          "champ_game": 0.0254,
-          "final_four": 0.0726,
-          "elite_8": 0.2342,
-          "sweet_16": 0.541,
-          "round_of_32": 0.9468
-        }
-      },
-      {
-        "name": "Arkansas",
-        "seed": 4,
-        "region": "West",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0048,
-          "champ_game": 0.0136,
-          "final_four": 0.0464,
-          "elite_8": 0.1278,
-          "sweet_16": 0.554,
-          "round_of_32": 0.9066
-        }
-      },
-      {
-        "name": "Tennessee",
-        "seed": 6,
-        "region": "Midwest",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0038,
-          "champ_game": 0.0152,
-          "final_four": 0.0528,
-          "elite_8": 0.186,
-          "sweet_16": 0.4376,
-          "round_of_32": 0.8696
+          "title": 0.0064,
+          "champ_game": 0.0238,
+          "final_four": 0.0618,
+          "elite_8": 0.23,
+          "sweet_16": 0.5278,
+          "round_of_32": 0.9482
         }
       },
       {
@@ -2774,12 +2601,26 @@
         "region": "Midwest",
         "sims": 5000,
         "probs": {
-          "title": 0.0034,
-          "champ_game": 0.016,
-          "final_four": 0.0446,
-          "elite_8": 0.1096,
-          "sweet_16": 0.549,
-          "round_of_32": 0.9122
+          "title": 0.0048,
+          "champ_game": 0.0158,
+          "final_four": 0.048,
+          "elite_8": 0.1106,
+          "sweet_16": 0.5542,
+          "round_of_32": 0.908
+        }
+      },
+      {
+        "name": "Tennessee",
+        "seed": 6,
+        "region": "Midwest",
+        "sims": 5000,
+        "probs": {
+          "title": 0.0048,
+          "champ_game": 0.0142,
+          "final_four": 0.0478,
+          "elite_8": 0.1888,
+          "sweet_16": 0.4486,
+          "round_of_32": 0.8656
         }
       },
       {
@@ -2788,82 +2629,12 @@
         "region": "East",
         "sims": 5000,
         "probs": {
-          "title": 0.0032,
-          "champ_game": 0.0112,
-          "final_four": 0.0492,
-          "elite_8": 0.1182,
-          "sweet_16": 0.494,
-          "round_of_32": 0.8654
-        }
-      },
-      {
-        "name": "Kansas",
-        "seed": 4,
-        "region": "East",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0026,
-          "champ_game": 0.0098,
-          "final_four": 0.0368,
-          "elite_8": 0.0918,
-          "sweet_16": 0.461,
-          "round_of_32": 0.8854
-        }
-      },
-      {
-        "name": "Nebraska",
-        "seed": 4,
-        "region": "South",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0026,
-          "champ_game": 0.01,
-          "final_four": 0.0338,
-          "elite_8": 0.1228,
-          "sweet_16": 0.3844,
-          "round_of_32": 0.9066
-        }
-      },
-      {
-        "name": "Texas Tech",
-        "seed": 5,
-        "region": "Midwest",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0024,
-          "champ_game": 0.0076,
-          "final_four": 0.022,
-          "elite_8": 0.0654,
-          "sweet_16": 0.4106,
-          "round_of_32": 0.8518
-        }
-      },
-      {
-        "name": "UCLA",
-        "seed": 7,
-        "region": "East",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0022,
-          "champ_game": 0.0068,
-          "final_four": 0.0268,
-          "elite_8": 0.1018,
-          "sweet_16": 0.2434,
-          "round_of_32": 0.7698
-        }
-      },
-      {
-        "name": "Saint Mary's",
-        "seed": 7,
-        "region": "South",
-        "sims": 5000,
-        "probs": {
-          "title": 0.002,
-          "champ_game": 0.007,
-          "final_four": 0.0298,
-          "elite_8": 0.083,
-          "sweet_16": 0.2702,
-          "round_of_32": 0.8328
+          "title": 0.004,
+          "champ_game": 0.0134,
+          "final_four": 0.0504,
+          "elite_8": 0.1212,
+          "sweet_16": 0.5076,
+          "round_of_32": 0.8778
         }
       },
       {
@@ -2872,26 +2643,68 @@
         "region": "East",
         "sims": 5000,
         "probs": {
-          "title": 0.0016,
-          "champ_game": 0.0098,
-          "final_four": 0.039,
-          "elite_8": 0.155,
-          "sweet_16": 0.386,
-          "round_of_32": 0.843
+          "title": 0.0034,
+          "champ_game": 0.0106,
+          "final_four": 0.044,
+          "elite_8": 0.149,
+          "sweet_16": 0.3764,
+          "round_of_32": 0.8336
         }
       },
       {
-        "name": "Kentucky",
+        "name": "Nebraska",
+        "seed": 4,
+        "region": "South",
+        "sims": 5000,
+        "probs": {
+          "title": 0.0028,
+          "champ_game": 0.0112,
+          "final_four": 0.0356,
+          "elite_8": 0.1158,
+          "sweet_16": 0.3818,
+          "round_of_32": 0.9034
+        }
+      },
+      {
+        "name": "Arkansas",
+        "seed": 4,
+        "region": "West",
+        "sims": 5000,
+        "probs": {
+          "title": 0.0026,
+          "champ_game": 0.011,
+          "final_four": 0.0458,
+          "elite_8": 0.1288,
+          "sweet_16": 0.5416,
+          "round_of_32": 0.899
+        }
+      },
+      {
+        "name": "Saint Mary's",
         "seed": 7,
-        "region": "Midwest",
+        "region": "South",
+        "sims": 5000,
+        "probs": {
+          "title": 0.0022,
+          "champ_game": 0.0088,
+          "final_four": 0.0294,
+          "elite_8": 0.0826,
+          "sweet_16": 0.2832,
+          "round_of_32": 0.8344
+        }
+      },
+      {
+        "name": "Kansas",
+        "seed": 4,
+        "region": "East",
         "sims": 5000,
         "probs": {
           "title": 0.0016,
-          "champ_game": 0.0084,
-          "final_four": 0.028,
-          "elite_8": 0.1184,
-          "sweet_16": 0.2576,
-          "round_of_32": 0.8064
+          "champ_game": 0.0092,
+          "final_four": 0.0374,
+          "elite_8": 0.0922,
+          "sweet_16": 0.4544,
+          "round_of_32": 0.8892
         }
       },
       {
@@ -2901,11 +2714,39 @@
         "sims": 5000,
         "probs": {
           "title": 0.0014,
-          "champ_game": 0.0058,
-          "final_four": 0.0202,
-          "elite_8": 0.0796,
-          "sweet_16": 0.2458,
-          "round_of_32": 0.77
+          "champ_game": 0.0062,
+          "final_four": 0.0196,
+          "elite_8": 0.0786,
+          "sweet_16": 0.2396,
+          "round_of_32": 0.7714
+        }
+      },
+      {
+        "name": "Texas Tech",
+        "seed": 5,
+        "region": "Midwest",
+        "sims": 5000,
+        "probs": {
+          "title": 0.0014,
+          "champ_game": 0.006,
+          "final_four": 0.0246,
+          "elite_8": 0.07,
+          "sweet_16": 0.4132,
+          "round_of_32": 0.8558
+        }
+      },
+      {
+        "name": "Kentucky",
+        "seed": 7,
+        "region": "Midwest",
+        "sims": 5000,
+        "probs": {
+          "title": 0.0014,
+          "champ_game": 0.0076,
+          "final_four": 0.0272,
+          "elite_8": 0.1178,
+          "sweet_16": 0.2608,
+          "round_of_32": 0.8024
         }
       },
       {
@@ -2915,11 +2756,25 @@
         "sims": 5000,
         "probs": {
           "title": 0.0012,
-          "champ_game": 0.0054,
-          "final_four": 0.023,
-          "elite_8": 0.0764,
-          "sweet_16": 0.4068,
-          "round_of_32": 0.8442
+          "champ_game": 0.0066,
+          "final_four": 0.0252,
+          "elite_8": 0.0794,
+          "sweet_16": 0.419,
+          "round_of_32": 0.8416
+        }
+      },
+      {
+        "name": "UCLA",
+        "seed": 7,
+        "region": "East",
+        "sims": 5000,
+        "probs": {
+          "title": 0.001,
+          "champ_game": 0.0066,
+          "final_four": 0.0272,
+          "elite_8": 0.1084,
+          "sweet_16": 0.2466,
+          "round_of_32": 0.766
         }
       },
       {
@@ -2928,26 +2783,12 @@
         "region": "South",
         "sims": 5000,
         "probs": {
-          "title": 0.0004,
-          "champ_game": 0.0026,
-          "final_four": 0.0132,
-          "elite_8": 0.0508,
-          "sweet_16": 0.1624,
-          "round_of_32": 0.8092
-        }
-      },
-      {
-        "name": "TCU",
-        "seed": 9,
-        "region": "East",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0002,
-          "champ_game": 0.0004,
-          "final_four": 0.0016,
-          "elite_8": 0.01,
-          "sweet_16": 0.0308,
-          "round_of_32": 0.4282
+          "title": 0.0006,
+          "champ_game": 0.002,
+          "final_four": 0.0094,
+          "elite_8": 0.048,
+          "sweet_16": 0.1518,
+          "round_of_32": 0.808
         }
       },
       {
@@ -2957,25 +2798,11 @@
         "sims": 5000,
         "probs": {
           "title": 0.0002,
-          "champ_game": 0.0008,
+          "champ_game": 0.0006,
           "final_four": 0.0044,
-          "elite_8": 0.0198,
-          "sweet_16": 0.0588,
-          "round_of_32": 0.5678
-        }
-      },
-      {
-        "name": "Georgia",
-        "seed": 8,
-        "region": "Midwest",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0002,
-          "champ_game": 0.0004,
-          "final_four": 0.0032,
-          "elite_8": 0.0132,
-          "sweet_16": 0.043,
-          "round_of_32": 0.575
+          "elite_8": 0.0182,
+          "sweet_16": 0.0572,
+          "round_of_32": 0.5786
         }
       },
       {
@@ -2985,11 +2812,25 @@
         "sims": 5000,
         "probs": {
           "title": 0.0,
+          "champ_game": 0.0004,
+          "final_four": 0.004,
+          "elite_8": 0.0216,
+          "sweet_16": 0.058,
+          "round_of_32": 0.6024
+        }
+      },
+      {
+        "name": "TCU",
+        "seed": 9,
+        "region": "East",
+        "sims": 5000,
+        "probs": {
+          "title": 0.0,
           "champ_game": 0.0,
-          "final_four": 0.0048,
-          "elite_8": 0.022,
-          "sweet_16": 0.0624,
-          "round_of_32": 0.5718
+          "final_four": 0.0024,
+          "elite_8": 0.0096,
+          "sweet_16": 0.0296,
+          "round_of_32": 0.3976
         }
       },
       {
@@ -3002,8 +2843,8 @@
           "champ_game": 0.0,
           "final_four": 0.0004,
           "elite_8": 0.0058,
-          "sweet_16": 0.0278,
-          "round_of_32": 0.2302
+          "sweet_16": 0.0294,
+          "round_of_32": 0.234
         }
       },
       {
@@ -3015,9 +2856,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.004,
-          "sweet_16": 0.024,
-          "round_of_32": 0.157
+          "elite_8": 0.0026,
+          "sweet_16": 0.0226,
+          "round_of_32": 0.1664
         }
       },
       {
@@ -3029,9 +2870,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.001,
-          "sweet_16": 0.0288,
-          "round_of_32": 0.1346
+          "elite_8": 0.0012,
+          "sweet_16": 0.0202,
+          "round_of_32": 0.1222
         }
       },
       {
@@ -3043,9 +2884,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.0012,
-          "sweet_16": 0.0162,
-          "round_of_32": 0.1146
+          "elite_8": 0.0008,
+          "sweet_16": 0.0178,
+          "round_of_32": 0.1108
         }
       },
       {
@@ -3057,9 +2898,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.0004,
-          "sweet_16": 0.0066,
-          "round_of_32": 0.0624
+          "elite_8": 0.0006,
+          "sweet_16": 0.008,
+          "round_of_32": 0.0612
         }
       },
       {
@@ -3071,9 +2912,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.0002,
-          "sweet_16": 0.0044,
-          "round_of_32": 0.0312
+          "elite_8": 0.0004,
+          "sweet_16": 0.003,
+          "round_of_32": 0.036
         }
       },
       {
@@ -3087,7 +2928,7 @@
           "final_four": 0.0,
           "elite_8": 0.0,
           "sweet_16": 0.0006,
-          "round_of_32": 0.0072
+          "round_of_32": 0.0062
         }
       },
       {
@@ -3097,11 +2938,11 @@
         "sims": 5000,
         "probs": {
           "title": 0.0,
-          "champ_game": 0.0002,
-          "final_four": 0.0018,
-          "elite_8": 0.0088,
-          "sweet_16": 0.035,
-          "round_of_32": 0.4322
+          "champ_game": 0.0006,
+          "final_four": 0.002,
+          "elite_8": 0.0106,
+          "sweet_16": 0.0298,
+          "round_of_32": 0.4214
         }
       },
       {
@@ -3112,10 +2953,10 @@
         "probs": {
           "title": 0.0,
           "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0024,
+          "final_four": 0.0002,
+          "elite_8": 0.0038,
           "sweet_16": 0.03,
-          "round_of_32": 0.23
+          "round_of_32": 0.2286
         }
       },
       {
@@ -3128,7 +2969,7 @@
           "champ_game": 0.0,
           "final_four": 0.0002,
           "elite_8": 0.0016,
-          "sweet_16": 0.013,
+          "sweet_16": 0.0158,
           "round_of_32": 0.1072
         }
       },
@@ -3141,9 +2982,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0002,
-          "elite_8": 0.0008,
-          "sweet_16": 0.024,
-          "round_of_32": 0.1558
+          "elite_8": 0.001,
+          "sweet_16": 0.0238,
+          "round_of_32": 0.1584
         }
       },
       {
@@ -3154,10 +2995,10 @@
         "probs": {
           "title": 0.0,
           "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.001,
-          "sweet_16": 0.0152,
-          "round_of_32": 0.0934
+          "final_four": 0.0002,
+          "elite_8": 0.0014,
+          "sweet_16": 0.0156,
+          "round_of_32": 0.101
         }
       },
       {
@@ -3169,9 +3010,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.0,
-          "sweet_16": 0.0012,
-          "round_of_32": 0.0372
+          "elite_8": 0.0004,
+          "sweet_16": 0.0024,
+          "round_of_32": 0.0322
         }
       },
       {
@@ -3183,9 +3024,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.0,
-          "sweet_16": 0.0018,
-          "round_of_32": 0.0216
+          "elite_8": 0.0002,
+          "sweet_16": 0.0028,
+          "round_of_32": 0.0278
         }
       },
       {
@@ -3197,9 +3038,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.0,
-          "sweet_16": 0.0008,
-          "round_of_32": 0.0092
+          "elite_8": 0.0002,
+          "sweet_16": 0.0004,
+          "round_of_32": 0.007
         }
       },
       {
@@ -3209,11 +3050,11 @@
         "sims": 5000,
         "probs": {
           "title": 0.0,
-          "champ_game": 0.0004,
-          "final_four": 0.0024,
-          "elite_8": 0.0188,
-          "sweet_16": 0.074,
-          "round_of_32": 0.587
+          "champ_game": 0.0,
+          "final_four": 0.0042,
+          "elite_8": 0.0226,
+          "sweet_16": 0.0778,
+          "round_of_32": 0.5776
         }
       },
       {
@@ -3226,8 +3067,8 @@
           "champ_game": 0.0,
           "final_four": 0.001,
           "elite_8": 0.007,
-          "sweet_16": 0.0436,
-          "round_of_32": 0.413
+          "sweet_16": 0.0438,
+          "round_of_32": 0.4224
         }
       },
       {
@@ -3239,9 +3080,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.0018,
-          "sweet_16": 0.0178,
-          "round_of_32": 0.1672
+          "elite_8": 0.001,
+          "sweet_16": 0.0158,
+          "round_of_32": 0.1656
         }
       },
       {
@@ -3253,9 +3094,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.0012,
-          "sweet_16": 0.0118,
-          "round_of_32": 0.1908
+          "elite_8": 0.0006,
+          "sweet_16": 0.0102,
+          "round_of_32": 0.192
         }
       },
       {
@@ -3266,10 +3107,10 @@
         "probs": {
           "title": 0.0,
           "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0006,
-          "sweet_16": 0.0132,
-          "round_of_32": 0.0814
+          "final_four": 0.0002,
+          "elite_8": 0.0016,
+          "sweet_16": 0.013,
+          "round_of_32": 0.0792
         }
       },
       {
@@ -3281,9 +3122,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.0002,
-          "sweet_16": 0.0066,
-          "round_of_32": 0.0934
+          "elite_8": 0.0004,
+          "sweet_16": 0.0096,
+          "round_of_32": 0.0966
         }
       },
       {
@@ -3295,9 +3136,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.0,
-          "sweet_16": 0.0046,
-          "round_of_32": 0.025
+          "elite_8": 0.0006,
+          "sweet_16": 0.0026,
+          "round_of_32": 0.0202
         }
       },
       {
@@ -3310,8 +3151,8 @@
           "champ_game": 0.0,
           "final_four": 0.0,
           "elite_8": 0.0,
-          "sweet_16": 0.0018,
-          "round_of_32": 0.0236
+          "sweet_16": 0.0016,
+          "round_of_32": 0.0256
         }
       },
       {
@@ -3323,9 +3164,23 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.0,
+          "elite_8": 0.0002,
           "sweet_16": 0.001,
-          "round_of_32": 0.0142
+          "round_of_32": 0.0144
+        }
+      },
+      {
+        "name": "Georgia",
+        "seed": 8,
+        "region": "Midwest",
+        "sims": 5000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0006,
+          "final_four": 0.0034,
+          "elite_8": 0.0138,
+          "sweet_16": 0.0452,
+          "round_of_32": 0.568
         }
       },
       {
@@ -3335,11 +3190,11 @@
         "sims": 5000,
         "probs": {
           "title": 0.0,
-          "champ_game": 0.0004,
-          "final_four": 0.0016,
-          "elite_8": 0.0062,
-          "sweet_16": 0.025,
-          "round_of_32": 0.425
+          "champ_game": 0.0002,
+          "final_four": 0.0012,
+          "elite_8": 0.0052,
+          "sweet_16": 0.0198,
+          "round_of_32": 0.432
         }
       },
       {
@@ -3349,11 +3204,11 @@
         "sims": 5000,
         "probs": {
           "title": 0.0,
-          "champ_game": 0.0002,
-          "final_four": 0.001,
-          "elite_8": 0.0046,
-          "sweet_16": 0.021,
-          "round_of_32": 0.1936
+          "champ_game": 0.0,
+          "final_four": 0.0,
+          "elite_8": 0.0034,
+          "sweet_16": 0.02,
+          "round_of_32": 0.1976
         }
       },
       {
@@ -3364,10 +3219,10 @@
         "probs": {
           "title": 0.0,
           "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0014,
-          "sweet_16": 0.0162,
-          "round_of_32": 0.1304
+          "final_four": 0.0006,
+          "elite_8": 0.0028,
+          "sweet_16": 0.0184,
+          "round_of_32": 0.1344
         }
       },
       {
@@ -3378,10 +3233,10 @@
         "probs": {
           "title": 0.0,
           "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0014,
-          "sweet_16": 0.0242,
-          "round_of_32": 0.1482
+          "final_four": 0.0002,
+          "elite_8": 0.0012,
+          "sweet_16": 0.0192,
+          "round_of_32": 0.1442
         }
       },
       {
@@ -3393,9 +3248,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.0008,
-          "sweet_16": 0.0162,
-          "round_of_32": 0.0878
+          "elite_8": 0.0004,
+          "sweet_16": 0.0134,
+          "round_of_32": 0.092
         }
       },
       {
@@ -3407,9 +3262,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.0,
+          "elite_8": 0.0004,
           "sweet_16": 0.0052,
-          "round_of_32": 0.0532
+          "round_of_32": 0.0518
         }
       },
       {
@@ -3421,9 +3276,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.0,
-          "sweet_16": 0.0026,
-          "round_of_32": 0.0246
+          "elite_8": 0.0002,
+          "sweet_16": 0.002,
+          "round_of_32": 0.02
         }
       },
       {
@@ -3435,9 +3290,9 @@
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.0002,
-          "sweet_16": 0.0008,
-          "round_of_32": 0.0082
+          "elite_8": 0.0,
+          "sweet_16": 0.0002,
+          "round_of_32": 0.007
         }
       }
     ]

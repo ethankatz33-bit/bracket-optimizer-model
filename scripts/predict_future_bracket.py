@@ -309,6 +309,28 @@ _PICK_PCT_COLS  = ("public_pick_pct", "pick_pct", "champion_pick_pct", "pct")
 _PICKS_MIN_TITLE = 0.01
 
 
+def _normalize_name(name: str) -> str:
+    """
+    Canonical form for fuzzy name matching.
+    Lower-cases, strips leading/trailing whitespace, collapses internal
+    whitespace, and removes punctuation that commonly differs between sources
+    (periods, apostrophes, hyphens become spaces; extra spaces collapsed).
+    """
+    import re
+    n = name.lower().strip()
+    n = re.sub(r"[.''\-]", " ", n)   # . ' ' - → space
+    n = re.sub(r"\s+", " ", n).strip()
+    return n
+
+
+def _build_fuzzy_lookup(picks: dict[str, float]) -> dict[str, str]:
+    """
+    Return {normalized_name: original_name} for all keys in picks.
+    Used to resolve bracket team names that don't match exactly.
+    """
+    return {_normalize_name(k): k for k in picks}
+
+
 def _load_public_picks_file(path: Path) -> dict[str, float]:
     """
     Load public pick percentages from a standalone CSV.
@@ -374,25 +396,30 @@ def _build_public_picks(
     merged.update(file_picks)
     merged.update(overrides)
 
-    # Fill missing with seed-based fallback; build missing report
+    # Build fuzzy lookup once for the full merged dict
+    fuzzy: dict[str, str] = _build_fuzzy_lookup(merged)
+
+    # Fill missing with fuzzy match → seed fallback; build missing report
     missing: list[dict] = []
     for _, row in df.iterrows():
         name = str(row["canonical_team_name"])
         seed = int(row["seed"])
-        if name not in merged:
-            fallback = DEFAULT_PUBLIC_PCT.get(seed, 0.001)
-            merged[name] = fallback
-            source = (
-                "seed default"
-                if not (csv_picks.get(name) or file_picks.get(name) or overrides.get(name))
-                else "partial"
-            )
-            missing.append({
-                "name":         name,
-                "seed":         seed,
-                "fallback_pct": round(fallback, 5),
-                "source":       source,
-            })
+        if name in merged:
+            continue
+        # Try normalized name match
+        norm = _normalize_name(name)
+        if norm in fuzzy:
+            merged[name] = merged[fuzzy[norm]]
+            continue
+        # Fall back to seed default
+        fallback = DEFAULT_PUBLIC_PCT.get(seed, 0.001)
+        merged[name] = fallback
+        missing.append({
+            "name":         name,
+            "seed":         seed,
+            "fallback_pct": round(fallback, 5),
+            "source":       "seed default",
+        })
 
     return merged, missing
 
