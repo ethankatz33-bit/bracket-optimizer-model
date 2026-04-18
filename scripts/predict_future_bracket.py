@@ -956,7 +956,12 @@ def main() -> None:
         pool_rec = build_recommendation(candidates, args.pool)
         print(format_recommendation(pool_rec))
 
-        det_champion = summary["deterministic_champion"] if summary else {}
+        # Deterministic = highest MC title probability team (when MC ran);
+        # fall back to path-based bracket winner only if MC was not run.
+        if summary and summary.get("mc_champion"):
+            det_champion = summary["mc_champion"]
+        else:
+            det_champion = summary["deterministic_champion"] if summary else {}
         all_types = build_all_bracket_types(candidates, det_champion)
         print(format_bracket_type_summary(all_types, args.pool))
 
