@@ -318,20 +318,46 @@ def render_championship_game(bracket: dict, champion_name: str, color: str) -> N
 
 
 def render_final_four(bracket: dict, champion_name: str) -> None:
-    e8_games = bracket.get("elite_8", [])
-    ff_teams = [g.get("winner", {}) for g in e8_games]
+    """Render Final Four using actual game pairings from bracket["final_four"]."""
+    ff_games = bracket.get("final_four", [])
+    if not ff_games:
+        return
 
     st.markdown(
         '<div style="text-align:center; font-size:0.7rem; color:#777; font-weight:600; '
         'text-transform:uppercase; letter-spacing:2px; margin:16px 0 10px;">Final Four</div>',
         unsafe_allow_html=True,
     )
-    cols = st.columns(4)
-    for i, team in enumerate(ff_teams[:4]):
-        with cols[i]:
-            is_champ = (team.get("name") == champion_name)
+
+    # Show each semifinal as its own matchup: winner vs loser side-by-side
+    for game_idx, ff_game in enumerate(ff_games[:2]):
+        w = ff_game.get("winner", {})
+        l = ff_game.get("loser",  {})
+        # Determine which bracket half this game belongs to
+        regions_in_game = {w.get("region", ""), l.get("region", "")} - {""}
+        game_label = " vs ".join(sorted(regions_in_game)) if regions_in_game else f"Semifinal {game_idx + 1}"
+
+        if game_idx > 0:
+            st.markdown("")  # spacer between two semis
+        st.markdown(
+            f'<div style="font-size:0.65rem; color:#555; text-align:center; '
+            f'margin-bottom:4px;">Semifinal {game_idx + 1}  ·  {game_label}</div>',
+            unsafe_allow_html=True,
+        )
+        c1, mid, c2 = st.columns([5, 1, 5])
+        with c1:
             st.markdown(
-                _team_pill(team, highlight=is_champ, winner=True),
+                _team_pill(w, highlight=(w.get("name") == champion_name), winner=True),
+                unsafe_allow_html=True,
+            )
+        with mid:
+            st.markdown(
+                '<div style="text-align:center; padding-top:10px; color:#444; font-size:0.75rem;">vs</div>',
+                unsafe_allow_html=True,
+            )
+        with c2:
+            st.markdown(
+                _team_pill(l, highlight=(l.get("name") == champion_name), winner=False),
                 unsafe_allow_html=True,
             )
 

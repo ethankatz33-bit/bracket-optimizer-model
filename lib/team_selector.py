@@ -261,6 +261,23 @@ UPSET_MAX_MID_TIER_PER_REGION = 2   # of the three types 10v7 / 11v6 / 12v5
 # The three mid-tier R64 matchup types that cause cascade problems when all fire
 _MID_TIER_MATCHUPS: frozenset[tuple[int, int]] = frozenset({(5, 12), (6, 11), (7, 10)})
 
+# Global per-seed-line caps for Round of 64.
+# Prevents one seed line from monopolising all upsets (e.g. all four 10-seeds
+# winning while no 12-seeds advance, which is historically rare and
+# bracket-quality-degrading).  The greedy selector fills the best N picks
+# across the whole field per seed number.
+#
+# Calibrated from 1985–2024 data:
+#   10v7: average ~1.5 wins/year   → cap 2 (allow the best two)
+#   11v6: average ~1.3 wins/year   → cap 2
+#   12v5: average ~1.5 wins/year   → cap 2 (ensure bracket has 12-seed variety)
+#   13v4: average ~0.4 wins/year   → cap 1
+R64_GLOBAL_SEED_CAPS: dict[str, dict[int, int]] = {
+    "conservative": {10: 1, 11: 1, 12: 1, 13: 0},
+    "balanced":     {10: 2, 11: 2, 12: 2, 13: 1},
+    "upset_heavy":  {10: 3, 11: 3, 12: 2, 13: 1},
+}
+
 # Soft Final Four balance bias — applied to E8 upset candidates' desirability
 # scores (for ranking and gate purposes) based on how many 1-seeds are projected
 # to reach the FF by default.  Encourages ~2 1-seeds; discourages 0 or 4.
@@ -588,9 +605,12 @@ def _select_upset_indices(
     # ── Greedily select within caps ───────────────────────────────────────
     total_cap = UPSET_MAX_BY_ROUND.get(round_name, {}).get(mode, len(candidates))
 
-    selected:       dict[int, float] = {}
-    region_count:   dict[str, int]   = {}
-    region_midtier: dict[str, int]   = {}
+    selected:        dict[int, float] = {}
+    region_count:    dict[str, int]   = {}
+    region_midtier:  dict[str, int]   = {}
+    seed_line_count: dict[int, int]   = {}   # R64 only: global per-seed-line tally
+
+    r64_seed_caps = R64_GLOBAL_SEED_CAPS.get(mode, {}) if round_name == "Round of 64" else {}
 
     for i, desir, fav, und, region, value_bypass in candidates:
         if len(selected) >= total_cap:
@@ -606,10 +626,27 @@ def _select_upset_indices(
             continue
 
         if round_name == "Round of 64":
+            # Global seed-line cap: at most N winners per underdog seed number.
+            # Picks the strongest N candidates across the whole field for each
+            # seed line, preventing one line (e.g. all four 10-seeds) from
+            # monopolising the upsets while no 12-seeds advance.
+            und_seed = und["seed"]
+            if und_seed in r64_seed_caps:
+                if seed_line_count.get(und_seed, 0) >= r64_seed_caps[und_seed]:
+                    continue
+                seed_line_count[und_seed] = seed_line_count.get(und_seed, 0) + 1
+
+            # Per-region caps: at most 2 upsets per region total, at most 2
+            # from the 10/11/12 mid-tier cluster.
             if region_count.get(region, 0) >= UPSET_MAX_PER_REGION_R64:
+                # Undo the seed-line increment since we're skipping this pick.
+                if und_seed in r64_seed_caps:
+                    seed_line_count[und_seed] -= 1
                 continue
             if (fav["seed"], und["seed"]) in _MID_TIER_MATCHUPS:
                 if region_midtier.get(region, 0) >= UPSET_MAX_MID_TIER_PER_REGION:
+                    if und_seed in r64_seed_caps:
+                        seed_line_count[und_seed] -= 1
                     continue
                 region_midtier[region] = region_midtier.get(region, 0) + 1
             region_count[region] = region_count.get(region, 0) + 1
