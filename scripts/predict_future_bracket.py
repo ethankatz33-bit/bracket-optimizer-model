@@ -213,11 +213,10 @@ def _build_teams_override(df: pd.DataFrame) -> dict[str, dict[int, dict]]:
     simulate_bracket().
 
     team_rating (0–1)
-        Normalized efficiency_margin within the full 64-team field.
-        Scaled to [0.10, 0.95] so seed-1 teams sit near the top and
-        seed-16 teams are well above zero.
-        If the CSV already provides a 'team_rating' column, that value
-        is used directly.
+        Blended rating combining efficiency_margin (50%), KenPom rank (30%),
+        and Bart Torvik rank (20%), each normalized within the tournament
+        field.  Falls back to efficiency_margin only when either rank column
+        is absent.  Clamped to [0.10, 0.95].
 
     champion_profile_score (0–1)
         Composite of seed quality (35%), EM rank (30%), offensive
@@ -227,6 +226,7 @@ def _build_teams_override(df: pd.DataFrame) -> dict[str, dict[int, dict]]:
     offense_rating (0–1)
         Normalized offensive_efficiency within the field.
         Used by the model's seed-3 exception and early-round upset logic.
+        Unchanged by the team_rating blend.
     """
     n   = len(df)
     df  = df.copy()
@@ -237,8 +237,36 @@ def _build_teams_override(df: pd.DataFrame) -> dict[str, dict[int, dict]]:
         rng    = mx - mn if mx != mn else 1.0
         return ((series - mn) / rng * (hi - lo) + lo).clip(lo, hi)
 
-    df["_team_rating"]    = _minmax(df["efficiency_margin"])
+    df["_em_norm"]        = _minmax(df["efficiency_margin"])
     df["_offense_rating"] = _minmax(df["offensive_efficiency"])
+
+    # ── KenPom / Bart Torvik within-field rank normalization ──────────────
+    # National ranks (e.g. 1–360) span beyond n, so normalize within the
+    # tournament field using pandas rank().  Lower national rank → higher
+    # within-field rank → higher norm score.
+    _has_kp   = "kenpom_rank"      in df.columns and df["kenpom_rank"].notna().all()
+    _has_bart = "bart_torvik_rank" in df.columns and df["bart_torvik_rank"].notna().all()
+
+    if _has_kp:
+        # ascending=True → best national rank (lowest number) gets field rank 1
+        df["_kp_field_rank"]   = df["kenpom_rank"].rank(ascending=True, method="min")
+    if _has_bart:
+        df["_bart_field_rank"] = df["bart_torvik_rank"].rank(ascending=True, method="min")
+
+    _use_blend = _has_kp and _has_bart
+
+    def _rank_to_norm(field_rank: float) -> float:
+        """Convert a within-field rank (1 = best) to a [0, 1] score."""
+        return 1.0 - (field_rank - 1) / max(n - 1, 1)
+
+    if _use_blend:
+        df["_team_rating"] = (
+            0.50 * df["_em_norm"]
+            + 0.30 * df["_kp_field_rank"].apply(_rank_to_norm)
+            + 0.20 * df["_bart_field_rank"].apply(_rank_to_norm)
+        ).clip(0.10, 0.95)
+    else:
+        df["_team_rating"] = df["_em_norm"]
 
     # ── Rank-based scores for champion_profile_score ───────────────────
     df["_em_rank"]  = df["efficiency_margin"].rank(ascending=False, method="min")
@@ -293,6 +321,12 @@ def _build_teams_override(df: pd.DataFrame) -> dict[str, dict[int, dict]]:
         # ap_top12_flag — picked up by the FF/Championship AP tie-breaker
         if "ap_top12_flag" in df.columns and pd.notna(row.get("ap_top12_flag")):
             team_dict["ap_top12_flag"] = int(row["ap_top12_flag"])
+
+        # bracket_half — 0 or 1, encodes which FF semifinal this region feeds into.
+        # Half 0 (e.g. West + Midwest) and Half 1 (e.g. East + South) must produce
+        # one finalist each; teams from the same half meet in the FF, not the title game.
+        if "bracket_half" in df.columns and pd.notna(row.get("bracket_half")):
+            team_dict["bracket_half"] = int(row["bracket_half"])
 
         teams_override.setdefault(region, {})[seed] = team_dict
 
