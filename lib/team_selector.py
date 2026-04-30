@@ -63,8 +63,8 @@ R32_PAIRS = [(0,1), (2,3), (4,5), (6,7)]
 # Sweet 16: pair R32 game-slot winners (0,1), (2,3)
 S16_PAIRS = [(0,1), (2,3)]
 
-# Final Four: East vs West, South vs Midwest (indices into REGIONS list)
-FF_REGION_PAIRS = [(0,1), (2,3)]   # (East,West), (South,Midwest)
+# Final Four: pairings are derived dynamically from bracket_half fields on
+# team dicts (0 = one semifinal, 1 = other semifinal).  See simulate_bracket.
 
 # ── Mock team field (replace with live data for a real season) ────────────────
 # Ratings are on a 20–96 scale calibrated to seed tiers with intra-tier variance.
@@ -1389,10 +1389,32 @@ def simulate_bracket(
     # e8_winners[i] is the champion of REGIONS[i]
 
     # ── Final Four (2 games) ─────────────────────────────────────────────
-    # East vs West, South vs Midwest
+    # Pair regions by bracket_half: regions sharing a half meet in the FF.
+    # bracket_half=0 → one semifinal (e.g. West + Midwest for 2026)
+    # bracket_half=1 → other semifinal (e.g. East + South for 2026)
+    # Falls back to REGIONS-order pairing (East/West, South/Midwest) when
+    # bracket_half is absent from the team data (e.g. backtest MOCK_TEAMS).
+
+    region_to_half: dict[str, int | None] = {
+        region: next(iter(seed_map.values())).get("bracket_half")
+        for region, seed_map in teams.items()
+    }
+    if all(v is not None for v in region_to_half.values()):
+        ff_half0 = [r for r in REGIONS if region_to_half.get(r) == 0]
+        ff_half1 = [r for r in REGIONS if region_to_half.get(r) == 1]
+    else:
+        # Fallback: original hardcoded order (East/West, South/Midwest)
+        ff_half0 = [REGIONS[0], REGIONS[1]]  # East, West
+        ff_half1 = [REGIONS[2], REGIONS[3]]  # South, Midwest
+
+    # e8_winners are in REGIONS order; build a region-keyed lookup
+    e8_by_region: dict[str, dict] = {REGIONS[i]: e8_winners[i] for i in range(len(REGIONS))}
+
     ff_matchups: list[tuple[dict, dict, str]] = []
-    for ri, rj in FF_REGION_PAIRS:
-        ff_matchups.append((e8_winners[ri], e8_winners[rj], "National"))
+    if len(ff_half0) == 2:
+        ff_matchups.append((e8_by_region[ff_half0[0]], e8_by_region[ff_half0[1]], "National"))
+    if len(ff_half1) == 2:
+        ff_matchups.append((e8_by_region[ff_half1[0]], e8_by_region[ff_half1[1]], "National"))
 
     ff_sel = _select_upset_indices(
         [(a, b) for a, b, _ in ff_matchups],
@@ -1402,7 +1424,8 @@ def simulate_bracket(
         regions=[r for _, _, r in ff_matchups],
     )
     ff_results, ff_winners = _simulate_round(ff_matchups, ff_sel, "Final Four")
-    bracket["final_four"] = ff_results
+    bracket["final_four"]    = ff_results
+    bracket["bracket_halves"] = [ff_half0, ff_half1]
 
     # ── Championship (1 game) ─────────────────────────────────────────────
     champ_matchups = [(ff_winners[0], ff_winners[1], "National")]
