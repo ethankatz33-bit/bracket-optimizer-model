@@ -867,6 +867,33 @@ def _simulate_round(
     return results, winners
 
 
+# ── Seed shrinkage for champion selection ─────────────────────────────────────
+# Historical per-seed championship rate (fraction of total titles, ~35 years).
+# 1-seeds win ~63% of all championships; 2-seeds only ~11%.
+# Used to shrink the model's over-confidence in 2-seeds at the final pick.
+# To revert: remove HISTORICAL_CHAMP_RATE, _adjust_champion_probability, and
+# the two adjusted-prob lines in _apply_champion_filter.
+HISTORICAL_CHAMP_RATE: dict[int, float] = {
+    1: 0.63,
+    2: 0.11,
+    3: 0.09,
+    4: 0.03,
+    5: 0.03,
+    6: 0.02,
+    7: 0.01,
+    8: 0.01,
+}
+
+def _adjust_champion_probability(model_prob: float, seed: int, blend: float = 0.25) -> float:
+    """
+    Blend model win probability with historical seed championship rate.
+    adjusted = (1 - blend) * model_prob + blend * hist_rate
+    Reduces over-selection of 2-seeds whose model_prob exceeds their historical base.
+    """
+    hist = HISTORICAL_CHAMP_RATE.get(int(seed), 0.005)
+    return (1.0 - blend) * model_prob + blend * hist
+
+
 def _apply_champion_filter(
     team_a:            dict,
     team_b:            dict,
@@ -899,20 +926,27 @@ def _apply_champion_filter(
         wp    = _predict_win_probability(team_a, team_b)
         wp_a  = float(wp["team_a"])
         wp_b  = float(wp["team_b"])
+        # Seed shrinkage: blend model wp with historical seed championship rate.
+        # Raw wp is preserved; only the score formula uses adjusted values.
+        adj_wp_a = _adjust_champion_probability(wp_a, team_a.get("seed", 8))
+        adj_wp_b = _adjust_champion_probability(wp_b, team_b.get("seed", 8))
         cps_a = float(team_a.get("champion_profile_score", team_a.get("profile_score", 0.5)))
         cps_b = float(team_b.get("champion_profile_score", team_b.get("profile_score", 0.5)))
-        score_a = wp_weight * wp_a + cps_weight * cps_a
-        score_b = wp_weight * wp_b + cps_weight * cps_b
+        score_a = wp_weight * adj_wp_a + cps_weight * cps_a
+        score_b = wp_weight * adj_wp_b + cps_weight * cps_b
         winner_should_be_a = score_a >= score_b
     elif not a_in and not b_in:
         # Neither qualifies — formula as fallback
         wp    = _predict_win_probability(team_a, team_b)
         wp_a  = float(wp["team_a"])
         wp_b  = float(wp["team_b"])
+        # Seed shrinkage applied here too for consistency.
+        adj_wp_a = _adjust_champion_probability(wp_a, team_a.get("seed", 8))
+        adj_wp_b = _adjust_champion_probability(wp_b, team_b.get("seed", 8))
         cps_a = float(team_a.get("champion_profile_score", team_a.get("profile_score", 0.5)))
         cps_b = float(team_b.get("champion_profile_score", team_b.get("profile_score", 0.5)))
-        score_a = wp_weight * wp_a + cps_weight * cps_a
-        score_b = wp_weight * wp_b + cps_weight * cps_b
+        score_a = wp_weight * adj_wp_a + cps_weight * cps_a
+        score_b = wp_weight * adj_wp_b + cps_weight * cps_b
         winner_should_be_a = score_a >= score_b
     else:
         # Exactly one qualifies — that team wins
