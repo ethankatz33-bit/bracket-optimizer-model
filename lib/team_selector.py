@@ -599,10 +599,22 @@ def _select_upset_indices(
         # where the actual underdog is too weak to have a real upset chance.
         # Skipped entirely when model data is unavailable (seed-rate gate above
         # already fired).  Value bypass also overrides this gate.
+        # Context: efficiency-margin-based ratings (live data; has "offense_rating")
+        # produce systematically lower WPs (~0.06-0.24 for R64) compared to
+        # historical normalized ratings (~0.28-0.45). Use a lower floor for live
+        # data so typical upsets (12v5, 11v6, 10v7, 13v4) are not incorrectly
+        # blocked.
         if _HAS_TEAM_RATINGS and not value_bypass:
             if "team_rating" in und and "team_rating" in fav:
                 _model_wp = float(_predict_win_probability(und, fav)["team_a"])
-                _min_model_wp = UPSET_MIN_MODEL_WP_BY_ROUND.get(round_name, 0.30)
+                _uses_eff_margin = "offense_rating" in und
+                if _uses_eff_margin:
+                    _min_model_wp = {"Round of 64": 0.08, "Round of 32": 0.10}.get(
+                        round_name,
+                        UPSET_MIN_MODEL_WP_BY_ROUND.get(round_name, 0.30),
+                    )
+                else:
+                    _min_model_wp = UPSET_MIN_MODEL_WP_BY_ROUND.get(round_name, 0.30)
                 if _model_wp < _min_model_wp:
                     continue
 
@@ -1198,6 +1210,7 @@ def simulate_bracket(
                    reverse=True)
         )
     }
+
     def _is_champion_candidate(t: dict) -> bool:
         seed = t["seed"]
         if seed <= 2:
