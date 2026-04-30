@@ -239,6 +239,22 @@ ROUND_PROB_DELTA: dict[str, float] = {
     "Championship": -0.05,
 }
 
+# Model-based upset gating:
+# Uses matchup-specific win probability instead of relying purely on historical seed rates.
+# Tuned via backtesting to improve overall accuracy and champion selection.
+# When team ratings are available the underdog's model wp must meet the per-round
+# minimum or the upset is rejected regardless of historical seed-rate.
+# Seed-rate gate remains as fallback when model data is unavailable.
+# To revert: delete this dict and the Gate 1b block in _select_upset_indices.
+UPSET_MIN_MODEL_WP_BY_ROUND: dict[str, float] = {
+    "Round of 64":   0.30,
+    "Round of 32":   0.32,
+    "Sweet 16":      0.34,
+    "Elite 8":       0.34,
+    "Final Four":    0.36,
+    "Championship":  0.38,
+}
+
 # Hard cap on total upset picks per round, by mode.
 # Candidates are ranked by desirability; only the top N are selected.
 # E8/FF/Championship caps are intentionally loose — the gate thresholds and
@@ -576,6 +592,19 @@ def _select_upset_indices(
         if win_prob < effective_min_prob:
             if not value_bypass:
                 continue
+
+        # Gate 1b: model win probability gate (overrides Gate 1 when available).
+        # When team ratings are present, require the underdog's model wp to meet
+        # a per-round minimum.  This rejects historically-viable seed matchups
+        # where the actual underdog is too weak to have a real upset chance.
+        # Skipped entirely when model data is unavailable (seed-rate gate above
+        # already fired).  Value bypass also overrides this gate.
+        if _HAS_TEAM_RATINGS and not value_bypass:
+            if "team_rating" in und and "team_rating" in fav:
+                _model_wp = float(_predict_win_probability(und, fav)["team_a"])
+                _min_model_wp = UPSET_MIN_MODEL_WP_BY_ROUND.get(round_name, 0.30)
+                if _model_wp < _min_model_wp:
+                    continue
 
         # Gate 2: composite desirability
         desir = _upset_desirability(team_a, team_b, win_rates, round_name)
