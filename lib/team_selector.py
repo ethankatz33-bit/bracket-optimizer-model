@@ -356,6 +356,112 @@ _ELITE_PROTECT_RATING_GAP:  float = 0.16  # team_rating gap ≈ 10 AdjEM pts
 _ELITE_PROTECT_MULTIPLIER:  float = 0.50  # halve desirability when gap exceeded
 
 
+# ── ESPN advancement value edge config ────────────────────────────────────────
+# For each pool/mode type, defines minimum edge, minimum model probability, and
+# the desirability boost to add when the underdog clears both thresholds.
+# Boost is scaled: boost * min(edge / 0.20, 1.0) — caps out at full boost
+# when the edge is ≥ 20 percentage points.
+
+ADV_VALUE_CONFIG: dict[str, dict] = {
+    "conservative": {
+        "min_edge":  0.10,   # only very strong value edges
+        "boost":     0.04,
+    },
+    "value": {
+        "min_edge":  0.08,
+        "boost":     0.08,
+    },
+    "contrarian": {
+        "min_edge":  0.06,
+        "boost":     0.12,
+    },
+}
+
+# Per advancement-round minimum model probability.
+# Values are CUMULATIVE advancement probabilities, so they decrease
+# in later rounds.  A team reaching the E8 with 20% FF probability
+# is still a credible upset candidate even though 20% < early-round floors.
+ADV_MIN_MODEL_PCT: dict[str, float] = {
+    "R32":        0.40,   # must have ≥ 40% chance of winning R64
+    "Sweet 16":   0.25,   # ≥ 25% cumulative chance of reaching S16
+    "Elite 8":    0.20,   # ≥ 20% cumulative chance of reaching E8
+    "Final Four": 0.15,   # ≥ 15% cumulative chance of reaching FF
+    "Champ Game": 0.10,   # ≥ 10% cumulative chance of reaching CG
+    "Champion":   0.05,   # ≥  5% cumulative title probability
+}
+
+# Map simulate_bracket mode → ADV_VALUE_CONFIG key
+_ADV_MODE_MAP: dict[str, str] = {
+    "conservative": "conservative",
+    "balanced":     "value",       # medium pool → moderate value signals
+    "upset_heavy":  "contrarian",
+}
+
+# Map team_selector round name → advancement CSV round label
+# "Which round is the underdog trying to advance TO?"
+ROUND_TO_ADV_ROUND: dict[str, str] = {
+    "Round of 64":  "R32",
+    "Round of 32":  "Sweet 16",
+    "Sweet 16":     "Elite 8",
+    "Elite 8":      "Final Four",
+    "Final Four":   "Champ Game",
+    "Championship": "Champion",
+}
+
+
+def _load_advancement_value_edges() -> dict:
+    """
+    Load ESPN advancement value edges for 2026.
+    Returns dict keyed by (team_name, round_label) → {model_pct, public_pct, edge, value_ratio}.
+    Returns empty dict if the file does not exist or cannot be read.
+    """
+    import csv as _csv
+    path = PROJECT_ROOT / "data" / "processed" / "advancement_value_edges_2026.csv"
+    edges: dict = {}
+    if not path.exists():
+        return edges
+    try:
+        with open(path, newline="") as f:
+            reader = _csv.DictReader(f)
+            for row in reader:
+                team = row.get("team", "").strip()
+                rnd  = row.get("round", "").strip()
+                if not team or not rnd:
+                    continue
+                try:
+                    pub_raw = row.get("public_pct", "") or ""
+                    edges[(team, rnd)] = {
+                        "model_pct":   float(row.get("model_pct", 0) or 0),
+                        "public_pct":  float(pub_raw) if pub_raw else None,
+                        "edge":        float(row.get("edge", 0) or 0),
+                        "value_ratio": float(row.get("value_ratio", 0) or 0),
+                    }
+                except (ValueError, TypeError):
+                    continue
+    except Exception:
+        pass
+    return edges
+
+
+def _get_advancement_edge(und: dict, adv_round: str, edges: dict) -> dict | None:
+    """
+    Look up the advancement value edge for underdog team `und` in the given
+    advancement round label (e.g. "R32", "Sweet 16", "Elite 8", …).
+    Returns the edge dict or None if not found / no public data.
+    """
+    if not und or not edges:
+        return None
+    name = und.get("name")
+    if not name:
+        return None
+    info = edges.get((name, adv_round))
+    if info is None:
+        return None
+    # Skip if no ESPN public data for this team/round
+    if info.get("public_pct") is None:
+        return None
+    return info
+
 
 # ════════════════════════════════════════════════════════════════════════════
 # Game-selection helpers
@@ -504,11 +610,13 @@ def _upset_desirability(
 
 
 def _select_upset_indices(
-    matchups:   list[tuple[dict, dict]],
-    win_rates:  dict,
-    mode:       str = "balanced",
-    round_name: str = "",
-    regions:    list[str] | None = None,
+    matchups:          list[tuple[dict, dict]],
+    win_rates:         dict,
+    mode:              str = "balanced",
+    round_name:        str = "",
+    regions:           list[str] | None = None,
+    advancement_edges: dict | None = None,
+    adv_diagnostics:   list | None = None,
 ) -> dict[int, float]:
     """
     Select upset picks using per-round gates, seed-range rules, and hard caps.
@@ -620,13 +728,42 @@ def _select_upset_indices(
 
         # Gate 2: composite desirability
         desir = _upset_desirability(team_a, team_b, win_rates, round_name)
+
+        # ── ESPN advancement value boost ───────────────────────────────────
+        # Look up this underdog's advancement edge for the current round.
+        # When the model sees meaningful positive edge vs. public picks AND
+        # the underdog has a credible advancement probability, add a boost
+        # to the desirability score (scaled to the edge magnitude, capped at
+        # full boost when edge ≥ 20pp).  Boosts are applied BEFORE the min-
+        # desirability gate so a strong value signal can rescue borderline picks.
+        _adv_boost_applied = False
+        _adv_edge_val      = None
+        _adv_ratio_val     = None
+        if advancement_edges is not None:
+            _adv_round = ROUND_TO_ADV_ROUND.get(round_name)
+            if _adv_round:
+                _adv_cfg_key = _ADV_MODE_MAP.get(mode, "value")
+                _adv_cfg     = ADV_VALUE_CONFIG.get(_adv_cfg_key, ADV_VALUE_CONFIG["value"])
+                _edge_info   = _get_advancement_edge(und, _adv_round, advancement_edges)
+                if _edge_info is not None:
+                    _e       = _edge_info["edge"]
+                    _mp      = _edge_info["model_pct"]
+                    _min_mp  = ADV_MIN_MODEL_PCT.get(_adv_round, 0.15)
+                    if _e >= _adv_cfg["min_edge"] and _mp >= _min_mp:
+                        _boost = _adv_cfg["boost"] * min(_e / 0.20, 1.0)
+                        desir  = round(desir + _boost, 5)
+                        _adv_boost_applied = True
+                        _adv_edge_val      = _e
+                        _adv_ratio_val     = _edge_info.get("value_ratio")
+
         if desir < min_desir:
             if not value_bypass:
                 continue
             desir = min_desir   # floor to minimum so it enters candidates
 
         region = regions[i] if regions else ""
-        candidates.append((i, desir, fav, und, region, value_bypass))
+        candidates.append((i, desir, fav, und, region, value_bypass,
+                           _adv_boost_applied, _adv_edge_val, _adv_ratio_val))
 
     # ── E8 Final Four soft balance adjustment ─────────────────────────────
     # Count how many E8 games have a 1-seed as the lower-seed (default winner).
@@ -637,8 +774,8 @@ def _select_upset_indices(
             if min(a["seed"], b["seed"]) == 1
         )
         ff_bias = _FF_BALANCE_MULTIPLIER.get(projected_1seeds, 1.0)
-        candidates = [(i, d * ff_bias, fav, und, r, vb)
-                      for i, d, fav, und, r, vb in candidates]
+        candidates = [(i, d * ff_bias, fav, und, r, vb, ab, ae, ar)
+                      for i, d, fav, und, r, vb, ab, ae, ar in candidates]
 
     # ── Rank by (adjusted) desirability descending ────────────────────────
     candidates.sort(key=lambda x: -x[1])
@@ -653,7 +790,7 @@ def _select_upset_indices(
 
     r64_seed_caps = R64_GLOBAL_SEED_CAPS.get(mode, {}) if round_name == "Round of 64" else {}
 
-    for i, desir, fav, und, region, value_bypass in candidates:
+    for i, desir, fav, und, region, value_bypass, adv_boosted, adv_edge, adv_ratio in candidates:
         if len(selected) >= total_cap:
             break
 
@@ -693,6 +830,19 @@ def _select_upset_indices(
             region_count[region] = region_count.get(region, 0) + 1
 
         selected[i] = round(desir, 5)
+
+        # Record advancement value diagnostics for selected upsets that were boosted
+        if adv_boosted and adv_diagnostics is not None:
+            adv_diagnostics.append({
+                "team":       und["name"],
+                "seed":       und["seed"],
+                "round":      round_name,
+                "opponent":   fav["name"],
+                "adv_round":  ROUND_TO_ADV_ROUND.get(round_name, ""),
+                "edge":       adv_edge,
+                "value_ratio": adv_ratio,
+                "desir_final": round(desir, 5),
+            })
 
     return selected
 
@@ -1063,6 +1213,16 @@ def simulate_bracket(
     win_rates     = probs["matchup_win_rates"]
     adv_rates     = probs["advancement_rates"]
 
+    # ── Load ESPN advancement value edges ─────────────────────────────────
+    # Loaded unconditionally; returns {} when file is absent.
+    # Backtest team names ("T1", "T2", …) never match real team names, so
+    # boosts will silently not apply — safe for historical backtests.
+    advancement_edges = _load_advancement_value_edges()
+    adv_diagnostics:  list = []
+    if advancement_edges:
+        print(f"  [adv-value] Loaded {len(advancement_edges)} advancement edge entries "
+              f"(mode={mode} → {_ADV_MODE_MAP.get(mode, 'value')} config)")
+
     # ── Build scored team dicts ───────────────────────────────────────────
     # teams[region][seed] = full team dict including computed score
     teams_source = _teams_override if _teams_override is not None else MOCK_TEAMS
@@ -1305,12 +1465,16 @@ def simulate_bracket(
                                  teams[region][hi_seed],
                                  region))
 
+    _ae = advancement_edges if advancement_edges else None   # shorthand
+
     r64_sel = _select_upset_indices(
         [(a, b) for a, b, _ in r64_matchups],
         win_rates=win_rates,
         mode=mode,
         round_name="Round of 64",
         regions=[r for _, _, r in r64_matchups],
+        advancement_edges=_ae,
+        adv_diagnostics=adv_diagnostics,
     )
     r64_results, r64_winners = _simulate_round(r64_matchups, r64_sel, "Round of 64")
     bracket["round_of_64"] = r64_results
@@ -1335,6 +1499,8 @@ def simulate_bracket(
         mode=mode,
         round_name="Round of 32",
         regions=[r for _, _, r in r32_matchups],
+        advancement_edges=_ae,
+        adv_diagnostics=adv_diagnostics,
     )
     r32_sel, s16_notes = _enforce_s16_dd_constraint(
         [(a, b) for a, b, _ in r32_matchups],
@@ -1363,6 +1529,8 @@ def simulate_bracket(
         mode=mode,
         round_name="Sweet 16",
         regions=[r for _, _, r in s16_matchups],
+        advancement_edges=_ae,
+        adv_diagnostics=adv_diagnostics,
     )
     s16_results, s16_winners = _simulate_round(s16_matchups, s16_sel, "Sweet 16")
     bracket["sweet_16"] = s16_results
@@ -1383,6 +1551,8 @@ def simulate_bracket(
         mode=mode,
         round_name="Elite 8",
         regions=[r for _, _, r in e8_matchups],
+        advancement_edges=_ae,
+        adv_diagnostics=adv_diagnostics,
     )
     e8_results, e8_winners = _simulate_round(e8_matchups, e8_sel, "Elite 8")
     bracket["elite_8"] = e8_results
@@ -1422,6 +1592,8 @@ def simulate_bracket(
         mode=mode,
         round_name="Final Four",
         regions=[r for _, _, r in ff_matchups],
+        advancement_edges=_ae,
+        adv_diagnostics=adv_diagnostics,
     )
     ff_results, ff_winners = _simulate_round(ff_matchups, ff_sel, "Final Four")
     bracket["final_four"]    = ff_results
@@ -1435,6 +1607,8 @@ def simulate_bracket(
         mode=mode,
         round_name="Championship",
         regions=[r for _, _, r in champ_matchups],
+        advancement_edges=_ae,
+        adv_diagnostics=adv_diagnostics,
     )
     # Apply strict champion filter (falls back to broad pool if no strict qualifier).
     _strict_champ_pool = _build_strict_champ_pool(ff_winners[0], ff_winners[1])
@@ -1470,6 +1644,25 @@ def simulate_bracket(
 
     # ── Ratings diagnostics ───────────────────────────────────────────────
     bracket["ratings_diagnostics"] = _ratings_diagnostics
+
+    # ── Advancement value diagnostics ─────────────────────────────────────
+    bracket["advancement_value_plays"] = adv_diagnostics
+    if adv_diagnostics:
+        W = 88
+        print()
+        print("  " + "─" * (W - 2))
+        print(f"  ESPN ADVANCEMENT VALUE BOOSTS APPLIED — {len(adv_diagnostics)} picks influenced")
+        print("  " + "─" * (W - 2))
+        hdr = f"  {'Team':<22} {'Round':<14} {'Adv→':<12} {'vs':<22} {'Edge':>7}  {'Ratio':>6}  {'Desir':>7}"
+        print(hdr)
+        print("  " + "─" * (W - 2))
+        for d in adv_diagnostics:
+            ratio_str = f"{d['value_ratio']:.2f}x" if d.get("value_ratio") else "—"
+            print(
+                f"  {d['team']:<22} {d['round']:<14} {d['adv_round']:<12} "
+                f"{d['opponent']:<22} {d['edge']:>+6.1%}  {ratio_str:>6}  {d['desir_final']:>7.5f}"
+            )
+        print()
 
     return bracket
 

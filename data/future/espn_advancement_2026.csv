@@ -1,0 +1,70 @@
+# ESPN People's Bracket 2026 — cumulative advancement percentages
+#
+# R32..Champ Game: computed from ESPN People's Bracket HTML (conditional → cumulative)
+# Champion: from ESPN Most Picked Champions page (% of all brackets with this champion)
+#
+team,R32,Sweet 16,Elite 8,Final Four,Champ Game,Champion
+Duke,0.98,0.9408,0.8185,0.6548,0.478,0.231
+Connecticut,0.96,0.7968,0.4542,0.0908,,0.0389
+Michigan State,0.95,0.779,0.335,,,0.0183
+Kansas,0.93,0.4371,,,,0.0103
+St. John's,0.88,0.4664,0.0606,,,0.0115
+Louisville,0.6,0.108,,,,0.0019
+UCLA,0.66,0.1122,,,,0.0025
+Ohio State,0.59,0.0236,,,,0.0031
+TCU,0.41,,,,,0.0007
+UCF,0.34,,,,,0.0005
+South Florida,0.4,,,,,0.0007
+Northern Iowa,0.12,,,,,0.0003
+California Baptist,0.07,,,,,0.0003
+North Dakota State,0.05,,,,,0.0003
+Furman,0.04,,,,,0.0003
+Siena,0.02,,,,,0.0012
+Michigan,0.98,0.9408,0.8561,0.625,0.2687,0.1419
+Iowa State,0.96,0.7968,0.5339,0.1442,,0.0288
+Virginia,0.95,0.6555,0.2163,,,0.0101
+Alabama,0.89,0.4895,0.0441,,,0.0056
+Texas Tech,0.77,0.3465,,,,0.0033
+Tennessee,0.8,0.248,,,,0.0038
+Kentucky,0.69,0.1173,,,,0.0042
+Georgia,0.56,0.0224,,,,0.0015
+Saint Louis,0.44,,,,,0.0009
+Santa Clara,0.31,,,,,0.0005
+SMU,,,,,,0.0001
+Akron,0.23,,,,,0.0006
+Hofstra,0.11,,,,,0.0003
+Wright State,0.05,,,,,0.0003
+Tennessee State,0.04,,,,,0.0005
+UMBC,,,,,,0.0001
+Florida,0.98,0.931,0.782,0.4066,0.1098,0.0762
+Houston,0.97,0.8924,0.6336,0.3041,,0.0636
+Illinois,0.92,0.69,0.2001,,,0.0142
+Nebraska,0.86,0.3526,,,,0.0043
+Vanderbilt,0.83,0.4897,0.0784,,,0.0045
+North Carolina,0.67,0.1675,,,,0.0054
+Saint Mary's,0.54,0.0432,,,,0.0008
+Clemson,0.41,,,,,0.0012
+Iowa,0.59,0.0295,,,,0.0011
+Texas A&M,0.46,,,,,0.0012
+VCU,0.33,,,,,0.0004
+McNeese,0.17,,,,,0.0007
+Troy,0.14,,,,,0.0003
+Penn,0.08,,,,,0.0005
+Idaho,0.03,,,,,0.0004
+Lehigh,,,,,,0.0001
+Arizona,0.97,0.9215,0.7741,0.6115,0.3486,0.2085
+Purdue,0.96,0.8256,0.5036,0.1058,,0.0301
+Gonzaga,0.95,0.6745,0.2631,,,0.0176
+Arkansas,0.92,0.5888,0.0942,,,0.0197
+Wisconsin,0.83,0.2988,,,,0.0056
+BYU,0.73,0.2117,,,,0.005
+Miami (FL),0.61,0.0854,,,,0.0025
+Villanova,0.51,0.0255,,,,0.0016
+Utah State,0.49,,,,,0.0006
+Missouri,0.39,,,,,0.0008
+NC State,,,,,,0.0001
+High Point,0.17,,,,,0.0004
+Hawaii,0.08,,,,,0.0008
+Kennesaw State,0.05,,,,,0.0003
+Queens,0.04,,,,,0.0004
+LIU,0.03,,,,,0.0027
