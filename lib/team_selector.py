@@ -1006,7 +1006,9 @@ def _select_upset_indices(
 
         # 1-seed guardrail for R64 and R32 (live data only).
         # Conservative/balanced: no 1-seed may lose before Sweet 16.
-        # Contrarian/upset_heavy: at most 1 total 1-seed loss across R64+R32.
+        # Contrarian/upset_heavy: at most 1 total 1-seed loss across R64+R32,
+        #   and only when the underdog clears both quality bars:
+        #   model win probability ≥ 0.30 AND advancement edge ≥ 0.10.
         if (round_name in ("Round of 64", "Round of 32")
                 and fav["seed"] == 1
                 and live_data_mode):
@@ -1020,6 +1022,13 @@ def _select_upset_indices(
                     if min(matchups[j][0]["seed"], matchups[j][1]["seed"]) == 1
                 )
                 if early_oneseed_losses + _ones_in_round >= 1:
+                    continue
+                # Quality bars: underdog must have model WP ≥ 0.30 and adv edge ≥ 0.10
+                _adv_ok = adv_edge is not None and adv_edge >= 0.10
+                _wp_ok  = False
+                if _HAS_TEAM_RATINGS and "team_rating" in und and "team_rating" in fav:
+                    _wp_ok = float(_predict_win_probability(und, fav)["team_a"]) >= 0.30
+                if not (_adv_ok and _wp_ok):
                     continue
 
         if round_name == "Round of 64":
