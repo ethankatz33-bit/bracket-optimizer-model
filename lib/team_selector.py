@@ -431,28 +431,68 @@ _ADV_MODE_MAP: dict[str, str] = {
 #   S16 and later always use 0.30.
 EARLY_ROUND_UPSET_CONFIG: dict[str, dict] = {
     "conservative": {
-        "r64_extra_upsets": 0,
-        "r32_extra_upsets": 0,
-        "s16_extra_upsets": 0,
-        "value_boost_mult": 0.75,
-        "min_edge":         0.12,
-        "min_model_wp":     0.40,
+        "r64_extra_upsets":    1,
+        "r32_extra_upsets":    1,
+        "s16_extra_upsets":    0,
+        "value_boost_mult":    0.85,
+        "min_edge":            0.10,
+        "min_model_wp":        0.32,
+        "min_model_wp_r32":    0.11,
+        "min_win_prob_r32":    0.13,
+        "seed_min_r32":        8,
+        "min_desirability_mult": 0.90,
     },
     "balanced": {
-        "r64_extra_upsets": 2,
-        "r32_extra_upsets": 1,
-        "s16_extra_upsets": 1,
-        "value_boost_mult": 1.15,
-        "min_edge":         0.07,
-        "min_model_wp":     0.30,
+        "r64_extra_upsets":    4,
+        "r32_extra_upsets":    2,
+        "s16_extra_upsets":    1,
+        "value_boost_mult":    1.20,
+        "min_edge":            0.06,
+        "min_model_wp":        0.22,
+        "min_model_wp_r32":    0.11,
+        "min_win_prob_r32":    0.11,
+        "seed_min_r32":        8,
+        "r64_seed_caps_live":  {10: 3, 11: 2, 12: 2, 13: 1},
+        "min_desirability_mult": 0.88,
+    },
+    "value": {
+        "r64_extra_upsets":    4,
+        "r32_extra_upsets":    2,
+        "s16_extra_upsets":    1,
+        "value_boost_mult":    1.20,
+        "min_edge":            0.06,
+        "min_model_wp":        0.22,
+        "min_model_wp_r32":    0.11,
+        "min_win_prob_r32":    0.11,
+        "seed_min_r32":        8,
+        "r64_seed_caps_live":  {10: 3, 11: 2, 12: 2, 13: 1},
+        "min_desirability_mult": 0.88,
     },
     "contrarian": {
-        "r64_extra_upsets": 4,
-        "r32_extra_upsets": 3,
-        "s16_extra_upsets": 1,
-        "value_boost_mult": 1.50,
-        "min_edge":         0.05,
-        "min_model_wp":     0.22,
+        "r64_extra_upsets":    7,
+        "r32_extra_upsets":    4,
+        "s16_extra_upsets":    1,
+        "value_boost_mult":    1.75,
+        "min_edge":            0.03,
+        "min_model_wp":        0.14,
+        "min_model_wp_r32":    0.07,
+        "min_win_prob_r32":    0.07,
+        "seed_min_r32":        8,
+        "r64_seed_caps_live":  {10: 4, 11: 4, 12: 2, 13: 1},
+        "min_desirability_mult": 0.75,
+    },
+    "upset_heavy": {
+        "r64_extra_upsets":    7,
+        "r32_extra_upsets":    4,
+        "s16_extra_upsets":    1,
+        "value_boost_mult":    1.75,
+        "min_edge":            0.03,
+        "min_model_wp":        0.14,
+        "min_model_wp_r32":    0.07,
+        "min_win_prob_r32":    0.07,
+        "seed_min_r32":        8,
+        "r64_seed_caps_live":  {10: 4, 11: 4, 12: 2, 13: 1},
+        "min_desirability_mult": 0.75,
     },
 }
 
@@ -734,6 +774,19 @@ def _select_upset_indices(
     _early_cfg_key  = _EARLY_MODE_MAP.get(mode, "balanced")
     _early_cfg      = EARLY_ROUND_UPSET_CONFIG.get(_early_cfg_key) if _is_early_round else None
 
+    # In live mode, R32 admits lower seeds (8/9) as upset candidates so that
+    # 8-over-1 and 9-over-1 upsets (historically plausible, ~15-18%) are eligible.
+    if round_name == "Round of 32" and _early_cfg is not None and live_data_mode:
+        seed_min = _early_cfg.get("seed_min_r32", seed_min)
+
+    # Apply per-mode desirability floor multiplier for R64/R32 in live mode.
+    # Lowers min_desir so more candidates survive the quality gate.
+    # Gated on live_data_mode so historical backtests are unaffected.
+    if (round_name in ("Round of 64", "Round of 32")
+            and _early_cfg is not None
+            and live_data_mode):
+        min_desir = round(min_desir * _early_cfg.get("min_desirability_mult", 1.0), 5)
+
     # ── Build eligible candidates ──────────────────────────────────────────
     candidates: list[tuple[int, float, dict, dict, str]] = []
 
@@ -774,7 +827,10 @@ def _select_upset_indices(
         # Value bypass also overrides this gate — model wp already accounts for
         # team quality; the seed-only historical rate can be too conservative.
         win_prob = _upset_rate(fav["seed"], und["seed"], win_rates)
-        if win_prob < effective_min_prob:
+        _gate1_min = effective_min_prob
+        if round_name == "Round of 32" and _early_cfg is not None and live_data_mode:
+            _gate1_min = min(_gate1_min, _early_cfg.get("min_win_prob_r32", _gate1_min))
+        if win_prob < _gate1_min:
             if not value_bypass:
                 continue
 
@@ -796,8 +852,11 @@ def _select_upset_indices(
                 if _uses_eff_margin:
                     if round_name in ("Round of 64", "Round of 32") and _early_cfg and live_data_mode:
                         # Live 2026 data: per-mode WP floor differentiates pool sizes.
-                        # conservative=0.40 blocks weak candidates; contrarian=0.22 admits them.
-                        _min_model_wp = _early_cfg["min_model_wp"]
+                        # R32 uses min_model_wp_r32 (lower floor) to admit more R32 upsets.
+                        if round_name == "Round of 32":
+                            _min_model_wp = _early_cfg.get("min_model_wp_r32", _early_cfg["min_model_wp"])
+                        else:
+                            _min_model_wp = _early_cfg["min_model_wp"]
                     else:
                         # Historical backtest OR S16+: use original per-round floors.
                         # R64=0.08, R32=0.10 were tuned for eff-margin WP scale.
@@ -925,6 +984,11 @@ def _select_upset_indices(
     seed_line_count: dict[int, int]   = {}   # R64 only: global per-seed-line tally
 
     r64_seed_caps = R64_GLOBAL_SEED_CAPS.get(mode, {}) if round_name == "Round of 64" else {}
+    # In live mode, per-mode config can override seed caps to allow more variance.
+    if round_name == "Round of 64" and _early_cfg is not None and live_data_mode:
+        _live_caps = _early_cfg.get("r64_seed_caps_live")
+        if _live_caps:
+            r64_seed_caps = _live_caps
 
     for i, desir, fav, und, region, value_bypass, adv_boosted, adv_edge, adv_ratio in candidates:
         if len(selected) >= total_cap:
