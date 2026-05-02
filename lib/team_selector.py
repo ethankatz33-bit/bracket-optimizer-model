@@ -390,11 +390,80 @@ ADV_MIN_MODEL_PCT: dict[str, float] = {
     "Champion":   0.05,   # ≥  5% cumulative title probability
 }
 
+# Round-specific weight applied to all advancement value boosts.
+# Early rounds carry more signal: public picks in R64/R32 are highly
+# correlated with seed alone, so model edges are more actionable.
+# Later rounds are noisier (path-dependent, smaller public sample),
+# so the same edge magnitude should carry less weight.
+ROUND_VALUE_WEIGHTS: dict[str, float] = {
+    "Round of 64":  1.0,
+    "Round of 32":  0.9,
+    "Sweet 16":     0.7,
+    "Elite 8":      0.5,
+    "Final Four":   0.3,
+    "Championship": 0.2,
+}
+
 # Map simulate_bracket mode → ADV_VALUE_CONFIG key
 _ADV_MODE_MAP: dict[str, str] = {
     "conservative": "conservative",
     "balanced":     "value",       # medium pool → moderate value signals
     "upset_heavy":  "contrarian",
+}
+
+# ── Early-round pool-size variance config ─────────────────────────────────────
+# Applied in Round of 64, Round of 32, and (lightly) Sweet 16.
+# Elite 8, Final Four, and Championship are UNCHANGED.
+#
+# r64/r32/s16_extra_upsets:
+#   Adds N slots to UPSET_MAX_BY_ROUND for that round.  Extra picks must still
+#   pass all eligibility gates.  No force-fill when candidates are insufficient.
+#
+# value_boost_mult:
+#   Multiplier on ESPN advancement value boost for R64/R32/S16.
+#   Conservative (0.75×) damps boosts; contrarian (1.5×) amplifies them.
+#
+# min_edge:
+#   Advancement edge minimum for R64/R32/S16 (contrarian admits weaker edges).
+#
+# min_model_wp:
+#   Per-mode model WP gate for R64 and R32 only.
+#   S16 and later always use 0.30.
+EARLY_ROUND_UPSET_CONFIG: dict[str, dict] = {
+    "conservative": {
+        "r64_extra_upsets": 0,
+        "r32_extra_upsets": 0,
+        "s16_extra_upsets": 0,
+        "value_boost_mult": 0.75,
+        "min_edge":         0.12,
+        "min_model_wp":     0.40,
+    },
+    "balanced": {
+        "r64_extra_upsets": 2,
+        "r32_extra_upsets": 1,
+        "s16_extra_upsets": 1,
+        "value_boost_mult": 1.15,
+        "min_edge":         0.07,
+        "min_model_wp":     0.30,
+    },
+    "contrarian": {
+        "r64_extra_upsets": 4,
+        "r32_extra_upsets": 3,
+        "s16_extra_upsets": 1,
+        "value_boost_mult": 1.50,
+        "min_edge":         0.05,
+        "min_model_wp":     0.22,
+    },
+}
+
+# Normalise simulate_bracket mode → EARLY_ROUND_UPSET_CONFIG key.
+# "value" and "upset_heavy" are aliases used by intermediate mapping layers.
+_EARLY_MODE_MAP: dict[str, str] = {
+    "conservative": "conservative",
+    "balanced":     "balanced",
+    "value":        "balanced",
+    "upset_heavy":  "contrarian",
+    "contrarian":   "contrarian",
 }
 
 # Map team_selector round name → advancement CSV round label
@@ -617,6 +686,7 @@ def _select_upset_indices(
     regions:           list[str] | None = None,
     advancement_edges: dict | None = None,
     adv_diagnostics:   list | None = None,
+    live_data_mode:    bool = False,
 ) -> dict[int, float]:
     """
     Select upset picks using per-round gates, seed-range rules, and hard caps.
@@ -656,6 +726,13 @@ def _select_upset_indices(
     prob_delta    = ROUND_PROB_DELTA.get(round_name, 0.0)
     effective_min_prob = max(0.0, base_min_prob + prob_delta)
     seed_min, seed_max = ROUND_SEED_RANGE.get(round_name, (10, 13))
+
+    # ── Early-round pool-size variance config ──────────────────────────────
+    # Applies to Round of 64, Round of 32, and (lightly) Sweet 16.
+    # Elite 8, Final Four, and Championship are unaffected.
+    _is_early_round = round_name in ("Round of 64", "Round of 32", "Sweet 16")
+    _early_cfg_key  = _EARLY_MODE_MAP.get(mode, "balanced")
+    _early_cfg      = EARLY_ROUND_UPSET_CONFIG.get(_early_cfg_key) if _is_early_round else None
 
     # ── Build eligible candidates ──────────────────────────────────────────
     candidates: list[tuple[int, float, dict, dict, str]] = []
@@ -717,10 +794,18 @@ def _select_upset_indices(
                 _model_wp = float(_predict_win_probability(und, fav)["team_a"])
                 _uses_eff_margin = "offense_rating" in und
                 if _uses_eff_margin:
-                    _min_model_wp = {"Round of 64": 0.08, "Round of 32": 0.10}.get(
-                        round_name,
-                        UPSET_MIN_MODEL_WP_BY_ROUND.get(round_name, 0.30),
-                    )
+                    if round_name in ("Round of 64", "Round of 32") and _early_cfg and live_data_mode:
+                        # Live 2026 data: per-mode WP floor differentiates pool sizes.
+                        # conservative=0.40 blocks weak candidates; contrarian=0.22 admits them.
+                        _min_model_wp = _early_cfg["min_model_wp"]
+                    else:
+                        # Historical backtest OR S16+: use original per-round floors.
+                        # R64=0.08, R32=0.10 were tuned for eff-margin WP scale.
+                        # S16=0.34, E8+=0.34+ from UPSET_MIN_MODEL_WP_BY_ROUND.
+                        _min_model_wp = {"Round of 64": 0.08, "Round of 32": 0.10}.get(
+                            round_name,
+                            UPSET_MIN_MODEL_WP_BY_ROUND.get(round_name, 0.30),
+                        )
                 else:
                     _min_model_wp = UPSET_MIN_MODEL_WP_BY_ROUND.get(round_name, 0.30)
                 if _model_wp < _min_model_wp:
@@ -746,15 +831,42 @@ def _select_upset_indices(
                 _adv_cfg     = ADV_VALUE_CONFIG.get(_adv_cfg_key, ADV_VALUE_CONFIG["value"])
                 _edge_info   = _get_advancement_edge(und, _adv_round, advancement_edges)
                 if _edge_info is not None:
-                    _e       = _edge_info["edge"]
-                    _mp      = _edge_info["model_pct"]
-                    _min_mp  = ADV_MIN_MODEL_PCT.get(_adv_round, 0.15)
-                    if _e >= _adv_cfg["min_edge"] and _mp >= _min_mp:
-                        _boost = _adv_cfg["boost"] * min(_e / 0.20, 1.0)
+                    _e          = _edge_info["edge"]
+                    _mp         = _edge_info["model_pct"]
+                    _min_mp     = ADV_MIN_MODEL_PCT.get(_adv_round, 0.15)
+                    _rnd_weight = ROUND_VALUE_WEIGHTS.get(round_name, 1.0)
+
+                    # Early-round overrides: per-mode min_edge and value_boost_mult.
+                    # Applied only in live data mode (2026 real teams, not backtest T-names).
+                    if _is_early_round and _early_cfg and live_data_mode:
+                        _effective_min_edge = _early_cfg["min_edge"]
+                        _val_boost_mult     = _early_cfg["value_boost_mult"]
+                    else:
+                        _effective_min_edge = _adv_cfg["min_edge"]
+                        _val_boost_mult     = 1.0
+
+                    if _e >= _effective_min_edge and _mp >= _min_mp:
+                        _boost = _adv_cfg["boost"] * min(_e / 0.20, 1.0) * _rnd_weight * _val_boost_mult
                         desir  = round(desir + _boost, 5)
                         _adv_boost_applied = True
                         _adv_edge_val      = _e
                         _adv_ratio_val     = _edge_info.get("value_ratio")
+
+                    # Coin-flip value bump: when the game is nearly 50/50 AND
+                    # the advancement edge is strong, add a flat +0.10 boost
+                    # scaled by the round weight (full strength early, muted late).
+                    # In early rounds, apply the mode's value_boost_mult here too.
+                    _cf_edge_threshold = _effective_min_edge if _is_early_round and _early_cfg else 0.08
+                    if (_e >= _cf_edge_threshold
+                            and _HAS_TEAM_RATINGS
+                            and "team_rating" in und and "team_rating" in fav):
+                        _wp_cf = _predict_win_probability(und, fav)["team_a"]
+                        if abs(_wp_cf - 0.5) <= 0.07:
+                            _cf_mult = _val_boost_mult if _is_early_round and _early_cfg else 1.0
+                            desir = round(desir + 0.10 * _rnd_weight * _cf_mult, 5)
+                            _adv_boost_applied = True
+                            _adv_edge_val  = _adv_edge_val  if _adv_edge_val  is not None else _e
+                            _adv_ratio_val = _adv_ratio_val if _adv_ratio_val is not None else _edge_info.get("value_ratio")
 
         if desir < min_desir:
             if not value_bypass:
@@ -764,6 +876,18 @@ def _select_upset_indices(
         region = regions[i] if regions else ""
         candidates.append((i, desir, fav, und, region, value_bypass,
                            _adv_boost_applied, _adv_edge_val, _adv_ratio_val))
+
+    # ── High-value edge prioritization in early rounds ───────────────────
+    # When running with live data, boost desirability proportional to edge
+    # magnitude (capped at 20pp × 0.75) so high-value candidates rank higher
+    # when the cap is binding.  Skipped in historical backtests.
+    if _is_early_round and live_data_mode:
+        candidates = [
+            (i,
+             round(d + min(ae, 0.20) * 0.75 if ae is not None else d, 5),
+             fav, und, r, vb, ab, ae, ar)
+            for i, d, fav, und, r, vb, ab, ae, ar in candidates
+        ]
 
     # ── E8 Final Four soft balance adjustment ─────────────────────────────
     # Count how many E8 games have a 1-seed as the lower-seed (default winner).
@@ -782,6 +906,18 @@ def _select_upset_indices(
 
     # ── Greedily select within caps ───────────────────────────────────────
     total_cap = UPSET_MAX_BY_ROUND.get(round_name, {}).get(mode, len(candidates))
+    # Early-round extra slots: R64/R32/S16 each have per-mode additional capacity.
+    # Gated on advancement_edges being loaded — this means the extra slots only
+    # apply when real 2026 team data is present.  Historical backtest T-names
+    # never match the edge file, so advancement_edges will be {} and the extra
+    # slots are skipped, preserving backtest stability.
+    if _is_early_round and _early_cfg and live_data_mode:
+        if round_name == "Round of 64":
+            total_cap += _early_cfg.get("r64_extra_upsets", 0)
+        elif round_name == "Round of 32":
+            total_cap += _early_cfg.get("r32_extra_upsets", 0)
+        elif round_name == "Sweet 16":
+            total_cap += _early_cfg.get("s16_extra_upsets", 0)
 
     selected:        dict[int, float] = {}
     region_count:    dict[str, int]   = {}
@@ -1195,6 +1331,8 @@ def simulate_bracket(
       "structure_check": {...},
     }
     """
+    print(f"STREAMLIT MODE DEBUG: {mode}", flush=True)
+
     # ── Load inputs ───────────────────────────────────────────────────────
     # Each input can be overridden (used by the backtest engine to inject
     # pre-tournament-only data without writing to disk).
@@ -1233,6 +1371,14 @@ def simulate_bracket(
             t = {**info, "seed": seed, "region": region}
             t["score"] = score_team(t, adv_rates)
             teams[region][seed] = t
+
+    # ── Detect live data mode ─────────────────────────────────────────────
+    # True when teams come from a real-data CSV (2026 names like "Duke").
+    # False for historical backtests where names are always "T{N}".
+    # Live mode enables per-mode early-round config (extra caps, WP floors,
+    # value boost multipliers).  Backtests are unaffected.
+    _first_team_name = next(iter(next(iter(teams.values())).values()))["name"]
+    _live_data_mode: bool = not bool(_TEAM_ID_RE.match(_first_team_name))
 
     # ── Attach team ratings when available ────────────────────────────────
     # Strategy:
@@ -1475,6 +1621,7 @@ def simulate_bracket(
         regions=[r for _, _, r in r64_matchups],
         advancement_edges=_ae,
         adv_diagnostics=adv_diagnostics,
+        live_data_mode=_live_data_mode,
     )
     r64_results, r64_winners = _simulate_round(r64_matchups, r64_sel, "Round of 64")
     bracket["round_of_64"] = r64_results
@@ -1501,6 +1648,7 @@ def simulate_bracket(
         regions=[r for _, _, r in r32_matchups],
         advancement_edges=_ae,
         adv_diagnostics=adv_diagnostics,
+        live_data_mode=_live_data_mode,
     )
     r32_sel, s16_notes = _enforce_s16_dd_constraint(
         [(a, b) for a, b, _ in r32_matchups],
@@ -1531,6 +1679,7 @@ def simulate_bracket(
         regions=[r for _, _, r in s16_matchups],
         advancement_edges=_ae,
         adv_diagnostics=adv_diagnostics,
+        live_data_mode=_live_data_mode,
     )
     s16_results, s16_winners = _simulate_round(s16_matchups, s16_sel, "Sweet 16")
     bracket["sweet_16"] = s16_results
@@ -1553,6 +1702,7 @@ def simulate_bracket(
         regions=[r for _, _, r in e8_matchups],
         advancement_edges=_ae,
         adv_diagnostics=adv_diagnostics,
+        live_data_mode=_live_data_mode,
     )
     e8_results, e8_winners = _simulate_round(e8_matchups, e8_sel, "Elite 8")
     bracket["elite_8"] = e8_results
@@ -1594,6 +1744,7 @@ def simulate_bracket(
         regions=[r for _, _, r in ff_matchups],
         advancement_edges=_ae,
         adv_diagnostics=adv_diagnostics,
+        live_data_mode=_live_data_mode,
     )
     ff_results, ff_winners = _simulate_round(ff_matchups, ff_sel, "Final Four")
     bracket["final_four"]    = ff_results
@@ -1609,6 +1760,7 @@ def simulate_bracket(
         regions=[r for _, _, r in champ_matchups],
         advancement_edges=_ae,
         adv_diagnostics=adv_diagnostics,
+        live_data_mode=_live_data_mode,
     )
     # Apply strict champion filter (falls back to broad pool if no strict qualifier).
     _strict_champ_pool = _build_strict_champ_pool(ff_winners[0], ff_winners[1])

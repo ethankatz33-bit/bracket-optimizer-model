@@ -206,20 +206,21 @@ def run_pipeline(
     all_types = build_all_bracket_types(candidates, det_champ) if candidates else None
 
     return {
-        "first_four":    first_four,
-        "base_bracket":  base_bracket,
-        "mc_results":    mc_results,
-        "candidates":    candidates,
-        "portfolio":     portfolio,
-        "summary":       summary,
-        "pool_rec":      pool_rec,
-        "all_types":     all_types,
-        "public_picks":  public_picks,
-        "missing_picks": missing_picks,
-        "orig_sum":      orig_sum,
-        "norm_applied":  norm_applied,
-        "picks_rows":    _build_picks_rows(mc_results, public_picks, df64),
-        "pool_size":     pool_size,
+        "first_four":              first_four,
+        "base_bracket":            base_bracket,
+        "mc_results":              mc_results,
+        "candidates":              candidates,
+        "portfolio":               portfolio,
+        "summary":                 summary,
+        "pool_rec":                pool_rec,
+        "all_types":               all_types,
+        "public_picks":            public_picks,
+        "missing_picks":           missing_picks,
+        "orig_sum":                orig_sum,
+        "norm_applied":            norm_applied,
+        "picks_rows":              _build_picks_rows(mc_results, public_picks, df64),
+        "pool_size":               pool_size,
+        "advancement_value_plays": base_bracket.get("advancement_value_plays", []),
     }
 
 
@@ -735,7 +736,7 @@ def show_results(res: dict, selected_style: str) -> None:
 
     # Stale-state guard (warn only if bracket_halves is missing)
     if not style_bracket.get("bracket_halves"):
-        st.warning("⚠️ Stale bracket — click **Refresh bracket** to reload.")
+        st.warning("⚠️ Stale bracket data — please reload the page.")
 
     # ── Champion + style header ───────────────────────────────────────────
     champ = style_bracket.get("champion", {})
@@ -778,6 +779,64 @@ def show_results(res: dict, selected_style: str) -> None:
     # ── Odds & Analysis ───────────────────────────────────────────────────
     with st.expander("📊 Odds & Analysis", expanded=False):
         show_odds_tab(res)
+
+    # ── ESPN Value Plays by Round ─────────────────────────────────────────
+    _adv_csv = PROJECT_ROOT / "data" / "processed" / "advancement_value_edges_2026.csv"
+    if _adv_csv.exists():
+        with st.expander("📈 ESPN Value Plays by Round", expanded=False):
+            st.caption(
+                "Value edge compares this model's advancement probability to ESPN public "
+                "bracket advancement percentage. Positive edge means the team is underpicked "
+                "by the public."
+            )
+            try:
+                _adv_df = pd.read_csv(_adv_csv)
+                _adv_df = _adv_df[
+                    (_adv_df["edge"].notna()) &
+                    (_adv_df["model_pct"].notna()) &
+                    (_adv_df["public_pct"].notna()) &
+                    (_adv_df["edge"] > 0)
+                ].copy()
+
+                # Value tier label
+                def _value_tier(edge: float) -> str:
+                    if edge >= 0.15:
+                        return "★★ Major"
+                    if edge >= 0.08:
+                        return "★ Strong"
+                    return ""
+                _adv_df["Value"] = _adv_df["edge"].apply(_value_tier)
+
+                _adv_df = _adv_df.sort_values("edge", ascending=False)
+                _adv_disp = pd.DataFrame({
+                    "Team":    _adv_df["team"].values,
+                    "Round":   _adv_df["round"].values,
+                    "Seed":    _adv_df["seed"].astype(int).values,
+                    "Model %": [f"{v:.1%}" for v in _adv_df["model_pct"]],
+                    "ESPN %":  [f"{v:.1%}" for v in _adv_df["public_pct"]],
+                    "Edge":    [f"{v:+.1%}" for v in _adv_df["edge"]],
+                    "Ratio":   [f"{v:.2f}x" for v in _adv_df["value_ratio"]],
+                    "Value":   _adv_df["Value"].values,
+                })
+                st.dataframe(_adv_disp, hide_index=True, use_container_width=True)
+            except Exception:
+                st.caption("Could not load advancement value data.")
+
+            # ── Value boosts applied in this bracket ──────────────────────
+            _boosts = res.get("advancement_value_plays", [])
+            if _boosts:
+                st.markdown("**Value Boosts Applied in This Bracket**")
+                _boost_disp = pd.DataFrame([
+                    {
+                        "Team":     d["team"],
+                        "Round":    d["round"],
+                        "Opponent": d["opponent"],
+                        "Edge":     f"{d['edge']:+.1%}" if d.get("edge") is not None else "—",
+                        "Ratio":    f"{d['value_ratio']:.2f}x" if d.get("value_ratio") else "—",
+                    }
+                    for d in _boosts
+                ])
+                st.dataframe(_boost_disp, hide_index=True, use_container_width=True)
 
     # ── Bracket ───────────────────────────────────────────────────────────
     render_traditional_bracket(style_bracket, candidate, selected_style)
@@ -842,10 +901,31 @@ def _run_and_store(
     st.session_state["run_ok"]         = True
 
 
+_STYLE_TO_SIM_MODE = {
+    "Conservative": "conservative",
+    "Value":        "balanced",
+    "Contrarian":   "upset_heavy",
+}
+
+_WATCHED_FILES = [
+    PROJECT_ROOT / "data" / "future"     / "future_bracket_2026.csv",
+    PROJECT_ROOT / "data" / "future"     / "public_picks_2026.csv",
+    PROJECT_ROOT / "data" / "future"     / "espn_advancement_2026.csv",
+    PROJECT_ROOT / "data" / "processed"  / "advancement_value_edges_2026.csv",
+]
+
+def _data_mtimes() -> tuple:
+    return tuple(f.stat().st_mtime if f.exists() else 0 for f in _WATCHED_FILES)
+
+
 def main() -> None:
+    # Clear any stale cached data so mode changes always recompute.
+    st.cache_data.clear()
+    st.cache_resource.clear()
+
     st.title("🏀 March Madness Bracket Predictor")
 
-    # ── Top controls row: Year | Pool size | Upset frequency ─────────────────
+    # ── Top controls row: Year | Pool size | Strategy ─────────────────────
     _POOL_OPTIONS = [
         ("1–25",   25,  "Conservative"),
         ("26–100", 100, "Value"),
@@ -855,7 +935,7 @@ def main() -> None:
     pool_defaults = [o[1] for o in _POOL_OPTIONS]
     pool_styles   = [o[2] for o in _POOL_OPTIONS]
 
-    col_year, col_pool, col_upset, col_meta = st.columns([1, 2, 2, 2])
+    col_year, col_pool, col_meta = st.columns([1, 2, 3])
 
     with col_year:
         tournament_year = st.selectbox(
@@ -874,21 +954,9 @@ def main() -> None:
             label_visibility="visible",
         )
 
-    with col_upset:
-        sim_mode = st.radio(
-            "Upset frequency",
-            options=["conservative", "balanced", "upset_heavy"],
-            index=1,
-            format_func=lambda m: {
-                "conservative": "Low",
-                "balanced":     "Medium",
-                "upset_heavy":  "High",
-            }[m],
-            horizontal=True,
-        )
-
     pool_size      = pool_defaults[pool_idx]
     selected_style = pool_styles[pool_idx]
+    sim_mode       = _STYLE_TO_SIM_MODE[selected_style]
     meta = STYLE_META[selected_style]
     with col_meta:
         st.markdown(
@@ -954,14 +1022,6 @@ def main() -> None:
             disabled=(uploaded_csv is None),
         )
 
-    if _HAS_DEFAULT:
-        refresh = st.button(
-            "🔄  Refresh bracket",
-            help="Re-run the model with current settings.",
-        )
-    else:
-        refresh = False
-
     st.divider()
 
     # ── 2027 placeholder ──────────────────────────────────────────────────
@@ -972,7 +1032,21 @@ def main() -> None:
         )
         st.stop()
 
-    # ── Auto-run with default 2026 data on first load ─────────────────────
+    # ── Auto-recompute when any input or data file changes ────────────────
+    # Pipeline key encodes all inputs that affect model output.
+    # Any change (pool size, style, MC settings, or file modification)
+    # automatically invalidates the cached result and triggers a re-run.
+    _pipeline_key = (
+        pool_size, selected_style, sim_mode,
+        use_mc, int(n_sims), int(n_brackets),
+        *_data_mtimes(),
+    )
+    if st.session_state.get("pipeline_key") != _pipeline_key:
+        st.session_state.pop("run_ok",    None)
+        st.session_state.pop("results",   None)
+        st.session_state["pipeline_key"] = _pipeline_key
+
+    # ── Auto-run with default 2026 data ───────────────────────────────────
     if _HAS_DEFAULT and not st.session_state.get("run_ok") and not run_custom:
         with st.spinner("Loading 2026 bracket…"):
             try:
@@ -994,27 +1068,6 @@ def main() -> None:
                     )
             except Exception as e:
                 st.error(f"Failed to load 2026 data: {e}")
-                with st.expander("Details"):
-                    st.code(traceback.format_exc())
-
-    # ── Refresh / re-run default bracket ─────────────────────────────────
-    if refresh:
-        with st.spinner("Refreshing 2026 bracket…"):
-            try:
-                df_default = pd.read_csv(DEFAULT_CSV)
-                _run_and_store(
-                    df             = df_default,
-                    pool_size      = int(pool_size),
-                    n_brackets     = int(n_brackets),
-                    sim_mode       = sim_mode,
-                    use_mc         = use_mc and _HAS_MC,
-                    n_sims         = int(n_sims),
-                    file_picks     = _load_default_picks(),
-                    picks_override = {},
-                    selected_style = selected_style,
-                )
-            except Exception as e:
-                st.error(f"Refresh failed: {e}")
                 with st.expander("Details"):
                     st.code(traceback.format_exc())
 
