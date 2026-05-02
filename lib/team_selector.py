@@ -719,14 +719,15 @@ def _upset_desirability(
 
 
 def _select_upset_indices(
-    matchups:          list[tuple[dict, dict]],
-    win_rates:         dict,
-    mode:              str = "balanced",
-    round_name:        str = "",
-    regions:           list[str] | None = None,
-    advancement_edges: dict | None = None,
-    adv_diagnostics:   list | None = None,
-    live_data_mode:    bool = False,
+    matchups:              list[tuple[dict, dict]],
+    win_rates:             dict,
+    mode:                  str = "balanced",
+    round_name:            str = "",
+    regions:               list[str] | None = None,
+    advancement_edges:     dict | None = None,
+    adv_diagnostics:       list | None = None,
+    live_data_mode:        bool = False,
+    early_oneseed_losses:  int = 0,
 ) -> dict[int, float]:
     """
     Select upset picks using per-round gates, seed-range rules, and hard caps.
@@ -1002,6 +1003,24 @@ def _select_upset_indices(
                 and desir < _BALANCED_E8_SECOND_GATE
                 and not value_bypass):
             continue
+
+        # 1-seed guardrail for R64 and R32 (live data only).
+        # Conservative/balanced: no 1-seed may lose before Sweet 16.
+        # Contrarian/upset_heavy: at most 1 total 1-seed loss across R64+R32.
+        if (round_name in ("Round of 64", "Round of 32")
+                and fav["seed"] == 1
+                and live_data_mode):
+            _early_mode = _EARLY_MODE_MAP.get(mode, "balanced")
+            if _early_mode in ("conservative", "balanced"):
+                continue
+            elif _early_mode == "contrarian":
+                # Count 1-seed losses already selected this round plus any from R64
+                _ones_in_round = sum(
+                    1 for j in selected
+                    if min(matchups[j][0]["seed"], matchups[j][1]["seed"]) == 1
+                )
+                if early_oneseed_losses + _ones_in_round >= 1:
+                    continue
 
         if round_name == "Round of 64":
             # Global seed-line cap: at most N winners per underdog seed number.
@@ -1690,6 +1709,13 @@ def simulate_bracket(
     r64_results, r64_winners = _simulate_round(r64_matchups, r64_sel, "Round of 64")
     bracket["round_of_64"] = r64_results
 
+    # Count 1-seed losses in R64 to enforce the early-exit guardrail in R32.
+    _r64_matchup_list = [(a, b) for a, b, _ in r64_matchups]
+    _r64_oneseed_losses = sum(
+        1 for j in r64_sel
+        if min(_r64_matchup_list[j][0]["seed"], _r64_matchup_list[j][1]["seed"]) == 1
+    )
+
     # Organise R64 winners by region × slot for R32 pairing
     # r64_winners order: 8 per region × 4 regions = 32 entries
     r64_by_region: dict[str, list[dict]] = {r: [] for r in REGIONS}
@@ -1713,6 +1739,7 @@ def simulate_bracket(
         advancement_edges=_ae,
         adv_diagnostics=adv_diagnostics,
         live_data_mode=_live_data_mode,
+        early_oneseed_losses=_r64_oneseed_losses,
     )
     r32_sel, s16_notes = _enforce_s16_dd_constraint(
         [(a, b) for a, b, _ in r32_matchups],
