@@ -436,8 +436,8 @@ EARLY_ROUND_UPSET_CONFIG: dict[str, dict] = {
         "s16_extra_upsets":    0,
         "value_boost_mult":    0.85,
         "min_edge":            0.10,
-        "min_model_wp":        0.32,
-        "min_model_wp_r32":    0.11,
+        "min_model_wp":        0.30,
+        "min_model_wp_r32":    0.10,
         "min_win_prob_r32":    0.13,
         "seed_min_r32":        8,
         "r64_max_12plus":      1,
@@ -449,8 +449,8 @@ EARLY_ROUND_UPSET_CONFIG: dict[str, dict] = {
         "s16_extra_upsets":    1,
         "value_boost_mult":    1.20,
         "min_edge":            0.06,
-        "min_model_wp":        0.22,
-        "min_model_wp_r32":    0.11,
+        "min_model_wp":        0.20,
+        "min_model_wp_r32":    0.10,
         "min_win_prob_r32":    0.11,
         "seed_min_r32":        8,
         "r64_seed_caps_live":  {10: 3, 11: 2, 12: 2, 13: 1},
@@ -463,8 +463,8 @@ EARLY_ROUND_UPSET_CONFIG: dict[str, dict] = {
         "s16_extra_upsets":    1,
         "value_boost_mult":    1.20,
         "min_edge":            0.06,
-        "min_model_wp":        0.22,
-        "min_model_wp_r32":    0.11,
+        "min_model_wp":        0.20,
+        "min_model_wp_r32":    0.10,
         "min_win_prob_r32":    0.11,
         "seed_min_r32":        8,
         "r64_seed_caps_live":  {10: 3, 11: 2, 12: 2, 13: 1},
@@ -477,8 +477,8 @@ EARLY_ROUND_UPSET_CONFIG: dict[str, dict] = {
         "s16_extra_upsets":    1,
         "value_boost_mult":    1.75,
         "min_edge":            0.03,
-        "min_model_wp":        0.14,
-        "min_model_wp_r32":    0.07,
+        "min_model_wp":        0.10,
+        "min_model_wp_r32":    0.05,
         "min_win_prob_r32":    0.07,
         "seed_min_r32":        8,
         "r64_seed_caps_live":  {10: 4, 11: 4, 12: 2, 13: 1},
@@ -491,8 +491,8 @@ EARLY_ROUND_UPSET_CONFIG: dict[str, dict] = {
         "s16_extra_upsets":    1,
         "value_boost_mult":    1.75,
         "min_edge":            0.03,
-        "min_model_wp":        0.14,
-        "min_model_wp_r32":    0.07,
+        "min_model_wp":        0.10,
+        "min_model_wp_r32":    0.05,
         "min_win_prob_r32":    0.07,
         "seed_min_r32":        8,
         "r64_seed_caps_live":  {10: 4, 11: 4, 12: 2, 13: 1},
@@ -584,6 +584,39 @@ def _get_advancement_edge(und: dict, adv_round: str, edges: dict) -> dict | None
 def _is_8v9(seed_a: int, seed_b: int) -> bool:
     """8-vs-9 matchups are treated as pick'em; no upset is counted."""
     return {seed_a, seed_b} == {8, 9}
+
+
+def _is_seed_upset(fav: dict, und: dict) -> bool:
+    """True when the underdog has a numerically higher seed than the favorite."""
+    return int(und.get("seed", 99)) > int(fav.get("seed", 99))
+
+
+def _is_model_favored(team: dict, opponent: dict) -> bool:
+    """True when the model gives 'team' > 50% win probability vs 'opponent'."""
+    if not (_HAS_TEAM_RATINGS
+            and "team_rating" in team and "team_rating" in opponent):
+        return False
+    try:
+        wp = float(_predict_win_probability(team, opponent)["team_a"])
+        return wp > 0.50
+    except Exception:
+        return False
+
+
+def _counts_as_upset(fav: dict, und: dict) -> bool:
+    """
+    Determine whether a higher-seed win should be counted as an upset.
+
+    Returns False (not an upset) when the higher-seeded team is actually
+    model-favored (win prob > 0.50).  This prevents a strong 12-seed from
+    consuming an upset slot and being reported as a surprise win when the
+    model already considers them the better team.
+
+    Falls back to seed-based classification when team ratings are unavailable.
+    """
+    if not _is_seed_upset(fav, und):
+        return False
+    return not _is_model_favored(und, fav)
 
 
 def _upset_rate(fav_seed: int, und_seed: int, win_rates: dict) -> float:
@@ -795,6 +828,7 @@ def _select_upset_indices(
 
     # ── Build eligible candidates ──────────────────────────────────────────
     candidates: list[tuple[int, float, dict, dict, str]] = []
+    _twelve_diag: list[dict] = []   # collects all R64 seed-12 diagnostics (live only)
 
     for i, (team_a, team_b) in enumerate(matchups):
         # 8/9 games: never count as upsets
@@ -851,9 +885,13 @@ def _select_upset_indices(
         # historical normalized ratings (~0.28-0.45). Use a lower floor for live
         # data so typical upsets (12v5, 11v6, 10v7, 13v4) are not incorrectly
         # blocked.
+        _model_wp_for_diag: float | None = None
+        _12_raw_edge_for_diag: float | None = None
+        _gate1b_rejection: str | None = None
         if _HAS_TEAM_RATINGS and not value_bypass:
             if "team_rating" in und and "team_rating" in fav:
                 _model_wp = float(_predict_win_probability(und, fav)["team_a"])
+                _model_wp_for_diag = _model_wp
                 _uses_eff_margin = "offense_rating" in und
                 if _uses_eff_margin:
                     if round_name in ("Round of 64", "Round of 32") and _early_cfg and live_data_mode:
@@ -863,6 +901,52 @@ def _select_upset_indices(
                             _min_model_wp = _early_cfg.get("min_model_wp_r32", _early_cfg["min_model_wp"])
                         else:
                             _min_model_wp = _early_cfg["min_model_wp"]
+
+                        # 12-seed R64 override (live mode only).
+                        # Per-mode: lower WP threshold, OR edge can substitute.
+                        # Hard block only when BOTH conditions fail.
+                        if round_name == "Round of 64" and und["seed"] == 12:
+                            _12_mode_key = _EARLY_MODE_MAP.get(mode, "balanced")
+                            _12_thresholds: dict[str, tuple[float, float]] = {
+                                "conservative": (0.25, 0.12),
+                                "balanced":     (0.18, 0.08),
+                                "contrarian":   (0.10, 0.05),
+                            }
+                            _12_wp_thr, _12_edge_thr = _12_thresholds.get(
+                                _12_mode_key, (0.18, 0.08)
+                            )
+                            # Look up raw advancement edge for this 12-seed
+                            _12_raw_edge: float | None = None
+                            if advancement_edges is not None:
+                                _12_adv_r = ROUND_TO_ADV_ROUND.get(round_name)
+                                if _12_adv_r:
+                                    _12_ei = _get_advancement_edge(
+                                        und, _12_adv_r, advancement_edges
+                                    )
+                                    if _12_ei is not None:
+                                        _12_raw_edge = _12_ei["edge"]
+                            _12_raw_edge_for_diag = _12_raw_edge
+                            _12_wp_ok   = _model_wp >= _12_wp_thr
+                            _12_edge_ok = (_12_raw_edge is not None
+                                           and _12_raw_edge >= _12_edge_thr)
+                            if not (_12_wp_ok or _12_edge_ok):
+                                _gate1b_rejection = (
+                                    f"12-seed hard block: "
+                                    f"WP={_model_wp:.3f}<{_12_wp_thr} "
+                                    f"edge={_12_raw_edge}<{_12_edge_thr}"
+                                )
+                                _twelve_diag.append({
+                                    "idx": i, "team": und["name"],
+                                    "opp": fav["name"],
+                                    "model_wp": _model_wp,
+                                    "adv_edge": _12_raw_edge,
+                                    "bonus": 0.0, "selected": False,
+                                    "rejection": _gate1b_rejection,
+                                })
+                                continue
+                            # Qualified: override _min_model_wp so the standard
+                            # gate below does not re-block this candidate.
+                            _min_model_wp = _12_wp_thr if not _12_edge_ok else 0.0
                     else:
                         # Historical backtest OR S16+: use original per-round floors.
                         # R64=0.08, R32=0.10 were tuned for eff-margin WP scale.
@@ -874,6 +958,14 @@ def _select_upset_indices(
                 else:
                     _min_model_wp = UPSET_MIN_MODEL_WP_BY_ROUND.get(round_name, 0.30)
                 if _model_wp < _min_model_wp:
+                    if round_name == "Round of 64" and und["seed"] == 12 and live_data_mode:
+                        _gate1b_rejection = f"WP={_model_wp:.3f} < floor {_min_model_wp:.3f}"
+                        _twelve_diag.append({
+                            "idx": i, "team": und["name"], "opp": fav["name"],
+                            "model_wp": _model_wp, "adv_edge": _12_raw_edge_for_diag,
+                            "bonus": 0.0, "selected": False,
+                            "rejection": _gate1b_rejection,
+                        })
                     continue
 
         # Gate 2: composite desirability
@@ -933,23 +1025,36 @@ def _select_upset_indices(
                             _adv_edge_val  = _adv_edge_val  if _adv_edge_val  is not None else _e
                             _adv_ratio_val = _adv_ratio_val if _adv_ratio_val is not None else _edge_info.get("value_ratio")
 
-        # 12-seed quality bonus (live R64 only, balanced/contrarian).
-        # Adds a small flat boost when the 12-seed clears at least one quality
-        # bar (model WP ≥ 0.32 OR advancement edge ≥ 0.08), lifting it above
-        # weaker 10/11-seed candidates in the ranking.
-        # Conservative gets no bonus; bonus is additive with the ESPN boost.
-        if (round_name == "Round of 64" and live_data_mode
-                and und["seed"] == 12
-                and _EARLY_MODE_MAP.get(mode, "balanced") != "conservative"):
-            _12_bonus_map = {"balanced": 0.04, "contrarian": 0.08}
-            _12_bonus = _12_bonus_map.get(_EARLY_MODE_MAP.get(mode, "balanced"), 0.0)
-            if _12_bonus > 0:
-                _12_wp_ok   = False
-                _12_edge_ok = _adv_edge_val is not None and _adv_edge_val >= 0.08
-                if _HAS_TEAM_RATINGS and "team_rating" in und and "team_rating" in fav:
-                    _12_wp_ok = float(_predict_win_probability(und, fav)["team_a"]) >= 0.32
-                if _12_wp_ok or _12_edge_ok:
-                    desir = round(desir + _12_bonus, 5)
+        # 12-seed quality bonus (live R64 only, all modes).
+        # Per-mode bonus applied when the 12-seed passes at least one quality
+        # bar (model WP ≥ threshold OR advancement edge ≥ threshold).
+        # Bonus is additive with the ESPN boost.  Also records this candidate
+        # in _twelve_diag for post-selection diagnostics.
+        if round_name == "Round of 64" and live_data_mode and und["seed"] == 12:
+            _12_mode_key_bonus = _EARLY_MODE_MAP.get(mode, "balanced")
+            _12_bonus_cfg: dict[str, tuple[float, float, float]] = {
+                # (wp_threshold, edge_threshold, bonus)
+                "conservative": (0.25, 0.12, 0.03),
+                "balanced":     (0.18, 0.08, 0.06),
+                "contrarian":   (0.10, 0.05, 0.10),
+            }
+            _12_b_wp_thr, _12_b_edge_thr, _12_bonus = _12_bonus_cfg.get(
+                _12_mode_key_bonus, (0.18, 0.08, 0.06)
+            )
+            _12_b_wp_ok   = False
+            _12_b_edge_ok = _adv_edge_val is not None and _adv_edge_val >= _12_b_edge_thr
+            if _HAS_TEAM_RATINGS and "team_rating" in und and "team_rating" in fav:
+                _12_b_wp_ok = float(_predict_win_probability(und, fav)["team_a"]) >= _12_b_wp_thr
+            if _12_b_wp_ok or _12_b_edge_ok:
+                desir = round(desir + _12_bonus, 5)
+            _twelve_diag.append({
+                "idx": i, "team": und["name"], "opp": fav["name"],
+                "model_wp": _model_wp_for_diag, "adv_edge": _adv_edge_val,
+                "bonus": _12_bonus if (_12_b_wp_ok or _12_b_edge_ok) else 0.0,
+                "desir_final": round(desir, 5),
+                "selected": None,   # filled in after selection loop
+                "rejection": _gate1b_rejection,
+            })
 
         if desir < min_desir:
             if not value_bypass:
@@ -1003,6 +1108,7 @@ def _select_upset_indices(
             total_cap += _early_cfg.get("s16_extra_upsets", 0)
 
     selected:          dict[int, float] = {}
+    true_upset_count:  int              = 0    # only counts _counts_as_upset() picks
     region_count:      dict[str, int]   = {}
     region_midtier:    dict[str, int]   = {}
     seed_line_count:   dict[int, int]   = {}   # R64 only: global per-seed-line tally
@@ -1016,8 +1122,17 @@ def _select_upset_indices(
             r64_seed_caps = _live_caps
 
     for i, desir, fav, und, region, value_bypass, adv_boosted, adv_edge, adv_ratio in candidates:
-        if len(selected) >= total_cap:
-            break
+        # Cap check.
+        # Live mode: only true upsets (model underdog) consume slots; model-favored
+        # higher seeds advance freely without hitting the cap.
+        # Backtest: all seed-based upsets consume a slot (original behavior preserved).
+        _is_true_upset = _counts_as_upset(fav, und) if live_data_mode else True
+        if live_data_mode:
+            if _is_true_upset and true_upset_count >= total_cap:
+                break
+        else:
+            if len(selected) >= total_cap:
+                break
 
         # Soft gate: second E8 upset in balanced mode requires higher quality.
         # value_bypass overrides this gate — a high-value underdog may advance
@@ -1055,11 +1170,13 @@ def _select_upset_indices(
                 if not (_adv_ok and _wp_ok):
                     continue
 
-        if round_name == "Round of 64":
+        if round_name == "Round of 64" and (not live_data_mode or _is_true_upset):
             # Global seed-line cap: at most N winners per underdog seed number.
             # Picks the strongest N candidates across the whole field for each
             # seed line, preventing one line (e.g. all four 10-seeds) from
             # monopolising the upsets while no 12-seeds advance.
+            # Live mode: caps only apply to true upsets; model-favored higher seeds exempt.
+            # Backtest: caps apply unconditionally (original behavior).
             und_seed = und["seed"]
             if und_seed in r64_seed_caps:
                 if seed_line_count.get(und_seed, 0) >= r64_seed_caps[und_seed]:
@@ -1099,6 +1216,8 @@ def _select_upset_indices(
             region_count[region] = region_count.get(region, 0) + 1
 
         selected[i] = round(desir, 5)
+        if _is_true_upset:
+            true_upset_count += 1
 
         # Record advancement value diagnostics for selected upsets that were boosted
         if adv_boosted and adv_diagnostics is not None:
@@ -1112,6 +1231,100 @@ def _select_upset_indices(
                 "value_ratio": adv_ratio,
                 "desir_final": round(desir, 5),
             })
+
+    # ── Contrarian: guarantee at least one 12-seed advances (live R64 only) ──
+    # If no 12-seed was selected naturally, force the best-qualified one in by
+    # swapping out the weakest true-upset already selected.  Only fires when:
+    #   • mode is contrarian / upset_heavy
+    #   • live_data_mode is True
+    #   • round_name == "Round of 64"
+    # "Best qualified" = highest desirability among 12-seed entries that cleared
+    # Gate 1b (rejection is None → met WP ≥ 0.10 OR edge ≥ 0.05 safety floor).
+    # If none meet the floor, nothing is forced — "do not force a bad pick."
+    _forced_12_seed_tag: dict | None = None
+    if (round_name == "Round of 64"
+            and live_data_mode
+            and _EARLY_MODE_MAP.get(mode, "balanced") == "contrarian"):
+        _sel_12_count = sum(
+            1 for j in selected
+            if (matchups[j][0]["seed"] == 12 or matchups[j][1]["seed"] == 12)
+        )
+        if _sel_12_count == 0:
+            # Collect qualified force candidates: passed Gate 1b (no rejection),
+            # sorted by desirability descending.
+            _force_pool = sorted(
+                [d for d in _twelve_diag if d.get("rejection") is None],
+                key=lambda d: d["desir_final"],
+                reverse=True,
+            )
+            if _force_pool:
+                _best_12 = _force_pool[0]
+                _force_idx = _best_12["idx"]
+                # Find the weakest true-upset in selected to swap out.
+                # A true upset is one where the underdog is NOT model-favored.
+                _true_upsets_by_desir = sorted(
+                    [
+                        (j, selected[j])
+                        for j in selected
+                        if _counts_as_upset(
+                            (matchups[j][0] if matchups[j][0]["seed"] < matchups[j][1]["seed"]
+                             else matchups[j][1]),
+                            (matchups[j][1] if matchups[j][0]["seed"] < matchups[j][1]["seed"]
+                             else matchups[j][0]),
+                        )
+                    ],
+                    key=lambda x: x[1],   # ascending by desirability
+                )
+                if _true_upsets_by_desir:
+                    _evict_idx, _evict_desir = _true_upsets_by_desir[0]
+                    del selected[_evict_idx]
+                    selected[_force_idx] = round(_best_12["desir_final"], 5)
+                    _forced_12_seed_tag = {
+                        "idx":      _force_idx,
+                        "team":     _best_12["team"],
+                        "opp":      _best_12["opp"],
+                        "model_wp": _best_12["model_wp"],
+                        "adv_edge": _best_12["adv_edge"],
+                        "desir":    _best_12["desir_final"],
+                        "evicted":  _evict_idx,
+                    }
+                    # Update _twelve_diag entry so the diagnostics print shows FORCED
+                    for _d in _twelve_diag:
+                        if _d["idx"] == _force_idx:
+                            _d["selected"]      = True
+                            _d["forced_12_seed"] = True
+                            break
+                    print(
+                        f"  [contrarian force-12-seed] "
+                        f"#{12} {_best_12['team']} vs {_best_12['opp']}"
+                        f"  WP={_best_12['model_wp']:.3f}"
+                        + (f"  edge={_best_12['adv_edge']:.3f}" if _best_12["adv_edge"] is not None else "")
+                        + f"  desir={_best_12['desir_final']:.5f}"
+                        f"  (evicted idx={_evict_idx} desir={_evict_desir:.5f})"
+                    )
+
+    # ── Post-selection: mark selected 12-seeds and print diagnostics ─────────
+    if round_name == "Round of 64" and live_data_mode and _twelve_diag:
+        _selected_idxs = set(selected.keys())
+        for _d in _twelve_diag:
+            if _d.get("selected") is None:
+                _d["selected"] = _d["idx"] in _selected_idxs
+        print(f"\n  [12-seed R64 diagnostics — {mode}]")
+        for _d in _twelve_diag:
+            if _d.get("forced_12_seed"):
+                _sel_tag = "FORCED  "
+            elif _d["selected"]:
+                _sel_tag = "SELECTED"
+            else:
+                _sel_tag = "blocked "
+            _wp_str   = f"WP={_d['model_wp']:.3f}" if _d["model_wp"] is not None else "WP=N/A"
+            _edge_str = f"edge={_d['adv_edge']:.3f}" if _d["adv_edge"] is not None else "edge=N/A"
+            _bon_str  = f"bonus={_d['bonus']:+.3f}" if _d.get("bonus") else ""
+            _rej_str  = f"  [{_d['rejection']}]" if _d.get("rejection") else ""
+            print(
+                f"    {_sel_tag}  #{12} {_d['team']:<22} vs {_d['opp']:<22}"
+                f"  {_wp_str}  {_edge_str}  {_bon_str}{_rej_str}"
+            )
 
     return selected
 
@@ -1276,7 +1489,10 @@ def _play_game(
             fav, und = team_b, team_a
 
         if is_upset_pick:
-            winner, loser, is_upset = und, fav, True
+            winner, loser = und, fav
+            # Only label as upset when the higher seed is genuinely the underdog
+            # per the model.  A model-favored higher seed winning is not a surprise.
+            is_upset = _counts_as_upset(fav, und)
         else:
             winner, loser, is_upset = fav, und, False
 
