@@ -440,6 +440,7 @@ EARLY_ROUND_UPSET_CONFIG: dict[str, dict] = {
         "min_model_wp_r32":    0.11,
         "min_win_prob_r32":    0.13,
         "seed_min_r32":        8,
+        "r64_max_12plus":      1,
         "min_desirability_mult": 0.90,
     },
     "balanced": {
@@ -453,6 +454,7 @@ EARLY_ROUND_UPSET_CONFIG: dict[str, dict] = {
         "min_win_prob_r32":    0.11,
         "seed_min_r32":        8,
         "r64_seed_caps_live":  {10: 3, 11: 2, 12: 2, 13: 1},
+        "r64_max_12plus":      2,
         "min_desirability_mult": 0.88,
     },
     "value": {
@@ -466,6 +468,7 @@ EARLY_ROUND_UPSET_CONFIG: dict[str, dict] = {
         "min_win_prob_r32":    0.11,
         "seed_min_r32":        8,
         "r64_seed_caps_live":  {10: 3, 11: 2, 12: 2, 13: 1},
+        "r64_max_12plus":      2,
         "min_desirability_mult": 0.88,
     },
     "contrarian": {
@@ -479,6 +482,7 @@ EARLY_ROUND_UPSET_CONFIG: dict[str, dict] = {
         "min_win_prob_r32":    0.07,
         "seed_min_r32":        8,
         "r64_seed_caps_live":  {10: 4, 11: 4, 12: 2, 13: 1},
+        "r64_max_12plus":      3,
         "min_desirability_mult": 0.75,
     },
     "upset_heavy": {
@@ -492,6 +496,7 @@ EARLY_ROUND_UPSET_CONFIG: dict[str, dict] = {
         "min_win_prob_r32":    0.07,
         "seed_min_r32":        8,
         "r64_seed_caps_live":  {10: 4, 11: 4, 12: 2, 13: 1},
+        "r64_max_12plus":      3,
         "min_desirability_mult": 0.75,
     },
 }
@@ -928,6 +933,24 @@ def _select_upset_indices(
                             _adv_edge_val  = _adv_edge_val  if _adv_edge_val  is not None else _e
                             _adv_ratio_val = _adv_ratio_val if _adv_ratio_val is not None else _edge_info.get("value_ratio")
 
+        # 12-seed quality bonus (live R64 only, balanced/contrarian).
+        # Adds a small flat boost when the 12-seed clears at least one quality
+        # bar (model WP ≥ 0.32 OR advancement edge ≥ 0.08), lifting it above
+        # weaker 10/11-seed candidates in the ranking.
+        # Conservative gets no bonus; bonus is additive with the ESPN boost.
+        if (round_name == "Round of 64" and live_data_mode
+                and und["seed"] == 12
+                and _EARLY_MODE_MAP.get(mode, "balanced") != "conservative"):
+            _12_bonus_map = {"balanced": 0.04, "contrarian": 0.08}
+            _12_bonus = _12_bonus_map.get(_EARLY_MODE_MAP.get(mode, "balanced"), 0.0)
+            if _12_bonus > 0:
+                _12_wp_ok   = False
+                _12_edge_ok = _adv_edge_val is not None and _adv_edge_val >= 0.08
+                if _HAS_TEAM_RATINGS and "team_rating" in und and "team_rating" in fav:
+                    _12_wp_ok = float(_predict_win_probability(und, fav)["team_a"]) >= 0.32
+                if _12_wp_ok or _12_edge_ok:
+                    desir = round(desir + _12_bonus, 5)
+
         if desir < min_desir:
             if not value_bypass:
                 continue
@@ -979,10 +1002,11 @@ def _select_upset_indices(
         elif round_name == "Sweet 16":
             total_cap += _early_cfg.get("s16_extra_upsets", 0)
 
-    selected:        dict[int, float] = {}
-    region_count:    dict[str, int]   = {}
-    region_midtier:  dict[str, int]   = {}
-    seed_line_count: dict[int, int]   = {}   # R64 only: global per-seed-line tally
+    selected:          dict[int, float] = {}
+    region_count:      dict[str, int]   = {}
+    region_midtier:    dict[str, int]   = {}
+    seed_line_count:   dict[int, int]   = {}   # R64 only: global per-seed-line tally
+    seed12plus_count:  int              = 0    # R64 live only: combined 12/13-seed upsets
 
     r64_seed_caps = R64_GLOBAL_SEED_CAPS.get(mode, {}) if round_name == "Round of 64" else {}
     # In live mode, per-mode config can override seed caps to allow more variance.
@@ -1042,17 +1066,34 @@ def _select_upset_indices(
                     continue
                 seed_line_count[und_seed] = seed_line_count.get(und_seed, 0) + 1
 
+            # Combined 12+ seed cap (live mode only): limits total 12/13-seed
+            # upsets per mode to prevent low-seed chaos in late rounds.
+            if live_data_mode and _early_cfg is not None and und_seed >= 12:
+                _max_12plus = _early_cfg.get("r64_max_12plus")
+                if _max_12plus is not None and seed12plus_count >= _max_12plus:
+                    if und_seed in r64_seed_caps:
+                        seed_line_count[und_seed] -= 1
+                    continue
+                if _max_12plus is not None:
+                    seed12plus_count += 1
+
             # Per-region caps: at most 2 upsets per region total, at most 2
             # from the 10/11/12 mid-tier cluster.
             if region_count.get(region, 0) >= UPSET_MAX_PER_REGION_R64:
                 # Undo the seed-line increment since we're skipping this pick.
                 if und_seed in r64_seed_caps:
                     seed_line_count[und_seed] -= 1
+                if live_data_mode and _early_cfg is not None and und_seed >= 12:
+                    if _early_cfg.get("r64_max_12plus") is not None:
+                        seed12plus_count -= 1
                 continue
             if (fav["seed"], und["seed"]) in _MID_TIER_MATCHUPS:
                 if region_midtier.get(region, 0) >= UPSET_MAX_MID_TIER_PER_REGION:
                     if und_seed in r64_seed_caps:
                         seed_line_count[und_seed] -= 1
+                    if live_data_mode and _early_cfg is not None and und_seed >= 12:
+                        if _early_cfg.get("r64_max_12plus") is not None:
+                            seed12plus_count -= 1
                     continue
                 region_midtier[region] = region_midtier.get(region, 0) + 1
             region_count[region] = region_count.get(region, 0) + 1
