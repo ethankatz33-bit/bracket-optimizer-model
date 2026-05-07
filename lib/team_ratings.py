@@ -59,14 +59,15 @@ TEAM_RATING_WEIGHTS: dict[str, float] = {
 }
 
 # Champion profile — used for Final Four / championship picks.
-# Weights seed and peak-performance metrics more heavily than game-by-game form.
+# Balanced modern champion profile: offense and defense weighted equally to
+# reflect the modern game, while maintaining strong emphasis on efficiency margin.
 CHAMPION_PROFILE_WEIGHTS: dict[str, float] = {
-    "seed_score":           0.30,   # lower seed → deeper historical run rate
-    "offense_rating":       0.20,
-    "defense_rating":       0.20,   # inverted
-    "efficiency_margin":    0.15,
-    "recent_form":          0.11,
-    "ap_top12_flag":        0.04,   # minor signal: 1 if team was AP top-12 at week 6
+    "seed_score":        0.25,   # lower seed → deeper historical run rate
+    "defense_rating":    0.21,   # inverted; equal weight with offense
+    "offense_rating":    0.21,
+    "efficiency_margin": 0.20,   # raised: net efficiency is highly predictive
+    "recent_form":       0.09,   # lowered: peak performance matters more than recency
+    "ap_top12_flag":     0.04,   # minor signal: 1 if team was AP top-12 at week 6
     # ap_rank_week6 removed — early-January ranking too noisy as a predictive signal
 }
 

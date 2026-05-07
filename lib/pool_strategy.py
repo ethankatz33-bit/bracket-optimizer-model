@@ -146,7 +146,8 @@ _TIER_STRATEGY_NOTES: dict[str, str] = {
 # Minimum title probability for any pick to be considered "viable"
 _MIN_VIABLE_PROB     = 0.025
 _CONTRARIAN_PUB_CAP  = 0.05   # public_pct ceiling for contrarian classification
-_MEDIUM_VALUE_FLOOR  = 1.3    # value_score threshold for medium-pool primary
+_MEDIUM_TITLE_FLOOR  = 0.08   # minimum title probability for medium-pool eligibility
+_MEDIUM_VALUE_MIN    = 1.0    # minimum value_score (overpicked teams excluded)
 _MEDIUM_SEED_CAP     = 3      # seed cap for medium-pool value pick
 
 W = 72
@@ -258,17 +259,18 @@ def _most_contrarian(candidates: list) -> object | None:
 
 def _medium_primary(candidates: list, safest_pick) -> object | None:
     """
-    Best candidate with value_score ≥ threshold AND seed ≤ cap.
+    Best candidate by medium_pool_score = title_prob * sqrt(value_score),
+    restricted to teams with title_prob >= _MEDIUM_TITLE_FLOOR and seed <= cap.
     Falls back to safest if none qualifies.
     """
-    value_picks = [
+    eligible = [
         c for c in candidates
-        if (c.win_prob >= _MIN_VIABLE_PROB
-            and c.value_score >= _MEDIUM_VALUE_FLOOR
+        if (c.win_prob >= _MEDIUM_TITLE_FLOOR
+            and c.value_score >= _MEDIUM_VALUE_MIN
             and c.seed <= _MEDIUM_SEED_CAP)
     ]
-    if value_picks:
-        return max(value_picks, key=lambda c: c.composite if c.composite else c.value_score)
+    if eligible:
+        return max(eligible, key=lambda c: c.win_prob * (max(c.value_score, 0.01) ** 0.5))
     return safest_pick
 
 
@@ -293,7 +295,7 @@ def _reason(tier: str, cand, pool_size: int) -> str:
             f"your chance of taking the pot outright."
         )
     if tier == "medium_pool":
-        if vs >= _MEDIUM_VALUE_FLOOR:
+        if vs >= 1.0:
             ev_x = round(vs, 1)
             return (
                 f"{name} carries a {tp:.1%} title probability against only "

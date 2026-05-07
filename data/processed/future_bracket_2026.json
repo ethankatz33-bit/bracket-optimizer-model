@@ -1,89 +1,91 @@
 {
   "season": 2026,
-  "mode": "balanced",
-  "pool_size": 300,
+  "mode": "upset_heavy",
+  "pool_size": 100,
   "first_four": [
     {
       "region": "Midwest",
       "seed": 11,
-      "winner": "Miami (OH)",
-      "loser": "SMU",
-      "winner_em": 3.4,
-      "loser_em": 2.3
+      "winner": "SMU",
+      "loser": "Miami (OH)",
+      "winner_em": 18.1,
+      "loser_em": 8.3
     },
     {
       "region": "Midwest",
       "seed": 16,
-      "winner": "Howard",
-      "loser": "UMBC",
-      "winner_em": -12.5,
-      "loser_em": -13.4
+      "winner": "UMBC",
+      "loser": "Howard",
+      "winner_em": -1.7,
+      "loser_em": -3.2
     },
     {
       "region": "South",
       "seed": 16,
-      "winner": "Prairie View A&M",
-      "loser": "Lehigh",
-      "winner_em": -11.6,
-      "loser_em": -12.6
+      "winner": "Lehigh",
+      "loser": "Prairie View A&M",
+      "winner_em": -10.4,
+      "loser_em": -10.7
     },
     {
       "region": "West",
       "seed": 11,
-      "winner": "Texas",
-      "loser": "NC State",
-      "winner_em": 4.8,
-      "loser_em": 4.0
+      "winner": "NC State",
+      "loser": "Texas",
+      "winner_em": 19.6,
+      "loser_em": 19.0
     }
   ],
   "champion": {
-    "name": "Arizona",
+    "name": "Michigan",
     "seed": 1,
-    "region": "West"
+    "region": "Midwest"
   },
   "final_four": [
     {
-      "winner": "Arizona",
+      "winner": "Michigan",
       "winner_seed": 1,
-      "loser": "Connecticut",
+      "loser": "Purdue",
       "loser_seed": 2
     },
     {
-      "winner": "Houston",
-      "winner_seed": 2,
-      "loser": "Michigan",
-      "loser_seed": 1
+      "winner": "Duke",
+      "winner_seed": 1,
+      "loser": "Illinois",
+      "loser_seed": 3
     }
   ],
   "championship": {
-    "winner": "Arizona",
+    "winner": "Michigan",
     "winner_seed": 1,
-    "loser": "Houston",
-    "loser_seed": 2
+    "loser": "Duke",
+    "loser_seed": 1
   },
   "bracket": {
-    "mode": "balanced",
+    "mode": "upset_heavy",
     "round_of_64": [
       {
         "winner": {
           "name": "Duke",
           "seed": 1,
           "region": "East",
-          "rating": 90.2,
-          "team_rating": 0.9238,
-          "champion_profile_score": 0.9778,
-          "offense_rating": 0.8752,
-          "ap_top12_flag": 1
+          "rating": 95.2,
+          "team_rating": 0.99,
+          "champion_profile_score": 0.9881,
+          "offense_rating": 0.8704,
+          "ap_top12_flag": 1,
+          "bracket_half": 1
         },
         "loser": {
           "name": "Siena",
           "seed": 16,
           "region": "East",
-          "rating": 29.1,
-          "team_rating": 0.1196,
-          "champion_profile_score": 0.0322,
-          "offense_rating": 0.1111,
-          "ap_top12_flag": 0
+          "rating": 29.8,
+          "team_rating": 0.1293,
+          "champion_profile_score": 0.06,
+          "offense_rating": 0.1936,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -94,21 +96,23 @@
           "name": "Ohio State",
           "seed": 8,
           "region": "East",
-          "rating": 61.9,
-          "team_rating": 0.5512,
-          "champion_profile_score": 0.5612,
-          "offense_rating": 0.5042,
-          "ap_top12_flag": 0
+          "rating": 69.4,
+          "team_rating": 0.6504,
+          "champion_profile_score": 0.5929,
+          "offense_rating": 0.7517,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "loser": {
           "name": "TCU",
           "seed": 9,
           "region": "East",
-          "rating": 57.2,
-          "team_rating": 0.489,
-          "champion_profile_score": 0.4869,
-          "offense_rating": 0.4433,
-          "ap_top12_flag": 0
+          "rating": 55.9,
+          "team_rating": 0.4726,
+          "champion_profile_score": 0.4552,
+          "offense_rating": 0.4616,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -116,49 +120,54 @@
       },
       {
         "winner": {
-          "name": "St. John's",
-          "seed": 5,
-          "region": "East",
-          "rating": 71.2,
-          "team_rating": 0.6737,
-          "champion_profile_score": 0.7371,
-          "offense_rating": 0.6371,
-          "ap_top12_flag": 0
-        },
-        "loser": {
           "name": "Northern Iowa",
           "seed": 12,
           "region": "East",
-          "rating": 46.9,
-          "team_rating": 0.3534,
-          "champion_profile_score": 0.2959,
-          "offense_rating": 0.3049,
-          "ap_top12_flag": 0
+          "rating": 48.5,
+          "team_rating": 0.3747,
+          "champion_profile_score": 0.3316,
+          "offense_rating": 0.2868,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
-        "is_upset": false,
+        "loser": {
+          "name": "St. John's",
+          "seed": 5,
+          "region": "East",
+          "rating": 76.1,
+          "team_rating": 0.7377,
+          "champion_profile_score": 0.7046,
+          "offense_rating": 0.614,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
+        },
+        "is_upset": true,
         "round": "Round of 64",
-        "region": "East"
+        "region": "East",
+        "upset_quality": 0.22947
       },
       {
         "winner": {
           "name": "Kansas",
           "seed": 4,
           "region": "East",
-          "rating": 69.5,
-          "team_rating": 0.6509,
-          "champion_profile_score": 0.7074,
-          "offense_rating": 0.5624,
-          "ap_top12_flag": 0
+          "rating": 72.6,
+          "team_rating": 0.692,
+          "champion_profile_score": 0.6899,
+          "offense_rating": 0.5575,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "loser": {
           "name": "California Baptist",
           "seed": 13,
           "region": "East",
-          "rating": 43.3,
-          "team_rating": 0.306,
-          "champion_profile_score": 0.2423,
-          "offense_rating": 0.2634,
-          "ap_top12_flag": 0
+          "rating": 42.2,
+          "team_rating": 0.2922,
+          "champion_profile_score": 0.2399,
+          "offense_rating": 0.2193,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -166,50 +175,53 @@
       },
       {
         "winner": {
-          "name": "South Florida",
-          "seed": 11,
-          "region": "East",
-          "rating": 49.3,
-          "team_rating": 0.3861,
-          "champion_profile_score": 0.34,
-          "offense_rating": 0.3353,
-          "ap_top12_flag": 0
-        },
-        "loser": {
           "name": "Louisville",
           "seed": 6,
           "region": "East",
-          "rating": 70.3,
-          "team_rating": 0.6623,
-          "champion_profile_score": 0.697,
-          "offense_rating": 0.6537,
-          "ap_top12_flag": 0
+          "rating": 75.2,
+          "team_rating": 0.7268,
+          "champion_profile_score": 0.7144,
+          "offense_rating": 0.7435,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
-        "is_upset": true,
+        "loser": {
+          "name": "South Florida",
+          "seed": 11,
+          "region": "East",
+          "rating": 54.6,
+          "team_rating": 0.4548,
+          "champion_profile_score": 0.386,
+          "offense_rating": 0.5242,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
+        },
+        "is_upset": false,
         "round": "Round of 64",
-        "region": "East",
-        "upset_quality": 0.2931
+        "region": "East"
       },
       {
         "winner": {
           "name": "Michigan State",
           "seed": 3,
           "region": "East",
-          "rating": 74.3,
-          "team_rating": 0.7146,
-          "champion_profile_score": 0.8205,
-          "offense_rating": 0.615,
-          "ap_top12_flag": 0
+          "rating": 82.4,
+          "team_rating": 0.821,
+          "champion_profile_score": 0.8285,
+          "offense_rating": 0.7109,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "loser": {
           "name": "North Dakota State",
           "seed": 14,
           "region": "East",
-          "rating": 39.4,
-          "team_rating": 0.2553,
-          "champion_profile_score": 0.1791,
-          "offense_rating": 0.2191,
-          "ap_top12_flag": 0
+          "rating": 40.6,
+          "team_rating": 0.2713,
+          "champion_profile_score": 0.1926,
+          "offense_rating": 0.3433,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -217,50 +229,53 @@
       },
       {
         "winner": {
-          "name": "UCF",
-          "seed": 10,
-          "region": "East",
-          "rating": 53.6,
-          "team_rating": 0.4416,
-          "champion_profile_score": 0.4214,
-          "offense_rating": 0.399,
-          "ap_top12_flag": 0
-        },
-        "loser": {
           "name": "UCLA",
           "seed": 7,
           "region": "East",
-          "rating": 68.3,
-          "team_rating": 0.6362,
-          "champion_profile_score": 0.6322,
-          "offense_rating": 0.579,
-          "ap_top12_flag": 0
+          "rating": 68.2,
+          "team_rating": 0.6338,
+          "champion_profile_score": 0.5997,
+          "offense_rating": 0.733,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
-        "is_upset": true,
+        "loser": {
+          "name": "UCF",
+          "seed": 10,
+          "region": "East",
+          "rating": 52.4,
+          "team_rating": 0.4261,
+          "champion_profile_score": 0.3857,
+          "offense_rating": 0.6265,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
+        },
+        "is_upset": false,
         "round": "Round of 64",
-        "region": "East",
-        "upset_quality": 0.35737
+        "region": "East"
       },
       {
         "winner": {
           "name": "Connecticut",
           "seed": 2,
           "region": "East",
-          "rating": 79.7,
-          "team_rating": 0.7849,
-          "champion_profile_score": 0.8876,
-          "offense_rating": 0.7368,
-          "ap_top12_flag": 1
+          "rating": 82.1,
+          "team_rating": 0.8168,
+          "champion_profile_score": 0.8297,
+          "offense_rating": 0.6764,
+          "ap_top12_flag": 1,
+          "bracket_half": 1
         },
         "loser": {
           "name": "Furman",
           "seed": 15,
           "region": "East",
-          "rating": 35.7,
-          "team_rating": 0.2062,
-          "champion_profile_score": 0.116,
-          "offense_rating": 0.1775,
-          "ap_top12_flag": 0
+          "rating": 30.0,
+          "team_rating": 0.132,
+          "champion_profile_score": 0.0906,
+          "offense_rating": 0.2039,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -271,21 +286,23 @@
           "name": "Arizona",
           "seed": 1,
           "region": "West",
-          "rating": 89.8,
-          "team_rating": 0.9189,
-          "champion_profile_score": 0.9722,
-          "offense_rating": 0.8586,
-          "ap_top12_flag": 1
+          "rating": 93.9,
+          "team_rating": 0.972,
+          "champion_profile_score": 0.9778,
+          "offense_rating": 0.8613,
+          "ap_top12_flag": 1,
+          "bracket_half": 0
         },
         "loser": {
           "name": "LIU",
           "seed": 16,
           "region": "West",
-          "rating": 27.6,
-          "team_rating": 0.1,
-          "champion_profile_score": 0.0219,
-          "offense_rating": 0.1,
-          "ap_top12_flag": 0
+          "rating": 27.2,
+          "team_rating": 0.0942,
+          "champion_profile_score": 0.0441,
+          "offense_rating": 0.1447,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -293,24 +310,26 @@
       },
       {
         "winner": {
-          "name": "Villanova",
-          "seed": 8,
-          "region": "West",
-          "rating": 61.3,
-          "team_rating": 0.543,
-          "champion_profile_score": 0.5508,
-          "offense_rating": 0.4987,
-          "ap_top12_flag": 0
-        },
-        "loser": {
           "name": "Utah State",
           "seed": 9,
           "region": "West",
-          "rating": 57.5,
-          "team_rating": 0.4939,
-          "champion_profile_score": 0.4948,
-          "offense_rating": 0.4516,
-          "ap_top12_flag": 0
+          "rating": 65.2,
+          "team_rating": 0.5949,
+          "champion_profile_score": 0.5377,
+          "offense_rating": 0.6811,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
+        },
+        "loser": {
+          "name": "Villanova",
+          "seed": 8,
+          "region": "West",
+          "rating": 61.9,
+          "team_rating": 0.5509,
+          "champion_profile_score": 0.5358,
+          "offense_rating": 0.6238,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -321,21 +340,23 @@
           "name": "Wisconsin",
           "seed": 5,
           "region": "West",
-          "rating": 68.2,
-          "team_rating": 0.6345,
-          "champion_profile_score": 0.6585,
-          "offense_rating": 0.5541,
-          "ap_top12_flag": 0
+          "rating": 72.2,
+          "team_rating": 0.6868,
+          "champion_profile_score": 0.695,
+          "offense_rating": 0.7856,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "loser": {
           "name": "High Point",
           "seed": 12,
           "region": "West",
-          "rating": 46.9,
-          "team_rating": 0.3534,
-          "champion_profile_score": 0.303,
-          "offense_rating": 0.3132,
-          "ap_top12_flag": 0
+          "rating": 44.6,
+          "team_rating": 0.3231,
+          "champion_profile_score": 0.2681,
+          "offense_rating": 0.5158,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -346,21 +367,23 @@
           "name": "Arkansas",
           "seed": 4,
           "region": "West",
-          "rating": 71.1,
-          "team_rating": 0.6721,
-          "champion_profile_score": 0.7471,
-          "offense_rating": 0.5762,
-          "ap_top12_flag": 0
+          "rating": 77.9,
+          "team_rating": 0.7613,
+          "champion_profile_score": 0.7733,
+          "offense_rating": 0.8607,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Hawaii",
           "seed": 13,
           "region": "West",
-          "rating": 42.4,
-          "team_rating": 0.2945,
-          "champion_profile_score": 0.2256,
-          "offense_rating": 0.255,
-          "ap_top12_flag": 0
+          "rating": 41.3,
+          "team_rating": 0.2808,
+          "champion_profile_score": 0.2319,
+          "offense_rating": 0.1934,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -368,49 +391,54 @@
       },
       {
         "winner": {
+          "name": "NC State",
+          "seed": 11,
+          "region": "West",
+          "rating": 61.5,
+          "team_rating": 0.5458,
+          "champion_profile_score": 0.4662,
+          "offense_rating": 0.7435,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
+        },
+        "loser": {
           "name": "BYU",
           "seed": 6,
           "region": "West",
-          "rating": 77.7,
-          "team_rating": 0.7587,
-          "champion_profile_score": 0.7954,
-          "offense_rating": 0.6621,
-          "ap_top12_flag": 0
+          "rating": 69.3,
+          "team_rating": 0.6488,
+          "champion_profile_score": 0.6644,
+          "offense_rating": 0.7893,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
-        "loser": {
-          "name": "Texas",
-          "seed": 11,
-          "region": "West",
-          "rating": 51.5,
-          "team_rating": 0.4138,
-          "champion_profile_score": 0.3709,
-          "offense_rating": 0.3686,
-          "ap_top12_flag": 0
-        },
-        "is_upset": false,
+        "is_upset": true,
         "round": "Round of 64",
-        "region": "West"
+        "region": "West",
+        "upset_quality": 0.44411
       },
       {
         "winner": {
           "name": "Gonzaga",
           "seed": 3,
           "region": "West",
-          "rating": 80.1,
-          "team_rating": 0.7914,
-          "champion_profile_score": 0.8642,
-          "offense_rating": 0.8005,
-          "ap_top12_flag": 0
+          "rating": 80.9,
+          "team_rating": 0.8015,
+          "champion_profile_score": 0.8205,
+          "offense_rating": 0.6765,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Kennesaw State",
           "seed": 14,
           "region": "West",
-          "rating": 38.4,
-          "team_rating": 0.2422,
-          "champion_profile_score": 0.1577,
-          "offense_rating": 0.2107,
-          "ap_top12_flag": 0
+          "rating": 34.3,
+          "team_rating": 0.1881,
+          "champion_profile_score": 0.141,
+          "offense_rating": 0.3074,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -421,47 +449,51 @@
           "name": "Missouri",
           "seed": 10,
           "region": "West",
-          "rating": 54.4,
-          "team_rating": 0.4531,
-          "champion_profile_score": 0.4317,
-          "offense_rating": 0.4129,
-          "ap_top12_flag": 0
+          "rating": 54.0,
+          "team_rating": 0.4469,
+          "champion_profile_score": 0.3857,
+          "offense_rating": 0.5953,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Miami (FL)",
           "seed": 7,
           "region": "West",
-          "rating": 69.6,
-          "team_rating": 0.6525,
-          "champion_profile_score": 0.66,
-          "offense_rating": 0.5901,
-          "ap_top12_flag": 0
+          "rating": 64.1,
+          "team_rating": 0.5799,
+          "champion_profile_score": 0.5727,
+          "offense_rating": 0.6559,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": true,
         "round": "Round of 64",
         "region": "West",
-        "upset_quality": 0.35391
+        "upset_quality": 0.41059
       },
       {
         "winner": {
           "name": "Purdue",
           "seed": 2,
           "region": "West",
-          "rating": 81.0,
-          "team_rating": 0.8029,
-          "champion_profile_score": 0.9107,
-          "offense_rating": 0.7257,
-          "ap_top12_flag": 1
+          "rating": 86.3,
+          "team_rating": 0.8723,
+          "champion_profile_score": 0.8853,
+          "offense_rating": 0.99,
+          "ap_top12_flag": 1,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Queens",
           "seed": 15,
           "region": "West",
-          "rating": 33.9,
-          "team_rating": 0.1834,
-          "champion_profile_score": 0.0874,
-          "offense_rating": 0.1637,
-          "ap_top12_flag": 0
+          "rating": 31.3,
+          "team_rating": 0.1483,
+          "champion_profile_score": 0.1295,
+          "offense_rating": 0.4743,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -472,21 +504,23 @@
           "name": "Florida",
           "seed": 1,
           "region": "South",
-          "rating": 85.6,
-          "team_rating": 0.8634,
-          "champion_profile_score": 0.9508,
-          "offense_rating": 0.7174,
-          "ap_top12_flag": 1
+          "rating": 90.1,
+          "team_rating": 0.9225,
+          "champion_profile_score": 0.9484,
+          "offense_rating": 0.7917,
+          "ap_top12_flag": 1,
+          "bracket_half": 1
         },
         "loser": {
-          "name": "Prairie View A&M",
+          "name": "Lehigh",
           "seed": 16,
           "region": "South",
-          "rating": 31.1,
-          "team_rating": 0.1458,
-          "champion_profile_score": 0.0528,
-          "offense_rating": 0.1388,
-          "ap_top12_flag": 0
+          "rating": 23.8,
+          "team_rating": 0.05,
+          "champion_profile_score": 0.0243,
+          "offense_rating": 0.05,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -494,24 +528,26 @@
       },
       {
         "winner": {
-          "name": "Clemson",
-          "seed": 8,
-          "region": "South",
-          "rating": 60.4,
-          "team_rating": 0.5315,
-          "champion_profile_score": 0.5374,
-          "offense_rating": 0.4876,
-          "ap_top12_flag": 0
-        },
-        "loser": {
           "name": "Iowa",
           "seed": 9,
           "region": "South",
-          "rating": 56.4,
-          "team_rating": 0.4792,
-          "champion_profile_score": 0.4742,
-          "offense_rating": 0.4378,
-          "ap_top12_flag": 0
+          "rating": 69.2,
+          "team_rating": 0.6475,
+          "champion_profile_score": 0.5782,
+          "offense_rating": 0.6684,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
+        },
+        "loser": {
+          "name": "Clemson",
+          "seed": 8,
+          "region": "South",
+          "rating": 61.0,
+          "team_rating": 0.5392,
+          "champion_profile_score": 0.5048,
+          "offense_rating": 0.4987,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -522,21 +558,23 @@
           "name": "Vanderbilt",
           "seed": 5,
           "region": "South",
-          "rating": 77.4,
-          "team_rating": 0.7555,
-          "champion_profile_score": 0.7879,
-          "offense_rating": 0.8088,
-          "ap_top12_flag": 0
+          "rating": 81.2,
+          "team_rating": 0.8053,
+          "champion_profile_score": 0.7887,
+          "offense_rating": 0.833,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "loser": {
           "name": "McNeese",
           "seed": 12,
           "region": "South",
-          "rating": 46.5,
-          "team_rating": 0.3485,
-          "champion_profile_score": 0.2879,
-          "offense_rating": 0.3104,
-          "ap_top12_flag": 0
+          "rating": 49.1,
+          "team_rating": 0.3826,
+          "champion_profile_score": 0.3118,
+          "offense_rating": 0.4253,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -547,21 +585,23 @@
           "name": "Nebraska",
           "seed": 4,
           "region": "South",
-          "rating": 71.6,
-          "team_rating": 0.6787,
-          "champion_profile_score": 0.7526,
-          "offense_rating": 0.5707,
-          "ap_top12_flag": 0
+          "rating": 76.9,
+          "team_rating": 0.748,
+          "champion_profile_score": 0.7312,
+          "offense_rating": 0.5645,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "loser": {
           "name": "Troy",
           "seed": 13,
           "region": "South",
-          "rating": 42.3,
-          "team_rating": 0.2929,
-          "champion_profile_score": 0.2216,
-          "offense_rating": 0.2578,
-          "ap_top12_flag": 0
+          "rating": 36.5,
+          "team_rating": 0.2165,
+          "champion_profile_score": 0.1946,
+          "offense_rating": 0.31,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -572,47 +612,51 @@
           "name": "VCU",
           "seed": 11,
           "region": "South",
-          "rating": 49.8,
-          "team_rating": 0.3926,
-          "champion_profile_score": 0.3551,
-          "offense_rating": 0.3436,
-          "ap_top12_flag": 0
+          "rating": 55.8,
+          "team_rating": 0.4706,
+          "champion_profile_score": 0.3844,
+          "offense_rating": 0.6076,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "loser": {
           "name": "North Carolina",
           "seed": 6,
           "region": "South",
-          "rating": 67.9,
-          "team_rating": 0.6296,
-          "champion_profile_score": 0.6494,
-          "offense_rating": 0.5984,
-          "ap_top12_flag": 0
+          "rating": 66.1,
+          "team_rating": 0.6069,
+          "champion_profile_score": 0.6097,
+          "offense_rating": 0.6569,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": true,
         "round": "Round of 64",
         "region": "South",
-        "upset_quality": 0.32017
+        "upset_quality": 0.4073
       },
       {
         "winner": {
           "name": "Illinois",
           "seed": 3,
           "region": "South",
-          "rating": 86.6,
-          "team_rating": 0.8764,
-          "champion_profile_score": 0.8991,
-          "offense_rating": 0.95,
-          "ap_top12_flag": 0
+          "rating": 87.6,
+          "team_rating": 0.8889,
+          "champion_profile_score": 0.8769,
+          "offense_rating": 0.9751,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "loser": {
           "name": "Penn",
           "seed": 14,
           "region": "South",
-          "rating": 38.7,
-          "team_rating": 0.2455,
-          "champion_profile_score": 0.1688,
-          "offense_rating": 0.2163,
-          "ap_top12_flag": 0
+          "rating": 35.1,
+          "team_rating": 0.1982,
+          "champion_profile_score": 0.1498,
+          "offense_rating": 0.201,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -623,47 +667,51 @@
           "name": "Texas A&M",
           "seed": 10,
           "region": "South",
-          "rating": 52.9,
-          "team_rating": 0.4335,
-          "champion_profile_score": 0.4111,
-          "offense_rating": 0.3963,
-          "ap_top12_flag": 0
+          "rating": 59.2,
+          "team_rating": 0.5163,
+          "champion_profile_score": 0.4484,
+          "offense_rating": 0.6017,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "loser": {
           "name": "Saint Mary's",
           "seed": 7,
           "region": "South",
-          "rating": 73.1,
-          "team_rating": 0.6983,
-          "champion_profile_score": 0.7061,
-          "offense_rating": 0.5707,
-          "ap_top12_flag": 0
+          "rating": 69.8,
+          "team_rating": 0.6551,
+          "champion_profile_score": 0.6211,
+          "offense_rating": 0.6202,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": true,
         "round": "Round of 64",
         "region": "South",
-        "upset_quality": 0.30507
+        "upset_quality": 0.40999
       },
       {
         "winner": {
           "name": "Houston",
           "seed": 2,
           "region": "South",
-          "rating": 82.6,
-          "team_rating": 0.8241,
-          "champion_profile_score": 0.913,
-          "offense_rating": 0.6261,
-          "ap_top12_flag": 1
+          "rating": 88.8,
+          "team_rating": 0.9047,
+          "champion_profile_score": 0.9115,
+          "offense_rating": 0.7699,
+          "ap_top12_flag": 1,
+          "bracket_half": 1
         },
         "loser": {
           "name": "Idaho",
           "seed": 15,
           "region": "South",
-          "rating": 34.7,
-          "team_rating": 0.1932,
-          "champion_profile_score": 0.1057,
-          "offense_rating": 0.172,
-          "ap_top12_flag": 0
+          "rating": 36.2,
+          "team_rating": 0.2131,
+          "champion_profile_score": 0.1382,
+          "offense_rating": 0.2491,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -674,21 +722,23 @@
           "name": "Michigan",
           "seed": 1,
           "region": "Midwest",
-          "rating": 92.2,
-          "team_rating": 0.95,
-          "champion_profile_score": 0.9881,
-          "offense_rating": 0.8476,
-          "ap_top12_flag": 1
+          "rating": 93.7,
+          "team_rating": 0.9698,
+          "champion_profile_score": 0.9683,
+          "offense_rating": 0.8272,
+          "ap_top12_flag": 1,
+          "bracket_half": 0
         },
         "loser": {
-          "name": "Howard",
+          "name": "UMBC",
           "seed": 16,
           "region": "Midwest",
-          "rating": 30.0,
-          "team_rating": 0.1311,
-          "champion_profile_score": 0.0425,
-          "offense_rating": 0.1221,
-          "ap_top12_flag": 0
+          "rating": 31.5,
+          "team_rating": 0.1509,
+          "champion_profile_score": 0.0798,
+          "offense_rating": 0.229,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -699,21 +749,23 @@
           "name": "Georgia",
           "seed": 8,
           "region": "Midwest",
-          "rating": 59.7,
-          "team_rating": 0.5217,
-          "champion_profile_score": 0.527,
-          "offense_rating": 0.4793,
-          "ap_top12_flag": 0
+          "rating": 63.1,
+          "team_rating": 0.5669,
+          "champion_profile_score": 0.5556,
+          "offense_rating": 0.764,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Saint Louis",
           "seed": 9,
           "region": "Midwest",
-          "rating": 55.9,
-          "team_rating": 0.4727,
-          "champion_profile_score": 0.4639,
-          "offense_rating": 0.4322,
-          "ap_top12_flag": 0
+          "rating": 58.1,
+          "team_rating": 0.5019,
+          "champion_profile_score": 0.4567,
+          "offense_rating": 0.5947,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -724,21 +776,23 @@
           "name": "Texas Tech",
           "seed": 5,
           "region": "Midwest",
-          "rating": 68.6,
-          "team_rating": 0.6394,
-          "champion_profile_score": 0.676,
-          "offense_rating": 0.5707,
-          "ap_top12_flag": 0
+          "rating": 76.4,
+          "team_rating": 0.7423,
+          "champion_profile_score": 0.7323,
+          "offense_rating": 0.7759,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Akron",
           "seed": 12,
           "region": "Midwest",
-          "rating": 46.1,
-          "team_rating": 0.3436,
-          "champion_profile_score": 0.2808,
-          "offense_rating": 0.3104,
-          "ap_top12_flag": 0
+          "rating": 50.2,
+          "team_rating": 0.3968,
+          "champion_profile_score": 0.307,
+          "offense_rating": 0.5734,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -749,21 +803,23 @@
           "name": "Alabama",
           "seed": 4,
           "region": "Midwest",
-          "rating": 72.1,
-          "team_rating": 0.6852,
-          "champion_profile_score": 0.778,
-          "offense_rating": 0.6371,
-          "ap_top12_flag": 0
+          "rating": 77.0,
+          "team_rating": 0.7502,
+          "champion_profile_score": 0.7495,
+          "offense_rating": 0.9045,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Hofstra",
           "seed": 13,
           "region": "Midwest",
-          "rating": 42.1,
-          "team_rating": 0.2913,
-          "champion_profile_score": 0.2177,
-          "offense_rating": 0.2606,
-          "ap_top12_flag": 0
+          "rating": 46.0,
+          "team_rating": 0.3415,
+          "champion_profile_score": 0.2526,
+          "offense_rating": 0.4353,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -771,50 +827,54 @@
       },
       {
         "winner": {
-          "name": "Miami (OH)",
+          "name": "SMU",
           "seed": 11,
           "region": "Midwest",
-          "rating": 49.7,
-          "team_rating": 0.391,
-          "champion_profile_score": 0.3487,
-          "offense_rating": 0.3492,
-          "ap_top12_flag": 0
+          "rating": 57.9,
+          "team_rating": 0.498,
+          "champion_profile_score": 0.4241,
+          "offense_rating": 0.7058,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Tennessee",
           "seed": 6,
           "region": "Midwest",
-          "rating": 73.4,
-          "team_rating": 0.7032,
-          "champion_profile_score": 0.743,
-          "offense_rating": 0.5818,
-          "ap_top12_flag": 0
+          "rating": 77.0,
+          "team_rating": 0.75,
+          "champion_profile_score": 0.6986,
+          "offense_rating": 0.6461,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": true,
         "round": "Round of 64",
         "region": "Midwest",
-        "upset_quality": 0.27321
+        "upset_quality": 0.31923
       },
       {
         "winner": {
           "name": "Virginia",
           "seed": 3,
           "region": "Midwest",
-          "rating": 74.6,
-          "team_rating": 0.7179,
-          "champion_profile_score": 0.8007,
-          "offense_rating": 0.4987,
-          "ap_top12_flag": 0
+          "rating": 79.3,
+          "team_rating": 0.7803,
+          "champion_profile_score": 0.7983,
+          "offense_rating": 0.6936,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Wright State",
           "seed": 14,
           "region": "Midwest",
-          "rating": 38.2,
-          "team_rating": 0.2389,
-          "champion_profile_score": 0.1513,
-          "offense_rating": 0.2135,
-          "ap_top12_flag": 0
+          "rating": 37.5,
+          "team_rating": 0.2307,
+          "champion_profile_score": 0.172,
+          "offense_rating": 0.3536,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -825,47 +885,51 @@
           "name": "Santa Clara",
           "seed": 10,
           "region": "Midwest",
-          "rating": 52.3,
-          "team_rating": 0.4253,
-          "champion_profile_score": 0.3984,
-          "offense_rating": 0.3907,
-          "ap_top12_flag": 0
+          "rating": 62.7,
+          "team_rating": 0.5613,
+          "champion_profile_score": 0.4761,
+          "offense_rating": 0.7302,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Kentucky",
           "seed": 7,
           "region": "Midwest",
-          "rating": 70.5,
-          "team_rating": 0.6639,
-          "champion_profile_score": 0.6711,
-          "offense_rating": 0.5735,
-          "ap_top12_flag": 0
+          "rating": 66.0,
+          "team_rating": 0.605,
+          "champion_profile_score": 0.5997,
+          "offense_rating": 0.6286,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": true,
         "round": "Round of 64",
         "region": "Midwest",
-        "upset_quality": 0.3219
+        "upset_quality": 0.69465
       },
       {
         "winner": {
           "name": "Iowa State",
           "seed": 2,
           "region": "Midwest",
-          "rating": 80.6,
-          "team_rating": 0.798,
+          "rating": 87.4,
+          "team_rating": 0.8872,
           "champion_profile_score": 0.8932,
-          "offense_rating": 0.6178,
-          "ap_top12_flag": 1
+          "offense_rating": 0.7362,
+          "ap_top12_flag": 1,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Tennessee State",
           "seed": 15,
           "region": "Midwest",
-          "rating": 34.1,
-          "team_rating": 0.185,
-          "champion_profile_score": 0.0953,
-          "offense_rating": 0.1664,
-          "ap_top12_flag": 0
+          "rating": 30.0,
+          "team_rating": 0.1319,
+          "champion_profile_score": 0.0961,
+          "offense_rating": 0.257,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 64",
@@ -878,21 +942,23 @@
           "name": "Duke",
           "seed": 1,
           "region": "East",
-          "rating": 90.2,
-          "team_rating": 0.9238,
-          "champion_profile_score": 0.9778,
-          "offense_rating": 0.8752,
-          "ap_top12_flag": 1
+          "rating": 95.2,
+          "team_rating": 0.99,
+          "champion_profile_score": 0.9881,
+          "offense_rating": 0.8704,
+          "ap_top12_flag": 1,
+          "bracket_half": 1
         },
         "loser": {
           "name": "Ohio State",
           "seed": 8,
           "region": "East",
-          "rating": 61.9,
-          "team_rating": 0.5512,
-          "champion_profile_score": 0.5612,
-          "offense_rating": 0.5042,
-          "ap_top12_flag": 0
+          "rating": 69.4,
+          "team_rating": 0.6504,
+          "champion_profile_score": 0.5929,
+          "offense_rating": 0.7517,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 32",
@@ -903,21 +969,23 @@
           "name": "Kansas",
           "seed": 4,
           "region": "East",
-          "rating": 69.5,
-          "team_rating": 0.6509,
-          "champion_profile_score": 0.7074,
-          "offense_rating": 0.5624,
-          "ap_top12_flag": 0
+          "rating": 72.6,
+          "team_rating": 0.692,
+          "champion_profile_score": 0.6899,
+          "offense_rating": 0.5575,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "loser": {
-          "name": "St. John's",
-          "seed": 5,
+          "name": "Northern Iowa",
+          "seed": 12,
           "region": "East",
-          "rating": 71.2,
-          "team_rating": 0.6737,
-          "champion_profile_score": 0.7371,
-          "offense_rating": 0.6371,
-          "ap_top12_flag": 0
+          "rating": 48.5,
+          "team_rating": 0.3747,
+          "champion_profile_score": 0.3316,
+          "offense_rating": 0.2868,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 32",
@@ -928,21 +996,23 @@
           "name": "Michigan State",
           "seed": 3,
           "region": "East",
-          "rating": 74.3,
-          "team_rating": 0.7146,
-          "champion_profile_score": 0.8205,
-          "offense_rating": 0.615,
-          "ap_top12_flag": 0
+          "rating": 82.4,
+          "team_rating": 0.821,
+          "champion_profile_score": 0.8285,
+          "offense_rating": 0.7109,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "loser": {
-          "name": "South Florida",
-          "seed": 11,
+          "name": "Louisville",
+          "seed": 6,
           "region": "East",
-          "rating": 49.3,
-          "team_rating": 0.3861,
-          "champion_profile_score": 0.34,
-          "offense_rating": 0.3353,
-          "ap_top12_flag": 0
+          "rating": 75.2,
+          "team_rating": 0.7268,
+          "champion_profile_score": 0.7144,
+          "offense_rating": 0.7435,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 32",
@@ -953,21 +1023,23 @@
           "name": "Connecticut",
           "seed": 2,
           "region": "East",
-          "rating": 79.7,
-          "team_rating": 0.7849,
-          "champion_profile_score": 0.8876,
-          "offense_rating": 0.7368,
-          "ap_top12_flag": 1
+          "rating": 82.1,
+          "team_rating": 0.8168,
+          "champion_profile_score": 0.8297,
+          "offense_rating": 0.6764,
+          "ap_top12_flag": 1,
+          "bracket_half": 1
         },
         "loser": {
-          "name": "UCF",
-          "seed": 10,
+          "name": "UCLA",
+          "seed": 7,
           "region": "East",
-          "rating": 53.6,
-          "team_rating": 0.4416,
-          "champion_profile_score": 0.4214,
-          "offense_rating": 0.399,
-          "ap_top12_flag": 0
+          "rating": 68.2,
+          "team_rating": 0.6338,
+          "champion_profile_score": 0.5997,
+          "offense_rating": 0.733,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 32",
@@ -978,21 +1050,23 @@
           "name": "Arizona",
           "seed": 1,
           "region": "West",
-          "rating": 89.8,
-          "team_rating": 0.9189,
-          "champion_profile_score": 0.9722,
-          "offense_rating": 0.8586,
-          "ap_top12_flag": 1
+          "rating": 93.9,
+          "team_rating": 0.972,
+          "champion_profile_score": 0.9778,
+          "offense_rating": 0.8613,
+          "ap_top12_flag": 1,
+          "bracket_half": 0
         },
         "loser": {
-          "name": "Villanova",
-          "seed": 8,
+          "name": "Utah State",
+          "seed": 9,
           "region": "West",
-          "rating": 61.3,
-          "team_rating": 0.543,
-          "champion_profile_score": 0.5508,
-          "offense_rating": 0.4987,
-          "ap_top12_flag": 0
+          "rating": 65.2,
+          "team_rating": 0.5949,
+          "champion_profile_score": 0.5377,
+          "offense_rating": 0.6811,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 32",
@@ -1003,21 +1077,23 @@
           "name": "Arkansas",
           "seed": 4,
           "region": "West",
-          "rating": 71.1,
-          "team_rating": 0.6721,
-          "champion_profile_score": 0.7471,
-          "offense_rating": 0.5762,
-          "ap_top12_flag": 0
+          "rating": 77.9,
+          "team_rating": 0.7613,
+          "champion_profile_score": 0.7733,
+          "offense_rating": 0.8607,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Wisconsin",
           "seed": 5,
           "region": "West",
-          "rating": 68.2,
-          "team_rating": 0.6345,
-          "champion_profile_score": 0.6585,
-          "offense_rating": 0.5541,
-          "ap_top12_flag": 0
+          "rating": 72.2,
+          "team_rating": 0.6868,
+          "champion_profile_score": 0.695,
+          "offense_rating": 0.7856,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 32",
@@ -1025,49 +1101,54 @@
       },
       {
         "winner": {
+          "name": "NC State",
+          "seed": 11,
+          "region": "West",
+          "rating": 61.5,
+          "team_rating": 0.5458,
+          "champion_profile_score": 0.4662,
+          "offense_rating": 0.7435,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
+        },
+        "loser": {
           "name": "Gonzaga",
           "seed": 3,
           "region": "West",
-          "rating": 80.1,
-          "team_rating": 0.7914,
-          "champion_profile_score": 0.8642,
-          "offense_rating": 0.8005,
-          "ap_top12_flag": 0
+          "rating": 80.9,
+          "team_rating": 0.8015,
+          "champion_profile_score": 0.8205,
+          "offense_rating": 0.6765,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
-        "loser": {
-          "name": "BYU",
-          "seed": 6,
-          "region": "West",
-          "rating": 77.7,
-          "team_rating": 0.7587,
-          "champion_profile_score": 0.7954,
-          "offense_rating": 0.6621,
-          "ap_top12_flag": 0
-        },
-        "is_upset": false,
+        "is_upset": true,
         "round": "Round of 32",
-        "region": "West"
+        "region": "West",
+        "upset_quality": 0.30555
       },
       {
         "winner": {
           "name": "Purdue",
           "seed": 2,
           "region": "West",
-          "rating": 81.0,
-          "team_rating": 0.8029,
-          "champion_profile_score": 0.9107,
-          "offense_rating": 0.7257,
-          "ap_top12_flag": 1
+          "rating": 86.3,
+          "team_rating": 0.8723,
+          "champion_profile_score": 0.8853,
+          "offense_rating": 0.99,
+          "ap_top12_flag": 1,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Missouri",
           "seed": 10,
           "region": "West",
-          "rating": 54.4,
-          "team_rating": 0.4531,
-          "champion_profile_score": 0.4317,
-          "offense_rating": 0.4129,
-          "ap_top12_flag": 0
+          "rating": 54.0,
+          "team_rating": 0.4469,
+          "champion_profile_score": 0.3857,
+          "offense_rating": 0.5953,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 32",
@@ -1078,21 +1159,23 @@
           "name": "Florida",
           "seed": 1,
           "region": "South",
-          "rating": 85.6,
-          "team_rating": 0.8634,
-          "champion_profile_score": 0.9508,
-          "offense_rating": 0.7174,
-          "ap_top12_flag": 1
+          "rating": 90.1,
+          "team_rating": 0.9225,
+          "champion_profile_score": 0.9484,
+          "offense_rating": 0.7917,
+          "ap_top12_flag": 1,
+          "bracket_half": 1
         },
         "loser": {
-          "name": "Clemson",
-          "seed": 8,
+          "name": "Iowa",
+          "seed": 9,
           "region": "South",
-          "rating": 60.4,
-          "team_rating": 0.5315,
-          "champion_profile_score": 0.5374,
-          "offense_rating": 0.4876,
-          "ap_top12_flag": 0
+          "rating": 69.2,
+          "team_rating": 0.6475,
+          "champion_profile_score": 0.5782,
+          "offense_rating": 0.6684,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 32",
@@ -1103,21 +1186,23 @@
           "name": "Nebraska",
           "seed": 4,
           "region": "South",
-          "rating": 71.6,
-          "team_rating": 0.6787,
-          "champion_profile_score": 0.7526,
-          "offense_rating": 0.5707,
-          "ap_top12_flag": 0
+          "rating": 76.9,
+          "team_rating": 0.748,
+          "champion_profile_score": 0.7312,
+          "offense_rating": 0.5645,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "loser": {
           "name": "Vanderbilt",
           "seed": 5,
           "region": "South",
-          "rating": 77.4,
-          "team_rating": 0.7555,
-          "champion_profile_score": 0.7879,
-          "offense_rating": 0.8088,
-          "ap_top12_flag": 0
+          "rating": 81.2,
+          "team_rating": 0.8053,
+          "champion_profile_score": 0.7887,
+          "offense_rating": 0.833,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 32",
@@ -1125,50 +1210,53 @@
       },
       {
         "winner": {
-          "name": "VCU",
-          "seed": 11,
-          "region": "South",
-          "rating": 49.8,
-          "team_rating": 0.3926,
-          "champion_profile_score": 0.3551,
-          "offense_rating": 0.3436,
-          "ap_top12_flag": 0
-        },
-        "loser": {
           "name": "Illinois",
           "seed": 3,
           "region": "South",
-          "rating": 86.6,
-          "team_rating": 0.8764,
-          "champion_profile_score": 0.8991,
-          "offense_rating": 0.95,
-          "ap_top12_flag": 0
+          "rating": 87.6,
+          "team_rating": 0.8889,
+          "champion_profile_score": 0.8769,
+          "offense_rating": 0.9751,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
-        "is_upset": true,
+        "loser": {
+          "name": "VCU",
+          "seed": 11,
+          "region": "South",
+          "rating": 55.8,
+          "team_rating": 0.4706,
+          "champion_profile_score": 0.3844,
+          "offense_rating": 0.6076,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
+        },
+        "is_upset": false,
         "round": "Round of 32",
-        "region": "South",
-        "upset_quality": 0.1979
+        "region": "South"
       },
       {
         "winner": {
           "name": "Houston",
           "seed": 2,
           "region": "South",
-          "rating": 82.6,
-          "team_rating": 0.8241,
-          "champion_profile_score": 0.913,
-          "offense_rating": 0.6261,
-          "ap_top12_flag": 1
+          "rating": 88.8,
+          "team_rating": 0.9047,
+          "champion_profile_score": 0.9115,
+          "offense_rating": 0.7699,
+          "ap_top12_flag": 1,
+          "bracket_half": 1
         },
         "loser": {
           "name": "Texas A&M",
           "seed": 10,
           "region": "South",
-          "rating": 52.9,
-          "team_rating": 0.4335,
-          "champion_profile_score": 0.4111,
-          "offense_rating": 0.3963,
-          "ap_top12_flag": 0
+          "rating": 59.2,
+          "team_rating": 0.5163,
+          "champion_profile_score": 0.4484,
+          "offense_rating": 0.6017,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Round of 32",
@@ -1179,21 +1267,23 @@
           "name": "Michigan",
           "seed": 1,
           "region": "Midwest",
-          "rating": 92.2,
-          "team_rating": 0.95,
-          "champion_profile_score": 0.9881,
-          "offense_rating": 0.8476,
-          "ap_top12_flag": 1
+          "rating": 93.7,
+          "team_rating": 0.9698,
+          "champion_profile_score": 0.9683,
+          "offense_rating": 0.8272,
+          "ap_top12_flag": 1,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Georgia",
           "seed": 8,
           "region": "Midwest",
-          "rating": 59.7,
-          "team_rating": 0.5217,
-          "champion_profile_score": 0.527,
-          "offense_rating": 0.4793,
-          "ap_top12_flag": 0
+          "rating": 63.1,
+          "team_rating": 0.5669,
+          "champion_profile_score": 0.5556,
+          "offense_rating": 0.764,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 32",
@@ -1204,21 +1294,23 @@
           "name": "Alabama",
           "seed": 4,
           "region": "Midwest",
-          "rating": 72.1,
-          "team_rating": 0.6852,
-          "champion_profile_score": 0.778,
-          "offense_rating": 0.6371,
-          "ap_top12_flag": 0
+          "rating": 77.0,
+          "team_rating": 0.7502,
+          "champion_profile_score": 0.7495,
+          "offense_rating": 0.9045,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Texas Tech",
           "seed": 5,
           "region": "Midwest",
-          "rating": 68.6,
-          "team_rating": 0.6394,
-          "champion_profile_score": 0.676,
-          "offense_rating": 0.5707,
-          "ap_top12_flag": 0
+          "rating": 76.4,
+          "team_rating": 0.7423,
+          "champion_profile_score": 0.7323,
+          "offense_rating": 0.7759,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 32",
@@ -1229,21 +1321,23 @@
           "name": "Virginia",
           "seed": 3,
           "region": "Midwest",
-          "rating": 74.6,
-          "team_rating": 0.7179,
-          "champion_profile_score": 0.8007,
-          "offense_rating": 0.4987,
-          "ap_top12_flag": 0
+          "rating": 79.3,
+          "team_rating": 0.7803,
+          "champion_profile_score": 0.7983,
+          "offense_rating": 0.6936,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "loser": {
-          "name": "Miami (OH)",
+          "name": "SMU",
           "seed": 11,
           "region": "Midwest",
-          "rating": 49.7,
-          "team_rating": 0.391,
-          "champion_profile_score": 0.3487,
-          "offense_rating": 0.3492,
-          "ap_top12_flag": 0
+          "rating": 57.9,
+          "team_rating": 0.498,
+          "champion_profile_score": 0.4241,
+          "offense_rating": 0.7058,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Round of 32",
@@ -1251,28 +1345,31 @@
       },
       {
         "winner": {
-          "name": "Iowa State",
-          "seed": 2,
-          "region": "Midwest",
-          "rating": 80.6,
-          "team_rating": 0.798,
-          "champion_profile_score": 0.8932,
-          "offense_rating": 0.6178,
-          "ap_top12_flag": 1
-        },
-        "loser": {
           "name": "Santa Clara",
           "seed": 10,
           "region": "Midwest",
-          "rating": 52.3,
-          "team_rating": 0.4253,
-          "champion_profile_score": 0.3984,
-          "offense_rating": 0.3907,
-          "ap_top12_flag": 0
+          "rating": 62.7,
+          "team_rating": 0.5613,
+          "champion_profile_score": 0.4761,
+          "offense_rating": 0.7302,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
-        "is_upset": false,
+        "loser": {
+          "name": "Iowa State",
+          "seed": 2,
+          "region": "Midwest",
+          "rating": 87.4,
+          "team_rating": 0.8872,
+          "champion_profile_score": 0.8932,
+          "offense_rating": 0.7362,
+          "ap_top12_flag": 1,
+          "bracket_half": 0
+        },
+        "is_upset": true,
         "round": "Round of 32",
-        "region": "Midwest"
+        "region": "Midwest",
+        "upset_quality": 0.12799
       }
     ],
     "sweet_16": [
@@ -1281,21 +1378,23 @@
           "name": "Duke",
           "seed": 1,
           "region": "East",
-          "rating": 90.2,
-          "team_rating": 0.9238,
-          "champion_profile_score": 0.9778,
-          "offense_rating": 0.8752,
-          "ap_top12_flag": 1
+          "rating": 95.2,
+          "team_rating": 0.99,
+          "champion_profile_score": 0.9881,
+          "offense_rating": 0.8704,
+          "ap_top12_flag": 1,
+          "bracket_half": 1
         },
         "loser": {
           "name": "Kansas",
           "seed": 4,
           "region": "East",
-          "rating": 69.5,
-          "team_rating": 0.6509,
-          "champion_profile_score": 0.7074,
-          "offense_rating": 0.5624,
-          "ap_top12_flag": 0
+          "rating": 72.6,
+          "team_rating": 0.692,
+          "champion_profile_score": 0.6899,
+          "offense_rating": 0.5575,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Sweet 16",
@@ -1303,49 +1402,54 @@
       },
       {
         "winner": {
-          "name": "Connecticut",
-          "seed": 2,
-          "region": "East",
-          "rating": 79.7,
-          "team_rating": 0.7849,
-          "champion_profile_score": 0.8876,
-          "offense_rating": 0.7368,
-          "ap_top12_flag": 1
-        },
-        "loser": {
           "name": "Michigan State",
           "seed": 3,
           "region": "East",
-          "rating": 74.3,
-          "team_rating": 0.7146,
-          "champion_profile_score": 0.8205,
-          "offense_rating": 0.615,
-          "ap_top12_flag": 0
+          "rating": 82.4,
+          "team_rating": 0.821,
+          "champion_profile_score": 0.8285,
+          "offense_rating": 0.7109,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
-        "is_upset": false,
+        "loser": {
+          "name": "Connecticut",
+          "seed": 2,
+          "region": "East",
+          "rating": 82.1,
+          "team_rating": 0.8168,
+          "champion_profile_score": 0.8297,
+          "offense_rating": 0.6764,
+          "ap_top12_flag": 1,
+          "bracket_half": 1
+        },
+        "is_upset": true,
         "round": "Sweet 16",
-        "region": "East"
+        "region": "East",
+        "upset_quality": 0.59536
       },
       {
         "winner": {
           "name": "Arizona",
           "seed": 1,
           "region": "West",
-          "rating": 89.8,
-          "team_rating": 0.9189,
-          "champion_profile_score": 0.9722,
-          "offense_rating": 0.8586,
-          "ap_top12_flag": 1
+          "rating": 93.9,
+          "team_rating": 0.972,
+          "champion_profile_score": 0.9778,
+          "offense_rating": 0.8613,
+          "ap_top12_flag": 1,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Arkansas",
           "seed": 4,
           "region": "West",
-          "rating": 71.1,
-          "team_rating": 0.6721,
-          "champion_profile_score": 0.7471,
-          "offense_rating": 0.5762,
-          "ap_top12_flag": 0
+          "rating": 77.9,
+          "team_rating": 0.7613,
+          "champion_profile_score": 0.7733,
+          "offense_rating": 0.8607,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Sweet 16",
@@ -1353,50 +1457,53 @@
       },
       {
         "winner": {
-          "name": "Gonzaga",
-          "seed": 3,
-          "region": "West",
-          "rating": 80.1,
-          "team_rating": 0.7914,
-          "champion_profile_score": 0.8642,
-          "offense_rating": 0.8005,
-          "ap_top12_flag": 0
-        },
-        "loser": {
           "name": "Purdue",
           "seed": 2,
           "region": "West",
-          "rating": 81.0,
-          "team_rating": 0.8029,
-          "champion_profile_score": 0.9107,
-          "offense_rating": 0.7257,
-          "ap_top12_flag": 1
+          "rating": 86.3,
+          "team_rating": 0.8723,
+          "champion_profile_score": 0.8853,
+          "offense_rating": 0.99,
+          "ap_top12_flag": 1,
+          "bracket_half": 0
         },
-        "is_upset": true,
+        "loser": {
+          "name": "NC State",
+          "seed": 11,
+          "region": "West",
+          "rating": 61.5,
+          "team_rating": 0.5458,
+          "champion_profile_score": 0.4662,
+          "offense_rating": 0.7435,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
+        },
+        "is_upset": false,
         "round": "Sweet 16",
-        "region": "West",
-        "upset_quality": 0.57629
+        "region": "West"
       },
       {
         "winner": {
           "name": "Florida",
           "seed": 1,
           "region": "South",
-          "rating": 85.6,
-          "team_rating": 0.8634,
-          "champion_profile_score": 0.9508,
-          "offense_rating": 0.7174,
-          "ap_top12_flag": 1
+          "rating": 90.1,
+          "team_rating": 0.9225,
+          "champion_profile_score": 0.9484,
+          "offense_rating": 0.7917,
+          "ap_top12_flag": 1,
+          "bracket_half": 1
         },
         "loser": {
           "name": "Nebraska",
           "seed": 4,
           "region": "South",
-          "rating": 71.6,
-          "team_rating": 0.6787,
-          "champion_profile_score": 0.7526,
-          "offense_rating": 0.5707,
-          "ap_top12_flag": 0
+          "rating": 76.9,
+          "team_rating": 0.748,
+          "champion_profile_score": 0.7312,
+          "offense_rating": 0.5645,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Sweet 16",
@@ -1404,49 +1511,54 @@
       },
       {
         "winner": {
+          "name": "Illinois",
+          "seed": 3,
+          "region": "South",
+          "rating": 87.6,
+          "team_rating": 0.8889,
+          "champion_profile_score": 0.8769,
+          "offense_rating": 0.9751,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
+        },
+        "loser": {
           "name": "Houston",
           "seed": 2,
           "region": "South",
-          "rating": 82.6,
-          "team_rating": 0.8241,
-          "champion_profile_score": 0.913,
-          "offense_rating": 0.6261,
-          "ap_top12_flag": 1
+          "rating": 88.8,
+          "team_rating": 0.9047,
+          "champion_profile_score": 0.9115,
+          "offense_rating": 0.7699,
+          "ap_top12_flag": 1,
+          "bracket_half": 1
         },
-        "loser": {
-          "name": "VCU",
-          "seed": 11,
-          "region": "South",
-          "rating": 49.8,
-          "team_rating": 0.3926,
-          "champion_profile_score": 0.3551,
-          "offense_rating": 0.3436,
-          "ap_top12_flag": 0
-        },
-        "is_upset": false,
+        "is_upset": true,
         "round": "Sweet 16",
-        "region": "South"
+        "region": "South",
+        "upset_quality": 0.72636
       },
       {
         "winner": {
           "name": "Michigan",
           "seed": 1,
           "region": "Midwest",
-          "rating": 92.2,
-          "team_rating": 0.95,
-          "champion_profile_score": 0.9881,
-          "offense_rating": 0.8476,
-          "ap_top12_flag": 1
+          "rating": 93.7,
+          "team_rating": 0.9698,
+          "champion_profile_score": 0.9683,
+          "offense_rating": 0.8272,
+          "ap_top12_flag": 1,
+          "bracket_half": 0
         },
         "loser": {
           "name": "Alabama",
           "seed": 4,
           "region": "Midwest",
-          "rating": 72.1,
-          "team_rating": 0.6852,
-          "champion_profile_score": 0.778,
-          "offense_rating": 0.6371,
-          "ap_top12_flag": 0
+          "rating": 77.0,
+          "team_rating": 0.7502,
+          "champion_profile_score": 0.7495,
+          "offense_rating": 0.9045,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Sweet 16",
@@ -1454,24 +1566,26 @@
       },
       {
         "winner": {
-          "name": "Iowa State",
-          "seed": 2,
-          "region": "Midwest",
-          "rating": 80.6,
-          "team_rating": 0.798,
-          "champion_profile_score": 0.8932,
-          "offense_rating": 0.6178,
-          "ap_top12_flag": 1
-        },
-        "loser": {
           "name": "Virginia",
           "seed": 3,
           "region": "Midwest",
-          "rating": 74.6,
-          "team_rating": 0.7179,
-          "champion_profile_score": 0.8007,
-          "offense_rating": 0.4987,
-          "ap_top12_flag": 0
+          "rating": 79.3,
+          "team_rating": 0.7803,
+          "champion_profile_score": 0.7983,
+          "offense_rating": 0.6936,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
+        },
+        "loser": {
+          "name": "Santa Clara",
+          "seed": 10,
+          "region": "Midwest",
+          "rating": 62.7,
+          "team_rating": 0.5613,
+          "champion_profile_score": 0.4761,
+          "offense_rating": 0.7302,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Sweet 16",
@@ -1481,101 +1595,109 @@
     "elite_8": [
       {
         "winner": {
-          "name": "Connecticut",
-          "seed": 2,
-          "region": "East",
-          "rating": 79.7,
-          "team_rating": 0.7849,
-          "champion_profile_score": 0.8876,
-          "offense_rating": 0.7368,
-          "ap_top12_flag": 1
-        },
-        "loser": {
           "name": "Duke",
           "seed": 1,
           "region": "East",
-          "rating": 90.2,
-          "team_rating": 0.9238,
-          "champion_profile_score": 0.9778,
-          "offense_rating": 0.8752,
-          "ap_top12_flag": 1
-        },
-        "is_upset": true,
-        "round": "Elite 8",
-        "region": "East",
-        "upset_quality": 0.77367
-      },
-      {
-        "winner": {
-          "name": "Arizona",
-          "seed": 1,
-          "region": "West",
-          "rating": 89.8,
-          "team_rating": 0.9189,
-          "champion_profile_score": 0.9722,
-          "offense_rating": 0.8586,
-          "ap_top12_flag": 1
+          "rating": 95.2,
+          "team_rating": 0.99,
+          "champion_profile_score": 0.9881,
+          "offense_rating": 0.8704,
+          "ap_top12_flag": 1,
+          "bracket_half": 1
         },
         "loser": {
-          "name": "Gonzaga",
+          "name": "Michigan State",
           "seed": 3,
-          "region": "West",
-          "rating": 80.1,
-          "team_rating": 0.7914,
-          "champion_profile_score": 0.8642,
-          "offense_rating": 0.8005,
-          "ap_top12_flag": 0
+          "region": "East",
+          "rating": 82.4,
+          "team_rating": 0.821,
+          "champion_profile_score": 0.8285,
+          "offense_rating": 0.7109,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "is_upset": false,
         "round": "Elite 8",
-        "region": "West"
+        "region": "East"
       },
       {
         "winner": {
-          "name": "Houston",
+          "name": "Purdue",
           "seed": 2,
+          "region": "West",
+          "rating": 86.3,
+          "team_rating": 0.8723,
+          "champion_profile_score": 0.8853,
+          "offense_rating": 0.99,
+          "ap_top12_flag": 1,
+          "bracket_half": 0
+        },
+        "loser": {
+          "name": "Arizona",
+          "seed": 1,
+          "region": "West",
+          "rating": 93.9,
+          "team_rating": 0.972,
+          "champion_profile_score": 0.9778,
+          "offense_rating": 0.8613,
+          "ap_top12_flag": 1,
+          "bracket_half": 0
+        },
+        "is_upset": true,
+        "round": "Elite 8",
+        "region": "West",
+        "upset_quality": 0.88277
+      },
+      {
+        "winner": {
+          "name": "Illinois",
+          "seed": 3,
           "region": "South",
-          "rating": 82.6,
-          "team_rating": 0.8241,
-          "champion_profile_score": 0.913,
-          "offense_rating": 0.6261,
-          "ap_top12_flag": 1
+          "rating": 87.6,
+          "team_rating": 0.8889,
+          "champion_profile_score": 0.8769,
+          "offense_rating": 0.9751,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
         "loser": {
           "name": "Florida",
           "seed": 1,
           "region": "South",
-          "rating": 85.6,
-          "team_rating": 0.8634,
-          "champion_profile_score": 0.9508,
-          "offense_rating": 0.7174,
-          "ap_top12_flag": 1
+          "rating": 90.1,
+          "team_rating": 0.9225,
+          "champion_profile_score": 0.9484,
+          "offense_rating": 0.7917,
+          "ap_top12_flag": 1,
+          "bracket_half": 1
         },
         "is_upset": true,
         "round": "Elite 8",
         "region": "South",
-        "upset_quality": 0.88611
+        "upset_quality": 0.86255
       },
       {
         "winner": {
           "name": "Michigan",
           "seed": 1,
           "region": "Midwest",
-          "rating": 92.2,
-          "team_rating": 0.95,
-          "champion_profile_score": 0.9881,
-          "offense_rating": 0.8476,
-          "ap_top12_flag": 1
+          "rating": 93.7,
+          "team_rating": 0.9698,
+          "champion_profile_score": 0.9683,
+          "offense_rating": 0.8272,
+          "ap_top12_flag": 1,
+          "bracket_half": 0
         },
         "loser": {
-          "name": "Iowa State",
-          "seed": 2,
+          "name": "Virginia",
+          "seed": 3,
           "region": "Midwest",
-          "rating": 80.6,
-          "team_rating": 0.798,
-          "champion_profile_score": 0.8932,
-          "offense_rating": 0.6178,
-          "ap_top12_flag": 1
+          "rating": 79.3,
+          "team_rating": 0.7803,
+          "champion_profile_score": 0.7983,
+          "offense_rating": 0.6936,
+          "ap_top12_flag": 0,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Elite 8",
@@ -1585,24 +1707,26 @@
     "final_four": [
       {
         "winner": {
-          "name": "Arizona",
+          "name": "Michigan",
           "seed": 1,
-          "region": "West",
-          "rating": 89.8,
-          "team_rating": 0.9189,
-          "champion_profile_score": 0.9722,
-          "offense_rating": 0.8586,
-          "ap_top12_flag": 1
+          "region": "Midwest",
+          "rating": 93.7,
+          "team_rating": 0.9698,
+          "champion_profile_score": 0.9683,
+          "offense_rating": 0.8272,
+          "ap_top12_flag": 1,
+          "bracket_half": 0
         },
         "loser": {
-          "name": "Connecticut",
+          "name": "Purdue",
           "seed": 2,
-          "region": "East",
-          "rating": 79.7,
-          "team_rating": 0.7849,
-          "champion_profile_score": 0.8876,
-          "offense_rating": 0.7368,
-          "ap_top12_flag": 1
+          "region": "West",
+          "rating": 86.3,
+          "team_rating": 0.8723,
+          "champion_profile_score": 0.8853,
+          "offense_rating": 0.99,
+          "ap_top12_flag": 1,
+          "bracket_half": 0
         },
         "is_upset": false,
         "round": "Final Four",
@@ -1610,112 +1734,128 @@
       },
       {
         "winner": {
-          "name": "Houston",
-          "seed": 2,
-          "region": "South",
-          "rating": 82.6,
-          "team_rating": 0.8241,
-          "champion_profile_score": 0.913,
-          "offense_rating": 0.6261,
-          "ap_top12_flag": 1
+          "name": "Duke",
+          "seed": 1,
+          "region": "East",
+          "rating": 95.2,
+          "team_rating": 0.99,
+          "champion_profile_score": 0.9881,
+          "offense_rating": 0.8704,
+          "ap_top12_flag": 1,
+          "bracket_half": 1
         },
         "loser": {
-          "name": "Michigan",
-          "seed": 1,
-          "region": "Midwest",
-          "rating": 92.2,
-          "team_rating": 0.95,
-          "champion_profile_score": 0.9881,
-          "offense_rating": 0.8476,
-          "ap_top12_flag": 1
+          "name": "Illinois",
+          "seed": 3,
+          "region": "South",
+          "rating": 87.6,
+          "team_rating": 0.8889,
+          "champion_profile_score": 0.8769,
+          "offense_rating": 0.9751,
+          "ap_top12_flag": 0,
+          "bracket_half": 1
         },
-        "is_upset": true,
+        "is_upset": false,
         "round": "Final Four",
-        "region": "National",
-        "upset_quality": 0.54405
+        "region": "National"
       }
     ],
     "championship": {
       "winner": {
-        "name": "Arizona",
+        "name": "Michigan",
         "seed": 1,
-        "region": "West",
-        "rating": 89.8,
-        "team_rating": 0.9189,
-        "champion_profile_score": 0.9722,
-        "offense_rating": 0.8586,
-        "ap_top12_flag": 1
+        "region": "Midwest",
+        "rating": 93.7,
+        "team_rating": 0.9698,
+        "champion_profile_score": 0.9683,
+        "offense_rating": 0.8272,
+        "ap_top12_flag": 1,
+        "bracket_half": 0
       },
       "loser": {
-        "name": "Houston",
-        "seed": 2,
-        "region": "South",
-        "rating": 82.6,
-        "team_rating": 0.8241,
-        "champion_profile_score": 0.913,
-        "offense_rating": 0.6261,
-        "ap_top12_flag": 1
+        "name": "Duke",
+        "seed": 1,
+        "region": "East",
+        "rating": 95.2,
+        "team_rating": 0.99,
+        "champion_profile_score": 0.9881,
+        "offense_rating": 0.8704,
+        "ap_top12_flag": 1,
+        "bracket_half": 1
       },
-      "is_upset": false,
+      "is_upset": true,
       "round": "Championship",
-      "region": "National"
+      "region": "National",
+      "upset_quality": 1.0
     },
     "champion": {
-      "name": "Arizona",
+      "name": "Michigan",
       "seed": 1,
-      "region": "West",
-      "rating": 89.8,
-      "team_rating": 0.9189,
-      "champion_profile_score": 0.9722,
-      "offense_rating": 0.8586,
-      "ap_top12_flag": 1
+      "region": "Midwest",
+      "rating": 93.7,
+      "team_rating": 0.9698,
+      "champion_profile_score": 0.9683,
+      "offense_rating": 0.8272,
+      "ap_top12_flag": 1,
+      "bracket_half": 0
     },
     "s16_constraint_notes": [
-      "S16 constraint (balanced): removed South Florida (seed 11), advanced Michigan State (seed 3) instead",
-      "S16 constraint (balanced): removed Miami (OH) (seed 11), advanced Virginia (seed 3) instead"
+      "S16 constraint (upset_heavy): removed Northern Iowa (seed 12), advanced Kansas (seed 4) instead",
+      "S16 constraint (upset_heavy): removed SMU (seed 11), advanced Virginia (seed 3) instead"
     ],
-    "champion_value_score": -0.1051,
-    "champion_win_prob": 0.6385,
-    "champion_public_pct": 0.7436,
+    "bracket_halves": [
+      [
+        "West",
+        "Midwest"
+      ],
+      [
+        "East",
+        "South"
+      ]
+    ],
+    "champion_value_score": -0.0303,
+    "champion_win_prob": 0.4697,
+    "champion_public_pct": 0.5,
     "reasoning": {
-      "champion": "Arizona (seed 1, rating 89.8) won the championship over Houston (seed 2, rating 82.6). Score differential: +0.0814. Bracket total upsets: 12.",
-      "total_upsets": 12,
+      "champion": "Michigan (seed 1, rating 93.7) won the championship over Duke (seed 1, rating 95.2). Score differential: -0.0151. Bracket total upsets: 14.",
+      "total_upsets": 14,
       "notable_upsets": [
-        "South Florida (seed 11) over Louisville (seed 6) \u2014 Round of 64",
-        "UCF (seed 10) over UCLA (seed 7) \u2014 Round of 64",
+        "Northern Iowa (seed 12) over St. John's (seed 5) \u2014 Round of 64",
+        "NC State (seed 11) over BYU (seed 6) \u2014 Round of 64",
         "Missouri (seed 10) over Miami (FL) (seed 7) \u2014 Round of 64",
         "VCU (seed 11) over North Carolina (seed 6) \u2014 Round of 64",
         "Texas A&M (seed 10) over Saint Mary's (seed 7) \u2014 Round of 64",
-        "Miami (OH) (seed 11) over Tennessee (seed 6) \u2014 Round of 64",
+        "SMU (seed 11) over Tennessee (seed 6) \u2014 Round of 64",
         "Santa Clara (seed 10) over Kentucky (seed 7) \u2014 Round of 64",
-        "VCU (seed 11) over Illinois (seed 3) \u2014 Round of 32"
+        "NC State (seed 11) over Gonzaga (seed 3) \u2014 Round of 32",
+        "Santa Clara (seed 10) over Iowa State (seed 2) \u2014 Round of 32"
       ]
     },
     "structure_check": {
-      "mode": "balanced",
+      "mode": "upset_heavy",
       "double_digit_in_sweet16": {
-        "actual": 1,
-        "target": "1",
+        "actual": 2,
+        "target": "1\u20132",
         "target_min": 1,
-        "target_max": 1,
+        "target_max": 2,
         "ok": true
       },
       "upset_compliance": {
         "Round of 64": {
-          "target": 6,
+          "target": 7,
           "actual": 7,
           "ok": true,
           "informational": true
         },
         "Round of 32": {
-          "target": 5,
-          "actual": 1,
+          "target": 6,
+          "actual": 2,
           "ok": true,
           "informational": true
         },
         "Sweet 16": {
-          "target": 2,
-          "actual": 1,
+          "target": 3,
+          "actual": 2,
           "ok": true,
           "informational": true
         },
@@ -1727,13 +1867,13 @@
         },
         "Final Four": {
           "target": 1,
-          "actual": 1,
+          "actual": 0,
           "ok": true,
           "informational": true
         },
         "Championship": {
           "target": 0,
-          "actual": 0,
+          "actual": 1,
           "ok": true,
           "informational": true
         }
@@ -1744,8 +1884,6 @@
             1,
             1,
             1,
-            1,
-            2,
             2,
             2,
             2,
@@ -1758,7 +1896,6 @@
             5,
             5,
             5,
-            6,
             6,
             6,
             7,
@@ -1770,9 +1907,12 @@
             10,
             10,
             11,
+            11,
+            12,
             12,
             13,
-            14
+            14,
+            15
           ],
           "actual": [
             1,
@@ -1794,19 +1934,19 @@
             5,
             5,
             5,
-            5,
             6,
+            7,
             8,
             8,
-            8,
-            8,
-            10,
+            9,
+            9,
             10,
             10,
             10,
             11,
             11,
-            11
+            11,
+            12
           ],
           "ok": false
         },
@@ -1814,8 +1954,6 @@
           "target": [
             1,
             1,
-            1,
-            2,
             2,
             2,
             3,
@@ -1825,9 +1963,11 @@
             5,
             6,
             7,
+            8,
             10,
             11,
-            12
+            12,
+            13
           ],
           "actual": [
             1,
@@ -1837,7 +1977,6 @@
             2,
             2,
             2,
-            2,
             3,
             3,
             3,
@@ -1845,6 +1984,7 @@
             4,
             4,
             4,
+            10,
             11
           ],
           "ok": false
@@ -1853,12 +1993,12 @@
           "target": [
             1,
             1,
-            1,
-            2,
             2,
             3,
             4,
-            6
+            5,
+            6,
+            7
           ],
           "actual": [
             1,
@@ -1866,8 +2006,8 @@
             1,
             1,
             2,
-            2,
-            2,
+            3,
+            3,
             3
           ],
           "ok": false
@@ -1875,15 +2015,15 @@
         "final_four": {
           "target": [
             1,
-            1,
             2,
-            3
+            3,
+            4
           ],
           "actual": [
             1,
             1,
             2,
-            2
+            3
           ],
           "ok": false
         },
@@ -1894,9 +2034,9 @@
           ],
           "actual": [
             1,
-            2
+            1
           ],
-          "ok": true
+          "ok": false
         }
       },
       "fully_compliant": true
@@ -1908,107 +2048,139 @@
       "matched_by_name": 0,
       "seed_fallback": 0,
       "total_teams": 64
-    }
+    },
+    "advancement_value_plays": [
+      {
+        "team": "Santa Clara",
+        "seed": 10,
+        "round": "Round of 64",
+        "opponent": "Kentucky",
+        "adv_round": "R32",
+        "edge": 0.1282,
+        "value_ratio": 1.414,
+        "desir_final": 0.69465
+      },
+      {
+        "team": "Illinois",
+        "seed": 3,
+        "round": "Sweet 16",
+        "opponent": "Houston",
+        "adv_round": "Elite 8",
+        "edge": 0.2597,
+        "value_ratio": 2.298,
+        "desir_final": 0.72636
+      },
+      {
+        "team": "Purdue",
+        "seed": 2,
+        "round": "Elite 8",
+        "opponent": "Arizona",
+        "adv_round": "Final Four",
+        "edge": 0.1527,
+        "value_ratio": 2.443,
+        "desir_final": 0.88277
+      }
+    ]
   },
   "picks_analysis": {
     "normalization": {
-      "applied": true,
-      "original_sum": 1.13068,
-      "normalized_sum": 1.0,
+      "applied": false,
+      "original_sum": 0.9959,
+      "normalized_sum": 0.9959,
       "threshold_min": 0.95,
       "threshold_max": 1.05
     },
-    "total_public_pct": 1.0,
+    "total_public_pct": 0.9959,
     "top_by_title_prob": [
-      {
-        "name": "Michigan",
-        "seed": 1,
-        "region": "Midwest",
-        "public_pct": 0.1592,
-        "title_prob": 0.2426,
-        "ff_prob": 0.616,
-        "value_score": 1.524
-      },
       {
         "name": "Duke",
         "seed": 1,
         "region": "East",
-        "public_pct": 0.1769,
-        "title_prob": 0.1954,
-        "ff_prob": 0.5638,
-        "value_score": 1.105
+        "public_pct": 0.231,
+        "title_prob": 0.221,
+        "ff_prob": 0.5763,
+        "value_score": 0.956
       },
       {
         "name": "Arizona",
         "seed": 1,
         "region": "West",
-        "public_pct": 0.1327,
-        "title_prob": 0.1746,
-        "ff_prob": 0.529,
-        "value_score": 1.316
+        "public_pct": 0.2085,
+        "title_prob": 0.1795,
+        "ff_prob": 0.5112,
+        "value_score": 0.861
+      },
+      {
+        "name": "Michigan",
+        "seed": 1,
+        "region": "Midwest",
+        "public_pct": 0.1419,
+        "title_prob": 0.1767,
+        "ff_prob": 0.507,
+        "value_score": 1.245
       },
       {
         "name": "Florida",
         "seed": 1,
         "region": "South",
-        "public_pct": 0.0796,
-        "title_prob": 0.0868,
-        "ff_prob": 0.3358,
-        "value_score": 1.09
-      },
-      {
-        "name": "Illinois",
-        "seed": 3,
-        "region": "South",
-        "public_pct": 0.0265,
-        "title_prob": 0.0858,
-        "ff_prob": 0.3136,
-        "value_score": 3.234
-      },
-      {
-        "name": "Houston",
-        "seed": 2,
-        "region": "South",
-        "public_pct": 0.0619,
-        "title_prob": 0.0338,
-        "ff_prob": 0.1776,
-        "value_score": 0.546
-      },
-      {
-        "name": "Purdue",
-        "seed": 2,
-        "region": "West",
-        "public_pct": 0.0708,
-        "title_prob": 0.0318,
-        "ff_prob": 0.1756,
-        "value_score": 0.449
-      },
-      {
-        "name": "Connecticut",
-        "seed": 2,
-        "region": "East",
-        "public_pct": 0.0531,
-        "title_prob": 0.03,
-        "ff_prob": 0.1848,
-        "value_score": 0.565
+        "public_pct": 0.0762,
+        "title_prob": 0.0851,
+        "ff_prob": 0.3335,
+        "value_score": 1.116
       },
       {
         "name": "Iowa State",
         "seed": 2,
         "region": "Midwest",
-        "public_pct": 0.0619,
-        "title_prob": 0.0266,
-        "ff_prob": 0.1692,
-        "value_score": 0.43
+        "public_pct": 0.0288,
+        "title_prob": 0.063,
+        "ff_prob": 0.2715,
+        "value_score": 2.188
       },
       {
-        "name": "Gonzaga",
-        "seed": 3,
+        "name": "Houston",
+        "seed": 2,
+        "region": "South",
+        "public_pct": 0.0636,
+        "title_prob": 0.0624,
+        "ff_prob": 0.269,
+        "value_score": 0.98
+      },
+      {
+        "name": "Purdue",
+        "seed": 2,
         "region": "West",
-        "public_pct": 0.0354,
-        "title_prob": 0.0222,
-        "ff_prob": 0.119,
-        "value_score": 0.628
+        "public_pct": 0.0301,
+        "title_prob": 0.0529,
+        "ff_prob": 0.258,
+        "value_score": 1.759
+      },
+      {
+        "name": "Illinois",
+        "seed": 3,
+        "region": "South",
+        "public_pct": 0.0142,
+        "title_prob": 0.0517,
+        "ff_prob": 0.2495,
+        "value_score": 3.641
+      },
+      {
+        "name": "Connecticut",
+        "seed": 2,
+        "region": "East",
+        "public_pct": 0.0389,
+        "title_prob": 0.022,
+        "ff_prob": 0.1522,
+        "value_score": 0.566
+      },
+      {
+        "name": "Michigan State",
+        "seed": 3,
+        "region": "East",
+        "public_pct": 0.0183,
+        "title_prob": 0.0204,
+        "ff_prob": 0.1366,
+        "value_score": 1.112
       }
     ],
     "top_by_value_score": [
@@ -2016,91 +2188,91 @@
         "name": "Illinois",
         "seed": 3,
         "region": "South",
-        "public_pct": 0.0265,
-        "title_prob": 0.0858,
-        "ff_prob": 0.3136,
-        "value_score": 3.234
-      },
-      {
-        "name": "BYU",
-        "seed": 6,
-        "region": "West",
-        "public_pct": 0.0044,
-        "title_prob": 0.01,
-        "ff_prob": 0.0786,
-        "value_score": 2.261
+        "public_pct": 0.0142,
+        "title_prob": 0.0517,
+        "ff_prob": 0.2495,
+        "value_score": 3.641
       },
       {
         "name": "Vanderbilt",
         "seed": 5,
         "region": "South",
-        "public_pct": 0.0071,
-        "title_prob": 0.0142,
-        "ff_prob": 0.0932,
-        "value_score": 2.007
+        "public_pct": 0.0045,
+        "title_prob": 0.0106,
+        "ff_prob": 0.0832,
+        "value_score": 2.356
+      },
+      {
+        "name": "Iowa State",
+        "seed": 2,
+        "region": "Midwest",
+        "public_pct": 0.0288,
+        "title_prob": 0.063,
+        "ff_prob": 0.2715,
+        "value_score": 2.188
+      },
+      {
+        "name": "Purdue",
+        "seed": 2,
+        "region": "West",
+        "public_pct": 0.0301,
+        "title_prob": 0.0529,
+        "ff_prob": 0.258,
+        "value_score": 1.759
       },
       {
         "name": "Michigan",
         "seed": 1,
         "region": "Midwest",
-        "public_pct": 0.1592,
-        "title_prob": 0.2426,
-        "ff_prob": 0.616,
-        "value_score": 1.524
-      },
-      {
-        "name": "Arizona",
-        "seed": 1,
-        "region": "West",
-        "public_pct": 0.1327,
-        "title_prob": 0.1746,
-        "ff_prob": 0.529,
-        "value_score": 1.316
-      },
-      {
-        "name": "Duke",
-        "seed": 1,
-        "region": "East",
-        "public_pct": 0.1769,
-        "title_prob": 0.1954,
-        "ff_prob": 0.5638,
-        "value_score": 1.105
+        "public_pct": 0.1419,
+        "title_prob": 0.1767,
+        "ff_prob": 0.507,
+        "value_score": 1.245
       },
       {
         "name": "Florida",
         "seed": 1,
         "region": "South",
-        "public_pct": 0.0796,
-        "title_prob": 0.0868,
-        "ff_prob": 0.3358,
-        "value_score": 1.09
+        "public_pct": 0.0762,
+        "title_prob": 0.0851,
+        "ff_prob": 0.3335,
+        "value_score": 1.116
       },
       {
-        "name": "Gonzaga",
+        "name": "Michigan State",
         "seed": 3,
-        "region": "West",
-        "public_pct": 0.0354,
-        "title_prob": 0.0222,
-        "ff_prob": 0.119,
-        "value_score": 0.628
-      },
-      {
-        "name": "Connecticut",
-        "seed": 2,
         "region": "East",
-        "public_pct": 0.0531,
-        "title_prob": 0.03,
-        "ff_prob": 0.1848,
-        "value_score": 0.565
+        "public_pct": 0.0183,
+        "title_prob": 0.0204,
+        "ff_prob": 0.1366,
+        "value_score": 1.112
       },
       {
         "name": "Houston",
         "seed": 2,
         "region": "South",
-        "public_pct": 0.0619,
-        "title_prob": 0.0338,
-        "ff_prob": 0.1776,
-        "value_score": 0.546
+        "public_pct": 0.0636,
+        "title_prob": 0.0624,
+        "ff_prob": 0.269,
+        "value_score": 0.98
+      },
+      {
+        "name": "Duke",
+        "seed": 1,
+        "region": "East",
+        "public_pct": 0.231,
+        "title_prob": 0.221,
+        "ff_prob": 0.5763,
+        "value_score": 0.956
+      },
+      {
+        "name": "Arizona",
+        "seed": 1,
+        "region": "West",
+        "public_pct": 0.2085,
+        "title_prob": 0.1795,
+        "ff_prob": 0.5112,
+        "value_score": 0.861
       }
     ],
     "top_by_public_pct": [
@@ -2108,171 +2280,171 @@
         "name": "Duke",
         "seed": 1,
         "region": "East",
-        "public_pct": 0.1769,
-        "title_prob": 0.1954,
-        "ff_prob": 0.5638,
-        "value_score": 1.105
-      },
-      {
-        "name": "Michigan",
-        "seed": 1,
-        "region": "Midwest",
-        "public_pct": 0.1592,
-        "title_prob": 0.2426,
-        "ff_prob": 0.616,
-        "value_score": 1.524
+        "public_pct": 0.231,
+        "title_prob": 0.221,
+        "ff_prob": 0.5763,
+        "value_score": 0.956
       },
       {
         "name": "Arizona",
         "seed": 1,
         "region": "West",
-        "public_pct": 0.1327,
-        "title_prob": 0.1746,
-        "ff_prob": 0.529,
-        "value_score": 1.316
+        "public_pct": 0.2085,
+        "title_prob": 0.1795,
+        "ff_prob": 0.5112,
+        "value_score": 0.861
+      },
+      {
+        "name": "Michigan",
+        "seed": 1,
+        "region": "Midwest",
+        "public_pct": 0.1419,
+        "title_prob": 0.1767,
+        "ff_prob": 0.507,
+        "value_score": 1.245
       },
       {
         "name": "Florida",
         "seed": 1,
         "region": "South",
-        "public_pct": 0.0796,
-        "title_prob": 0.0868,
-        "ff_prob": 0.3358,
-        "value_score": 1.09
-      },
-      {
-        "name": "Purdue",
-        "seed": 2,
-        "region": "West",
-        "public_pct": 0.0708,
-        "title_prob": 0.0318,
-        "ff_prob": 0.1756,
-        "value_score": 0.449
+        "public_pct": 0.0762,
+        "title_prob": 0.0851,
+        "ff_prob": 0.3335,
+        "value_score": 1.116
       },
       {
         "name": "Houston",
         "seed": 2,
         "region": "South",
-        "public_pct": 0.0619,
-        "title_prob": 0.0338,
-        "ff_prob": 0.1776,
-        "value_score": 0.546
-      },
-      {
-        "name": "Iowa State",
-        "seed": 2,
-        "region": "Midwest",
-        "public_pct": 0.0619,
-        "title_prob": 0.0266,
-        "ff_prob": 0.1692,
-        "value_score": 0.43
+        "public_pct": 0.0636,
+        "title_prob": 0.0624,
+        "ff_prob": 0.269,
+        "value_score": 0.98
       },
       {
         "name": "Connecticut",
         "seed": 2,
         "region": "East",
-        "public_pct": 0.0531,
-        "title_prob": 0.03,
-        "ff_prob": 0.1848,
-        "value_score": 0.565
+        "public_pct": 0.0389,
+        "title_prob": 0.022,
+        "ff_prob": 0.1522,
+        "value_score": 0.566
       },
       {
-        "name": "Gonzaga",
-        "seed": 3,
+        "name": "Purdue",
+        "seed": 2,
         "region": "West",
-        "public_pct": 0.0354,
-        "title_prob": 0.0222,
-        "ff_prob": 0.119,
-        "value_score": 0.628
+        "public_pct": 0.0301,
+        "title_prob": 0.0529,
+        "ff_prob": 0.258,
+        "value_score": 1.759
       },
       {
-        "name": "Illinois",
+        "name": "Iowa State",
+        "seed": 2,
+        "region": "Midwest",
+        "public_pct": 0.0288,
+        "title_prob": 0.063,
+        "ff_prob": 0.2715,
+        "value_score": 2.188
+      },
+      {
+        "name": "Arkansas",
+        "seed": 4,
+        "region": "West",
+        "public_pct": 0.0197,
+        "title_prob": 0.007,
+        "ff_prob": 0.0698,
+        "value_score": 0.0
+      },
+      {
+        "name": "Michigan State",
         "seed": 3,
-        "region": "South",
-        "public_pct": 0.0265,
-        "title_prob": 0.0858,
-        "ff_prob": 0.3136,
-        "value_score": 3.234
+        "region": "East",
+        "public_pct": 0.0183,
+        "title_prob": 0.0204,
+        "ff_prob": 0.1366,
+        "value_score": 1.112
       }
     ]
   },
   "picks_missing": [],
   "strategy_summary": {
     "deterministic_champion": {
-      "name": "Arizona",
+      "name": "Michigan",
       "seed": 1,
-      "region": "West"
+      "region": "Midwest"
     },
     "mc_champion": {
-      "name": "Michigan",
+      "name": "Duke",
       "seed": 1,
-      "region": "Midwest",
-      "title_prob": 0.2426,
-      "ff_prob": 0.616
+      "region": "East",
+      "title_prob": 0.221,
+      "ff_prob": 0.5763
     },
     "safest_pick": {
-      "name": "Michigan",
+      "name": "Duke",
       "seed": 1,
-      "region": "Midwest",
-      "title_prob": 0.2426,
-      "ff_prob": 0.616,
-      "public_pct": 0.1592
+      "region": "East",
+      "title_prob": 0.221,
+      "ff_prob": 0.5763,
+      "public_pct": 0.231
     },
     "best_value_pick": {
       "name": "Illinois",
       "seed": 3,
       "region": "South",
-      "title_prob": 0.0858,
-      "ff_prob": 0.3136,
-      "public_pct": 0.0265,
-      "value_score": 3.234
+      "title_prob": 0.0517,
+      "ff_prob": 0.2495,
+      "public_pct": 0.0142,
+      "value_score": 3.641
     },
     "most_contrarian_viable": {
       "name": "Illinois",
       "seed": 3,
       "region": "South",
-      "title_prob": 0.0858,
-      "ff_prob": 0.3136,
-      "public_pct": 0.0265,
-      "value_score": 3.234
+      "title_prob": 0.0517,
+      "ff_prob": 0.2495,
+      "public_pct": 0.0142,
+      "value_score": 3.641
     }
   },
   "pool_recommendation": {
-    "pool_size": 300,
-    "tier": "large_pool",
-    "tier_label": "Large pool  (101\u20131000 entrants)",
-    "bracket_type": "contrarian",
-    "pool_category": "large_pool",
-    "explanation": "Maximum differentiation. Targets the highest-leverage champion the public is under-picking. Maximizes expected payout in crowded pools where owning an unpopular champion is the only path to a big win.",
+    "pool_size": 100,
+    "tier": "medium_pool",
+    "tier_label": "Medium pool (26\u2013100 entrants)",
+    "bracket_type": "value",
+    "pool_category": "medium_pool",
+    "explanation": "Balanced leverage. Targets a champion with positive value score (win prob > pick share) and seed \u2264 3. The sweet spot of meaningful win probability plus differentiation from the field.",
     "n_brackets": 2,
-    "strategy_note": "Large pool: the consensus champion is nearly worthless EV. Picking the same team as 150 other entries means you split the pot even if they win. Own your champion pick with maximum leverage \u2014 high win prob, low public share.",
+    "strategy_note": "Medium pool: one well-differentiated champion beats chasing upsets. Pick a team with positive value (win prob > pick share) \u2014 ideally a 1\u20133 seed the public is under-valuing.",
     "primary": {
-      "name": "Illinois",
-      "seed": 3,
-      "region": "South",
-      "title_prob": 0.0858,
-      "ff_prob": 0.3136,
-      "public_pct": 0.0265,
-      "value_score": 3.234
-    },
-    "primary_reason": "Illinois: 8.6% title probability, 2.6% public pick share (3.23\u00d7 value, 31.4% Final Four probability). Estimated ~8 other entries in your pool will pick this team \u2014 but at 3.2\u00d7 value, this is the highest-leverage champion available.",
-    "safest_alt": {
       "name": "Michigan",
       "seed": 1,
       "region": "Midwest",
-      "title_prob": 0.2426,
-      "ff_prob": 0.616,
-      "public_pct": 0.1592,
-      "value_score": 1.524
+      "title_prob": 0.1767,
+      "ff_prob": 0.507,
+      "public_pct": 0.1419,
+      "value_score": 1.245
+    },
+    "primary_reason": "Michigan carries a 17.7% title probability against only 14.2% public pick share \u2014 1.2\u00d7 value, 50.7% Final Four probability. In a 100-person pool this is the sweet spot: meaningful win probability AND differentiation from the field.",
+    "safest_alt": {
+      "name": "Duke",
+      "seed": 1,
+      "region": "East",
+      "title_prob": 0.221,
+      "ff_prob": 0.5763,
+      "public_pct": 0.231,
+      "value_score": 0.956
     },
     "value_alt": {
       "name": "Illinois",
       "seed": 3,
       "region": "South",
-      "title_prob": 0.0858,
-      "ff_prob": 0.3136,
-      "public_pct": 0.0265,
-      "value_score": 3.234
+      "title_prob": 0.0517,
+      "ff_prob": 0.2495,
+      "public_pct": 0.0142,
+      "value_score": 3.641
     }
   },
   "deterministic_recommendation": {
@@ -2281,11 +2453,11 @@
     "archetype": "Pure model output, no pool adjustment",
     "description": "The model's single best prediction of the most likely tournament outcome. No pool-size differentiation applied. Use this as your baseline before layering in strategy.",
     "champion": {
-      "name": "Michigan",
+      "name": "Duke",
       "seed": 1,
-      "region": "Midwest",
-      "title_prob": 0.2426,
-      "ff_prob": 0.616
+      "region": "East",
+      "title_prob": 0.221,
+      "ff_prob": 0.5763
     }
   },
   "safe_recommendation": {
@@ -2296,32 +2468,32 @@
     "pool_category": "small_pool",
     "n_brackets": 1,
     "primary": {
-      "name": "Michigan",
+      "name": "Duke",
       "seed": 1,
-      "region": "Midwest",
-      "title_prob": 0.2426,
-      "ff_prob": 0.616,
-      "public_pct": 0.1592,
-      "value_score": 1.524
+      "region": "East",
+      "title_prob": 0.221,
+      "ff_prob": 0.5763,
+      "public_pct": 0.231,
+      "value_score": 0.956
     },
-    "primary_reason": "Michigan has the highest title probability in the field (24.3%), 61.6% Final Four probability. In a shallow pool, picking the most likely winner maximises your chance of taking the pot outright.",
+    "primary_reason": "Duke has the highest title probability in the field (22.1%), 57.6% Final Four probability. In a shallow pool, picking the most likely winner maximises your chance of taking the pot outright.",
     "safest_alt": {
-      "name": "Michigan",
+      "name": "Duke",
       "seed": 1,
-      "region": "Midwest",
-      "title_prob": 0.2426,
-      "ff_prob": 0.616,
-      "public_pct": 0.1592,
-      "value_score": 1.524
+      "region": "East",
+      "title_prob": 0.221,
+      "ff_prob": 0.5763,
+      "public_pct": 0.231,
+      "value_score": 0.956
     },
     "value_alt": {
       "name": "Illinois",
       "seed": 3,
       "region": "South",
-      "title_prob": 0.0858,
-      "ff_prob": 0.3136,
-      "public_pct": 0.0265,
-      "value_score": 3.234
+      "title_prob": 0.0517,
+      "ff_prob": 0.2495,
+      "public_pct": 0.0142,
+      "value_score": 3.641
     }
   },
   "value_recommendation": {
@@ -2332,32 +2504,32 @@
     "pool_category": "medium_pool",
     "n_brackets": 2,
     "primary": {
-      "name": "Illinois",
-      "seed": 3,
-      "region": "South",
-      "title_prob": 0.0858,
-      "ff_prob": 0.3136,
-      "public_pct": 0.0265,
-      "value_score": 3.234
-    },
-    "primary_reason": "Illinois carries a 8.6% title probability against only 2.6% public pick share \u2014 3.2\u00d7 value, 31.4% Final Four probability. In a 60-person pool this is the sweet spot: meaningful win probability AND differentiation from the field.",
-    "safest_alt": {
       "name": "Michigan",
       "seed": 1,
       "region": "Midwest",
-      "title_prob": 0.2426,
-      "ff_prob": 0.616,
-      "public_pct": 0.1592,
-      "value_score": 1.524
+      "title_prob": 0.1767,
+      "ff_prob": 0.507,
+      "public_pct": 0.1419,
+      "value_score": 1.245
+    },
+    "primary_reason": "Michigan carries a 17.7% title probability against only 14.2% public pick share \u2014 1.2\u00d7 value, 50.7% Final Four probability. In a 60-person pool this is the sweet spot: meaningful win probability AND differentiation from the field.",
+    "safest_alt": {
+      "name": "Duke",
+      "seed": 1,
+      "region": "East",
+      "title_prob": 0.221,
+      "ff_prob": 0.5763,
+      "public_pct": 0.231,
+      "value_score": 0.956
     },
     "value_alt": {
       "name": "Illinois",
       "seed": 3,
       "region": "South",
-      "title_prob": 0.0858,
-      "ff_prob": 0.3136,
-      "public_pct": 0.0265,
-      "value_score": 3.234
+      "title_prob": 0.0517,
+      "ff_prob": 0.2495,
+      "public_pct": 0.0142,
+      "value_score": 3.641
     }
   },
   "contrarian_recommendation": {
@@ -2371,928 +2543,928 @@
       "name": "Illinois",
       "seed": 3,
       "region": "South",
-      "title_prob": 0.0858,
-      "ff_prob": 0.3136,
-      "public_pct": 0.0265,
-      "value_score": 3.234
+      "title_prob": 0.0517,
+      "ff_prob": 0.2495,
+      "public_pct": 0.0142,
+      "value_score": 3.641
     },
-    "primary_reason": "Illinois: 8.6% title probability, 2.6% public pick share (3.23\u00d7 value, 31.4% Final Four probability). Estimated ~13 other entries in your pool will pick this team \u2014 but at 3.2\u00d7 value, this is the highest-leverage champion available.",
+    "primary_reason": "Illinois: 5.2% title probability, 1.4% public pick share (3.64\u00d7 value, 24.9% Final Four probability). Estimated ~7 other entries in your pool will pick this team \u2014 but at 3.6\u00d7 value, this is the highest-leverage champion available.",
     "safest_alt": {
-      "name": "Michigan",
+      "name": "Duke",
       "seed": 1,
-      "region": "Midwest",
-      "title_prob": 0.2426,
-      "ff_prob": 0.616,
-      "public_pct": 0.1592,
-      "value_score": 1.524
+      "region": "East",
+      "title_prob": 0.221,
+      "ff_prob": 0.5763,
+      "public_pct": 0.231,
+      "value_score": 0.956
     },
     "value_alt": {
       "name": "Illinois",
       "seed": 3,
       "region": "South",
-      "title_prob": 0.0858,
-      "ff_prob": 0.3136,
-      "public_pct": 0.0265,
-      "value_score": 3.234
+      "title_prob": 0.0517,
+      "ff_prob": 0.2495,
+      "public_pct": 0.0142,
+      "value_score": 3.641
     }
   },
   "monte_carlo": {
-    "n_sims": 5000,
+    "n_sims": 20000,
     "teams": [
-      {
-        "name": "Michigan",
-        "seed": 1,
-        "region": "Midwest",
-        "sims": 5000,
-        "probs": {
-          "title": 0.2426,
-          "champ_game": 0.4024,
-          "final_four": 0.616,
-          "elite_8": 0.7988,
-          "sweet_16": 0.9348,
-          "round_of_32": 0.993
-        }
-      },
       {
         "name": "Duke",
         "seed": 1,
         "region": "East",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
-          "title": 0.1954,
-          "champ_game": 0.339,
-          "final_four": 0.5638,
-          "elite_8": 0.7534,
-          "sweet_16": 0.9118,
-          "round_of_32": 0.9938
+          "title": 0.221,
+          "champ_game": 0.3599,
+          "final_four": 0.5763,
+          "elite_8": 0.7583,
+          "sweet_16": 0.8978,
+          "round_of_32": 0.9948
         }
       },
       {
         "name": "Arizona",
         "seed": 1,
         "region": "West",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
-          "title": 0.1746,
-          "champ_game": 0.3228,
-          "final_four": 0.529,
-          "elite_8": 0.7604,
-          "sweet_16": 0.9126,
-          "round_of_32": 0.993
+          "title": 0.1795,
+          "champ_game": 0.3006,
+          "final_four": 0.5112,
+          "elite_8": 0.7334,
+          "sweet_16": 0.9115,
+          "round_of_32": 0.9941
+        }
+      },
+      {
+        "name": "Michigan",
+        "seed": 1,
+        "region": "Midwest",
+        "sims": 20000,
+        "probs": {
+          "title": 0.1767,
+          "champ_game": 0.3145,
+          "final_four": 0.507,
+          "elite_8": 0.7352,
+          "sweet_16": 0.9228,
+          "round_of_32": 0.9925
         }
       },
       {
         "name": "Florida",
         "seed": 1,
         "region": "South",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
-          "title": 0.0868,
-          "champ_game": 0.1666,
-          "final_four": 0.3358,
-          "elite_8": 0.612,
-          "sweet_16": 0.8774,
-          "round_of_32": 0.9856
-        }
-      },
-      {
-        "name": "Illinois",
-        "seed": 3,
-        "region": "South",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0858,
-          "champ_game": 0.1628,
-          "final_four": 0.3136,
-          "elite_8": 0.5286,
-          "sweet_16": 0.8354,
-          "round_of_32": 0.9798
-        }
-      },
-      {
-        "name": "Houston",
-        "seed": 2,
-        "region": "South",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0338,
-          "champ_game": 0.0768,
-          "final_four": 0.1776,
-          "elite_8": 0.3386,
-          "sweet_16": 0.6994,
-          "round_of_32": 0.9744
-        }
-      },
-      {
-        "name": "Purdue",
-        "seed": 2,
-        "region": "West",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0318,
-          "champ_game": 0.0794,
-          "final_four": 0.1756,
-          "elite_8": 0.4016,
-          "sweet_16": 0.7276,
-          "round_of_32": 0.9722
-        }
-      },
-      {
-        "name": "Connecticut",
-        "seed": 2,
-        "region": "East",
-        "sims": 5000,
-        "probs": {
-          "title": 0.03,
-          "champ_game": 0.08,
-          "final_four": 0.1848,
-          "elite_8": 0.4534,
-          "sweet_16": 0.721,
-          "round_of_32": 0.964
+          "title": 0.0851,
+          "champ_game": 0.1762,
+          "final_four": 0.3335,
+          "elite_8": 0.6052,
+          "sweet_16": 0.8596,
+          "round_of_32": 0.9955
         }
       },
       {
         "name": "Iowa State",
         "seed": 2,
         "region": "Midwest",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
-          "title": 0.0266,
-          "champ_game": 0.0694,
-          "final_four": 0.1692,
-          "elite_8": 0.4566,
-          "sweet_16": 0.7172,
-          "round_of_32": 0.98
+          "title": 0.063,
+          "champ_game": 0.1401,
+          "final_four": 0.2715,
+          "elite_8": 0.5789,
+          "sweet_16": 0.8478,
+          "round_of_32": 0.9904
         }
       },
       {
-        "name": "Gonzaga",
-        "seed": 3,
-        "region": "West",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0222,
-          "champ_game": 0.053,
-          "final_four": 0.119,
-          "elite_8": 0.3076,
-          "sweet_16": 0.5674,
-          "round_of_32": 0.9678
-        }
-      },
-      {
-        "name": "Vanderbilt",
-        "seed": 5,
+        "name": "Houston",
+        "seed": 2,
         "region": "South",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
-          "title": 0.0142,
-          "champ_game": 0.0318,
-          "final_four": 0.0932,
-          "elite_8": 0.2404,
-          "sweet_16": 0.5956,
-          "round_of_32": 0.9208
+          "title": 0.0624,
+          "champ_game": 0.1351,
+          "final_four": 0.269,
+          "elite_8": 0.474,
+          "sweet_16": 0.8337,
+          "round_of_32": 0.9847
         }
       },
       {
-        "name": "BYU",
-        "seed": 6,
+        "name": "Purdue",
+        "seed": 2,
         "region": "West",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
-          "title": 0.01,
-          "champ_game": 0.0316,
-          "final_four": 0.0786,
-          "elite_8": 0.2062,
-          "sweet_16": 0.4144,
-          "round_of_32": 0.8928
+          "title": 0.0529,
+          "champ_game": 0.1178,
+          "final_four": 0.258,
+          "elite_8": 0.5766,
+          "sweet_16": 0.8647,
+          "round_of_32": 0.9879
+        }
+      },
+      {
+        "name": "Illinois",
+        "seed": 3,
+        "region": "South",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0517,
+          "champ_game": 0.1168,
+          "final_four": 0.2495,
+          "elite_8": 0.4626,
+          "sweet_16": 0.8543,
+          "round_of_32": 0.9839
+        }
+      },
+      {
+        "name": "Connecticut",
+        "seed": 2,
+        "region": "East",
+        "sims": 20000,
+        "probs": {
+          "title": 0.022,
+          "champ_game": 0.0606,
+          "final_four": 0.1522,
+          "elite_8": 0.428,
+          "sweet_16": 0.776,
+          "round_of_32": 0.9843
         }
       },
       {
         "name": "Michigan State",
         "seed": 3,
         "region": "East",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
-          "title": 0.0064,
-          "champ_game": 0.029,
-          "final_four": 0.0856,
-          "elite_8": 0.2798,
-          "sweet_16": 0.593,
-          "round_of_32": 0.9388
+          "title": 0.0204,
+          "champ_game": 0.0529,
+          "final_four": 0.1366,
+          "elite_8": 0.374,
+          "sweet_16": 0.6616,
+          "round_of_32": 0.9649
+        }
+      },
+      {
+        "name": "Gonzaga",
+        "seed": 3,
+        "region": "West",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0147,
+          "champ_game": 0.042,
+          "final_four": 0.118,
+          "elite_8": 0.3281,
+          "sweet_16": 0.7317,
+          "round_of_32": 0.9741
+        }
+      },
+      {
+        "name": "Vanderbilt",
+        "seed": 5,
+        "region": "South",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0106,
+          "champ_game": 0.0307,
+          "final_four": 0.0832,
+          "elite_8": 0.2142,
+          "sweet_16": 0.5489,
+          "round_of_32": 0.924
         }
       },
       {
         "name": "Virginia",
         "seed": 3,
         "region": "Midwest",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
-          "title": 0.0064,
-          "champ_game": 0.0238,
-          "final_four": 0.0618,
-          "elite_8": 0.23,
-          "sweet_16": 0.5278,
-          "round_of_32": 0.9482
-        }
-      },
-      {
-        "name": "Alabama",
-        "seed": 4,
-        "region": "Midwest",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0048,
-          "champ_game": 0.0158,
-          "final_four": 0.048,
-          "elite_8": 0.1106,
-          "sweet_16": 0.5542,
-          "round_of_32": 0.908
-        }
-      },
-      {
-        "name": "Tennessee",
-        "seed": 6,
-        "region": "Midwest",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0048,
-          "champ_game": 0.0142,
-          "final_four": 0.0478,
-          "elite_8": 0.1888,
-          "sweet_16": 0.4486,
-          "round_of_32": 0.8656
-        }
-      },
-      {
-        "name": "St. John's",
-        "seed": 5,
-        "region": "East",
-        "sims": 5000,
-        "probs": {
-          "title": 0.004,
-          "champ_game": 0.0134,
-          "final_four": 0.0504,
-          "elite_8": 0.1212,
-          "sweet_16": 0.5076,
-          "round_of_32": 0.8778
-        }
-      },
-      {
-        "name": "Louisville",
-        "seed": 6,
-        "region": "East",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0034,
-          "champ_game": 0.0106,
-          "final_four": 0.044,
-          "elite_8": 0.149,
-          "sweet_16": 0.3764,
-          "round_of_32": 0.8336
-        }
-      },
-      {
-        "name": "Nebraska",
-        "seed": 4,
-        "region": "South",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0028,
-          "champ_game": 0.0112,
-          "final_four": 0.0356,
-          "elite_8": 0.1158,
-          "sweet_16": 0.3818,
-          "round_of_32": 0.9034
+          "title": 0.0078,
+          "champ_game": 0.0289,
+          "final_four": 0.0777,
+          "elite_8": 0.2334,
+          "sweet_16": 0.5774,
+          "round_of_32": 0.9632
         }
       },
       {
         "name": "Arkansas",
         "seed": 4,
         "region": "West",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
-          "title": 0.0026,
-          "champ_game": 0.011,
-          "final_four": 0.0458,
-          "elite_8": 0.1288,
-          "sweet_16": 0.5416,
-          "round_of_32": 0.899
+          "title": 0.007,
+          "champ_game": 0.0223,
+          "final_four": 0.0698,
+          "elite_8": 0.1686,
+          "sweet_16": 0.6123,
+          "round_of_32": 0.9456
         }
       },
       {
-        "name": "Saint Mary's",
-        "seed": 7,
-        "region": "South",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0022,
-          "champ_game": 0.0088,
-          "final_four": 0.0294,
-          "elite_8": 0.0826,
-          "sweet_16": 0.2832,
-          "round_of_32": 0.8344
-        }
-      },
-      {
-        "name": "Kansas",
+        "name": "Alabama",
         "seed": 4,
-        "region": "East",
-        "sims": 5000,
+        "region": "Midwest",
+        "sims": 20000,
         "probs": {
-          "title": 0.0016,
-          "champ_game": 0.0092,
-          "final_four": 0.0374,
-          "elite_8": 0.0922,
-          "sweet_16": 0.4544,
-          "round_of_32": 0.8892
+          "title": 0.0041,
+          "champ_game": 0.0154,
+          "final_four": 0.0483,
+          "elite_8": 0.1265,
+          "sweet_16": 0.507,
+          "round_of_32": 0.9215
         }
       },
       {
-        "name": "Miami (FL)",
-        "seed": 7,
-        "region": "West",
-        "sims": 5000,
+        "name": "St. John's",
+        "seed": 5,
+        "region": "East",
+        "sims": 20000,
         "probs": {
-          "title": 0.0014,
-          "champ_game": 0.0062,
-          "final_four": 0.0196,
-          "elite_8": 0.0786,
-          "sweet_16": 0.2396,
-          "round_of_32": 0.7714
+          "title": 0.004,
+          "champ_game": 0.014,
+          "final_four": 0.0498,
+          "elite_8": 0.1191,
+          "sweet_16": 0.5338,
+          "round_of_32": 0.8971
+        }
+      },
+      {
+        "name": "Tennessee",
+        "seed": 6,
+        "region": "Midwest",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0037,
+          "champ_game": 0.0123,
+          "final_four": 0.0411,
+          "elite_8": 0.1426,
+          "sweet_16": 0.3866,
+          "round_of_32": 0.8195
+        }
+      },
+      {
+        "name": "Nebraska",
+        "seed": 4,
+        "region": "South",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0031,
+          "champ_game": 0.0115,
+          "final_four": 0.0423,
+          "elite_8": 0.1379,
+          "sweet_16": 0.4397,
+          "round_of_32": 0.9588
         }
       },
       {
         "name": "Texas Tech",
         "seed": 5,
         "region": "Midwest",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
-          "title": 0.0014,
-          "champ_game": 0.006,
-          "final_four": 0.0246,
-          "elite_8": 0.07,
-          "sweet_16": 0.4132,
-          "round_of_32": 0.8558
+          "title": 0.0029,
+          "champ_game": 0.0132,
+          "final_four": 0.0448,
+          "elite_8": 0.1188,
+          "sweet_16": 0.4683,
+          "round_of_32": 0.8905
         }
       },
       {
-        "name": "Kentucky",
-        "seed": 7,
-        "region": "Midwest",
-        "sims": 5000,
+        "name": "Louisville",
+        "seed": 6,
+        "region": "East",
+        "sims": 20000,
         "probs": {
-          "title": 0.0014,
-          "champ_game": 0.0076,
-          "final_four": 0.0272,
-          "elite_8": 0.1178,
-          "sweet_16": 0.2608,
-          "round_of_32": 0.8024
+          "title": 0.0023,
+          "champ_game": 0.0101,
+          "final_four": 0.0362,
+          "elite_8": 0.1354,
+          "sweet_16": 0.3165,
+          "round_of_32": 0.8345
         }
       },
       {
         "name": "Wisconsin",
         "seed": 5,
         "region": "West",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
-          "title": 0.0012,
-          "champ_game": 0.0066,
-          "final_four": 0.0252,
-          "elite_8": 0.0794,
-          "sweet_16": 0.419,
-          "round_of_32": 0.8416
+          "title": 0.0015,
+          "champ_game": 0.006,
+          "final_four": 0.0225,
+          "elite_8": 0.0722,
+          "sweet_16": 0.372,
+          "round_of_32": 0.8984
         }
       },
       {
-        "name": "UCLA",
-        "seed": 7,
+        "name": "Kansas",
+        "seed": 4,
         "region": "East",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
-          "title": 0.001,
-          "champ_game": 0.0066,
-          "final_four": 0.0272,
-          "elite_8": 0.1084,
-          "sweet_16": 0.2466,
-          "round_of_32": 0.766
-        }
-      },
-      {
-        "name": "North Carolina",
-        "seed": 6,
-        "region": "South",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0006,
-          "champ_game": 0.002,
-          "final_four": 0.0094,
-          "elite_8": 0.048,
-          "sweet_16": 0.1518,
-          "round_of_32": 0.808
-        }
-      },
-      {
-        "name": "Villanova",
-        "seed": 8,
-        "region": "West",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0002,
-          "champ_game": 0.0006,
-          "final_four": 0.0044,
-          "elite_8": 0.0182,
-          "sweet_16": 0.0572,
-          "round_of_32": 0.5786
+          "title": 0.0014,
+          "champ_game": 0.0067,
+          "final_four": 0.0271,
+          "elite_8": 0.0828,
+          "sweet_16": 0.4404,
+          "round_of_32": 0.9164
         }
       },
       {
         "name": "Ohio State",
         "seed": 8,
         "region": "East",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
-          "title": 0.0,
-          "champ_game": 0.0004,
-          "final_four": 0.004,
-          "elite_8": 0.0216,
-          "sweet_16": 0.058,
-          "round_of_32": 0.6024
-        }
-      },
-      {
-        "name": "TCU",
-        "seed": 9,
-        "region": "East",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0024,
-          "elite_8": 0.0096,
-          "sweet_16": 0.0296,
-          "round_of_32": 0.3976
-        }
-      },
-      {
-        "name": "UCF",
-        "seed": 10,
-        "region": "East",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0004,
-          "elite_8": 0.0058,
-          "sweet_16": 0.0294,
-          "round_of_32": 0.234
-        }
-      },
-      {
-        "name": "South Florida",
-        "seed": 11,
-        "region": "East",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0026,
-          "sweet_16": 0.0226,
-          "round_of_32": 0.1664
-        }
-      },
-      {
-        "name": "Northern Iowa",
-        "seed": 12,
-        "region": "East",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0012,
-          "sweet_16": 0.0202,
-          "round_of_32": 0.1222
-        }
-      },
-      {
-        "name": "California Baptist",
-        "seed": 13,
-        "region": "East",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0008,
-          "sweet_16": 0.0178,
-          "round_of_32": 0.1108
-        }
-      },
-      {
-        "name": "North Dakota State",
-        "seed": 14,
-        "region": "East",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0006,
-          "sweet_16": 0.008,
-          "round_of_32": 0.0612
-        }
-      },
-      {
-        "name": "Furman",
-        "seed": 15,
-        "region": "East",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0004,
-          "sweet_16": 0.003,
-          "round_of_32": 0.036
-        }
-      },
-      {
-        "name": "Siena",
-        "seed": 16,
-        "region": "East",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0,
-          "sweet_16": 0.0006,
-          "round_of_32": 0.0062
-        }
-      },
-      {
-        "name": "Utah State",
-        "seed": 9,
-        "region": "West",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0006,
-          "final_four": 0.002,
-          "elite_8": 0.0106,
-          "sweet_16": 0.0298,
-          "round_of_32": 0.4214
-        }
-      },
-      {
-        "name": "Missouri",
-        "seed": 10,
-        "region": "West",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0002,
-          "elite_8": 0.0038,
-          "sweet_16": 0.03,
-          "round_of_32": 0.2286
-        }
-      },
-      {
-        "name": "Texas",
-        "seed": 11,
-        "region": "West",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0002,
-          "elite_8": 0.0016,
-          "sweet_16": 0.0158,
-          "round_of_32": 0.1072
-        }
-      },
-      {
-        "name": "High Point",
-        "seed": 12,
-        "region": "West",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0002,
-          "elite_8": 0.001,
-          "sweet_16": 0.0238,
-          "round_of_32": 0.1584
-        }
-      },
-      {
-        "name": "Hawaii",
-        "seed": 13,
-        "region": "West",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0002,
-          "elite_8": 0.0014,
-          "sweet_16": 0.0156,
-          "round_of_32": 0.101
-        }
-      },
-      {
-        "name": "Kennesaw State",
-        "seed": 14,
-        "region": "West",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0004,
-          "sweet_16": 0.0024,
-          "round_of_32": 0.0322
-        }
-      },
-      {
-        "name": "Queens",
-        "seed": 15,
-        "region": "West",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0002,
-          "sweet_16": 0.0028,
-          "round_of_32": 0.0278
-        }
-      },
-      {
-        "name": "LIU",
-        "seed": 16,
-        "region": "West",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0002,
-          "sweet_16": 0.0004,
-          "round_of_32": 0.007
-        }
-      },
-      {
-        "name": "Clemson",
-        "seed": 8,
-        "region": "South",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0042,
-          "elite_8": 0.0226,
-          "sweet_16": 0.0778,
-          "round_of_32": 0.5776
+          "title": 0.0005,
+          "champ_game": 0.0021,
+          "final_four": 0.0099,
+          "elite_8": 0.0363,
+          "sweet_16": 0.0896,
+          "round_of_32": 0.7341
         }
       },
       {
         "name": "Iowa",
         "seed": 9,
         "region": "South",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.001,
-          "elite_8": 0.007,
-          "sweet_16": 0.0438,
-          "round_of_32": 0.4224
+          "title": 0.0004,
+          "champ_game": 0.0014,
+          "final_four": 0.0073,
+          "elite_8": 0.0352,
+          "sweet_16": 0.1074,
+          "round_of_32": 0.6548
         }
       },
       {
-        "name": "Texas A&M",
-        "seed": 10,
+        "name": "Saint Mary's",
+        "seed": 7,
         "region": "South",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.001,
-          "sweet_16": 0.0158,
-          "round_of_32": 0.1656
+          "title": 0.0003,
+          "champ_game": 0.0015,
+          "final_four": 0.0085,
+          "elite_8": 0.0332,
+          "sweet_16": 0.1336,
+          "round_of_32": 0.6921
         }
       },
       {
-        "name": "VCU",
-        "seed": 11,
+        "name": "UCLA",
+        "seed": 7,
+        "region": "East",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0003,
+          "champ_game": 0.0022,
+          "final_four": 0.0112,
+          "elite_8": 0.0571,
+          "sweet_16": 0.2002,
+          "round_of_32": 0.7703
+        }
+      },
+      {
+        "name": "BYU",
+        "seed": 6,
+        "region": "West",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0002,
+          "champ_game": 0.0016,
+          "final_four": 0.0104,
+          "elite_8": 0.0502,
+          "sweet_16": 0.1979,
+          "round_of_32": 0.6526
+        }
+      },
+      {
+        "name": "North Carolina",
+        "seed": 6,
         "region": "South",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0006,
-          "sweet_16": 0.0102,
-          "round_of_32": 0.192
+          "title": 0.0001,
+          "champ_game": 0.0009,
+          "final_four": 0.0046,
+          "elite_8": 0.0227,
+          "sweet_16": 0.1165,
+          "round_of_32": 0.689
         }
       },
       {
-        "name": "McNeese",
+        "name": "Utah State",
+        "seed": 9,
+        "region": "West",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0001,
+          "champ_game": 0.0003,
+          "final_four": 0.003,
+          "elite_8": 0.0165,
+          "sweet_16": 0.0535,
+          "round_of_32": 0.5593
+        }
+      },
+      {
+        "name": "Kentucky",
+        "seed": 7,
+        "region": "Midwest",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0001,
+          "champ_game": 0.0004,
+          "final_four": 0.0036,
+          "elite_8": 0.0271,
+          "sweet_16": 0.0931,
+          "round_of_32": 0.5588
+        }
+      },
+      {
+        "name": "Northern Iowa",
         "seed": 12,
-        "region": "South",
-        "sims": 5000,
+        "region": "East",
+        "sims": 20000,
         "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0002,
-          "elite_8": 0.0016,
-          "sweet_16": 0.013,
-          "round_of_32": 0.0792
+          "title": 0.0001,
+          "champ_game": 0.0001,
+          "final_four": 0.0001,
+          "elite_8": 0.0008,
+          "sweet_16": 0.0172,
+          "round_of_32": 0.1029
         }
       },
       {
-        "name": "Troy",
-        "seed": 13,
-        "region": "South",
-        "sims": 5000,
+        "name": "Miami (FL)",
+        "seed": 7,
+        "region": "West",
+        "sims": 20000,
         "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0004,
-          "sweet_16": 0.0096,
-          "round_of_32": 0.0966
-        }
-      },
-      {
-        "name": "Penn",
-        "seed": 14,
-        "region": "South",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0006,
-          "sweet_16": 0.0026,
-          "round_of_32": 0.0202
-        }
-      },
-      {
-        "name": "Idaho",
-        "seed": 15,
-        "region": "South",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0,
-          "sweet_16": 0.0016,
-          "round_of_32": 0.0256
-        }
-      },
-      {
-        "name": "Prairie View A&M",
-        "seed": 16,
-        "region": "South",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0002,
-          "sweet_16": 0.001,
-          "round_of_32": 0.0144
+          "title": 0.0001,
+          "champ_game": 0.0006,
+          "final_four": 0.0043,
+          "elite_8": 0.0297,
+          "sweet_16": 0.1075,
+          "round_of_32": 0.6908
         }
       },
       {
         "name": "Georgia",
         "seed": 8,
         "region": "Midwest",
-        "sims": 5000,
+        "sims": 20000,
+        "probs": {
+          "title": 0.0001,
+          "champ_game": 0.0006,
+          "final_four": 0.0032,
+          "elite_8": 0.0129,
+          "sweet_16": 0.0522,
+          "round_of_32": 0.5979
+        }
+      },
+      {
+        "name": "TCU",
+        "seed": 9,
+        "region": "East",
+        "sims": 20000,
         "probs": {
           "title": 0.0,
-          "champ_game": 0.0006,
-          "final_four": 0.0034,
-          "elite_8": 0.0138,
-          "sweet_16": 0.0452,
-          "round_of_32": 0.568
+          "champ_game": 0.0,
+          "final_four": 0.0004,
+          "elite_8": 0.0024,
+          "sweet_16": 0.0124,
+          "round_of_32": 0.2658
+        }
+      },
+      {
+        "name": "UCF",
+        "seed": 10,
+        "region": "East",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0003,
+          "elite_8": 0.0029,
+          "sweet_16": 0.0226,
+          "round_of_32": 0.2296
+        }
+      },
+      {
+        "name": "South Florida",
+        "seed": 11,
+        "region": "East",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0003,
+          "elite_8": 0.0024,
+          "sweet_16": 0.019,
+          "round_of_32": 0.1655
+        }
+      },
+      {
+        "name": "California Baptist",
+        "seed": 13,
+        "region": "East",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0,
+          "elite_8": 0.0001,
+          "sweet_16": 0.0086,
+          "round_of_32": 0.0835
+        }
+      },
+      {
+        "name": "North Dakota State",
+        "seed": 14,
+        "region": "East",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0,
+          "elite_8": 0.0001,
+          "sweet_16": 0.003,
+          "round_of_32": 0.0351
+        }
+      },
+      {
+        "name": "Furman",
+        "seed": 15,
+        "region": "East",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0,
+          "elite_8": 0.0001,
+          "sweet_16": 0.0011,
+          "round_of_32": 0.0157
+        }
+      },
+      {
+        "name": "Siena",
+        "seed": 16,
+        "region": "East",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0,
+          "elite_8": 0.0,
+          "sweet_16": 0.0003,
+          "round_of_32": 0.0053
+        }
+      },
+      {
+        "name": "Villanova",
+        "seed": 8,
+        "region": "West",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0001,
+          "final_four": 0.0014,
+          "elite_8": 0.009,
+          "sweet_16": 0.0348,
+          "round_of_32": 0.4407
+        }
+      },
+      {
+        "name": "Missouri",
+        "seed": 10,
+        "region": "West",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0001,
+          "final_four": 0.0002,
+          "elite_8": 0.0035,
+          "sweet_16": 0.0266,
+          "round_of_32": 0.3091
+        }
+      },
+      {
+        "name": "NC State",
+        "seed": 11,
+        "region": "West",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.001,
+          "elite_8": 0.0116,
+          "sweet_16": 0.0688,
+          "round_of_32": 0.3474
+        }
+      },
+      {
+        "name": "High Point",
+        "seed": 12,
+        "region": "West",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0,
+          "elite_8": 0.0001,
+          "sweet_16": 0.0095,
+          "round_of_32": 0.1016
+        }
+      },
+      {
+        "name": "Hawaii",
+        "seed": 13,
+        "region": "West",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0001,
+          "elite_8": 0.0001,
+          "sweet_16": 0.0062,
+          "round_of_32": 0.0544
+        }
+      },
+      {
+        "name": "Kennesaw State",
+        "seed": 14,
+        "region": "West",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0,
+          "elite_8": 0.0001,
+          "sweet_16": 0.0017,
+          "round_of_32": 0.0259
+        }
+      },
+      {
+        "name": "Queens",
+        "seed": 15,
+        "region": "West",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0,
+          "elite_8": 0.0001,
+          "sweet_16": 0.0013,
+          "round_of_32": 0.012
+        }
+      },
+      {
+        "name": "LIU",
+        "seed": 16,
+        "region": "West",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0,
+          "elite_8": 0.0001,
+          "sweet_16": 0.0002,
+          "round_of_32": 0.0059
+        }
+      },
+      {
+        "name": "Clemson",
+        "seed": 8,
+        "region": "South",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0001,
+          "final_four": 0.0009,
+          "elite_8": 0.0067,
+          "sweet_16": 0.033,
+          "round_of_32": 0.3453
+        }
+      },
+      {
+        "name": "Texas A&M",
+        "seed": 10,
+        "region": "South",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0006,
+          "elite_8": 0.0042,
+          "sweet_16": 0.0311,
+          "round_of_32": 0.3079
+        }
+      },
+      {
+        "name": "VCU",
+        "seed": 11,
+        "region": "South",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0004,
+          "elite_8": 0.0032,
+          "sweet_16": 0.0279,
+          "round_of_32": 0.311
+        }
+      },
+      {
+        "name": "McNeese",
+        "seed": 12,
+        "region": "South",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0,
+          "elite_8": 0.0008,
+          "sweet_16": 0.0092,
+          "round_of_32": 0.0761
+        }
+      },
+      {
+        "name": "Troy",
+        "seed": 13,
+        "region": "South",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0,
+          "elite_8": 0.0,
+          "sweet_16": 0.0021,
+          "round_of_32": 0.0412
+        }
+      },
+      {
+        "name": "Penn",
+        "seed": 14,
+        "region": "South",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0,
+          "elite_8": 0.0,
+          "sweet_16": 0.0013,
+          "round_of_32": 0.0162
+        }
+      },
+      {
+        "name": "Idaho",
+        "seed": 15,
+        "region": "South",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0,
+          "elite_8": 0.0001,
+          "sweet_16": 0.0016,
+          "round_of_32": 0.0153
+        }
+      },
+      {
+        "name": "Lehigh",
+        "seed": 16,
+        "region": "South",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0,
+          "elite_8": 0.0,
+          "sweet_16": 0.0001,
+          "round_of_32": 0.0045
         }
       },
       {
         "name": "Saint Louis",
         "seed": 9,
         "region": "Midwest",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
           "title": 0.0,
-          "champ_game": 0.0002,
-          "final_four": 0.0012,
-          "elite_8": 0.0052,
-          "sweet_16": 0.0198,
-          "round_of_32": 0.432
+          "champ_game": 0.0001,
+          "final_four": 0.0006,
+          "elite_8": 0.0056,
+          "sweet_16": 0.0244,
+          "round_of_32": 0.4021
         }
       },
       {
         "name": "Santa Clara",
         "seed": 10,
         "region": "Midwest",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
           "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0034,
-          "sweet_16": 0.02,
-          "round_of_32": 0.1976
+          "champ_game": 0.0003,
+          "final_four": 0.0018,
+          "elite_8": 0.0141,
+          "sweet_16": 0.0583,
+          "round_of_32": 0.4412
         }
       },
       {
-        "name": "Miami (OH)",
+        "name": "SMU",
         "seed": 11,
         "region": "Midwest",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
           "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0006,
-          "elite_8": 0.0028,
-          "sweet_16": 0.0184,
-          "round_of_32": 0.1344
+          "champ_game": 0.0001,
+          "final_four": 0.0003,
+          "elite_8": 0.0037,
+          "sweet_16": 0.0333,
+          "round_of_32": 0.1805
         }
       },
       {
         "name": "Akron",
         "seed": 12,
         "region": "Midwest",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
           "title": 0.0,
           "champ_game": 0.0,
-          "final_four": 0.0002,
-          "elite_8": 0.0012,
-          "sweet_16": 0.0192,
-          "round_of_32": 0.1442
+          "final_four": 0.0001,
+          "elite_8": 0.0004,
+          "sweet_16": 0.0141,
+          "round_of_32": 0.1095
         }
       },
       {
         "name": "Hofstra",
         "seed": 13,
         "region": "Midwest",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
           "title": 0.0,
           "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0004,
-          "sweet_16": 0.0134,
-          "round_of_32": 0.092
+          "final_four": 0.0001,
+          "elite_8": 0.0006,
+          "sweet_16": 0.0106,
+          "round_of_32": 0.0785
         }
       },
       {
         "name": "Wright State",
         "seed": 14,
         "region": "Midwest",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
-          "elite_8": 0.0004,
-          "sweet_16": 0.0052,
-          "round_of_32": 0.0518
+          "elite_8": 0.0001,
+          "sweet_16": 0.0029,
+          "round_of_32": 0.0368
         }
       },
       {
         "name": "Tennessee State",
         "seed": 15,
         "region": "Midwest",
-        "sims": 5000,
-        "probs": {
-          "title": 0.0,
-          "champ_game": 0.0,
-          "final_four": 0.0,
-          "elite_8": 0.0002,
-          "sweet_16": 0.002,
-          "round_of_32": 0.02
-        }
-      },
-      {
-        "name": "Howard",
-        "seed": 16,
-        "region": "Midwest",
-        "sims": 5000,
+        "sims": 20000,
         "probs": {
           "title": 0.0,
           "champ_game": 0.0,
           "final_four": 0.0,
           "elite_8": 0.0,
-          "sweet_16": 0.0002,
-          "round_of_32": 0.007
+          "sweet_16": 0.0008,
+          "round_of_32": 0.0096
+        }
+      },
+      {
+        "name": "UMBC",
+        "seed": 16,
+        "region": "Midwest",
+        "sims": 20000,
+        "probs": {
+          "title": 0.0,
+          "champ_game": 0.0,
+          "final_four": 0.0,
+          "elite_8": 0.0,
+          "sweet_16": 0.0005,
+          "round_of_32": 0.0076
         }
       }
     ]

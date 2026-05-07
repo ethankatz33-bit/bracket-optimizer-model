@@ -1,0 +1,21 @@
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# macOS
+.DS_Store
+
+# Environment / secrets
+.env
+.streamlit/secrets.toml
+
+# Backup data files
+data/future/*backup*
+data/future/*_backup_*
+
+# Generated artifacts
+data/processed/backtests/
+backtest_log.csv
+data/processed/sweep_2025.json

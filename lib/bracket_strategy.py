@@ -92,17 +92,43 @@ _SMALL_POOL  = 25    # ≤ 25  → heavily favor win probability
 _MEDIUM_POOL = 100   # 26–100 → blend
 # > 100               → heavily favor value_score / differentiation
 
-# Final Four region pairings (mirrors FF_REGION_PAIRS in team_selector.py).
-# (East, West) share one FF game; (South, Midwest) share the other.
-_FF_PAIR: dict[str, str] = {
+# Final Four region pairings — derived from bracket["bracket_halves"] at runtime.
+# These module-level dicts are the DEFAULT fallback only; all callers that have
+# access to a bracket dict should use _ff_pair() / _ff_game_idx() instead.
+_FF_PAIR_DEFAULT: dict[str, str] = {
     "East": "West", "West": "East",
     "South": "Midwest", "Midwest": "South",
 }
-
-# Which FF game index each region belongs to (0 = East/West, 1 = South/Midwest)
-_FF_GAME_IDX: dict[str, int] = {
+_FF_GAME_IDX_DEFAULT: dict[str, int] = {
     "East": 0, "West": 0, "South": 1, "Midwest": 1,
 }
+
+
+def _build_ff_maps(bracket: dict) -> tuple[dict[str, str], dict[str, int]]:
+    """
+    Build (ff_pair, ff_game_idx) dicts from bracket["bracket_halves"].
+
+    bracket_halves is a list of two lists:
+        bracket_halves[0] = [region_a, region_b]  → FF game 0
+        bracket_halves[1] = [region_c, region_d]  → FF game 1
+
+    Falls back to the module-level defaults when bracket_halves is absent.
+    """
+    halves: list[list[str]] | None = bracket.get("bracket_halves")
+    if not halves or len(halves) != 2:
+        return _FF_PAIR_DEFAULT, _FF_GAME_IDX_DEFAULT
+
+    ff_pair:     dict[str, str] = {}
+    ff_game_idx: dict[str, int] = {}
+    for game_idx, regions in enumerate(halves):
+        if len(regions) == 2:
+            r0, r1 = regions
+            ff_pair[r0]     = r1
+            ff_pair[r1]     = r0
+            ff_game_idx[r0] = game_idx
+            ff_game_idx[r1] = game_idx
+
+    return ff_pair, ff_game_idx
 
 # Standard ESPN-style point values by round (used in EV explanation)
 _ROUND_POINTS: dict[str, int] = {
@@ -198,7 +224,8 @@ def _path_win_prob(candidate: ChampionCandidate, base_bracket: dict) -> float:
     p_e8 = _wp(team, e8_opp)
 
     # ── Final Four ────────────────────────────────────────────────────────
-    paired_region = _FF_PAIR.get(region)
+    ff_pair, ff_game_idx = _build_ff_maps(base_bracket)
+    paired_region = ff_pair.get(region)
     ff_e8 = next(
         (g for g in base_bracket.get("elite_8", []) if g.get("region") == paired_region),
         None,
@@ -208,11 +235,12 @@ def _path_win_prob(candidate: ChampionCandidate, base_bracket: dict) -> float:
 
     # ── Championship ──────────────────────────────────────────────────────
     # Other half = the two regions NOT in candidate's FF game
-    ff_idx   = _FF_GAME_IDX.get(region, 0)
-    regions  = ["East", "West", "South", "Midwest"]
-    # Indices of regions in the OTHER FF game
-    other_indices = [0, 1] if ff_idx == 1 else [2, 3]
-    other_regions = [regions[i] for i in other_indices]
+    ff_idx = ff_game_idx.get(region, 0)
+    halves: list[list[str]] = base_bracket.get("bracket_halves", [["East", "West"], ["South", "Midwest"]])
+    other_regions = [r for r in halves[1 - ff_idx] if r != region]
+    # If halves[1-ff_idx] has exactly 2 regions, other_regions has both
+    if len(halves[1 - ff_idx]) == 2:
+        other_regions = halves[1 - ff_idx]
 
     other_e8_winners = [
         next((g["winner"] for g in base_bracket.get("elite_8", [])
@@ -492,12 +520,13 @@ def build_champion_first_bracket(
         e8_game["is_upset"]     = team.get("seed", 0) > original_winner.get("seed", 0)
 
     # ── FF: candidate vs E8 winner of paired region ───────────────────────
-    paired_region = _FF_PAIR.get(region, "")
+    ff_pair, ff_game_idx = _build_ff_maps(bracket)
+    paired_region = ff_pair.get(region, "")
     ff_e8_game    = next(
         (g for g in bracket["elite_8"] if g.get("region") == paired_region), None
     )
     ff_opp  = ff_e8_game["winner"] if ff_e8_game else None
-    ff_idx  = _FF_GAME_IDX.get(region, 0)
+    ff_idx  = ff_game_idx.get(region, 0)
 
     if ff_opp and ff_idx < len(bracket["final_four"]):
         bracket["final_four"][ff_idx] = _make_game(team, ff_opp, "Final Four", "National")

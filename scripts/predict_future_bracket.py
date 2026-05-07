@@ -231,8 +231,38 @@ def _build_teams_override(df: pd.DataFrame) -> dict[str, dict[int, dict]]:
     n   = len(df)
     df  = df.copy()
 
+    # ── Data-quality assertions ────────────────────────────────────────────
+    if "kenpom_rank" in df.columns and df["kenpom_rank"].notna().all():
+        dupes = df["kenpom_rank"].duplicated()
+        if dupes.any():
+            bad = df.loc[dupes, ["canonical_team_name", "kenpom_rank"]].values.tolist()
+            raise AssertionError(f"Duplicate kenpom_rank values: {bad}")
+
+    if "bart_torvik_rank" in df.columns and df["bart_torvik_rank"].notna().all():
+        dupes = df["bart_torvik_rank"].duplicated()
+        if dupes.any():
+            bad = df.loc[dupes, ["canonical_team_name", "bart_torvik_rank"]].values.tolist()
+            raise AssertionError(f"Duplicate bart_torvik_rank values: {bad}")
+
+    if "kenpom_rank" in df.columns and df["kenpom_rank"].notna().all():
+        corr = df["efficiency_margin"].corr(df["kenpom_rank"])
+        if corr >= -0.9:
+            raise AssertionError(
+                f"EM / kenpom_rank correlation is {corr:.3f} (expected < -0.90). "
+                "Ranks may be inverted or data is mismatched."
+            )
+
+    non16 = df[df["seed"] != 16]
+    low_em = non16[non16["efficiency_margin"] < 5.0]
+    if not low_em.empty:
+        teams_str = ", ".join(
+            f"{r['canonical_team_name']} (seed {int(r['seed'])}, EM={r['efficiency_margin']:.2f})"
+            for _, r in low_em.iterrows()
+        )
+        print(f"WARNING: low efficiency_margin (<5) for non-16 seeds: {teams_str}", flush=True)
+
     # ── Min-max normalization helpers ─────────────────────────────────────
-    def _minmax(series: pd.Series, lo: float = 0.10, hi: float = 0.95) -> pd.Series:
+    def _minmax(series: pd.Series, lo: float = 0.05, hi: float = 0.99) -> pd.Series:
         mn, mx = series.min(), series.max()
         rng    = mx - mn if mx != mn else 1.0
         return ((series - mn) / rng * (hi - lo) + lo).clip(lo, hi)
@@ -264,7 +294,7 @@ def _build_teams_override(df: pd.DataFrame) -> dict[str, dict[int, dict]]:
             0.50 * df["_em_norm"]
             + 0.30 * df["_kp_field_rank"].apply(_rank_to_norm)
             + 0.20 * df["_bart_field_rank"].apply(_rank_to_norm)
-        ).clip(0.10, 0.95)
+        ).clip(0.05, 0.99)
     else:
         df["_team_rating"] = df["_em_norm"]
 

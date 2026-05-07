@@ -77,3 +77,64 @@ print(f"  Champions correct : {total_champs}/{n_years}  ({total_champs/n_years:.
 print(f"  Final Four (avg)  : {total_ff/(n_years*4):.1%}  ({total_ff} of {n_years*4} slots)")
 print('=' * W)
 print(f"  Results saved → {out}")
+
+# ── Optional experiment logging ───────────────────────────────────────────────
+
+def log_backtest_result(name, overall_correct, overall_total, champions_correct, champions_total, ff_avg, notes=""):
+    import csv
+    from datetime import datetime
+    import os
+
+    filepath = "backtest_log.csv"
+    file_exists = os.path.isfile(filepath)
+
+    with open(filepath, "a", newline="") as f:
+        writer = csv.writer(f)
+
+        if not file_exists:
+            writer.writerow([
+                "timestamp",
+                "name",
+                "overall_correct",
+                "overall_total",
+                "overall_pct",
+                "champions_correct",
+                "champions_total",
+                "champion_pct",
+                "ff_avg",
+                "notes"
+            ])
+
+        overall_pct = round(100 * overall_correct / overall_total, 2)
+        champion_pct = round(100 * champions_correct / champions_total, 2)
+
+        writer.writerow([
+            datetime.now().isoformat(),
+            name,
+            overall_correct,
+            overall_total,
+            overall_pct,
+            champions_correct,
+            champions_total,
+            champion_pct,
+            ff_avg,
+            notes
+        ])
+
+
+import os
+
+run_name  = os.getenv("BACKTEST_NAME")
+run_notes = os.getenv("BACKTEST_NOTES", "")
+
+if run_name:
+    ff_avg = round(100 * total_ff / (n_years * 4), 1)
+    log_backtest_result(
+        run_name,
+        total_correct,
+        total_possible,
+        total_champs,
+        n_years,
+        ff_avg,
+        run_notes,
+    )

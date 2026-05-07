@@ -100,8 +100,9 @@ ACTUAL = {
     },
 
     # Final Four winners (advanced to Championship game)
-    # Semis: Michigan (Midwest) vs Illinois (South) → Michigan
-    #        UConn (East) vs Arizona (West)         → UConn
+    # Bracket halves: West + Midwest (same half) | East + South (same half)
+    # Semis: Arizona (West)      vs Michigan (Midwest) → Michigan    [half 0]
+    #        Connecticut (East)  vs Illinois (South)   → Connecticut [half 1]
     "won_ff": {
         "Michigan",
         "Connecticut",

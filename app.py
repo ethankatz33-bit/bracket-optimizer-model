@@ -548,7 +548,7 @@ def show_odds_tab(res: dict) -> None:
         )
         return
 
-    st.subheader(f"Round-by-round probabilities  ·  {mc.n_sims:,} simulations")
+    st.subheader("Round-by-round probabilities")
     st.caption(
         "Probability each team advances through each round. "
         "Click any column header to sort. Default: Champion % descending."
@@ -713,9 +713,10 @@ def show_download_tab(res: dict, style_bracket: dict | None) -> None:
         )
 
 
-# ── Main results view ─────────────────────────────────────────────────────────
+# ── Main results view (bracket tab only) ─────────────────────────────────────
 
 def show_results(res: dict, selected_style: str) -> None:
+    """Render champion header + bracket visual + portfolio + download."""
     all_types = res.get("all_types")
     internal  = STYLE_MAP[selected_style]
     meta      = STYLE_META[selected_style]
@@ -734,7 +735,7 @@ def show_results(res: dict, selected_style: str) -> None:
                 res["base_bracket"], candidate
             )
 
-    # Stale-state guard (warn only if bracket_halves is missing)
+    # Stale-state guard
     if not style_bracket.get("bracket_halves"):
         st.warning("⚠️ Stale bracket data — please reload the page.")
 
@@ -767,78 +768,7 @@ def show_results(res: dict, selected_style: str) -> None:
         unsafe_allow_html=True,
     )
 
-    # ── First Four play-ins ───────────────────────────────────────────────
-    ff_results = res.get("first_four", [])
-    if ff_results:
-        with st.expander(f"First Four play-ins ({len(ff_results)})", expanded=False):
-            rows = [{"Region": g["region"], "Seed": g["seed"],
-                     "Advances": g["winner"], "Eliminated": g["loser"]}
-                    for g in ff_results]
-            st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
-
-    # ── Odds & Analysis ───────────────────────────────────────────────────
-    with st.expander("📊 Odds & Analysis", expanded=False):
-        show_odds_tab(res)
-
-    # ── ESPN Value Plays by Round ─────────────────────────────────────────
-    _adv_csv = PROJECT_ROOT / "data" / "processed" / "advancement_value_edges_2026.csv"
-    if _adv_csv.exists():
-        with st.expander("📈 ESPN Value Plays by Round", expanded=False):
-            st.caption(
-                "Value edge compares this model's advancement probability to ESPN public "
-                "bracket advancement percentage. Positive edge means the team is underpicked "
-                "by the public."
-            )
-            try:
-                _adv_df = pd.read_csv(_adv_csv)
-                _adv_df = _adv_df[
-                    (_adv_df["edge"].notna()) &
-                    (_adv_df["model_pct"].notna()) &
-                    (_adv_df["public_pct"].notna()) &
-                    (_adv_df["edge"] > 0)
-                ].copy()
-
-                # Value tier label
-                def _value_tier(edge: float) -> str:
-                    if edge >= 0.15:
-                        return "★★ Major"
-                    if edge >= 0.08:
-                        return "★ Strong"
-                    return ""
-                _adv_df["Value"] = _adv_df["edge"].apply(_value_tier)
-
-                _adv_df = _adv_df.sort_values("edge", ascending=False)
-                _adv_disp = pd.DataFrame({
-                    "Team":    _adv_df["team"].values,
-                    "Round":   _adv_df["round"].values,
-                    "Seed":    _adv_df["seed"].astype(int).values,
-                    "Model %": [f"{v:.1%}" for v in _adv_df["model_pct"]],
-                    "ESPN %":  [f"{v:.1%}" for v in _adv_df["public_pct"]],
-                    "Edge":    [f"{v:+.1%}" for v in _adv_df["edge"]],
-                    "Ratio":   [f"{v:.2f}x" for v in _adv_df["value_ratio"]],
-                    "Value":   _adv_df["Value"].values,
-                })
-                st.dataframe(_adv_disp, hide_index=True, use_container_width=True)
-            except Exception:
-                st.caption("Could not load advancement value data.")
-
-            # ── Value boosts applied in this bracket ──────────────────────
-            _boosts = res.get("advancement_value_plays", [])
-            if _boosts:
-                st.markdown("**Value Boosts Applied in This Bracket**")
-                _boost_disp = pd.DataFrame([
-                    {
-                        "Team":     d["team"],
-                        "Round":    d["round"],
-                        "Opponent": d["opponent"],
-                        "Edge":     f"{d['edge']:+.1%}" if d.get("edge") is not None else "—",
-                        "Ratio":    f"{d['value_ratio']:.2f}x" if d.get("value_ratio") else "—",
-                    }
-                    for d in _boosts
-                ])
-                st.dataframe(_boost_disp, hide_index=True, use_container_width=True)
-
-    # ── Bracket ───────────────────────────────────────────────────────────
+    # ── Bracket visual ────────────────────────────────────────────────────
     render_traditional_bracket(style_bracket, candidate, selected_style)
 
     portfolio = res.get("portfolio", [])
@@ -925,198 +855,312 @@ def main() -> None:
 
     st.title("🏀 March Madness Bracket Predictor")
 
-    # ── Top controls row: Year | Pool size | Strategy ─────────────────────
-    _POOL_OPTIONS = [
-        ("1–25",   25,  "Conservative"),
-        ("26–100", 100, "Value"),
-        ("100+",   500, "Contrarian"),
-    ]
-    pool_labels   = [o[0] for o in _POOL_OPTIONS]
-    pool_defaults = [o[1] for o in _POOL_OPTIONS]
-    pool_styles   = [o[2] for o in _POOL_OPTIONS]
+    # ── Top-level tabs ────────────────────────────────────────────────────
+    bracket_tab, odds_tab, value_tab, about_tab = st.tabs([
+        "Bracket Predictions",
+        "Odds & Analysis",
+        "Value Plays by Round",
+        "About",
+    ])
 
-    col_year, col_pool, col_meta = st.columns([1, 2, 3])
+    # ══════════════════════════════════════════════════════════════════════
+    # BRACKET PREDICTIONS TAB
+    # ══════════════════════════════════════════════════════════════════════
+    with bracket_tab:
+        # ── Pool options ──────────────────────────────────────────────────
+        _POOL_OPTIONS = [
+            ("1–25",   25,  "Conservative"),
+            ("26–100", 100, "Value"),
+            ("100+",   500, "Contrarian"),
+        ]
+        pool_labels   = [o[0] for o in _POOL_OPTIONS]
+        pool_defaults = [o[1] for o in _POOL_OPTIONS]
+        pool_styles   = [o[2] for o in _POOL_OPTIONS]
 
-    with col_year:
-        tournament_year = st.selectbox(
-            "Tournament year",
-            options=[2026, 2027],
-            index=0,
-        )
+        col_year, col_pool, col_meta = st.columns([1, 2, 3])
 
-    with col_pool:
-        pool_idx = st.radio(
-            "Pool size",
-            options=list(range(len(_POOL_OPTIONS))),
-            index=1,
-            format_func=lambda i: pool_labels[i],
-            horizontal=True,
-            label_visibility="visible",
-        )
+        with col_year:
+            tournament_year = st.selectbox(
+                "Tournament year",
+                options=[2026, 2027],
+                index=0,
+            )
 
-    pool_size      = pool_defaults[pool_idx]
-    selected_style = pool_styles[pool_idx]
-    sim_mode       = _STYLE_TO_SIM_MODE[selected_style]
-    meta = STYLE_META[selected_style]
-    with col_meta:
-        st.markdown(
-            f'<div style="padding:8px 12px; background:#f8f8f8; border-radius:6px; '
-            f'border-left:3px solid #ccc; margin-top:22px;">'
-            f'<div style="font-size:0.7rem; color:#888; font-weight:600; '
-            f'text-transform:uppercase; letter-spacing:1px;">{meta["emoji"]} {selected_style}</div>'
-            f'<div style="font-size:0.72rem; color:#555; margin-top:2px;">{meta["tagline"]}</div>'
-            f'</div>',
-            unsafe_allow_html=True,
-        )
+        with col_pool:
+            pool_idx = st.radio(
+                "Pool size",
+                options=list(range(len(_POOL_OPTIONS))),
+                index=1,
+                format_func=lambda i: pool_labels[i],
+                horizontal=True,
+                label_visibility="visible",
+            )
 
-    # ── Advanced settings (collapsed) — MC options + override data ────────
-    with st.expander("⚙️ Advanced settings", expanded=False):
-        col_mc1, col_mc2, col_mc3 = st.columns(3)
-        with col_mc1:
-            use_mc = st.checkbox(
-                "Monte Carlo simulations",
-                value=True,
-                disabled=not _HAS_MC,
+        pool_size      = pool_defaults[pool_idx]
+        selected_style = pool_styles[pool_idx]
+        sim_mode       = _STYLE_TO_SIM_MODE[selected_style]
+        meta           = STYLE_META[selected_style]
+        with col_meta:
+            st.markdown(
+                f'<div style="padding:8px 12px; background:#f8f8f8; border-radius:6px; '
+                f'border-left:3px solid #ccc; margin-top:22px;">'
+                f'<div style="font-size:0.7rem; color:#888; font-weight:600; '
+                f'text-transform:uppercase; letter-spacing:1px;">{meta["emoji"]} {selected_style}</div>'
+                f'<div style="font-size:0.72rem; color:#555; margin-top:2px;">{meta["tagline"]}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+        # ── Advanced settings ─────────────────────────────────────────────
+        with st.expander("⚙️ Advanced settings", expanded=False):
+            col_mc1, col_mc2, col_mc3 = st.columns(3)
+            with col_mc1:
+                use_mc = st.checkbox(
+                    "Monte Carlo simulations",
+                    value=True,
+                    disabled=not _HAS_MC,
+                    help=(
+                        "Simulates the tournament thousands of times for accurate title probabilities."
+                        if _HAS_MC else "lib/monte_carlo.py not found."
+                    ),
+                )
+            with col_mc2:
+                n_sims = st.number_input(
+                    "Simulations",
+                    min_value=500, max_value=50_000, value=5_000, step=500,
+                    disabled=not (use_mc and _HAS_MC),
+                )
+            with col_mc3:
+                n_brackets = st.number_input(
+                    "Portfolio size",
+                    min_value=1, max_value=20, value=1, step=1,
+                    help="Generate multiple brackets with different champion picks.",
+                )
+
+            st.divider()
+            st.markdown("**Override data** *(optional — 2026 bracket pre-loaded by default)*")
+            uploaded_csv = st.file_uploader(
+                "Bracket CSV",
+                type=["csv"],
                 help=(
-                    "Simulates the tournament thousands of times for accurate title probabilities."
-                    if _HAS_MC else "lib/monte_carlo.py not found."
+                    "Required columns: canonical_team_name, seed, region, "
+                    "offensive_efficiency, defensive_efficiency, efficiency_margin."
                 ),
             )
-        with col_mc2:
-            n_sims = st.number_input(
-                "Simulations",
-                min_value=500, max_value=50_000, value=5_000, step=500,
-                disabled=not (use_mc and _HAS_MC),
+            picks_file = st.file_uploader(
+                "Public picks CSV",
+                type=["csv"],
+                help="CSV with canonical_team_name + public_pick_pct columns.",
             )
-        with col_mc3:
-            n_brackets = st.number_input(
-                "Portfolio size",
-                min_value=1, max_value=20, value=1, step=1,
-                help="Generate multiple brackets with different champion picks.",
+            manual_picks = st.text_input(
+                "Manual pick % overrides",
+                placeholder="Duke=0.22, Kansas=0.15",
+                help="Comma-separated Name=fraction pairs. Overrides everything else.",
+            )
+            run_custom = st.button(
+                "▶  Build from custom data",
+                type="primary",
+                use_container_width=True,
+                disabled=(uploaded_csv is None),
             )
 
         st.divider()
-        st.markdown("**Override data** *(optional — 2026 bracket pre-loaded by default)*")
-        uploaded_csv = st.file_uploader(
-            "Bracket CSV",
-            type=["csv"],
-            help=(
-                "Required columns: canonical_team_name, seed, region, "
-                "offensive_efficiency, defensive_efficiency, efficiency_margin."
-            ),
-        )
-        picks_file = st.file_uploader(
-            "Public picks CSV",
-            type=["csv"],
-            help="CSV with canonical_team_name + public_pick_pct columns.",
-        )
-        manual_picks = st.text_input(
-            "Manual pick % overrides",
-            placeholder="Duke=0.22, Kansas=0.15",
-            help="Comma-separated Name=fraction pairs. Overrides everything else.",
-        )
-        run_custom = st.button(
-            "▶  Build from custom data",
-            type="primary",
-            use_container_width=True,
-            disabled=(uploaded_csv is None),
-        )
 
-    st.divider()
+        # ── Refresh button ────────────────────────────────────────────────
+        if st.button("Refresh Bracket"):
+            st.cache_data.clear()
+            for key in list(st.session_state.keys()):
+                if "bracket" in key.lower() or "result" in key.lower() or "pipeline" in key.lower():
+                    del st.session_state[key]
+            st.rerun()
 
-    # ── 2027 placeholder ──────────────────────────────────────────────────
-    if tournament_year == 2027:
-        st.info(
-            "**2027 bracket data is not available yet.** Please use 2026.",
-            icon="📅",
+        # ── 2027 placeholder ──────────────────────────────────────────────
+        if tournament_year == 2027:
+            st.info(
+                "**2027 bracket data is not available yet.** Please use 2026.",
+                icon="📅",
+            )
+            st.stop()
+
+        # ── Auto-recompute when any input or data file changes ────────────
+        _pipeline_key = (
+            pool_size, selected_style, sim_mode,
+            use_mc, int(n_sims), int(n_brackets),
+            *_data_mtimes(),
         )
-        st.stop()
+        if st.session_state.get("pipeline_key") != _pipeline_key:
+            st.session_state.pop("run_ok",  None)
+            st.session_state.pop("results", None)
+            st.session_state["pipeline_key"] = _pipeline_key
 
-    # ── Auto-recompute when any input or data file changes ────────────────
-    # Pipeline key encodes all inputs that affect model output.
-    # Any change (pool size, style, MC settings, or file modification)
-    # automatically invalidates the cached result and triggers a re-run.
-    _pipeline_key = (
-        pool_size, selected_style, sim_mode,
-        use_mc, int(n_sims), int(n_brackets),
-        *_data_mtimes(),
-    )
-    if st.session_state.get("pipeline_key") != _pipeline_key:
-        st.session_state.pop("run_ok",    None)
-        st.session_state.pop("results",   None)
-        st.session_state["pipeline_key"] = _pipeline_key
+        # ── Auto-run with default 2026 data ───────────────────────────────
+        if _HAS_DEFAULT and not st.session_state.get("run_ok") and not run_custom:
+            with st.spinner("Loading 2026 bracket…"):
+                try:
+                    df_default = pd.read_csv(DEFAULT_CSV)
+                    errs = validate_csv(df_default)
+                    if errs:
+                        st.error("Default CSV has validation errors: " + "; ".join(errs))
+                    else:
+                        _run_and_store(
+                            df             = df_default,
+                            pool_size      = int(pool_size),
+                            n_brackets     = int(n_brackets),
+                            sim_mode       = sim_mode,
+                            use_mc         = use_mc and _HAS_MC,
+                            n_sims         = int(n_sims),
+                            file_picks     = _load_default_picks(),
+                            picks_override = {},
+                            selected_style = selected_style,
+                        )
+                except Exception as e:
+                    st.error(f"Failed to load 2026 data: {e}")
+                    with st.expander("Details"):
+                        st.code(traceback.format_exc())
 
-    # ── Auto-run with default 2026 data ───────────────────────────────────
-    if _HAS_DEFAULT and not st.session_state.get("run_ok") and not run_custom:
-        with st.spinner("Loading 2026 bracket…"):
+        # ── Run with custom uploaded data ─────────────────────────────────
+        if run_custom and uploaded_csv is not None:
             try:
-                df_default = pd.read_csv(DEFAULT_CSV)
-                errs = validate_csv(df_default)
-                if errs:
-                    st.error("Default CSV has validation errors: " + "; ".join(errs))
-                else:
+                df = pd.read_csv(uploaded_csv)
+            except Exception as e:
+                st.error(f"Cannot read CSV: {e}")
+                st.stop()
+
+            errs = validate_csv(df)
+            if errs:
+                st.error("**CSV validation failed**")
+                for e in errs:
+                    st.markdown(f"- {e}")
+                st.stop()
+
+            file_picks     = parse_picks_file(picks_file) if picks_file else {}
+            picks_override = _parse_picks(manual_picks)   if manual_picks else {}
+
+            label = f"Building {selected_style} bracket" + (" + Monte Carlo…" if use_mc else "…")
+            with st.spinner(label):
+                try:
                     _run_and_store(
-                        df             = df_default,
+                        df             = df,
                         pool_size      = int(pool_size),
                         n_brackets     = int(n_brackets),
                         sim_mode       = sim_mode,
                         use_mc         = use_mc and _HAS_MC,
                         n_sims         = int(n_sims),
-                        file_picks     = _load_default_picks(),
-                        picks_override = {},
+                        file_picks     = file_picks,
+                        picks_override = picks_override,
                         selected_style = selected_style,
                     )
-            except Exception as e:
-                st.error(f"Failed to load 2026 data: {e}")
-                with st.expander("Details"):
-                    st.code(traceback.format_exc())
+                except Exception as e:
+                    st.error(f"Something went wrong: {e}")
+                    with st.expander("Technical details"):
+                        st.code(traceback.format_exc())
+                    st.session_state["run_ok"] = False
 
-    # ── Run with custom uploaded data ─────────────────────────────────────
-    if run_custom and uploaded_csv is not None:
-        try:
-            df = pd.read_csv(uploaded_csv)
-        except Exception as e:
-            st.error(f"Cannot read CSV: {e}")
-            st.stop()
+        # ── Render bracket results ─────────────────────────────────────────
+        if st.session_state.get("run_ok") and "results" in st.session_state:
+            show_results(
+                st.session_state["results"],
+                st.session_state.get("selected_style", selected_style),
+            )
+        else:
+            show_welcome()
 
-        errs = validate_csv(df)
-        if errs:
-            st.error("**CSV validation failed**")
-            for e in errs:
-                st.markdown(f"- {e}")
-            st.stop()
+    # ══════════════════════════════════════════════════════════════════════
+    # ODDS & ANALYSIS TAB
+    # ══════════════════════════════════════════════════════════════════════
+    with odds_tab:
+        if st.session_state.get("run_ok") and "results" in st.session_state:
+            show_odds_tab(st.session_state["results"])
+        else:
+            st.info("Generate a bracket in the **Bracket Predictions** tab first.")
 
-        file_picks     = parse_picks_file(picks_file) if picks_file else {}
-        picks_override = _parse_picks(manual_picks)   if manual_picks else {}
-
-        label = f"Building {selected_style} bracket" + (" + Monte Carlo…" if use_mc else "…")
-        with st.spinner(label):
-            try:
-                _run_and_store(
-                    df             = df,
-                    pool_size      = int(pool_size),
-                    n_brackets     = int(n_brackets),
-                    sim_mode       = sim_mode,
-                    use_mc         = use_mc and _HAS_MC,
-                    n_sims         = int(n_sims),
-                    file_picks     = file_picks,
-                    picks_override = picks_override,
-                    selected_style = selected_style,
-                )
-            except Exception as e:
-                st.error(f"Something went wrong: {e}")
-                with st.expander("Technical details"):
-                    st.code(traceback.format_exc())
-                st.session_state["run_ok"] = False
-
-    # ── Render ────────────────────────────────────────────────────────────
-    if st.session_state.get("run_ok") and "results" in st.session_state:
-        show_results(
-            st.session_state["results"],
-            selected_style,
+    # ══════════════════════════════════════════════════════════════════════
+    # VALUE PLAYS BY ROUND TAB
+    # ══════════════════════════════════════════════════════════════════════
+    with value_tab:
+        st.caption(
+            "Value edge compares this model's advancement probability to ESPN public "
+            "bracket advancement percentage. Positive edge means the team is underpicked "
+            "by the public."
         )
-    else:
-        show_welcome()
+        _adv_csv = PROJECT_ROOT / "data" / "processed" / "advancement_value_edges_2026.csv"
+        if _adv_csv.exists():
+            try:
+                _adv_df = pd.read_csv(_adv_csv)
+                _adv_df = _adv_df[
+                    (_adv_df["edge"].notna()) &
+                    (_adv_df["model_pct"].notna()) &
+                    (_adv_df["public_pct"].notna()) &
+                    (_adv_df["edge"] > 0)
+                ].copy()
+
+                def _value_tier(edge: float) -> str:
+                    if edge >= 0.15:
+                        return "★★ Major"
+                    if edge >= 0.08:
+                        return "★ Strong"
+                    return ""
+                _adv_df["Value"] = _adv_df["edge"].apply(_value_tier)
+
+                _adv_df = _adv_df.sort_values("edge", ascending=False)
+                _adv_disp = pd.DataFrame({
+                    "Team":    _adv_df["team"].values,
+                    "Round":   _adv_df["round"].values,
+                    "Seed":    _adv_df["seed"].astype(int).values,
+                    "Model %": [f"{v:.1%}" for v in _adv_df["model_pct"]],
+                    "ESPN %":  [f"{v:.1%}" for v in _adv_df["public_pct"]],
+                    "Edge":    [f"{v:+.1%}" for v in _adv_df["edge"]],
+                    "Ratio":   [f"{v:.2f}x" for v in _adv_df["value_ratio"]],
+                    "Value":   _adv_df["Value"].values,
+                })
+                st.dataframe(_adv_disp, hide_index=True, use_container_width=True)
+            except Exception:
+                st.caption("Could not load advancement value data.")
+
+        else:
+            st.caption("No advancement value data available.")
+
+    # ══════════════════════════════════════════════════════════════════════
+    # ABOUT TAB
+    # ══════════════════════════════════════════════════════════════════════
+    with about_tab:
+        st.header("About This Model")
+        st.write(
+            "This bracket model combines team strength, historical tournament patterns, "
+            "public pick data, and pool-size strategy to generate bracket recommendations."
+        )
+
+        st.subheader("Team Strength")
+        st.write(
+            "The model uses efficiency-based ratings from KenPom and BartTorvik to estimate "
+            "team quality and matchup win probabilities."
+        )
+
+        st.subheader("Public Pick Value")
+        st.write(
+            "The model compares its advancement probabilities against public bracket data "
+            "to identify teams that may be underpicked or overpicked."
+        )
+
+        st.subheader("Pool Size Strategy")
+        st.write(
+            "Small pools favor safer, higher-probability picks. Medium pools balance win "
+            "probability and value. Large pools lean more into underpicked teams and "
+            "higher-upside paths."
+        )
+
+        st.subheader("Upsets")
+        st.write(
+            "Upsets are evaluated using seed, model win probability, historical matchup "
+            "rates, and public value. The model does not pick upsets randomly; it selects "
+            "them when they are plausible and strategically useful."
+        )
+
+        st.subheader("Important Note")
+        st.info(
+            "This tool is designed to support bracket strategy, not guarantee results. "
+            "March Madness outcomes are inherently unpredictable."
+        )
 
 
 if __name__ == "__main__":
