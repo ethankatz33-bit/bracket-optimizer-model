@@ -713,6 +713,339 @@ def show_download_tab(res: dict, style_bracket: dict | None) -> None:
         )
 
 
+# ── Historical Bracket Results tab ───────────────────────────────────────────
+
+# ESPN-style scoring weights per round
+_ESPN_ROUND_POINTS: dict[str, int] = {
+    "Round of 64":  10,
+    "Round of 32":  20,
+    "Sweet 16":     40,
+    "Elite 8":      80,
+    "Final Four":   160,
+    "Championship": 320,
+}
+
+# Round weight for differentiator ranking
+_DIFF_ROUND_WEIGHT: dict[str, int] = {
+    "Round of 64":  1,
+    "Round of 32":  2,
+    "Sweet 16":     4,
+    "Elite 8":      8,
+    "Final Four":   16,
+    "Championship": 32,
+}
+
+_RESULTS_PATH_2026 = PROJECT_ROOT / "data" / "future" / "actual_results_2026.json"
+
+
+def _load_actual_results_2026() -> dict | None:
+    """
+    Load the 2026 actual bracket results.
+    Returns None if the file does not exist.
+    Expected format: {
+      "round_of_64": [{"winner": "TeamName", "loser": "TeamName"}, ...],
+      "round_of_32": [...],
+      "sweet_16":    [...],
+      "elite_8":     [...],
+      "final_four":  [...],
+      "champion":    "TeamName"
+    }
+    """
+    if not _RESULTS_PATH_2026.exists():
+        return None
+    try:
+        with open(_RESULTS_PATH_2026) as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
+def _score_bracket_2026(bracket: dict, actual: dict) -> dict:
+    """
+    Score a model bracket dict against actual 2026 results using ESPN-style points.
+    Returns {score, max_score, round_scores, correct_picks}.
+    """
+    round_key_map = {
+        "round_of_64":  "Round of 64",
+        "round_of_32":  "Round of 32",
+        "sweet_16":     "Sweet 16",
+        "elite_8":      "Elite 8",
+        "final_four":   "Final Four",
+    }
+    score = 0
+    max_score = 0
+    round_scores: dict[str, int] = {}
+    correct_picks: list[dict] = []
+
+    for rk, label in round_key_map.items():
+        pts = _ESPN_ROUND_POINTS[label]
+        model_games = bracket.get("bracket", {}).get(rk, [])
+        actual_games = actual.get(rk, [])
+        actual_winners = {g["winner"] for g in actual_games if "winner" in g}
+        rnd_score = 0
+        rnd_max   = len(actual_games) * pts
+        for g in model_games:
+            w = g.get("winner", {})
+            name = w.get("name") if isinstance(w, dict) else w
+            if name and name in actual_winners:
+                rnd_score += pts
+                correct_picks.append({"round": label, "team": name,
+                                       "seed": w.get("seed") if isinstance(w, dict) else None,
+                                       "pts": pts})
+        round_scores[label] = rnd_score
+        score += rnd_score
+        max_score += rnd_max
+
+    # Championship
+    champ_pts = _ESPN_ROUND_POINTS["Championship"]
+    model_champ = bracket.get("champion", {})
+    model_champ_name = model_champ.get("name") if isinstance(model_champ, dict) else model_champ
+    actual_champ = actual.get("champion", "")
+    max_score += champ_pts
+    if model_champ_name and model_champ_name == actual_champ:
+        score += champ_pts
+        round_scores["Championship"] = champ_pts
+        correct_picks.append({"round": "Championship", "team": model_champ_name,
+                               "seed": model_champ.get("seed") if isinstance(model_champ, dict) else None,
+                               "pts": champ_pts})
+    else:
+        round_scores.setdefault("Championship", 0)
+
+    return {
+        "score":         score,
+        "max_score":     max_score,
+        "round_scores":  round_scores,
+        "correct_picks": correct_picks,
+    }
+
+
+def _top3_differentiators(bracket: dict, adv_edges: dict) -> list[dict]:
+    """
+    Return top 3 non-chalk differentiator picks from a model bracket.
+    Sorted by: round_weight × value_ratio × upset_flag (desc).
+    """
+    round_key_map = {
+        "round_of_64":  "Round of 64",
+        "round_of_32":  "Round of 32",
+        "sweet_16":     "Sweet 16",
+        "elite_8":      "Elite 8",
+        "final_four":   "Final Four",
+    }
+    # Chalk = 1-seeds always advance, 2-seeds through R32, etc.
+    chalk_seed_max: dict[str, int] = {
+        "Round of 64":  1, "Round of 32": 2, "Sweet 16": 3,
+        "Elite 8": 4, "Final Four": 5, "Championship": 6,
+    }
+
+    picks: list[dict] = []
+    for rk, label in round_key_map.items():
+        rw = _DIFF_ROUND_WEIGHT.get(label, 1)
+        pts_thr = chalk_seed_max.get(label, 3)
+        for g in bracket.get("bracket", {}).get(rk, []):
+            w = g.get("winner", {})
+            if not isinstance(w, dict):
+                continue
+            seed = w.get("seed")
+            name = w.get("name", "")
+            if seed is None:
+                continue
+            # Only non-chalk (higher-seeded winner)
+            l = g.get("loser", {})
+            fav_seed = l.get("seed") if isinstance(l, dict) else None
+            is_upset = (fav_seed is not None and seed > fav_seed) or g.get("is_upset", False)
+            if not is_upset and seed <= pts_thr:
+                continue
+            # Lookup value_ratio from adv_edges CSV
+            round_adv_label_map = {
+                "Round of 64": "R32", "Round of 32": "Sweet 16",
+                "Sweet 16": "Elite 8", "Elite 8": "Final Four", "Final Four": "Champ Game",
+            }
+            adv_lbl = round_adv_label_map.get(label, "")
+            vr = adv_edges.get((name, adv_lbl), {}).get("value_ratio", 1.0) or 1.0
+            upset_flag = 1 if is_upset else 0
+            score_val = rw * vr * max(upset_flag, 0.5)
+            picks.append({
+                "round": label, "team": name, "seed": seed,
+                "opponent": l.get("name", "") if isinstance(l, dict) else "",
+                "opp_seed": fav_seed, "is_upset": is_upset,
+                "value_ratio": round(vr, 2), "score": score_val,
+            })
+
+    picks.sort(key=lambda x: -x["score"])
+    return picks[:3]
+
+
+@st.cache_data(ttl=3600)
+def _cached_model_brackets_2026() -> dict[str, dict]:
+    """
+    Simulate the three default model brackets (conservative, balanced, contrarian)
+    for 2026 using the default CSV. Returns {label: bracket_dict}.
+    """
+    if not DEFAULT_CSV.exists():
+        return {}
+    df = pd.read_csv(DEFAULT_CSV)
+    from scripts.predict_future_bracket import _simulate_first_four, _build_teams_override
+    df64, _ = _simulate_first_four(df)
+    teams = _build_teams_override(df64)
+
+    _STYLE_SIM_MAP = {
+        "Conservative / Safe":      "conservative",
+        "Balanced / Value":         "balanced",
+        "Contrarian / Upset Heavy": "upset_heavy",
+    }
+    out: dict[str, dict] = {}
+    for label, sim_mode in _STYLE_SIM_MAP.items():
+        try:
+            b = simulate_bracket(sim_mode, _teams_override=teams)
+            out[label] = b
+        except Exception:
+            out[label] = {}
+    return out
+
+
+def _load_adv_edges_dict() -> dict:
+    """Load advancement_value_edges_2026.csv as (team, round) → row dict."""
+    import csv as _csv
+    path = PROJECT_ROOT / "data" / "processed" / "advancement_value_edges_2026.csv"
+    out: dict = {}
+    if not path.exists():
+        return out
+    try:
+        with open(path, newline="") as f:
+            for row in _csv.DictReader(f):
+                team = row.get("team", "").strip()
+                rnd  = row.get("round", "").strip()
+                if team and rnd:
+                    try:
+                        out[(team, rnd)] = {
+                            "model_pct":   float(row.get("model_pct", 0) or 0),
+                            "public_pct":  float(row.get("public_pct", 0) or 0),
+                            "edge":        float(row.get("edge", 0) or 0),
+                            "value_ratio": float(row.get("value_ratio", 0) or 0),
+                        }
+                    except (ValueError, TypeError):
+                        pass
+    except Exception:
+        pass
+    return out
+
+
+def show_historical_results_tab() -> None:
+    st.caption(
+        "ESPN-style bracket scores for each model bracket type, scored against actual results."
+    )
+    year_sel = st.radio(
+        "Season",
+        options=[2026, 2027],
+        index=0,
+        horizontal=True,
+        label_visibility="collapsed",
+    )
+
+    if year_sel == 2027:
+        st.info("2027 bracket results not available yet.", icon="📅")
+        return
+
+    # ── 2026 ──────────────────────────────────────────────────────────────
+    actual = _load_actual_results_2026()
+    if actual is None:
+        st.warning(
+            "2026 results data not available yet. "
+            "Add actual results to enable scoring.",
+            icon="📋",
+        )
+        st.caption(
+            "To enable scoring, create "
+            "`data/future/actual_results_2026.json` with the actual 2026 bracket results."
+        )
+        return
+
+    if not DEFAULT_CSV.exists():
+        st.warning("Default 2026 team data not found. Cannot generate model brackets.")
+        return
+
+    with st.spinner("Scoring 2026 model brackets…"):
+        brackets = _cached_model_brackets_2026()
+        adv_edges = _load_adv_edges_dict()
+
+    if not brackets:
+        st.error("Could not generate model brackets for 2026.")
+        return
+
+    rows = []
+    diff_picks: dict[str, list] = {}
+    for label, bracket in brackets.items():
+        if not bracket:
+            continue
+        scored   = _score_bracket_2026(bracket, actual)
+        champ    = bracket.get("champion", {})
+        champ_nm = champ.get("name", "—") if isinstance(champ, dict) else str(champ)
+        champ_sd = champ.get("seed", "?") if isinstance(champ, dict) else "?"
+        ff_raw   = bracket.get("final_four", [])
+        ff_names = ", ".join(
+            g.get("winner", "") if isinstance(g.get("winner"), str)
+            else g.get("winner", {}).get("name", "")
+            for g in ff_raw
+        ) if ff_raw else "—"
+        diffs    = _top3_differentiators(bracket, adv_edges)
+        diff_str = " · ".join(
+            f"{d['team']} ({d['round'].replace('Round of ', 'R').replace('Elite 8', 'E8').replace('Final Four', 'FF').replace('Sweet 16', 'S16').replace('Championship', 'Champ')})"
+            for d in diffs
+        ) or "—"
+        diff_picks[label] = diffs
+        rows.append({
+            "Bracket Type":           label,
+            "Score":                  scored["score"],
+            "Max Score":              scored["max_score"],
+            "Percentile":             "TBD",
+            "Champion Pick":          f"#{champ_sd} {champ_nm}",
+            "Final Four Picks":       ff_names,
+            "Top 3 Differentiators":  diff_str,
+        })
+
+    st.subheader("2026 Bracket Scores")
+    st.dataframe(
+        pd.DataFrame(rows),
+        hide_index=True,
+        use_container_width=True,
+        column_config={
+            "Score":     st.column_config.NumberColumn("Score",     format="%d"),
+            "Max Score": st.column_config.NumberColumn("Max Score", format="%d"),
+        },
+    )
+    st.caption(
+        "Percentile will be added once ESPN final bracket percentile data is available."
+    )
+
+    # Per-bracket detail expanders
+    for label, bracket in brackets.items():
+        if not bracket:
+            continue
+        scored = _score_bracket_2026(bracket, actual)
+        with st.expander(f"{label} — breakdown"):
+            st.markdown(f"**Total: {scored['score']} / {scored['max_score']} pts**")
+            rs_rows = [
+                {"Round": rnd, "Points": pts, "Possible": _ESPN_ROUND_POINTS.get(rnd, 0) * (
+                    1 if rnd == "Championship" else
+                    {
+                        "Round of 64": 32, "Round of 32": 16,
+                        "Sweet 16": 8,     "Elite 8": 4, "Final Four": 2,
+                    }.get(rnd, 1)
+                )}
+                for rnd, pts in scored["round_scores"].items()
+            ]
+            st.dataframe(pd.DataFrame(rs_rows), hide_index=True, use_container_width=True)
+            if diff_picks.get(label):
+                st.markdown("**Top 3 Differentiator Picks:**")
+                for d in diff_picks[label]:
+                    upset_tag = " ⚡ upset" if d["is_upset"] else ""
+                    st.markdown(
+                        f"- **#{d['seed']} {d['team']}** to {d['round']}"
+                        f" (vs #{d['opp_seed']} {d['opponent']}){upset_tag}"
+                        f" — value ratio {d['value_ratio']:.2f}×"
+                    )
+
+
 # ── Main results view (bracket tab only) ─────────────────────────────────────
 
 def show_results(res: dict, selected_style: str) -> None:
@@ -1082,10 +1415,11 @@ def main() -> None:
     )
 
     # ── Top-level tabs ────────────────────────────────────────────────────
-    bracket_tab, odds_tab, value_tab, survivor_tab, mock_tab, about_tab = st.tabs([
+    bracket_tab, odds_tab, value_tab, history_tab, survivor_tab, mock_tab, about_tab = st.tabs([
         "Bracket Predictions",
         "Odds & Analysis",
         "Top Value Plays",
+        "Historical Bracket Results",
         "Optimal Survivor Path",
         "Mock Brackets",
         "About",
@@ -1293,7 +1627,20 @@ def main() -> None:
         st.caption(
             "View advancement probabilities, title chances, and team-level model odds."
         )
-        if st.session_state.get("run_ok") and "results" in st.session_state:
+        _odds_year = st.radio(
+            "Season",
+            options=[2026, 2027],
+            index=0,
+            horizontal=True,
+            key="odds_year_sel",
+            label_visibility="collapsed",
+        )
+        if _odds_year == 2027:
+            st.info(
+                "2027 bracket data is not available yet. Please use 2026.",
+                icon="📅",
+            )
+        elif st.session_state.get("run_ok") and "results" in st.session_state:
             show_odds_tab(st.session_state["results"])
         else:
             st.info("Generate a bracket in the **Bracket Predictions** tab first.")
@@ -1305,42 +1652,61 @@ def main() -> None:
         st.caption(
             "Highlights teams where the model sees more advancement upside than the public."
         )
-        _adv_csv = PROJECT_ROOT / "data" / "processed" / "advancement_value_edges_2026.csv"
-        if _adv_csv.exists():
-            try:
-                _adv_df = pd.read_csv(_adv_csv)
-                _adv_df = _adv_df[
-                    (_adv_df["edge"].notna()) &
-                    (_adv_df["model_pct"].notna()) &
-                    (_adv_df["public_pct"].notna()) &
-                    (_adv_df["edge"] > 0)
-                ].copy()
-
-                def _value_tier(edge: float) -> str:
-                    if edge >= 0.15:
-                        return "★★ Major"
-                    if edge >= 0.08:
-                        return "★ Strong"
-                    return ""
-                _adv_df["Value"] = _adv_df["edge"].apply(_value_tier)
-
-                _adv_df = _adv_df.sort_values("edge", ascending=False)
-                _adv_disp = pd.DataFrame({
-                    "Team":         _adv_df["team"].values,
-                    "Advancing To": _adv_df["round"].values,
-                    "Seed":    _adv_df["seed"].astype(int).values,
-                    "Model %":  [f"{v:.1%}" for v in _adv_df["model_pct"]],
-                    "Public %": [f"{v:.1%}" for v in _adv_df["public_pct"]],
-                    "Edge":    [f"{v:+.1%}" for v in _adv_df["edge"]],
-                    "Ratio":   [f"{v:.2f}x" for v in _adv_df["value_ratio"]],
-                    "Value":   _adv_df["Value"].values,
-                })
-                st.dataframe(_adv_disp, hide_index=True, use_container_width=True)
-            except Exception:
-                st.caption("Could not load advancement value data.")
-
+        _value_year = st.radio(
+            "Season",
+            options=[2026, 2027],
+            index=0,
+            horizontal=True,
+            key="value_year_sel",
+            label_visibility="collapsed",
+        )
+        if _value_year == 2027:
+            st.info(
+                "2027 bracket data is not available yet. Please use 2026.",
+                icon="📅",
+            )
         else:
-            st.caption("No advancement value data available.")
+            _adv_csv = PROJECT_ROOT / "data" / "processed" / "advancement_value_edges_2026.csv"
+            if _adv_csv.exists():
+                try:
+                    _adv_df = pd.read_csv(_adv_csv)
+                    _adv_df = _adv_df[
+                        (_adv_df["edge"].notna()) &
+                        (_adv_df["model_pct"].notna()) &
+                        (_adv_df["public_pct"].notna()) &
+                        (_adv_df["edge"] > 0)
+                    ].copy()
+
+                    def _value_tier(edge: float) -> str:
+                        if edge >= 0.15:
+                            return "★★ Major"
+                        if edge >= 0.08:
+                            return "★ Strong"
+                        return ""
+                    _adv_df["Value"] = _adv_df["edge"].apply(_value_tier)
+
+                    _adv_df = _adv_df.sort_values("edge", ascending=False)
+                    _adv_disp = pd.DataFrame({
+                        "Team":         _adv_df["team"].values,
+                        "Advancing To": _adv_df["round"].values,
+                        "Seed":    _adv_df["seed"].astype(int).values,
+                        "Model %":  [f"{v:.1%}" for v in _adv_df["model_pct"]],
+                        "Public %": [f"{v:.1%}" for v in _adv_df["public_pct"]],
+                        "Edge":    [f"{v:+.1%}" for v in _adv_df["edge"]],
+                        "Ratio":   [f"{v:.2f}x" for v in _adv_df["value_ratio"]],
+                        "Value":   _adv_df["Value"].values,
+                    })
+                    st.dataframe(_adv_disp, hide_index=True, use_container_width=True)
+                except Exception:
+                    st.caption("Could not load advancement value data.")
+            else:
+                st.caption("No advancement value data available.")
+
+    # ══════════════════════════════════════════════════════════════════════
+    # HISTORICAL BRACKET RESULTS TAB
+    # ══════════════════════════════════════════════════════════════════════
+    with history_tab:
+        show_historical_results_tab()
 
     # ══════════════════════════════════════════════════════════════════════
     # OPTIMAL SURVIVOR PATH TAB
