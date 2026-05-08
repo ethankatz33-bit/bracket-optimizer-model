@@ -1,0 +1,81 @@
+{
+  "_source": "2026 NCAA Division I Men's Basketball Tournament — actual results",
+  "_champion": "Michigan (defeated Connecticut 69-63 in Championship Game, April 6, Lucas Oil Stadium, Indianapolis)",
+  "champion": "Michigan",
+  "championship": {
+    "winner": "Michigan",
+    "runner_up": "Connecticut"
+  },
+  "final_four": [
+    {"winner": "Michigan",    "loser": "Arizona"},
+    {"winner": "Connecticut", "loser": "Illinois"}
+  ],
+  "elite_8": [
+    {"winner": "Connecticut", "loser": "Duke",      "region": "East"},
+    {"winner": "Illinois",    "loser": "Iowa",       "region": "South"},
+    {"winner": "Arizona",     "loser": "Texas",      "region": "West"},
+    {"winner": "Michigan",    "loser": "Tennessee",  "region": "Midwest"}
+  ],
+  "sweet_16": [
+    {"winner": "Duke",        "loser": "St. John's",     "region": "East"},
+    {"winner": "Connecticut", "loser": "Michigan State", "region": "East"},
+    {"winner": "Iowa",        "loser": "Nebraska",       "region": "South"},
+    {"winner": "Illinois",    "loser": "Houston",        "region": "South"},
+    {"winner": "Arizona",     "loser": "Arkansas",       "region": "West"},
+    {"winner": "Texas",       "loser": "Purdue",         "region": "West"},
+    {"winner": "Michigan",    "loser": "Alabama",        "region": "Midwest"},
+    {"winner": "Tennessee",   "loser": "Iowa State",     "region": "Midwest"}
+  ],
+  "round_of_32": [
+    {"winner": "Duke",         "loser": "TCU",          "region": "East"},
+    {"winner": "St. John's",   "loser": "Kansas",       "region": "East"},
+    {"winner": "Michigan State","loser": "Louisville",  "region": "East"},
+    {"winner": "Connecticut",  "loser": "UCLA",         "region": "East"},
+    {"winner": "Iowa",         "loser": "Florida",      "region": "South"},
+    {"winner": "Nebraska",     "loser": "Vanderbilt",   "region": "South"},
+    {"winner": "Illinois",     "loser": "VCU",          "region": "South"},
+    {"winner": "Houston",      "loser": "Saint Mary's", "region": "South"},
+    {"winner": "Arizona",      "loser": "Utah State",   "region": "West"},
+    {"winner": "Arkansas",     "loser": "High Point",   "region": "West"},
+    {"winner": "Texas",        "loser": "Gonzaga",      "region": "West"},
+    {"winner": "Purdue",       "loser": "Miami (FL)",   "region": "West"},
+    {"winner": "Michigan",     "loser": "Saint Louis",  "region": "Midwest"},
+    {"winner": "Alabama",      "loser": "Texas Tech",   "region": "Midwest"},
+    {"winner": "Tennessee",    "loser": "Virginia",     "region": "Midwest"},
+    {"winner": "Iowa State",   "loser": "Kentucky",     "region": "Midwest"}
+  ],
+  "round_of_64": [
+    {"winner": "Duke",              "loser": "Siena",            "region": "East"},
+    {"winner": "TCU",               "loser": "Ohio State",       "region": "East"},
+    {"winner": "St. John's",        "loser": "Northern Iowa",    "region": "East"},
+    {"winner": "Kansas",            "loser": "California Baptist","region": "East"},
+    {"winner": "Louisville",        "loser": "South Florida",    "region": "East"},
+    {"winner": "Michigan State",    "loser": "North Dakota State","region": "East"},
+    {"winner": "Connecticut",       "loser": "Furman",           "region": "East"},
+    {"winner": "UCLA",              "loser": "UCF",              "region": "East"},
+    {"winner": "Florida",           "loser": "Prairie View A&M", "region": "South"},
+    {"winner": "Iowa",              "loser": "Clemson",          "region": "South"},
+    {"winner": "Vanderbilt",        "loser": "McNeese",          "region": "South"},
+    {"winner": "Nebraska",          "loser": "Troy",             "region": "South"},
+    {"winner": "VCU",               "loser": "North Carolina",   "region": "South"},
+    {"winner": "Illinois",          "loser": "Penn",             "region": "South"},
+    {"winner": "Houston",           "loser": "Idaho",            "region": "South"},
+    {"winner": "Saint Mary's",      "loser": "Texas A&M",        "region": "South"},
+    {"winner": "Arizona",           "loser": "LIU",              "region": "West"},
+    {"winner": "Utah State",        "loser": "Villanova",        "region": "West"},
+    {"winner": "High Point",        "loser": "Wisconsin",        "region": "West"},
+    {"winner": "Arkansas",          "loser": "Hawaii",           "region": "West"},
+    {"winner": "Texas",             "loser": "BYU",              "region": "West"},
+    {"winner": "Gonzaga",           "loser": "Kennesaw State",   "region": "West"},
+    {"winner": "Miami (FL)",        "loser": "Missouri",         "region": "West"},
+    {"winner": "Purdue",            "loser": "Queens",           "region": "West"},
+    {"winner": "Michigan",          "loser": "Howard",           "region": "Midwest"},
+    {"winner": "Saint Louis",       "loser": "Georgia",          "region": "Midwest"},
+    {"winner": "Texas Tech",        "loser": "Akron",            "region": "Midwest"},
+    {"winner": "Alabama",           "loser": "Hofstra",          "region": "Midwest"},
+    {"winner": "Tennessee",         "loser": "Miami (OH)",       "region": "Midwest"},
+    {"winner": "Virginia",          "loser": "Wright State",     "region": "Midwest"},
+    {"winner": "Kentucky",          "loser": "Santa Clara",      "region": "Midwest"},
+    {"winner": "Iowa State",        "loser": "Tennessee State",  "region": "Midwest"}
+  ]
+}

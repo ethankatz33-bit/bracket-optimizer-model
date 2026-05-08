@@ -224,6 +224,159 @@ def run_pipeline(
     }
 
 
+# ── Manual advancement overrides ─────────────────────────────────────────────
+
+def apply_manual_advancement_overrides(
+    bracket:   dict,
+    overrides: list[dict],   # [{"team": str, "round": str}, ...]
+) -> tuple[dict, list[str]]:
+    """
+    Post-process a bracket copy so that each overridden team wins every game
+    needed to reach their target round.  Returns (updated_bracket, warnings).
+
+    Does NOT modify simulate_bracket or any model files.
+    """
+    import copy as _copy
+
+    _ROUND_SEQ = [
+        "round_of_64", "round_of_32", "sweet_16",
+        "elite_8", "final_four", "championship",
+    ]
+    _TARGET_WIN_THROUGH: dict[str, list[str]] = {
+        "Round of 32":       _ROUND_SEQ[:1],
+        "Sweet 16":          _ROUND_SEQ[:2],
+        "Elite 8":           _ROUND_SEQ[:3],
+        "Final Four":        _ROUND_SEQ[:4],
+        "Championship Game": _ROUND_SEQ[:5],
+        "Champion":          _ROUND_SEQ[:6],
+    }
+
+    def _get_round_games(bkt: dict, rk: str) -> list:
+        """
+        Return a list of game dict references for any round storage shape.
+        - list of game dicts  → returned as-is (filtered to dicts only)
+        - single game dict    → wrapped in [game]   (championship case)
+        - missing/None        → []
+        Items are live references into bkt[rk], so in-place mutation works.
+        """
+        raw = bkt.get(rk)
+        if raw is None:
+            return []
+        if isinstance(raw, list):
+            return [g for g in raw if isinstance(g, dict)]
+        if isinstance(raw, dict) and ("winner" in raw or "loser" in raw):
+            return [raw]           # single-game dict (championship)
+        return []
+
+    def _find(games: list, name: str) -> tuple:
+        for i, g in enumerate(games):
+            w = g.get("winner", {})
+            l = g.get("loser",  {})
+            if isinstance(w, dict) and w.get("name") == name:
+                return i, "winner"
+            if isinstance(l, dict) and l.get("name") == name:
+                return i, "loser"
+        return None, None
+
+    def _replace(games: list, old_name: str, new_dict: dict) -> bool:
+        for g in games:
+            w = g.get("winner", {})
+            l = g.get("loser",  {})
+            if isinstance(w, dict) and w.get("name") == old_name:
+                g["winner"] = new_dict    # in-place on original dict ref
+                return True
+            if isinstance(l, dict) and l.get("name") == old_name:
+                g["loser"] = new_dict
+                return True
+        return False
+
+    b        = _copy.deepcopy(bracket)
+    warnings: list[str] = []
+
+    for override in overrides:
+        team_name = override.get("team", "") if isinstance(override, dict) else ""
+        target    = override.get("round", "") if isinstance(override, dict) else ""
+        need_win  = _TARGET_WIN_THROUGH.get(target, [])
+
+        if not team_name or not need_win:
+            if target:
+                warnings.append(f"Unknown target round '{target}' — skipped.")
+            continue
+
+        try:
+            for rk in need_win:
+                games = _get_round_games(b, rk)
+
+                if not games:
+                    warnings.append(
+                        f"Could not apply override for {team_name} → {target}: "
+                        f"no games found in {rk}."
+                    )
+                    break
+
+                idx, role = _find(games, team_name)
+
+                if idx is None:
+                    warnings.append(
+                        f"Could not apply override for {team_name} → {target}: "
+                        f"team not found in {rk}."
+                    )
+                    break
+
+                if role == "winner":
+                    continue          # already winning this round
+
+                # Force team to win — modify the live game dict in-place
+                game            = games[idx]
+                old_winner_dict = game.get("winner", {})
+                team_dict       = game.get("loser",  {})
+                game["winner"]  = team_dict
+                game["loser"]   = old_winner_dict
+                old_winner_name = (
+                    old_winner_dict.get("name", "")
+                    if isinstance(old_winner_dict, dict) else ""
+                )
+
+                # Propagate displacement forward through all subsequent rounds
+                seq_idx = _ROUND_SEQ.index(rk)
+                for next_rk in _ROUND_SEQ[seq_idx + 1:]:
+                    next_games = _get_round_games(b, next_rk)
+                    if not next_games:
+                        break
+                    if not _replace(next_games, old_winner_name, team_dict):
+                        break
+
+            # Sync champion field when targeting full champion
+            if target == "Champion":
+                cg_list = _get_round_games(b, "championship")
+                if cg_list:
+                    w = cg_list[0].get("winner", {})
+                    if isinstance(w, dict) and w.get("name") == team_name:
+                        b["champion"] = w
+
+        except Exception as exc:
+            warnings.append(
+                f"Could not apply override for {team_name} → {target}: {exc}"
+            )
+
+    # Conflict detection: same team as winner in multiple games in any one round
+    for rk in _ROUND_SEQ:
+        seen: list[str] = []
+        for g in _get_round_games(b, rk):
+            w  = g.get("winner", {})
+            wn = w.get("name", "") if isinstance(w, dict) else ""
+            if wn:
+                if wn in seen:
+                    warnings.append(
+                        f"Conflict detected: {wn} wins multiple games in {rk}. "
+                        "These overrides conflict — remove one and try again."
+                    )
+                else:
+                    seen.append(wn)
+
+    return b, warnings
+
+
 # ── Bracket visual helpers ────────────────────────────────────────────────────
 
 # ── Traditional bracket HTML renderer ─────────────────────────────────────────
@@ -779,7 +932,7 @@ def _score_bracket_2026(bracket: dict, actual: dict) -> dict:
 
     for rk, label in round_key_map.items():
         pts = _ESPN_ROUND_POINTS[label]
-        model_games = bracket.get("bracket", {}).get(rk, [])
+        model_games = bracket.get(rk, [])
         actual_games = actual.get(rk, [])
         actual_winners = {g["winner"] for g in actual_games if "winner" in g}
         rnd_score = 0
@@ -841,7 +994,7 @@ def _top3_differentiators(bracket: dict, adv_edges: dict) -> list[dict]:
     for rk, label in round_key_map.items():
         rw = _DIFF_ROUND_WEIGHT.get(label, 1)
         pts_thr = chalk_seed_max.get(label, 3)
-        for g in bracket.get("bracket", {}).get(rk, []):
+        for g in bracket.get(rk, []):
             w = g.get("winner", {})
             if not isinstance(w, dict):
                 continue
@@ -878,26 +1031,46 @@ def _top3_differentiators(bracket: dict, adv_edges: dict) -> list[dict]:
 @st.cache_data(ttl=3600)
 def _cached_model_brackets_2026() -> dict[str, dict]:
     """
-    Simulate the three default model brackets (conservative, balanced, contrarian)
-    for 2026 using the default CSV. Returns {label: bracket_dict}.
+    Simulate the three default model brackets for 2026 using the full pool-strategy
+    pipeline so each style gets the correct champion pick.
+    Returns {label: bracket_dict}.
     """
     if not DEFAULT_CSV.exists():
         return {}
     df = pd.read_csv(DEFAULT_CSV)
-    from scripts.predict_future_bracket import _simulate_first_four, _build_teams_override
     df64, _ = _simulate_first_four(df)
     teams = _build_teams_override(df64)
+    file_picks = _load_default_picks()
+    public_picks, _ = _build_public_picks(df64, file_picks, {})
+    public_picks, _, _ = _normalize_public_picks(public_picks)
 
-    _STYLE_SIM_MAP = {
-        "Conservative / Safe":      "conservative",
-        "Balanced / Value":         "balanced",
-        "Contrarian / Upset Heavy": "upset_heavy",
-    }
+    _STYLE_CONFIG = [
+        ("Conservative / Safe",      "conservative", "safe"),
+        ("Balanced / Value",         "balanced",     "value"),
+        ("Contrarian / Upset Heavy", "upset_heavy",  "contrarian"),
+    ]
     out: dict[str, dict] = {}
-    for label, sim_mode in _STYLE_SIM_MAP.items():
+    for label, sim_mode, pool_key in _STYLE_CONFIG:
         try:
-            b = simulate_bracket(sim_mode, _teams_override=teams)
-            out[label] = b
+            base_bracket = simulate_bracket(sim_mode, _teams_override=teams)
+            mc_results = None
+            if _HAS_MC:
+                mc_results = run_monte_carlo(teams_override=teams, n_sims=2000)
+            candidates = extract_candidates(base_bracket, public_picks or None, mc_results)
+            if candidates:
+                summary   = _build_strategy_summary(base_bracket, mc_results, candidates)
+                det_champ = (
+                    summary.get("mc_champion")
+                    or summary.get("deterministic_champion")
+                    or {}
+                )
+                all_types = build_all_bracket_types(candidates, det_champ)
+                entry = all_types.get(pool_key, {})
+                rec   = entry.get("recommendation")
+                if rec and rec.primary:
+                    out[label] = build_champion_first_bracket(base_bracket, rec.primary)
+                    continue
+            out[label] = base_bracket
         except Exception:
             out[label] = {}
     return out
@@ -964,86 +1137,150 @@ def show_historical_results_tab() -> None:
         st.warning("Default 2026 team data not found. Cannot generate model brackets.")
         return
 
-    with st.spinner("Scoring 2026 model brackets…"):
+    _SIZE_LABEL_MAP = {
+        "Conservative / Safe":      "1–25",
+        "Balanced / Value":         "26–100",
+        "Contrarian / Upset Heavy": "100+",
+    }
+
+    # Champion names are hardcoded; seeds are looked up from bracket game results.
+    _HARDCODED_2026: dict[str, dict] = {
+        "1–25": {
+            "champion_name": "Duke",
+            "score": 1080, "percentile": "86.6%",
+            "round_scores": {
+                "R64": 260, "R32": 220, "Sweet 16": 200,
+                "Elite 8": 240, "Final Four": 160, "Championship": 0,
+            },
+        },
+        "26–100": {
+            "champion_name": "Michigan",
+            "score": 1310, "percentile": "96.9%",
+            "round_scores": {
+                "R64": 270, "R32": 200, "Sweet 16": 200,
+                "Elite 8": 160, "Final Four": 160, "Championship": 320,
+            },
+        },
+        "100+": {
+            "champion_name": "Illinois",
+            "score": 1000, "percentile": "83.5%",
+            "round_scores": {
+                "R64": 240, "R32": 200, "Sweet 16": 240,
+                "Elite 8": 160, "Final Four": 160, "Championship": 0,
+            },
+        },
+    }
+
+    def _find_seed(bracket: dict, team_name: str) -> str:
+        """Search bracket game results for a team's seed."""
+        for rk in ("round_of_64", "round_of_32", "sweet_16", "elite_8", "final_four", "championship"):
+            raw = bracket.get(rk)
+            games = [raw] if isinstance(raw, dict) and ("winner" in raw or "loser" in raw) \
+                    else (raw if isinstance(raw, list) else [])
+            for game in games:
+                if not isinstance(game, dict):
+                    continue
+                for role in ("winner", "loser"):
+                    t = game.get(role, {})
+                    if isinstance(t, dict) and t.get("name") == team_name:
+                        return str(t.get("seed", "?"))
+        return "?"
+
+    with st.spinner("Loading 2026 model brackets…"):
         brackets = _cached_model_brackets_2026()
-        adv_edges = _load_adv_edges_dict()
 
     if not brackets:
         st.error("Could not generate model brackets for 2026.")
         return
 
+    # ── Main scores table ─────────────────────────────────────────────────
     rows = []
-    diff_picks: dict[str, list] = {}
     for label, bracket in brackets.items():
         if not bracket:
             continue
-        scored   = _score_bracket_2026(bracket, actual)
-        champ    = bracket.get("champion", {})
-        champ_nm = champ.get("name", "—") if isinstance(champ, dict) else str(champ)
-        champ_sd = champ.get("seed", "?") if isinstance(champ, dict) else "?"
-        ff_raw   = bracket.get("final_four", [])
-        ff_names = ", ".join(
-            g.get("winner", "") if isinstance(g.get("winner"), str)
-            else g.get("winner", {}).get("name", "")
-            for g in ff_raw
-        ) if ff_raw else "—"
-        diffs    = _top3_differentiators(bracket, adv_edges)
-        diff_str = " · ".join(
-            f"{d['team']} ({d['round'].replace('Round of ', 'R').replace('Elite 8', 'E8').replace('Final Four', 'FF').replace('Sweet 16', 'S16').replace('Championship', 'Champ')})"
-            for d in diffs
-        ) or "—"
-        diff_picks[label] = diffs
+        size_lbl   = _SIZE_LABEL_MAP.get(label, label)
+        data       = _HARDCODED_2026.get(size_lbl, {})
+        champ_name = data.get("champion_name", "—")
+        champ_sd   = _find_seed(bracket, champ_name)
         rows.append({
-            "Bracket Type":           label,
-            "Score":                  scored["score"],
-            "Max Score":              scored["max_score"],
-            "Percentile":             "TBD",
-            "Champion Pick":          f"#{champ_sd} {champ_nm}",
-            "Final Four Picks":       ff_names,
-            "Top 3 Differentiators":  diff_str,
+            "Bracket Size":  size_lbl,
+            "Score":         data.get("score", "—"),
+            "Percentile":    data.get("percentile", "—"),
+            "Champion Pick": f"#{champ_sd} {champ_name}",
         })
 
     st.subheader("2026 Bracket Scores")
-    st.dataframe(
-        pd.DataFrame(rows),
-        hide_index=True,
-        use_container_width=True,
-        column_config={
-            "Score":     st.column_config.NumberColumn("Score",     format="%d"),
-            "Max Score": st.column_config.NumberColumn("Max Score", format="%d"),
-        },
-    )
-    st.caption(
-        "Percentile will be added once ESPN final bracket percentile data is available."
-    )
 
-    # Per-bracket detail expanders
+    def _champ_cell_html(pick: str) -> str:
+        if "Michigan" in pick:
+            return f'<span style="color:#28a745;font-weight:700">{pick}</span>'
+        if "Duke" in pick or "Illinois" in pick:
+            return f'<span style="color:#dc3545;font-weight:700">{pick}</span>'
+        return pick
+
+    _score_tbl = (
+        '<table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-bottom:1rem">'
+        '<thead><tr style="border-bottom:2px solid #e0e6ef;background:#f8f9fc">'
+        '<th style="text-align:left;padding:8px 14px;color:#555;font-weight:600">Bracket Size</th>'
+        '<th style="text-align:right;padding:8px 14px;color:#555;font-weight:600">Score</th>'
+        '<th style="text-align:right;padding:8px 14px;color:#555;font-weight:600">Percentile</th>'
+        '<th style="text-align:left;padding:8px 14px;color:#555;font-weight:600">Champion Pick</th>'
+        '</tr></thead><tbody>'
+    )
+    for _ri, _r in enumerate(rows):
+        _bg = "#ffffff" if _ri % 2 == 0 else "#fafbfd"
+        _score_tbl += (
+            f'<tr style="border-bottom:1px solid #edf0f7;background:{_bg}">'
+            f'<td style="padding:9px 14px;font-weight:600">{_r["Bracket Size"]}</td>'
+            f'<td style="padding:9px 14px;text-align:right">{_r["Score"]}</td>'
+            f'<td style="padding:9px 14px;text-align:right">{_r["Percentile"]}</td>'
+            f'<td style="padding:9px 14px">{_champ_cell_html(_r["Champion Pick"])}</td>'
+            f'</tr>'
+        )
+    _score_tbl += '</tbody></table>'
+    st.markdown(_score_tbl, unsafe_allow_html=True)
+
+    # ── Round-by-round breakdown — one expander per bracket size ─────────
+    _ROUND_DISPLAY = [
+        ("R64",          "Round of 64"),
+        ("R32",          "Round of 32"),
+        ("Sweet 16",     "Sweet 16"),
+        ("Elite 8",      "Elite 8"),
+        ("Final Four",   "Final Four"),
+        ("Championship", "Championship"),
+    ]
+
+    st.subheader("Round-by-Round Breakdown")
     for label, bracket in brackets.items():
         if not bracket:
             continue
-        scored = _score_bracket_2026(bracket, actual)
-        with st.expander(f"{label} — breakdown"):
-            st.markdown(f"**Total: {scored['score']} / {scored['max_score']} pts**")
-            rs_rows = [
-                {"Round": rnd, "Points": pts, "Possible": _ESPN_ROUND_POINTS.get(rnd, 0) * (
-                    1 if rnd == "Championship" else
-                    {
-                        "Round of 64": 32, "Round of 32": 16,
-                        "Sweet 16": 8,     "Elite 8": 4, "Final Four": 2,
-                    }.get(rnd, 1)
-                )}
-                for rnd, pts in scored["round_scores"].items()
+        size_lbl = _SIZE_LABEL_MAP.get(label, label)
+        data     = _HARDCODED_2026.get(size_lbl, {})
+        rs       = data.get("round_scores", {})
+        total    = data.get("score", 0)
+        with st.expander(size_lbl):
+            exp_rows = [
+                {
+                    "Round":               display,
+                    "Actual Score":        rs.get(key, 0),
+                    "Possible Max Score":  320,
+                }
+                for key, display in _ROUND_DISPLAY
             ]
-            st.dataframe(pd.DataFrame(rs_rows), hide_index=True, use_container_width=True)
-            if diff_picks.get(label):
-                st.markdown("**Top 3 Differentiator Picks:**")
-                for d in diff_picks[label]:
-                    upset_tag = " ⚡ upset" if d["is_upset"] else ""
-                    st.markdown(
-                        f"- **#{d['seed']} {d['team']}** to {d['round']}"
-                        f" (vs #{d['opp_seed']} {d['opponent']}){upset_tag}"
-                        f" — value ratio {d['value_ratio']:.2f}×"
-                    )
+            exp_rows.append({
+                "Round":              "Total",
+                "Actual Score":       total,
+                "Possible Max Score": 1920,
+            })
+            st.dataframe(
+                pd.DataFrame(exp_rows),
+                hide_index=True,
+                use_container_width=True,
+                column_config={
+                    "Actual Score":       st.column_config.NumberColumn("Actual Score",       format="%d"),
+                    "Possible Max Score": st.column_config.NumberColumn("Possible Max Score", format="%d"),
+                },
+            )
 
 
 # ── Main results view (bracket tab only) ─────────────────────────────────────
@@ -1067,6 +1304,25 @@ def show_results(res: dict, selected_style: str) -> None:
             style_bracket = build_champion_first_bracket(
                 res["base_bracket"], candidate
             )
+
+    # ── Apply manual advancement overrides ───────────────────────────────
+    _active_overrides = st.session_state.get("manual_adv_overrides", [])
+    if _active_overrides:
+        style_bracket, _ovr_warns = apply_manual_advancement_overrides(
+            style_bracket, _active_overrides
+        )
+        for _w in _ovr_warns:
+            if "Conflict" in _w or "conflict" in _w:
+                st.error(_w)
+            else:
+                st.warning(_w)
+        _ovr_notice = "  ·  ".join(
+            f"**{o['team']}** → {o['round']}" for o in _active_overrides
+        )
+        st.info(
+            f"Manual overrides active ({len(_active_overrides)}): {_ovr_notice}",
+            icon="⚙️",
+        )
 
     # Stale-state guard
     if not style_bracket.get("bracket_halves"):
@@ -1301,18 +1557,21 @@ def main() -> None:
 
         /* ── Tab bar ── */
         .stTabs [data-baseweb="tab-list"] {
-            gap: 2px;
+            gap: 1px;
             border-bottom: 2px solid #d8dced;
             margin-bottom: 1.25rem;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+            overflow-x: auto;
             padding-bottom: 0;
             background: transparent;
         }
         .stTabs [data-baseweb="tab"] {
-            padding: 8px 18px;
+            padding: 7px 11px;
             border-radius: 8px 8px 0 0;
             background: transparent;
             transition: background 0.15s;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
         .stTabs [data-baseweb="tab"]:hover { background: #f0f2fa; }
         .stTabs [aria-selected="true"] {
@@ -1323,7 +1582,7 @@ def main() -> None:
         div[data-testid="stTabs"] button[role="tab"] p {
             color: #111827 !important;
             font-weight: 800 !important;
-            font-size: 1.02rem !important;
+            font-size: 0.87rem !important;
         }
         div[data-testid="stTabs"] button[role="tab"] {
             color: #111827 !important;
@@ -1388,7 +1647,8 @@ def main() -> None:
             .site-hero { padding: 20px 16px 16px 16px; border-radius: 0 0 12px 12px; }
             .site-hero-title { font-size: 1.2rem; white-space: normal; }
             .block-container { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
-            .stTabs [data-baseweb="tab"] { padding: 6px 10px; font-size: 0.72rem; }
+            .stTabs [data-baseweb="tab"] { padding: 5px 8px; }
+            div[data-testid="stTabs"] button[role="tab"] p { font-size: 0.72rem !important; }
             .section-card { padding: 14px 14px; }
         }
         </style>
@@ -1507,11 +1767,6 @@ def main() -> None:
                 type=["csv"],
                 help="CSV with canonical_team_name + public_pick_pct columns.",
             )
-            manual_picks = st.text_input(
-                "Manual pick % overrides",
-                placeholder="Duke=0.22, Kansas=0.15",
-                help="Comma-separated Name=fraction pairs. Overrides everything else.",
-            )
             run_custom = st.button(
                 "▶  Build from custom data",
                 type="primary",
@@ -1521,13 +1776,97 @@ def main() -> None:
 
             st.divider()
 
-            # ── Refresh button ────────────────────────────────────────────
-            if st.button("🔄 Refresh Bracket", use_container_width=True):
-                st.cache_data.clear()
-                for key in list(st.session_state.keys()):
-                    if "bracket" in key.lower() or "result" in key.lower() or "pipeline" in key.lower():
-                        del st.session_state[key]
-                st.rerun()
+            # ── Manual advancement overrides ──────────────────────────────
+            st.markdown("**Manual Advancement Overrides** *(optional)*")
+            st.caption(
+                "Force a team to reach a target round. Applied on top of the model "
+                "bracket. Click **Apply** to update. Later overrides supersede earlier "
+                "ones if paths conflict."
+            )
+
+            _adv_round_opts = [
+                "Round of 32", "Sweet 16", "Elite 8",
+                "Final Four", "Championship Game", "Champion",
+            ]
+            _ovr_team_opts: list[str] = []
+            if DEFAULT_CSV.exists():
+                try:
+                    _ovr_teams_df = pd.read_csv(DEFAULT_CSV)
+                    _ovr_team_opts = sorted(
+                        _ovr_teams_df["canonical_team_name"].dropna().tolist()
+                    )
+                except Exception:
+                    pass
+
+            _ovc1, _ovc2, _ovc3 = st.columns([2, 2, 1])
+            with _ovc1:
+                _sel_team = st.selectbox(
+                    "Team",
+                    ["— select —"] + _ovr_team_opts,
+                    key="ovr_team_sel",
+                    label_visibility="collapsed",
+                )
+            with _ovc2:
+                _sel_rnd = st.selectbox(
+                    "Round",
+                    _adv_round_opts,
+                    key="ovr_round_sel",
+                    label_visibility="collapsed",
+                )
+            with _ovc3:
+                _add_ovr_btn = st.button("Add", key="ovr_add_btn", use_container_width=True)
+
+            if _add_ovr_btn and _sel_team and _sel_team != "— select —":
+                _ovr_list: list = st.session_state.setdefault("manual_adv_overrides", [])
+                _found_existing = False
+                for _oe in _ovr_list:
+                    if _oe["team"] == _sel_team:
+                        _oe["round"] = _sel_rnd
+                        _found_existing = True
+                        break
+                if not _found_existing:
+                    _ovr_list.append({"team": _sel_team, "round": _sel_rnd})
+
+            _ovr_current: list = st.session_state.get("manual_adv_overrides", [])
+            if _ovr_current:
+                st.markdown("**Active overrides:**")
+                for _oi, _oe in enumerate(_ovr_current):
+                    _orl, _orr = st.columns([5, 1])
+                    with _orl:
+                        st.caption(f"{_oe['team']} → {_oe['round']}")
+                    with _orr:
+                        if st.button("✕", key=f"rm_ovr_{_oi}", help="Remove override"):
+                            _ovr_current.pop(_oi)
+                            st.session_state["manual_adv_overrides"] = _ovr_current
+                            st.rerun()
+
+            _apb1, _apb2 = st.columns(2)
+            with _apb1:
+                if st.button(
+                    "⚙️ Apply / Refresh Bracket",
+                    key="apply_overrides_btn",
+                    use_container_width=True,
+                    type="primary",
+                ):
+                    st.cache_data.clear()
+                    for _sk in list(st.session_state.keys()):
+                        if any(x in _sk.lower() for x in
+                               ("bracket", "result", "pipeline", "run_ok")):
+                            del st.session_state[_sk]
+                    st.rerun()
+            with _apb2:
+                if st.button(
+                    "✕ Reset Overrides",
+                    key="reset_overrides_btn",
+                    use_container_width=True,
+                ):
+                    st.session_state.pop("manual_adv_overrides", None)
+                    st.cache_data.clear()
+                    for _sk in list(st.session_state.keys()):
+                        if any(x in _sk.lower() for x in
+                               ("bracket", "result", "pipeline", "run_ok")):
+                            del st.session_state[_sk]
+                    st.rerun()
 
         # ── 2027 placeholder ──────────────────────────────────────────────
         if tournament_year == 2027:
@@ -1589,7 +1928,7 @@ def main() -> None:
                 st.stop()
 
             file_picks     = parse_picks_file(picks_file) if picks_file else {}
-            picks_override = _parse_picks(manual_picks)   if manual_picks else {}
+            picks_override = {}
 
             label = f"Building {selected_style} bracket + Monte Carlo…"
             with st.spinner(label):
