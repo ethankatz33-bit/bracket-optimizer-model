@@ -976,12 +976,12 @@ def main() -> None:
             background: transparent;
         }
         .stTabs [data-baseweb="tab"] {
-            font-size: 0.80rem;
-            font-weight: 600;
-            letter-spacing: 0.4px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
             padding: 8px 18px;
             border-radius: 8px 8px 0 0;
-            color: #888;
+            color: #777;
             background: transparent;
             transition: color 0.15s, background 0.15s;
         }
@@ -1291,8 +1291,7 @@ def main() -> None:
     # ══════════════════════════════════════════════════════════════════════
     with value_tab:
         st.caption(
-            "Highlights teams where the model sees more advancement upside than the public. "
-            "The \"Advancing To\" column shows the round the team would advance to."
+            "Highlights teams where the model sees more advancement upside than the public."
         )
         _adv_csv = PROJECT_ROOT / "data" / "processed" / "advancement_value_edges_2026.csv"
         if _adv_csv.exists():
@@ -1366,7 +1365,7 @@ def main() -> None:
         )
         st.header("About This Model")
         st.write(
-            "This bracket model combines team strength, historical tournament patterns, "
+            "This bracket model combines pre-tournament team strength, historical tournament patterns, "
             "public pick data, and pool-size strategy to generate bracket recommendations."
         )
 
