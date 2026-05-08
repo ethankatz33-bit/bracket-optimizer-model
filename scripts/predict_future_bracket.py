@@ -146,6 +146,16 @@ def _validate_csv(df: pd.DataFrame) -> None:
 
 # ── First Four handling ───────────────────────────────────────────────────────
 
+# 2026 actual play-in winners — overrides efficiency_margin selection for this
+# season only.  Keyed by (region, seed).  Does not affect any other season.
+FIRST_FOUR_ACTUAL_WINNERS_2026: dict[tuple[str, int], str] = {
+    ("West",    11): "Texas",
+    ("Midwest", 11): "Miami (OH)",
+    ("South",   16): "Prairie View A&M",
+    ("Midwest", 16): "Howard",
+}
+
+
 def _simulate_first_four(
     df: pd.DataFrame,
 ) -> tuple[pd.DataFrame, list[dict]]:
@@ -154,6 +164,9 @@ def _simulate_first_four(
     game using efficiency_margin as the strength measure, and return:
       - df_64: the 64-team DataFrame with only winners remaining
       - results: list of game result dicts for display
+
+    For the 2026 season, actual play-in winners are applied via
+    FIRST_FOUR_ACTUAL_WINNERS_2026 so the live bracket reflects real outcomes.
     """
     counts = (
         df.groupby(["region", "seed"])
@@ -165,6 +178,9 @@ def _simulate_first_four(
     if ff_slots.empty:
         return df, []
 
+    # Detect season for 2026-only override
+    season = int(df["season"].iloc[0]) if "season" in df.columns else None
+
     results: list[dict] = []
     loser_indices: list[int] = []
 
@@ -173,10 +189,23 @@ def _simulate_first_four(
         seed   = int(slot["seed"])
         pair   = df[(df["region"] == region) & (df["seed"] == seed)]
 
-        # Higher efficiency_margin wins (deterministic, no outcome knowledge)
-        sorted_pair = pair.sort_values("efficiency_margin", ascending=False)
-        winner_row  = sorted_pair.iloc[0]
-        loser_row   = sorted_pair.iloc[1]
+        # 2026 actual winner override — use real play-in result, not projection
+        if season == 2026 and (region, seed) in FIRST_FOUR_ACTUAL_WINNERS_2026:
+            winner_name = FIRST_FOUR_ACTUAL_WINNERS_2026[(region, seed)]
+            matched = pair[pair["canonical_team_name"] == winner_name]
+            if not matched.empty:
+                winner_row = matched.iloc[0]
+                loser_row  = pair[pair["canonical_team_name"] != winner_name].iloc[0]
+            else:
+                # Fallback: winner name not found in CSV — use efficiency_margin
+                sorted_pair = pair.sort_values("efficiency_margin", ascending=False)
+                winner_row  = sorted_pair.iloc[0]
+                loser_row   = sorted_pair.iloc[1]
+        else:
+            # Default: higher efficiency_margin wins (deterministic projection)
+            sorted_pair = pair.sort_values("efficiency_margin", ascending=False)
+            winner_row  = sorted_pair.iloc[0]
+            loser_row   = sorted_pair.iloc[1]
 
         results.append({
             "region":     region,

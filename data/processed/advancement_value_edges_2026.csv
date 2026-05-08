@@ -1,385 +1,385 @@
 team,seed,round,model_pct,public_pct,edge,value_ratio,is_value_play,pub_source
-Duke,1,R32,0.9938,0.98,0.0138,1.014,False,espn
-Duke,1,Sweet 16,0.9003,0.9408,-0.0404,0.957,False,espn
-Duke,1,Elite 8,0.7567,0.8185,-0.0618,0.924,False,espn
-Duke,1,Final Four,0.5695,0.6548,-0.0854,0.87,False,espn
-Duke,1,Champ Game,0.3584,0.478,-0.1196,0.75,False,espn
-Duke,1,Champion,0.2195,0.231,-0.0115,0.95,False,espn
-Connecticut,2,R32,0.9845,0.96,0.0245,1.025,False,espn
-Connecticut,2,Sweet 16,0.7693,0.7968,-0.0274,0.966,False,espn
-Connecticut,2,Elite 8,0.427,0.4542,-0.0272,0.94,False,espn
-Connecticut,2,Final Four,0.1537,0.0908,0.0629,1.693,True,espn
-Connecticut,2,Champ Game,0.0625,,,,False,missing
-Connecticut,2,Champion,0.0242,0.0389,-0.0147,0.621,False,espn
-Michigan State,3,R32,0.9653,0.95,0.0153,1.016,False,espn
-Michigan State,3,Sweet 16,0.6586,0.779,-0.1204,0.846,False,espn
-Michigan State,3,Elite 8,0.3709,0.335,0.0359,1.107,False,espn
-Michigan State,3,Final Four,0.1395,,,,False,missing
-Michigan State,3,Champ Game,0.0527,,,,False,missing
-Michigan State,3,Champion,0.0208,0.0183,0.0025,1.137,False,espn
-Kansas,4,R32,0.9185,0.93,-0.0115,0.988,False,espn
-Kansas,4,Sweet 16,0.4368,0.4371,-0.0003,0.999,False,espn
-Kansas,4,Elite 8,0.082,,,,False,missing
-Kansas,4,Final Four,0.0283,,,,False,missing
-Kansas,4,Champ Game,0.0066,,,,False,missing
-Kansas,4,Champion,0.0015,0.0103,-0.0088,0.15,False,espn
-St. John's,5,R32,0.8994,0.88,0.0194,1.022,False,espn
-St. John's,5,Sweet 16,0.5377,0.4664,0.0713,1.153,True,espn
-St. John's,5,Elite 8,0.1231,0.0606,0.0625,2.031,True,espn
-St. John's,5,Final Four,0.0507,,,,False,missing
-St. John's,5,Champ Game,0.0143,,,,False,missing
+Duke,1,R32,0.9944,0.98,0.0144,1.015,False,espn
+Duke,1,Sweet 16,0.8976,0.9408,-0.0432,0.954,False,espn
+Duke,1,Elite 8,0.7498,0.8185,-0.0687,0.916,False,espn
+Duke,1,Final Four,0.5784,0.6548,-0.0764,0.883,False,espn
+Duke,1,Champ Game,0.3654,0.478,-0.1126,0.764,False,espn
+Duke,1,Champion,0.2234,0.231,-0.0076,0.967,False,espn
+Connecticut,2,R32,0.9798,0.96,0.0198,1.021,False,espn
+Connecticut,2,Sweet 16,0.77,0.7968,-0.0268,0.966,False,espn
+Connecticut,2,Elite 8,0.4248,0.4542,-0.0294,0.935,False,espn
+Connecticut,2,Final Four,0.1542,0.0908,0.0634,1.698,True,espn
+Connecticut,2,Champ Game,0.0574,,,,False,missing
+Connecticut,2,Champion,0.0212,0.0389,-0.0177,0.545,False,espn
+Michigan State,3,R32,0.9626,0.95,0.0126,1.013,False,espn
+Michigan State,3,Sweet 16,0.6578,0.779,-0.1212,0.844,False,espn
+Michigan State,3,Elite 8,0.3742,0.335,0.0392,1.117,False,espn
+Michigan State,3,Final Four,0.1292,,,,False,missing
+Michigan State,3,Champ Game,0.0528,,,,False,missing
+Michigan State,3,Champion,0.0182,0.0183,-0.0001,0.995,False,espn
+Kansas,4,R32,0.9138,0.93,-0.0162,0.983,False,espn
+Kansas,4,Sweet 16,0.4364,0.4371,-0.0007,0.998,False,espn
+Kansas,4,Elite 8,0.089,,,,False,missing
+Kansas,4,Final Four,0.031,,,,False,missing
+Kansas,4,Champ Game,0.0062,,,,False,missing
+Kansas,4,Champion,0.0014,0.0103,-0.0089,0.136,False,espn
+St. John's,5,R32,0.8926,0.88,0.0126,1.014,False,espn
+St. John's,5,Sweet 16,0.5392,0.4664,0.0728,1.156,True,espn
+St. John's,5,Elite 8,0.1196,0.0606,0.059,1.974,True,espn
+St. John's,5,Final Four,0.0498,,,,False,missing
+St. John's,5,Champ Game,0.0142,,,,False,missing
 St. John's,5,Champion,0.0042,0.0115,-0.0073,0.365,False,espn
-Louisville,6,R32,0.8428,0.6,0.2429,1.405,True,espn
-Louisville,6,Sweet 16,0.3196,0.108,0.2116,2.959,True,espn
-Louisville,6,Elite 8,0.1358,,,,False,missing
-Louisville,6,Final Four,0.0355,,,,False,missing
-Louisville,6,Champ Game,0.0091,,,,False,missing
-Louisville,6,Champion,0.0024,0.0019,0.0005,1.237,False,espn
-UCLA,7,R32,0.775,0.66,0.1149,1.174,True,espn
-UCLA,7,Sweet 16,0.2069,0.1122,0.0947,1.844,True,espn
-UCLA,7,Elite 8,0.0606,,,,False,missing
-UCLA,7,Final Four,0.011,,,,False,missing
-UCLA,7,Champ Game,0.0022,,,,False,missing
-UCLA,7,Champion,0.0007,0.0025,-0.0018,0.28,False,espn
-Ohio State,8,R32,0.7459,0.59,0.1559,1.264,True,espn
-Ohio State,8,Sweet 16,0.0871,0.0236,0.0635,3.691,True,espn
-Ohio State,8,Elite 8,0.0347,,,,False,missing
-Ohio State,8,Final Four,0.0109,,,,False,missing
-Ohio State,8,Champ Game,0.0022,,,,False,missing
-Ohio State,8,Champion,0.0004,0.0031,-0.0027,0.145,False,espn
-TCU,9,R32,0.2541,0.41,-0.1558,0.62,False,espn
-TCU,9,Sweet 16,0.0121,,,,False,missing
-TCU,9,Elite 8,0.0029,,,,False,missing
-TCU,9,Final Four,0.0003,,,,False,missing
+Louisville,6,R32,0.8304,0.6,0.2304,1.384,True,espn
+Louisville,6,Sweet 16,0.3156,0.108,0.2076,2.922,True,espn
+Louisville,6,Elite 8,0.137,,,,False,missing
+Louisville,6,Final Four,0.034,,,,False,missing
+Louisville,6,Champ Game,0.0092,,,,False,missing
+Louisville,6,Champion,0.002,0.0019,0.0001,1.053,False,espn
+UCLA,7,R32,0.7652,0.66,0.1052,1.159,True,espn
+UCLA,7,Sweet 16,0.201,0.1122,0.0888,1.791,True,espn
+UCLA,7,Elite 8,0.0568,,,,False,missing
+UCLA,7,Final Four,0.0112,,,,False,missing
+UCLA,7,Champ Game,0.0012,,,,False,missing
+UCLA,7,Champion,0.0,0.0025,-0.0025,0.0,False,espn
+Ohio State,8,R32,0.7384,0.59,0.1484,1.252,True,espn
+Ohio State,8,Sweet 16,0.09,0.0236,0.0664,3.814,True,espn
+Ohio State,8,Elite 8,0.038,,,,False,missing
+Ohio State,8,Final Four,0.0122,,,,False,missing
+Ohio State,8,Champ Game,0.004,,,,False,missing
+Ohio State,8,Champion,0.0008,0.0031,-0.0023,0.258,False,espn
+TCU,9,R32,0.2616,0.41,-0.1484,0.638,False,espn
+TCU,9,Sweet 16,0.0124,,,,False,missing
+TCU,9,Elite 8,0.0022,,,,False,missing
+TCU,9,Final Four,0.0,,,,False,missing
 TCU,9,Champ Game,0.0,,,,False,missing
 TCU,9,Champion,0.0,0.0007,-0.0007,0.0,False,espn
-UCF,10,R32,0.2251,0.34,-0.115,0.662,False,espn
-UCF,10,Sweet 16,0.0227,,,,False,missing
-UCF,10,Elite 8,0.0026,,,,False,missing
-UCF,10,Final Four,0.0002,,,,False,missing
-UCF,10,Champ Game,0.0001,,,,False,missing
+UCF,10,R32,0.2348,0.34,-0.1052,0.691,False,espn
+UCF,10,Sweet 16,0.027,,,,False,missing
+UCF,10,Elite 8,0.0032,,,,False,missing
+UCF,10,Final Four,0.0,,,,False,missing
+UCF,10,Champ Game,0.0,,,,False,missing
 UCF,10,Champion,0.0,0.0005,-0.0005,0.0,False,espn
-South Florida,11,R32,0.1572,0.4,-0.2429,0.393,False,espn
-South Florida,11,Sweet 16,0.0192,,,,False,missing
-South Florida,11,Elite 8,0.0029,,,,False,missing
-South Florida,11,Final Four,0.0004,,,,False,missing
-South Florida,11,Champ Game,0.0001,,,,False,missing
-South Florida,11,Champion,0.0001,0.0007,-0.0006,0.071,False,espn
-Northern Iowa,12,R32,0.1006,0.12,-0.0194,0.838,False,espn
-Northern Iowa,12,Sweet 16,0.0179,,,,False,missing
-Northern Iowa,12,Elite 8,0.0006,,,,False,missing
-Northern Iowa,12,Final Four,0.0001,,,,False,missing
-Northern Iowa,12,Champ Game,0.0001,,,,False,missing
+South Florida,11,R32,0.1696,0.4,-0.2304,0.424,False,espn
+South Florida,11,Sweet 16,0.0236,,,,False,missing
+South Florida,11,Elite 8,0.0036,,,,False,missing
+South Florida,11,Final Four,0.0,,,,False,missing
+South Florida,11,Champ Game,0.0,,,,False,missing
+South Florida,11,Champion,0.0,0.0007,-0.0007,0.0,False,espn
+Northern Iowa,12,R32,0.1074,0.12,-0.0126,0.895,False,espn
+Northern Iowa,12,Sweet 16,0.0164,,,,False,missing
+Northern Iowa,12,Elite 8,0.001,,,,False,missing
+Northern Iowa,12,Final Four,0.0,,,,False,missing
+Northern Iowa,12,Champ Game,0.0,,,,False,missing
 Northern Iowa,12,Champion,0.0,0.0003,-0.0003,0.0,False,espn
-California Baptist,13,R32,0.0815,0.07,0.0115,1.164,False,espn
-California Baptist,13,Sweet 16,0.0076,,,,False,missing
-California Baptist,13,Elite 8,0.0,,,,False,missing
+California Baptist,13,R32,0.0862,0.07,0.0162,1.231,False,espn
+California Baptist,13,Sweet 16,0.008,,,,False,missing
+California Baptist,13,Elite 8,0.0004,,,,False,missing
 California Baptist,13,Final Four,0.0,,,,False,missing
 California Baptist,13,Champ Game,0.0,,,,False,missing
 California Baptist,13,Champion,0.0,0.0003,-0.0003,0.0,False,espn
-North Dakota State,14,R32,0.0347,0.05,-0.0153,0.694,False,espn
-North Dakota State,14,Sweet 16,0.0026,,,,False,missing
-North Dakota State,14,Elite 8,0.0003,,,,False,missing
-North Dakota State,14,Final Four,0.0001,,,,False,missing
+North Dakota State,14,R32,0.0374,0.05,-0.0126,0.748,False,espn
+North Dakota State,14,Sweet 16,0.003,,,,False,missing
+North Dakota State,14,Elite 8,0.0002,,,,False,missing
+North Dakota State,14,Final Four,0.0,,,,False,missing
 North Dakota State,14,Champ Game,0.0,,,,False,missing
 North Dakota State,14,Champion,0.0,0.0003,-0.0003,0.0,False,espn
-Furman,15,R32,0.0155,0.04,-0.0244,0.389,False,espn
-Furman,15,Sweet 16,0.001,,,,False,missing
-Furman,15,Elite 8,0.0001,,,,False,missing
+Furman,15,R32,0.0202,0.04,-0.0198,0.505,False,espn
+Furman,15,Sweet 16,0.002,,,,False,missing
+Furman,15,Elite 8,0.0002,,,,False,missing
 Furman,15,Final Four,0.0,,,,False,missing
 Furman,15,Champ Game,0.0,,,,False,missing
 Furman,15,Champion,0.0,0.0003,-0.0003,0.0,False,espn
-Siena,16,R32,0.0062,0.02,-0.0138,0.31,False,espn
-Siena,16,Sweet 16,0.0004,,,,False,missing
+Siena,16,R32,0.0056,0.02,-0.0144,0.28,False,espn
+Siena,16,Sweet 16,0.0,,,,False,missing
 Siena,16,Elite 8,0.0,,,,False,missing
 Siena,16,Final Four,0.0,,,,False,missing
 Siena,16,Champ Game,0.0,,,,False,missing
 Siena,16,Champion,0.0,0.0012,-0.0012,0.0,False,espn
-Arizona,1,R32,0.9945,0.97,0.0245,1.025,False,espn
-Arizona,1,Sweet 16,0.909,0.9215,-0.0125,0.986,False,espn
-Arizona,1,Elite 8,0.7356,0.7741,-0.0385,0.95,False,espn
-Arizona,1,Final Four,0.5109,0.6115,-0.1007,0.835,False,espn
-Arizona,1,Champ Game,0.3034,0.3486,-0.0453,0.87,False,espn
-Arizona,1,Champion,0.1809,0.2085,-0.0276,0.867,False,espn
-Purdue,2,R32,0.9876,0.96,0.0276,1.029,False,espn
-Purdue,2,Sweet 16,0.8645,0.8256,0.0389,1.047,False,espn
-Purdue,2,Elite 8,0.5718,0.5036,0.0682,1.135,True,espn
-Purdue,2,Final Four,0.2585,0.1058,0.1527,2.443,True,espn
-Purdue,2,Champ Game,0.1181,,,,False,missing
-Purdue,2,Champion,0.0522,0.0301,0.0221,1.736,True,espn
-Gonzaga,3,R32,0.9749,0.95,0.0249,1.026,False,espn
-Gonzaga,3,Sweet 16,0.7323,0.6745,0.0578,1.086,True,espn
-Gonzaga,3,Elite 8,0.33,0.2631,0.0669,1.254,True,espn
-Gonzaga,3,Final Four,0.1188,,,,False,missing
-Gonzaga,3,Champ Game,0.0415,,,,False,missing
-Gonzaga,3,Champion,0.0145,0.0176,-0.0031,0.824,False,espn
-Arkansas,4,R32,0.9444,0.92,0.0243,1.026,False,espn
-Arkansas,4,Sweet 16,0.6022,0.5888,0.0134,1.023,False,espn
-Arkansas,4,Elite 8,0.1625,0.0942,0.0683,1.725,True,espn
-Arkansas,4,Final Four,0.0659,,,,False,missing
-Arkansas,4,Champ Game,0.0201,,,,False,missing
-Arkansas,4,Champion,0.0056,0.0197,-0.0141,0.282,False,espn
-Wisconsin,5,R32,0.9016,0.83,0.0716,1.086,True,espn
-Wisconsin,5,Sweet 16,0.381,0.2988,0.0822,1.275,True,espn
-Wisconsin,5,Elite 8,0.0752,,,,False,missing
-Wisconsin,5,Final Four,0.0245,,,,False,missing
-Wisconsin,5,Champ Game,0.0052,,,,False,missing
-Wisconsin,5,Champion,0.0008,0.0056,-0.0048,0.143,False,espn
-BYU,6,R32,0.6511,0.73,-0.0789,0.892,False,espn
-BYU,6,Sweet 16,0.1986,0.2117,-0.0131,0.938,False,espn
-BYU,6,Elite 8,0.052,,,,False,missing
-BYU,6,Final Four,0.0099,,,,False,missing
-BYU,6,Champ Game,0.0021,,,,False,missing
-BYU,6,Champion,0.0006,0.005,-0.0044,0.11,False,espn
-Miami (FL),7,R32,0.6908,0.61,0.0808,1.132,True,espn
-Miami (FL),7,Sweet 16,0.1072,0.0854,0.0218,1.255,False,espn
-Miami (FL),7,Elite 8,0.0296,,,,False,missing
-Miami (FL),7,Final Four,0.0042,,,,False,missing
+Arizona,1,R32,0.9948,0.97,0.0248,1.026,False,espn
+Arizona,1,Sweet 16,0.9096,0.9215,-0.0119,0.987,False,espn
+Arizona,1,Elite 8,0.723,0.7741,-0.0511,0.934,False,espn
+Arizona,1,Final Four,0.5004,0.6115,-0.1111,0.818,False,espn
+Arizona,1,Champ Game,0.2946,0.3486,-0.054,0.845,False,espn
+Arizona,1,Champion,0.1654,0.2085,-0.0431,0.793,False,espn
+Purdue,2,R32,0.9882,0.96,0.0282,1.029,False,espn
+Purdue,2,Sweet 16,0.8678,0.8256,0.0422,1.051,False,espn
+Purdue,2,Elite 8,0.5844,0.5036,0.0808,1.16,True,espn
+Purdue,2,Final Four,0.271,0.1058,0.1652,2.561,True,espn
+Purdue,2,Champ Game,0.1244,,,,False,missing
+Purdue,2,Champion,0.056,0.0301,0.0259,1.86,True,espn
+Gonzaga,3,R32,0.9762,0.95,0.0262,1.028,False,espn
+Gonzaga,3,Sweet 16,0.7332,0.6745,0.0587,1.087,True,espn
+Gonzaga,3,Elite 8,0.3286,0.2631,0.0655,1.249,True,espn
+Gonzaga,3,Final Four,0.1204,,,,False,missing
+Gonzaga,3,Champ Game,0.0438,,,,False,missing
+Gonzaga,3,Champion,0.0148,0.0176,-0.0028,0.841,False,espn
+Arkansas,4,R32,0.9498,0.92,0.0298,1.032,False,espn
+Arkansas,4,Sweet 16,0.613,0.5888,0.0242,1.041,False,espn
+Arkansas,4,Elite 8,0.175,0.0942,0.0808,1.858,True,espn
+Arkansas,4,Final Four,0.0638,,,,False,missing
+Arkansas,4,Champ Game,0.0194,,,,False,missing
+Arkansas,4,Champion,0.0062,0.0197,-0.0135,0.315,False,espn
+Wisconsin,5,R32,0.8898,0.83,0.0598,1.072,True,espn
+Wisconsin,5,Sweet 16,0.371,0.2988,0.0722,1.242,True,espn
+Wisconsin,5,Elite 8,0.0754,,,,False,missing
+Wisconsin,5,Final Four,0.024,,,,False,missing
+Wisconsin,5,Champ Game,0.004,,,,False,missing
+Wisconsin,5,Champion,0.0006,0.0056,-0.005,0.107,False,espn
+BYU,6,R32,0.6742,0.73,-0.0558,0.924,False,espn
+BYU,6,Sweet 16,0.208,0.2117,-0.0037,0.983,False,espn
+BYU,6,Elite 8,0.0498,,,,False,missing
+BYU,6,Final Four,0.0096,,,,False,missing
+BYU,6,Champ Game,0.001,,,,False,missing
+BYU,6,Champion,0.0002,0.005,-0.0048,0.04,False,espn
+Miami (FL),7,R32,0.673,0.61,0.063,1.103,True,espn
+Miami (FL),7,Sweet 16,0.1052,0.0854,0.0198,1.232,False,espn
+Miami (FL),7,Elite 8,0.026,,,,False,missing
+Miami (FL),7,Final Four,0.004,,,,False,missing
 Miami (FL),7,Champ Game,0.0006,,,,False,missing
-Miami (FL),7,Champion,0.0001,0.0025,-0.0024,0.02,False,espn
-Villanova,8,R32,0.4332,0.51,-0.0768,0.849,False,espn
-Villanova,8,Sweet 16,0.033,0.0255,0.0075,1.294,False,espn
-Villanova,8,Elite 8,0.0088,,,,False,missing
-Villanova,8,Final Four,0.0016,,,,False,missing
-Villanova,8,Champ Game,0.0002,,,,False,missing
+Miami (FL),7,Champion,0.0,0.0025,-0.0025,0.0,False,espn
+Villanova,8,R32,0.4382,0.51,-0.0718,0.859,False,espn
+Villanova,8,Sweet 16,0.0342,0.0255,0.0087,1.341,False,espn
+Villanova,8,Elite 8,0.0086,,,,False,missing
+Villanova,8,Final Four,0.002,,,,False,missing
+Villanova,8,Champ Game,0.0004,,,,False,missing
 Villanova,8,Champion,0.0,0.0016,-0.0016,0.0,False,espn
-Utah State,9,R32,0.5668,0.49,0.0768,1.157,True,espn
-Utah State,9,Sweet 16,0.0576,,,,False,missing
-Utah State,9,Elite 8,0.0175,,,,False,missing
-Utah State,9,Final Four,0.0036,,,,False,missing
-Utah State,9,Champ Game,0.0006,,,,False,missing
-Utah State,9,Champion,0.0001,0.0006,-0.0005,0.083,False,espn
-Missouri,10,R32,0.3092,0.39,-0.0808,0.793,False,espn
-Missouri,10,Sweet 16,0.0271,,,,False,missing
-Missouri,10,Elite 8,0.0042,,,,False,missing
-Missouri,10,Final Four,0.0003,,,,False,missing
+Utah State,9,R32,0.5618,0.49,0.0718,1.147,True,espn
+Utah State,9,Sweet 16,0.0562,,,,False,missing
+Utah State,9,Elite 8,0.0172,,,,False,missing
+Utah State,9,Final Four,0.0034,,,,False,missing
+Utah State,9,Champ Game,0.001,,,,False,missing
+Utah State,9,Champion,0.0004,0.0006,-0.0002,0.667,False,espn
+Missouri,10,R32,0.327,0.39,-0.063,0.838,False,espn
+Missouri,10,Sweet 16,0.0262,,,,False,missing
+Missouri,10,Elite 8,0.0032,,,,False,missing
+Missouri,10,Final Four,0.0002,,,,False,missing
 Missouri,10,Champ Game,0.0,,,,False,missing
 Missouri,10,Champion,0.0,0.0008,-0.0008,0.0,False,espn
-NC State,11,R32,0.3489,,,,False,missing
-NC State,11,Sweet 16,0.0669,,,,False,missing
-NC State,11,Elite 8,0.0123,,,,False,missing
-NC State,11,Final Four,0.0018,,,,False,missing
-NC State,11,Champ Game,0.0002,,,,False,missing
-NC State,11,Champion,0.0,0.0001,-0.0001,0.0,False,espn
-High Point,12,R32,0.0984,0.17,-0.0716,0.579,False,espn
-High Point,12,Sweet 16,0.0097,,,,False,missing
-High Point,12,Elite 8,0.0002,,,,False,missing
+Texas,11,R32,0.3258,,,,False,missing
+Texas,11,Sweet 16,0.057,,,,False,missing
+Texas,11,Elite 8,0.008,,,,False,missing
+Texas,11,Final Four,0.0012,,,,False,missing
+Texas,11,Champ Game,0.0004,,,,False,missing
+Texas,11,Champion,0.0,,,,False,missing
+High Point,12,R32,0.1102,0.17,-0.0598,0.648,False,espn
+High Point,12,Sweet 16,0.0104,,,,False,missing
+High Point,12,Elite 8,0.0006,,,,False,missing
 High Point,12,Final Four,0.0,,,,False,missing
 High Point,12,Champ Game,0.0,,,,False,missing
 High Point,12,Champion,0.0,0.0004,-0.0004,0.0,False,espn
-Hawaii,13,R32,0.0556,0.08,-0.0244,0.696,False,espn
-Hawaii,13,Sweet 16,0.007,,,,False,missing
-Hawaii,13,Elite 8,0.0003,,,,False,missing
+Hawaii,13,R32,0.0502,0.08,-0.0298,0.628,False,espn
+Hawaii,13,Sweet 16,0.0056,,,,False,missing
+Hawaii,13,Elite 8,0.0002,,,,False,missing
 Hawaii,13,Final Four,0.0,,,,False,missing
 Hawaii,13,Champ Game,0.0,,,,False,missing
 Hawaii,13,Champion,0.0,0.0008,-0.0008,0.0,False,espn
-Kennesaw State,14,R32,0.0251,0.05,-0.0249,0.502,False,espn
-Kennesaw State,14,Sweet 16,0.0022,,,,False,missing
-Kennesaw State,14,Elite 8,0.0001,,,,False,missing
+Kennesaw State,14,R32,0.0238,0.05,-0.0262,0.476,False,espn
+Kennesaw State,14,Sweet 16,0.0018,,,,False,missing
+Kennesaw State,14,Elite 8,0.0,,,,False,missing
 Kennesaw State,14,Final Four,0.0,,,,False,missing
 Kennesaw State,14,Champ Game,0.0,,,,False,missing
 Kennesaw State,14,Champion,0.0,0.0003,-0.0003,0.0,False,espn
-Queens,15,R32,0.0124,0.04,-0.0276,0.311,False,espn
-Queens,15,Sweet 16,0.0013,,,,False,missing
-Queens,15,Elite 8,0.0001,,,,False,missing
+Queens,15,R32,0.0118,0.04,-0.0282,0.295,False,espn
+Queens,15,Sweet 16,0.0008,,,,False,missing
+Queens,15,Elite 8,0.0,,,,False,missing
 Queens,15,Final Four,0.0,,,,False,missing
 Queens,15,Champ Game,0.0,,,,False,missing
 Queens,15,Champion,0.0,0.0004,-0.0004,0.0,False,espn
-LIU,16,R32,0.0055,0.03,-0.0245,0.183,False,espn
-LIU,16,Sweet 16,0.0004,,,,False,missing
+LIU,16,R32,0.0052,0.03,-0.0248,0.173,False,espn
+LIU,16,Sweet 16,0.0,,,,False,missing
 LIU,16,Elite 8,0.0,,,,False,missing
 LIU,16,Final Four,0.0,,,,False,missing
 LIU,16,Champ Game,0.0,,,,False,missing
 LIU,16,Champion,0.0,0.0027,-0.0027,0.0,False,espn
-Florida,1,R32,0.9946,0.98,0.0146,1.015,False,espn
-Florida,1,Sweet 16,0.8556,0.931,-0.0754,0.919,False,espn
-Florida,1,Elite 8,0.6006,0.782,-0.1814,0.768,False,espn
-Florida,1,Final Four,0.3346,0.4066,-0.072,0.823,False,espn
-Florida,1,Champ Game,0.1794,0.1098,0.0697,1.634,True,espn
-Florida,1,Champion,0.0871,0.0762,0.0109,1.143,False,espn
-Houston,2,R32,0.9819,0.97,0.012,1.012,False,espn
-Houston,2,Sweet 16,0.8343,0.8924,-0.0581,0.935,False,espn
-Houston,2,Elite 8,0.4772,0.6336,-0.1565,0.753,False,espn
-Houston,2,Final Four,0.2645,0.3041,-0.0396,0.87,False,espn
-Houston,2,Champ Game,0.1343,,,,False,missing
-Houston,2,Champion,0.0621,0.0636,-0.0015,0.977,False,espn
-Illinois,3,R32,0.9852,0.92,0.0652,1.071,True,espn
-Illinois,3,Sweet 16,0.8598,0.69,0.1698,1.246,True,espn
-Illinois,3,Elite 8,0.4598,0.2001,0.2597,2.298,True,espn
-Illinois,3,Final Four,0.2495,,,,False,missing
-Illinois,3,Champ Game,0.1197,,,,False,missing
-Illinois,3,Champion,0.0534,0.0142,0.0392,3.761,True,espn
-Nebraska,4,R32,0.9615,0.86,0.1015,1.118,True,espn
-Nebraska,4,Sweet 16,0.4287,0.3526,0.0761,1.216,True,espn
-Nebraska,4,Elite 8,0.1384,,,,False,missing
-Nebraska,4,Final Four,0.0454,,,,False,missing
-Nebraska,4,Champ Game,0.0138,,,,False,missing
-Nebraska,4,Champion,0.004,0.0043,-0.0003,0.942,False,espn
-Vanderbilt,5,R32,0.9251,0.83,0.0951,1.115,True,espn
-Vanderbilt,5,Sweet 16,0.5594,0.4897,0.0697,1.142,True,espn
-Vanderbilt,5,Elite 8,0.2197,0.0784,0.1413,2.802,True,espn
+Florida,1,R32,0.996,0.98,0.016,1.016,False,espn
+Florida,1,Sweet 16,0.849,0.931,-0.082,0.912,False,espn
+Florida,1,Elite 8,0.5936,0.782,-0.1884,0.759,False,espn
+Florida,1,Final Four,0.3304,0.4066,-0.0762,0.813,False,espn
+Florida,1,Champ Game,0.176,0.1098,0.0662,1.603,True,espn
+Florida,1,Champion,0.0934,0.0762,0.0172,1.226,False,espn
+Houston,2,R32,0.9842,0.97,0.0142,1.015,False,espn
+Houston,2,Sweet 16,0.8282,0.8924,-0.0642,0.928,False,espn
+Houston,2,Elite 8,0.4816,0.6336,-0.152,0.76,False,espn
+Houston,2,Final Four,0.2716,0.3041,-0.0325,0.893,False,espn
+Houston,2,Champ Game,0.1306,,,,False,missing
+Houston,2,Champion,0.0642,0.0636,0.0006,1.009,False,espn
+Illinois,3,R32,0.9848,0.92,0.0648,1.07,True,espn
+Illinois,3,Sweet 16,0.8468,0.69,0.1568,1.227,True,espn
+Illinois,3,Elite 8,0.45,0.2001,0.2499,2.249,True,espn
+Illinois,3,Final Four,0.2472,,,,False,missing
+Illinois,3,Champ Game,0.124,,,,False,missing
+Illinois,3,Champion,0.0556,0.0142,0.0414,3.915,True,espn
+Nebraska,4,R32,0.961,0.86,0.101,1.117,True,espn
+Nebraska,4,Sweet 16,0.4322,0.3526,0.0796,1.226,True,espn
+Nebraska,4,Elite 8,0.1364,,,,False,missing
+Nebraska,4,Final Four,0.0416,,,,False,missing
+Nebraska,4,Champ Game,0.0132,,,,False,missing
+Nebraska,4,Champion,0.0038,0.0043,-0.0005,0.884,False,espn
+Vanderbilt,5,R32,0.9202,0.83,0.0902,1.109,True,espn
+Vanderbilt,5,Sweet 16,0.5548,0.4897,0.0651,1.133,True,espn
+Vanderbilt,5,Elite 8,0.2238,0.0784,0.1454,2.855,True,espn
 Vanderbilt,5,Final Four,0.085,,,,False,missing
-Vanderbilt,5,Champ Game,0.0324,,,,False,missing
-Vanderbilt,5,Champion,0.0101,0.0045,0.0056,2.256,False,espn
-North Carolina,6,R32,0.6903,0.67,0.0203,1.03,False,espn
-North Carolina,6,Sweet 16,0.1139,0.1675,-0.0536,0.68,False,espn
-North Carolina,6,Elite 8,0.0244,,,,False,missing
-North Carolina,6,Final Four,0.0046,,,,False,missing
-North Carolina,6,Champ Game,0.0005,,,,False,missing
-North Carolina,6,Champion,0.0,0.0054,-0.0054,0.0,False,espn
-Saint Mary's,7,R32,0.6933,0.54,0.1533,1.284,True,espn
-Saint Mary's,7,Sweet 16,0.1311,0.0432,0.0879,3.036,True,espn
-Saint Mary's,7,Elite 8,0.0314,,,,False,missing
-Saint Mary's,7,Final Four,0.007,,,,False,missing
+Vanderbilt,5,Champ Game,0.0318,,,,False,missing
+Vanderbilt,5,Champion,0.0096,0.0045,0.0051,2.133,False,espn
+North Carolina,6,R32,0.695,0.67,0.025,1.037,False,espn
+North Carolina,6,Sweet 16,0.1224,0.1675,-0.0451,0.731,False,espn
+North Carolina,6,Elite 8,0.0262,,,,False,missing
+North Carolina,6,Final Four,0.006,,,,False,missing
+North Carolina,6,Champ Game,0.0012,,,,False,missing
+North Carolina,6,Champion,0.0004,0.0054,-0.005,0.074,False,espn
+Saint Mary's,7,R32,0.6898,0.54,0.1498,1.277,True,espn
+Saint Mary's,7,Sweet 16,0.1372,0.0432,0.094,3.176,True,espn
+Saint Mary's,7,Elite 8,0.0346,,,,False,missing
+Saint Mary's,7,Final Four,0.0096,,,,False,missing
 Saint Mary's,7,Champ Game,0.0018,,,,False,missing
-Saint Mary's,7,Champion,0.0005,0.0008,-0.0003,0.625,False,espn
-Clemson,8,R32,0.3438,0.41,-0.0661,0.839,False,espn
-Clemson,8,Sweet 16,0.0345,,,,False,missing
-Clemson,8,Elite 8,0.0076,,,,False,missing
-Clemson,8,Final Four,0.0011,,,,False,missing
-Clemson,8,Champ Game,0.0001,,,,False,missing
+Saint Mary's,7,Champion,0.0002,0.0008,-0.0006,0.25,False,espn
+Clemson,8,R32,0.3526,0.41,-0.0574,0.86,False,espn
+Clemson,8,Sweet 16,0.035,,,,False,missing
+Clemson,8,Elite 8,0.0062,,,,False,missing
+Clemson,8,Final Four,0.0006,,,,False,missing
+Clemson,8,Champ Game,0.0,,,,False,missing
 Clemson,8,Champion,0.0,0.0012,-0.0012,0.0,False,espn
-Iowa,9,R32,0.6562,0.59,0.0662,1.112,True,espn
-Iowa,9,Sweet 16,0.1098,0.0295,0.0803,3.722,True,espn
-Iowa,9,Elite 8,0.0331,,,,False,missing
-Iowa,9,Final Four,0.0074,,,,False,missing
-Iowa,9,Champ Game,0.0021,,,,False,missing
-Iowa,9,Champion,0.0002,0.0011,-0.0009,0.182,False,espn
-Texas A&M,10,R32,0.3067,0.46,-0.1533,0.667,False,espn
-Texas A&M,10,Sweet 16,0.0331,,,,False,missing
-Texas A&M,10,Elite 8,0.0046,,,,False,missing
-Texas A&M,10,Final Four,0.0004,,,,False,missing
+Iowa,9,R32,0.6474,0.59,0.0574,1.097,True,espn
+Iowa,9,Sweet 16,0.1158,0.0295,0.0863,3.925,True,espn
+Iowa,9,Elite 8,0.0396,,,,False,missing
+Iowa,9,Final Four,0.0072,,,,False,missing
+Iowa,9,Champ Game,0.0008,,,,False,missing
+Iowa,9,Champion,0.0,0.0011,-0.0011,0.0,False,espn
+Texas A&M,10,R32,0.3102,0.46,-0.1498,0.674,False,espn
+Texas A&M,10,Sweet 16,0.0332,,,,False,missing
+Texas A&M,10,Elite 8,0.0048,,,,False,missing
+Texas A&M,10,Final Four,0.0006,,,,False,missing
 Texas A&M,10,Champ Game,0.0,,,,False,missing
 Texas A&M,10,Champion,0.0,0.0012,-0.0012,0.0,False,espn
-VCU,11,R32,0.3097,0.33,-0.0203,0.938,False,espn
-VCU,11,Sweet 16,0.0248,,,,False,missing
-VCU,11,Elite 8,0.0026,,,,False,missing
-VCU,11,Final Four,0.0003,,,,False,missing
+VCU,11,R32,0.305,0.33,-0.025,0.924,False,espn
+VCU,11,Sweet 16,0.0292,,,,False,missing
+VCU,11,Elite 8,0.0028,,,,False,missing
+VCU,11,Final Four,0.0002,,,,False,missing
 VCU,11,Champ Game,0.0,,,,False,missing
 VCU,11,Champion,0.0,0.0004,-0.0004,0.0,False,espn
-McNeese,12,R32,0.075,0.17,-0.0951,0.441,False,espn
-McNeese,12,Sweet 16,0.0098,,,,False,missing
-McNeese,12,Elite 8,0.0006,,,,False,missing
-McNeese,12,Final Four,0.0001,,,,False,missing
+McNeese,12,R32,0.0798,0.17,-0.0902,0.469,False,espn
+McNeese,12,Sweet 16,0.0108,,,,False,missing
+McNeese,12,Elite 8,0.0004,,,,False,missing
+McNeese,12,Final Four,0.0,,,,False,missing
 McNeese,12,Champ Game,0.0,,,,False,missing
 McNeese,12,Champion,0.0,0.0007,-0.0007,0.0,False,espn
-Troy,13,R32,0.0386,0.14,-0.1015,0.275,False,espn
-Troy,13,Sweet 16,0.0021,,,,False,missing
-Troy,13,Elite 8,0.0001,,,,False,missing
+Troy,13,R32,0.039,0.14,-0.101,0.279,False,espn
+Troy,13,Sweet 16,0.0022,,,,False,missing
+Troy,13,Elite 8,0.0,,,,False,missing
 Troy,13,Final Four,0.0,,,,False,missing
 Troy,13,Champ Game,0.0,,,,False,missing
 Troy,13,Champion,0.0,0.0003,-0.0003,0.0,False,espn
-Penn,14,R32,0.0147,0.08,-0.0653,0.184,False,espn
-Penn,14,Sweet 16,0.0015,,,,False,missing
+Penn,14,R32,0.0152,0.08,-0.0648,0.19,False,espn
+Penn,14,Sweet 16,0.0016,,,,False,missing
 Penn,14,Elite 8,0.0,,,,False,missing
 Penn,14,Final Four,0.0,,,,False,missing
 Penn,14,Champ Game,0.0,,,,False,missing
 Penn,14,Champion,0.0,0.0005,-0.0005,0.0,False,espn
-Idaho,15,R32,0.0181,0.03,-0.0119,0.602,False,espn
-Idaho,15,Sweet 16,0.0015,,,,False,missing
-Idaho,15,Elite 8,0.0001,,,,False,missing
+Idaho,15,R32,0.0158,0.03,-0.0142,0.527,False,espn
+Idaho,15,Sweet 16,0.0014,,,,False,missing
+Idaho,15,Elite 8,0.0,,,,False,missing
 Idaho,15,Final Four,0.0,,,,False,missing
 Idaho,15,Champ Game,0.0,,,,False,missing
 Idaho,15,Champion,0.0,0.0004,-0.0004,0.0,False,espn
-Lehigh,16,R32,0.0054,,,,False,missing
-Lehigh,16,Sweet 16,0.0001,,,,False,missing
-Lehigh,16,Elite 8,0.0,,,,False,missing
-Lehigh,16,Final Four,0.0,,,,False,missing
-Lehigh,16,Champ Game,0.0,,,,False,missing
-Lehigh,16,Champion,0.0,0.0001,-0.0001,0.0,False,espn
-Michigan,1,R32,0.9943,0.98,0.0143,1.015,False,espn
-Michigan,1,Sweet 16,0.9222,0.9408,-0.0186,0.98,False,espn
-Michigan,1,Elite 8,0.7384,0.8561,-0.1177,0.863,False,espn
-Michigan,1,Final Four,0.5053,0.625,-0.1197,0.809,False,espn
-Michigan,1,Champ Game,0.3091,0.2687,0.0404,1.15,True,espn
-Michigan,1,Champion,0.1721,0.1419,0.0302,1.213,True,espn
-Iowa State,2,R32,0.9894,0.96,0.0294,1.031,False,espn
-Iowa State,2,Sweet 16,0.8486,0.7968,0.0518,1.065,True,espn
-Iowa State,2,Elite 8,0.5759,0.5339,0.042,1.079,True,espn
-Iowa State,2,Final Four,0.2696,0.1442,0.1254,1.869,True,espn
-Iowa State,2,Champ Game,0.1354,,,,False,missing
-Iowa State,2,Champion,0.0628,0.0288,0.034,2.179,True,espn
-Virginia,3,R32,0.9675,0.95,0.0175,1.018,False,espn
-Virginia,3,Sweet 16,0.5779,0.6555,-0.0776,0.882,False,espn
-Virginia,3,Elite 8,0.2364,0.2163,0.0201,1.093,False,espn
-Virginia,3,Final Four,0.0794,,,,False,missing
-Virginia,3,Champ Game,0.0278,,,,False,missing
-Virginia,3,Champion,0.0082,0.0101,-0.0019,0.812,False,espn
-Alabama,4,R32,0.9223,0.89,0.0323,1.036,False,espn
-Alabama,4,Sweet 16,0.5074,0.4895,0.0179,1.037,False,espn
-Alabama,4,Elite 8,0.1267,0.0441,0.0826,2.873,True,espn
-Alabama,4,Final Four,0.0473,,,,False,missing
-Alabama,4,Champ Game,0.0154,,,,False,missing
-Alabama,4,Champion,0.0043,0.0056,-0.0013,0.777,False,espn
-Texas Tech,5,R32,0.8887,0.77,0.1187,1.154,True,espn
-Texas Tech,5,Sweet 16,0.4658,0.3465,0.1194,1.344,True,espn
-Texas Tech,5,Elite 8,0.1152,,,,False,missing
-Texas Tech,5,Final Four,0.045,,,,False,missing
-Texas Tech,5,Champ Game,0.0131,,,,False,missing
-Texas Tech,5,Champion,0.0032,0.0033,-0.0001,0.97,False,espn
-Tennessee,6,R32,0.8119,0.8,0.0119,1.015,False,espn
-Tennessee,6,Sweet 16,0.3864,0.248,0.1384,1.558,True,espn
-Tennessee,6,Elite 8,0.1423,,,,False,missing
-Tennessee,6,Final Four,0.0432,,,,False,missing
-Tennessee,6,Champ Game,0.0135,,,,False,missing
-Tennessee,6,Champion,0.0031,0.0038,-0.0007,0.816,False,espn
-Kentucky,7,R32,0.5618,0.69,-0.1282,0.814,False,espn
-Kentucky,7,Sweet 16,0.0933,0.1173,-0.024,0.795,False,espn
-Kentucky,7,Elite 8,0.0269,,,,False,missing
-Kentucky,7,Final Four,0.0039,,,,False,missing
-Kentucky,7,Champ Game,0.0008,,,,False,missing
-Kentucky,7,Champion,0.0001,0.0042,-0.004,0.036,False,espn
-Georgia,8,R32,0.5954,0.56,0.0353,1.063,False,espn
-Georgia,8,Sweet 16,0.0523,0.0224,0.0299,2.335,False,espn
-Georgia,8,Elite 8,0.0129,,,,False,missing
-Georgia,8,Final Four,0.0026,,,,False,missing
-Georgia,8,Champ Game,0.0004,,,,False,missing
-Georgia,8,Champion,0.0001,0.0015,-0.0014,0.1,False,espn
-Saint Louis,9,R32,0.4047,0.44,-0.0353,0.92,False,espn
-Saint Louis,9,Sweet 16,0.0248,,,,False,missing
+Prairie View A&M,16,R32,0.004,,,,False,missing
+Prairie View A&M,16,Sweet 16,0.0002,,,,False,missing
+Prairie View A&M,16,Elite 8,0.0,,,,False,missing
+Prairie View A&M,16,Final Four,0.0,,,,False,missing
+Prairie View A&M,16,Champ Game,0.0,,,,False,missing
+Prairie View A&M,16,Champion,0.0,,,,False,missing
+Michigan,1,R32,0.9946,0.98,0.0146,1.015,False,espn
+Michigan,1,Sweet 16,0.9194,0.9408,-0.0214,0.977,False,espn
+Michigan,1,Elite 8,0.736,0.8561,-0.1201,0.86,False,espn
+Michigan,1,Final Four,0.5004,0.625,-0.1246,0.801,False,espn
+Michigan,1,Champ Game,0.3098,0.2687,0.0411,1.153,True,espn
+Michigan,1,Champion,0.1778,0.1419,0.0359,1.253,True,espn
+Iowa State,2,R32,0.9896,0.96,0.0296,1.031,False,espn
+Iowa State,2,Sweet 16,0.8484,0.7968,0.0516,1.065,True,espn
+Iowa State,2,Elite 8,0.5718,0.5339,0.0379,1.071,False,espn
+Iowa State,2,Final Four,0.27,0.1442,0.1258,1.872,True,espn
+Iowa State,2,Champ Game,0.1346,,,,False,missing
+Iowa State,2,Champion,0.0598,0.0288,0.031,2.076,True,espn
+Virginia,3,R32,0.967,0.95,0.017,1.018,False,espn
+Virginia,3,Sweet 16,0.5494,0.6555,-0.1061,0.838,False,espn
+Virginia,3,Elite 8,0.2204,0.2163,0.0041,1.019,False,espn
+Virginia,3,Final Four,0.081,,,,False,missing
+Virginia,3,Champ Game,0.0294,,,,False,missing
+Virginia,3,Champion,0.0078,0.0101,-0.0023,0.772,False,espn
+Alabama,4,R32,0.9214,0.89,0.0314,1.035,False,espn
+Alabama,4,Sweet 16,0.5182,0.4895,0.0287,1.059,False,espn
+Alabama,4,Elite 8,0.1258,0.0441,0.0817,2.853,True,espn
+Alabama,4,Final Four,0.0488,,,,False,missing
+Alabama,4,Champ Game,0.0158,,,,False,missing
+Alabama,4,Champion,0.0044,0.0056,-0.0012,0.786,False,espn
+Texas Tech,5,R32,0.8792,0.77,0.1092,1.142,True,espn
+Texas Tech,5,Sweet 16,0.4566,0.3465,0.1101,1.318,True,espn
+Texas Tech,5,Elite 8,0.1184,,,,False,missing
+Texas Tech,5,Final Four,0.0404,,,,False,missing
+Texas Tech,5,Champ Game,0.0098,,,,False,missing
+Texas Tech,5,Champion,0.0022,0.0033,-0.0011,0.667,False,espn
+Tennessee,6,R32,0.9262,0.8,0.1262,1.158,True,espn
+Tennessee,6,Sweet 16,0.439,0.248,0.191,1.77,True,espn
+Tennessee,6,Elite 8,0.1688,,,,False,missing
+Tennessee,6,Final Four,0.0504,,,,False,missing
+Tennessee,6,Champ Game,0.0184,,,,False,missing
+Tennessee,6,Champion,0.0058,0.0038,0.002,1.526,False,espn
+Kentucky,7,R32,0.5608,0.69,-0.1292,0.813,False,espn
+Kentucky,7,Sweet 16,0.0904,0.1173,-0.0269,0.771,False,espn
+Kentucky,7,Elite 8,0.0242,,,,False,missing
+Kentucky,7,Final Four,0.0058,,,,False,missing
+Kentucky,7,Champ Game,0.0026,,,,False,missing
+Kentucky,7,Champion,0.0002,0.0042,-0.004,0.048,False,espn
+Georgia,8,R32,0.5934,0.56,0.0334,1.06,False,espn
+Georgia,8,Sweet 16,0.0548,0.0224,0.0324,2.446,False,espn
+Georgia,8,Elite 8,0.014,,,,False,missing
+Georgia,8,Final Four,0.0012,,,,False,missing
+Georgia,8,Champ Game,0.0,,,,False,missing
+Georgia,8,Champion,0.0,0.0015,-0.0015,0.0,False,espn
+Saint Louis,9,R32,0.4066,0.44,-0.0334,0.924,False,espn
+Saint Louis,9,Sweet 16,0.0258,,,,False,missing
 Saint Louis,9,Elite 8,0.005,,,,False,missing
-Saint Louis,9,Final Four,0.0007,,,,False,missing
+Saint Louis,9,Final Four,0.0002,,,,False,missing
 Saint Louis,9,Champ Game,0.0,,,,False,missing
 Saint Louis,9,Champion,0.0,0.0009,-0.0009,0.0,False,espn
-Santa Clara,10,R32,0.4382,0.31,0.1282,1.414,True,espn
-Santa Clara,10,Sweet 16,0.0574,,,,False,missing
-Santa Clara,10,Elite 8,0.0139,,,,False,missing
-Santa Clara,10,Final Four,0.0024,,,,False,missing
+Santa Clara,10,R32,0.4392,0.31,0.1292,1.417,True,espn
+Santa Clara,10,Sweet 16,0.0608,,,,False,missing
+Santa Clara,10,Elite 8,0.0144,,,,False,missing
+Santa Clara,10,Final Four,0.0018,,,,False,missing
 Santa Clara,10,Champ Game,0.0002,,,,False,missing
-Santa Clara,10,Champion,0.0001,0.0005,-0.0004,0.1,False,espn
-SMU,11,R32,0.188,,,,False,missing
-SMU,11,Sweet 16,0.0338,,,,False,missing
-SMU,11,Elite 8,0.0043,,,,False,missing
-SMU,11,Final Four,0.0006,,,,False,missing
-SMU,11,Champ Game,0.0001,,,,False,missing
-SMU,11,Champion,0.0,0.0001,-0.0001,0.0,False,espn
-Akron,12,R32,0.1113,0.23,-0.1187,0.484,False,espn
-Akron,12,Sweet 16,0.0161,,,,False,missing
-Akron,12,Elite 8,0.0014,,,,False,missing
-Akron,12,Final Four,0.0001,,,,False,missing
+Santa Clara,10,Champion,0.0,0.0005,-0.0005,0.0,False,espn
+Miami (OH),11,R32,0.0738,,,,False,missing
+Miami (OH),11,Sweet 16,0.0082,,,,False,missing
+Miami (OH),11,Elite 8,0.0002,,,,False,missing
+Miami (OH),11,Final Four,0.0,,,,False,missing
+Miami (OH),11,Champ Game,0.0,,,,False,missing
+Miami (OH),11,Champion,0.0,,,,False,missing
+Akron,12,R32,0.1208,0.23,-0.1092,0.525,False,espn
+Akron,12,Sweet 16,0.0178,,,,False,missing
+Akron,12,Elite 8,0.0006,,,,False,missing
+Akron,12,Final Four,0.0,,,,False,missing
 Akron,12,Champ Game,0.0,,,,False,missing
 Akron,12,Champion,0.0,0.0006,-0.0006,0.0,False,espn
-Hofstra,13,R32,0.0777,0.11,-0.0323,0.706,False,espn
-Hofstra,13,Sweet 16,0.0106,,,,False,missing
-Hofstra,13,Elite 8,0.0006,,,,False,missing
+Hofstra,13,R32,0.0786,0.11,-0.0314,0.715,False,espn
+Hofstra,13,Sweet 16,0.0074,,,,False,missing
+Hofstra,13,Elite 8,0.0002,,,,False,missing
 Hofstra,13,Final Four,0.0,,,,False,missing
 Hofstra,13,Champ Game,0.0,,,,False,missing
 Hofstra,13,Champion,0.0,0.0003,-0.0003,0.0,False,espn
-Wright State,14,R32,0.0325,0.05,-0.0175,0.65,False,espn
-Wright State,14,Sweet 16,0.0019,,,,False,missing
-Wright State,14,Elite 8,0.0003,,,,False,missing
+Wright State,14,R32,0.033,0.05,-0.017,0.66,False,espn
+Wright State,14,Sweet 16,0.0034,,,,False,missing
+Wright State,14,Elite 8,0.0002,,,,False,missing
 Wright State,14,Final Four,0.0,,,,False,missing
 Wright State,14,Champ Game,0.0,,,,False,missing
 Wright State,14,Champion,0.0,0.0003,-0.0003,0.0,False,espn
-Tennessee State,15,R32,0.0106,0.04,-0.0294,0.265,False,espn
-Tennessee State,15,Sweet 16,0.0007,,,,False,missing
+Tennessee State,15,R32,0.0104,0.04,-0.0296,0.26,False,espn
+Tennessee State,15,Sweet 16,0.0004,,,,False,missing
 Tennessee State,15,Elite 8,0.0,,,,False,missing
 Tennessee State,15,Final Four,0.0,,,,False,missing
 Tennessee State,15,Champ Game,0.0,,,,False,missing
 Tennessee State,15,Champion,0.0,0.0005,-0.0005,0.0,False,espn
-UMBC,16,R32,0.0057,,,,False,missing
-UMBC,16,Sweet 16,0.0007,,,,False,missing
-UMBC,16,Elite 8,0.0,,,,False,missing
-UMBC,16,Final Four,0.0,,,,False,missing
-UMBC,16,Champ Game,0.0,,,,False,missing
-UMBC,16,Champion,0.0,0.0001,-0.0001,0.0,False,espn
+Howard,16,R32,0.0054,,,,False,missing
+Howard,16,Sweet 16,0.0,,,,False,missing
+Howard,16,Elite 8,0.0,,,,False,missing
+Howard,16,Final Four,0.0,,,,False,missing
+Howard,16,Champ Game,0.0,,,,False,missing
+Howard,16,Champion,0.0,,,,False,missing
