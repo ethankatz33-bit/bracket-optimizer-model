@@ -2017,6 +2017,62 @@ def simulate_bracket(
     bracket["round_of_32"]       = r32_results
     bracket["s16_constraint_notes"] = s16_notes
 
+    # ── Contrarian 11-seed Sweet 16 requirement (live mode only) ─────────────
+    # For contrarian/upset_heavy live brackets: if no 11-seed advanced to
+    # Sweet 16 naturally, force the best viable one in.  A candidate is viable
+    # when model WP ≥ 0.25 OR advancement edge ≥ 0.08.
+    # Does NOT apply in conservative/balanced modes or historical backtests.
+    if _live_data_mode and _EARLY_MODE_MAP.get(mode, "balanced") == "contrarian":
+        if not any(w["seed"] == 11 for w in r32_winners):
+            _e11_cands: list = []
+            _r32_pairs = [(a, b) for a, b, _ in r32_matchups]
+            for _ri, (_ta, _tb) in enumerate(_r32_pairs):
+                if _ta["seed"] < _tb["seed"]:
+                    _fa11, _ua11 = _ta, _tb
+                elif _tb["seed"] < _ta["seed"]:
+                    _fa11, _ua11 = _tb, _ta
+                else:
+                    continue
+                if _ua11["seed"] != 11:
+                    continue
+                if _ri in r32_sel:
+                    continue   # already won R32 (in r32_winners)
+                # Model WP
+                _wp11: float | None = None
+                if _HAS_TEAM_RATINGS and "team_rating" in _ua11 and "team_rating" in _fa11:
+                    _wp11 = float(_predict_win_probability(_ua11, _fa11)["team_a"])
+                # Advancement edge
+                _edge11: float | None = None
+                if _ae is not None:
+                    _adv_r11 = ROUND_TO_ADV_ROUND.get("Round of 32")
+                    if _adv_r11:
+                        _ei11 = _get_advancement_edge(_ua11, _adv_r11, _ae)
+                        if _ei11 is not None:
+                            _edge11 = _ei11.get("edge")
+                # Viability check
+                _wp_ok11   = _wp11 is not None and _wp11 >= 0.25
+                _edge_ok11 = _edge11 is not None and _edge11 >= 0.08
+                if _wp_ok11 or _edge_ok11:
+                    _score11 = (_wp11 or 0.0) + max(_edge11 or 0.0, 0.0)
+                    _e11_cands.append((_score11, _ri, _ua11, _fa11, _wp11, _edge11))
+
+            if _e11_cands:
+                _e11_cands.sort(key=lambda x: -x[0])
+                _s11, _r11i, _u11, _f11, _wp11f, _edge11f = _e11_cands[0]
+                r32_sel[_r11i] = round(_s11, 5)
+                r32_results, r32_winners = _simulate_round(
+                    r32_matchups, r32_sel, "Round of 32"
+                )
+                bracket["round_of_32"] = r32_results
+                _wp_s   = f"{_wp11f:.3f}"   if _wp11f   is not None else "N/A"
+                _edge_s = f"{_edge11f:.3f}" if _edge11f is not None else "N/A"
+                print(
+                    f"  FORCED 11-SEED SWEET 16: {_u11['name']} over {_f11['name']},"
+                    f" wp={_wp_s}, edge={_edge_s}"
+                )
+            else:
+                print("  No viable 11-seed Sweet 16 candidate found")
+
     r32_by_region: dict[str, list[dict]] = {r: [] for r in REGIONS}
     for idx, w in enumerate(r32_winners):
         r32_by_region[REGIONS[idx // 4]].append(w)
