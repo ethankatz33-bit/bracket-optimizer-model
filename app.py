@@ -505,6 +505,22 @@ def _bk_center(bracket: dict, champion_name: str, color: str) -> str:
     ff1 = ff_games[1] if len(ff_games) > 1 else {}
     cg  = bracket.get("championship") or {}
 
+    # Layout: East/South FF game → LEFT of championship
+    #         Midwest/West FF game → RIGHT of championship
+    _ES_REGIONS = {"East", "South"}
+    def _is_east_south_game(g: dict) -> bool:
+        w = g.get("winner", {}); l = g.get("loser", {})
+        return bool(
+            {w.get("region", ""), l.get("region", "")} & _ES_REGIONS
+        )
+    if ff0 and ff1:
+        if _is_east_south_game(ff0):
+            ff_left, ff_right = ff0, ff1
+        else:
+            ff_left, ff_right = ff1, ff0
+    else:
+        ff_left, ff_right = ff0, ff1
+
     _, _, _, te8, region_h = _bk_tops()
     half_h = region_h * 2 + _BRG   # two stacked regions
     # E8 game center within a region:
@@ -571,7 +587,7 @@ def _bk_center(bracket: dict, champion_name: str, color: str) -> str:
 
     row = (
         f'<div style="display:flex; flex-direction:row; align-items:center; gap:4px;">'
-        + ff_cell(ff0, "SF1") + arrow("→") + champ_cell() + arrow("←") + ff_cell(ff1, "SF2")
+        + ff_cell(ff_left, "SF1") + arrow("→") + champ_cell() + arrow("←") + ff_cell(ff_right, "SF2")
         + f'</div>'
     )
 
@@ -2120,6 +2136,45 @@ def main() -> None:
             "probabilities and title chances across all 64 teams."
         )
 
+        st.subheader("Advanced Settings")
+        st.write(
+            "The Advanced Settings panel (found in the sidebar under ⚙️ Advanced settings) "
+            "gives you additional control over how the bracket is generated and displayed."
+        )
+        adv_items = [
+            (
+                "Manual Advancement Overrides",
+                "Force a specific team to advance to a chosen round — for example, "
+                "Texas → Sweet 16 or Michigan → Champion. Overrides are layered on top "
+                "of the model bracket and only take effect after clicking "
+                "**Apply / Refresh Bracket**. Use **Reset Overrides** to remove all "
+                "manual selections and return to the model's default output.",
+            ),
+            (
+                "Apply / Refresh Bracket",
+                "Reruns the bracket using the current settings and any active manual "
+                "overrides. Also clears cached results so the latest model output is used.",
+            ),
+            (
+                "Reset Overrides",
+                "Clears all manual advancement overrides and regenerates the bracket "
+                "using only the model's predictions.",
+            ),
+            (
+                "Portfolio Size",
+                "Controls how many bracket variants are generated. Useful if you are "
+                "entering multiple brackets in the same pool.",
+            ),
+            (
+                "Build from Custom Data",
+                "Upload your own bracket CSV and optional public-picks CSV to run the "
+                "model on a different year or a custom set of teams.",
+            ),
+        ]
+        for title, desc in adv_items:
+            st.markdown(f"**{title}** — {desc}")
+
+        st.divider()
         st.subheader("Important Note")
         st.info(
             "This tool is designed to support bracket strategy, not guarantee results. "
