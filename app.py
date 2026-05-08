@@ -857,51 +857,103 @@ def main() -> None:
     st.markdown(
         """
         <style>
-        /* Tighten default padding */
-        .block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
+        /* ── Layout ── */
+        .block-container { padding-top: 1.25rem; padding-bottom: 2.5rem; max-width: 1280px; }
 
-        /* Tab bar */
+        /* ── Tab bar ── */
         .stTabs [data-baseweb="tab-list"] {
-            gap: 4px;
-            border-bottom: 2px solid #e8e8e8;
-            margin-bottom: 1rem;
+            gap: 2px;
+            border-bottom: 2px solid #e0e4ef;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
         }
         .stTabs [data-baseweb="tab"] {
-            font-size: 0.82rem;
+            font-size: 0.80rem;
             font-weight: 600;
-            letter-spacing: 0.5px;
-            padding: 6px 18px;
+            letter-spacing: 0.4px;
+            padding: 7px 16px;
             border-radius: 6px 6px 0 0;
-            color: #666;
+            color: #888;
+            background: transparent;
+            transition: color 0.15s, background 0.15s;
         }
+        .stTabs [data-baseweb="tab"]:hover { color: #1a1a2e; background: #f0f2fa; }
         .stTabs [aria-selected="true"] {
             color: #1a1a2e !important;
-            background: #f4f6ff !important;
+            background: #eef1fb !important;
             border-bottom: 2px solid #1a1a2e !important;
         }
 
-        /* Dataframe table */
-        .stDataFrame { border-radius: 8px; overflow: hidden; }
-
-        /* Expander */
-        .streamlit-expanderHeader {
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: #444;
+        /* ── Cards ── */
+        .pick-card {
+            background: #fff;
+            border: 1px solid #e0e4ef;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 4px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        @media (prefers-color-scheme: dark) {
+            .pick-card { background: #1e2235; border-color: #2e3450; }
         }
 
-        /* Buttons */
+        /* ── Bracket container ── */
+        .bracket-wrap {
+            background: #fafbff;
+            border: 1px solid #e0e4ef;
+            border-radius: 12px;
+            padding: 16px 14px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        /* ── Tables ── */
+        .stDataFrame { border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+
+        /* ── Expander ── */
+        .streamlit-expanderHeader { font-size: 0.82rem; font-weight: 600; color: #444; }
+
+        /* ── Buttons ── */
         .stButton > button {
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 600;
             font-size: 0.82rem;
+            transition: transform 0.1s;
+        }
+        .stButton > button:active { transform: scale(0.98); }
+
+        /* ── Download buttons ── */
+        .stDownloadButton > button {
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.82rem;
+            background: #f4f6ff;
+            border: 1px solid #c5cce8;
+            color: #1a1a2e;
+        }
+        .stDownloadButton > button:hover { background: #e8edf9; }
+
+        /* ── Alerts ── */
+        .stAlert { border-radius: 10px; }
+
+        /* ── Headings ── */
+        h3 { font-size: 1rem !important; font-weight: 700 !important; color: #1a1a2e !important; }
+
+        /* ── Coming soon placeholder ── */
+        .coming-soon {
+            text-align: center;
+            padding: 60px 20px;
+            color: #aaa;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
-        /* Info/warning boxes */
-        .stAlert { border-radius: 8px; }
-
-        /* Subheaders */
-        h3 { font-size: 1rem !important; font-weight: 700 !important; color: #1a1a2e !important; }
+        /* ── Mobile tweaks ── */
+        @media (max-width: 768px) {
+            .block-container { padding-left: 0.75rem; padding-right: 0.75rem; }
+            .stTabs [data-baseweb="tab"] { padding: 6px 10px; font-size: 0.74rem; }
+        }
         </style>
         """,
         unsafe_allow_html=True,
@@ -917,10 +969,12 @@ def main() -> None:
     )
 
     # ── Top-level tabs ────────────────────────────────────────────────────
-    bracket_tab, odds_tab, value_tab, about_tab = st.tabs([
+    bracket_tab, odds_tab, value_tab, survivor_tab, mock_tab, about_tab = st.tabs([
         "Bracket Predictions",
         "Odds & Analysis",
         "Value Plays by Round",
+        "Optimal Survivor Path",
+        "Mock Brackets",
         "About",
     ])
 
@@ -972,31 +1026,17 @@ def main() -> None:
                 unsafe_allow_html=True,
             )
 
+        # ── Hardcoded simulation settings (not exposed in UI) ────────────
+        use_mc = _HAS_MC
+        n_sims = 5_000
+
         # ── Advanced settings ─────────────────────────────────────────────
         with st.expander("⚙️ Advanced settings", expanded=False):
-            col_mc1, col_mc2, col_mc3 = st.columns(3)
-            with col_mc1:
-                use_mc = st.checkbox(
-                    "Monte Carlo simulations",
-                    value=True,
-                    disabled=not _HAS_MC,
-                    help=(
-                        "Simulates the tournament thousands of times for accurate title probabilities."
-                        if _HAS_MC else "lib/monte_carlo.py not found."
-                    ),
-                )
-            with col_mc2:
-                n_sims = st.number_input(
-                    "Simulations",
-                    min_value=500, max_value=50_000, value=5_000, step=500,
-                    disabled=not (use_mc and _HAS_MC),
-                )
-            with col_mc3:
-                n_brackets = st.number_input(
-                    "Portfolio size",
-                    min_value=1, max_value=20, value=1, step=1,
-                    help="Generate multiple brackets with different champion picks.",
-                )
+            n_brackets = st.number_input(
+                "Portfolio size",
+                min_value=1, max_value=20, value=1, step=1,
+                help="Generate multiple brackets with different champion picks.",
+            )
 
             st.divider()
             st.markdown("**Override data** *(optional — 2026 bracket pre-loaded by default)*")
@@ -1046,7 +1086,7 @@ def main() -> None:
         # ── Auto-recompute when any input or data file changes ────────────
         _pipeline_key = (
             pool_size, selected_style, sim_mode,
-            use_mc, int(n_sims), int(n_brackets),
+            use_mc, n_sims, int(n_brackets),
             *_data_mtimes(),
         )
         if st.session_state.get("pipeline_key") != _pipeline_key:
@@ -1056,7 +1096,7 @@ def main() -> None:
 
         # ── Auto-run with default 2026 data ───────────────────────────────
         if _HAS_DEFAULT and not st.session_state.get("run_ok") and not run_custom:
-            with st.spinner("Loading 2026 bracket…"):
+            with st.spinner(f"Building {selected_style} bracket + Monte Carlo…"):
                 try:
                     df_default = pd.read_csv(DEFAULT_CSV)
                     errs = validate_csv(df_default)
@@ -1097,7 +1137,7 @@ def main() -> None:
             file_picks     = parse_picks_file(picks_file) if picks_file else {}
             picks_override = _parse_picks(manual_picks)   if manual_picks else {}
 
-            label = f"Building {selected_style} bracket" + (" + Monte Carlo…" if use_mc else "…")
+            label = f"Building {selected_style} bracket + Monte Carlo…"
             with st.spinner(label):
                 try:
                     _run_and_store(
@@ -1119,10 +1159,53 @@ def main() -> None:
 
         # ── Render bracket results ─────────────────────────────────────────
         if st.session_state.get("run_ok") and "results" in st.session_state:
-            show_results(
-                st.session_state["results"],
-                st.session_state.get("selected_style", selected_style),
-            )
+            _res = st.session_state["results"]
+            _sty = st.session_state.get("selected_style", selected_style)
+
+            # ── Recommended pick cards ────────────────────────────────────
+            _all_types = _res.get("all_types")
+            if _all_types:
+                _card_cols = st.columns(3)
+                for _ci, (_lbl, _internal) in enumerate([
+                    ("Conservative", "safe"),
+                    ("Value",        "value"),
+                    ("Contrarian",   "contrarian"),
+                ]):
+                    _entry = _all_types.get(_internal)
+                    _rec   = _entry.get("recommendation") if _entry else None
+                    _prim  = _rec.primary if _rec else None
+                    _m     = STYLE_META[_lbl]
+                    _active = (_sty == _lbl)
+                    _border = f"2px solid {_m['color']}" if _active else "1px solid #e0e4ef"
+                    _bg     = f"{_m['color']}0f" if _active else "#fff"
+                    with _card_cols[_ci]:
+                        if _prim:
+                            st.markdown(
+                                f'<div class="pick-card" style="border:{_border}; background:{_bg};">'
+                                f'<div style="font-size:0.65rem; font-weight:700; '
+                                f'color:{_m["color"]}; text-transform:uppercase; letter-spacing:1px; '
+                                f'margin-bottom:4px;">{_m["emoji"]} {_lbl} · {_m["best_for"]}</div>'
+                                f'<div style="font-size:1rem; font-weight:800; color:#1a1a2e; '
+                                f'white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">'
+                                f'#{_prim.seed} {_prim.name}</div>'
+                                f'<div style="font-size:0.7rem; color:#888; margin-top:3px;">'
+                                f'{_prim.win_prob:.1%} title chance · {_prim.public_pct:.1%} public</div>'
+                                f'</div>',
+                                unsafe_allow_html=True,
+                            )
+                        else:
+                            st.markdown(
+                                f'<div class="pick-card" style="border:{_border}; background:{_bg};">'
+                                f'<div style="font-size:0.65rem; font-weight:700; '
+                                f'color:{_m["color"]}; text-transform:uppercase; letter-spacing:1px; '
+                                f'margin-bottom:4px;">{_m["emoji"]} {_lbl}</div>'
+                                f'<div style="font-size:0.82rem; color:#aaa;">—</div>'
+                                f'</div>',
+                                unsafe_allow_html=True,
+                            )
+                st.markdown("<div style='margin-bottom:8px;'></div>", unsafe_allow_html=True)
+
+            show_results(_res, _sty)
         else:
             show_welcome()
 
@@ -1181,6 +1264,24 @@ def main() -> None:
             st.caption("No advancement value data available.")
 
     # ══════════════════════════════════════════════════════════════════════
+    # OPTIMAL SURVIVOR PATH TAB
+    # ══════════════════════════════════════════════════════════════════════
+    with survivor_tab:
+        st.markdown(
+            '<div class="coming-soon">🏗️ Coming Soon!</div>',
+            unsafe_allow_html=True,
+        )
+
+    # ══════════════════════════════════════════════════════════════════════
+    # MOCK BRACKETS TAB
+    # ══════════════════════════════════════════════════════════════════════
+    with mock_tab:
+        st.markdown(
+            '<div class="coming-soon">🏗️ Coming Soon!</div>',
+            unsafe_allow_html=True,
+        )
+
+    # ══════════════════════════════════════════════════════════════════════
     # ABOUT TAB
     # ══════════════════════════════════════════════════════════════════════
     with about_tab:
@@ -1190,10 +1291,12 @@ def main() -> None:
             "public pick data, and pool-size strategy to generate bracket recommendations."
         )
 
-        st.subheader("Team Strength")
+        st.subheader("Team Strength & Data Inputs")
         st.write(
-            "The model uses efficiency-based team ratings to estimate team quality "
-            "and matchup win probabilities."
+            "The model draws on publicly available and subscriber-accessed college basketball "
+            "analytics data — including KenPom, BartTorvik, and ESPN public bracket trends — "
+            "to estimate team quality and matchup win probabilities. "
+            "All model outputs and strategy logic are proprietary."
         )
 
         st.subheader("Public Pick Value")
