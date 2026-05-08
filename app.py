@@ -861,6 +861,14 @@ def main() -> None:
         header[data-testid="stHeader"] { background: transparent; }
         #root > div:first-child { padding-top: 0 !important; }
 
+        /* ── Page background ── */
+        .stApp {
+            background: linear-gradient(160deg, #f0f2f8 0%, #eef1f9 50%, #f4f5fb 100%);
+        }
+        @media (prefers-color-scheme: dark) {
+            .stApp { background: linear-gradient(160deg, #0d1120 0%, #101525 100%); }
+        }
+
         /* ── Layout ── */
         .block-container {
             padding-top: 0 !important;
@@ -961,10 +969,11 @@ def main() -> None:
         /* ── Tab bar ── */
         .stTabs [data-baseweb="tab-list"] {
             gap: 2px;
-            border-bottom: 2px solid #e0e4ef;
+            border-bottom: 2px solid #d8dced;
             margin-bottom: 1.25rem;
             flex-wrap: wrap;
             padding-bottom: 0;
+            background: transparent;
         }
         .stTabs [data-baseweb="tab"] {
             font-size: 0.80rem;
@@ -1064,7 +1073,7 @@ def main() -> None:
     bracket_tab, odds_tab, value_tab, survivor_tab, mock_tab, about_tab = st.tabs([
         "Bracket Predictions",
         "Odds & Analysis",
-        "Value Plays by Round",
+        "Top Value Plays",
         "Optimal Survivor Path",
         "Mock Brackets",
         "About",
@@ -1074,6 +1083,10 @@ def main() -> None:
     # BRACKET PREDICTIONS TAB
     # ══════════════════════════════════════════════════════════════════════
     with bracket_tab:
+        st.caption(
+            "Generate bracket recommendations based on pool size, team strength, "
+            "public pick trends, and model simulations."
+        )
         # ── Pool options ──────────────────────────────────────────────────
         _POOL_OPTIONS = [
             ("1–25",   25,  "Conservative"),
@@ -1265,18 +1278,21 @@ def main() -> None:
     # ODDS & ANALYSIS TAB
     # ══════════════════════════════════════════════════════════════════════
     with odds_tab:
+        st.caption(
+            "View advancement probabilities, title chances, and team-level model odds."
+        )
         if st.session_state.get("run_ok") and "results" in st.session_state:
             show_odds_tab(st.session_state["results"])
         else:
             st.info("Generate a bracket in the **Bracket Predictions** tab first.")
 
     # ══════════════════════════════════════════════════════════════════════
-    # VALUE PLAYS BY ROUND TAB
+    # TOP VALUE PLAYS TAB
     # ══════════════════════════════════════════════════════════════════════
     with value_tab:
         st.caption(
-            "Value edge compares this model's advancement probability to public bracket "
-            "pick trends. Positive edge means the team is underpicked by the public."
+            "Highlights teams where the model sees more advancement upside than the public. "
+            "The \"Advancing To\" column shows the round the team would advance to."
         )
         _adv_csv = PROJECT_ROOT / "data" / "processed" / "advancement_value_edges_2026.csv"
         if _adv_csv.exists():
@@ -1299,8 +1315,8 @@ def main() -> None:
 
                 _adv_df = _adv_df.sort_values("edge", ascending=False)
                 _adv_disp = pd.DataFrame({
-                    "Team":    _adv_df["team"].values,
-                    "Round":   _adv_df["round"].values,
+                    "Team":         _adv_df["team"].values,
+                    "Advancing To": _adv_df["round"].values,
                     "Seed":    _adv_df["seed"].astype(int).values,
                     "Model %":  [f"{v:.1%}" for v in _adv_df["model_pct"]],
                     "Public %": [f"{v:.1%}" for v in _adv_df["public_pct"]],
@@ -1319,6 +1335,10 @@ def main() -> None:
     # OPTIMAL SURVIVOR PATH TAB
     # ══════════════════════════════════════════════════════════════════════
     with survivor_tab:
+        st.caption(
+            "Coming soon: survivor-style pick recommendations using win probability, "
+            "ownership, and future path value."
+        )
         st.markdown(
             '<div class="coming-soon">🏗️ Coming Soon!</div>',
             unsafe_allow_html=True,
@@ -1328,6 +1348,10 @@ def main() -> None:
     # MOCK BRACKETS TAB
     # ══════════════════════════════════════════════════════════════════════
     with mock_tab:
+        st.caption(
+            "Coming soon: projected brackets during the season using current team "
+            "ratings and projected seeds."
+        )
         st.markdown(
             '<div class="coming-soon">🏗️ Coming Soon!</div>',
             unsafe_allow_html=True,
@@ -1337,6 +1361,9 @@ def main() -> None:
     # ABOUT TAB
     # ══════════════════════════════════════════════════════════════════════
     with about_tab:
+        st.caption(
+            "Learn how the model works, what data it uses, and how to interpret the outputs."
+        )
         st.header("About This Model")
         st.write(
             "This bracket model combines team strength, historical tournament patterns, "
