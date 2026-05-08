@@ -1047,7 +1047,6 @@ def main() -> None:
         '<div class="site-hero">'
         '  <div>'
         '    <div class="site-hero-title">🏀 March Madness Bracket Predictor</div>'
-        '    <div class="site-hero-sub">AI-powered pool strategy · 2026 Tournament</div>'
         '  </div>'
         '  <a class="substack-btn" href="https://substack.com/@ecbk" target="_blank" rel="noopener">'
         '    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" '
@@ -1055,7 +1054,7 @@ def main() -> None:
         '      <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46z"/>'
         '      <path d="M22.539 0H1.46v2.836h21.08V0z"/>'
         '    </svg>'
-        '    Read on Substack'
+        '    Substack'
         '  </a>'
         '</div>',
         unsafe_allow_html=True,
@@ -1161,15 +1160,15 @@ def main() -> None:
                 disabled=(uploaded_csv is None),
             )
 
-        st.divider()
+            st.divider()
 
-        # ── Refresh button ────────────────────────────────────────────────
-        if st.button("🔄 Refresh Bracket"):
-            st.cache_data.clear()
-            for key in list(st.session_state.keys()):
-                if "bracket" in key.lower() or "result" in key.lower() or "pipeline" in key.lower():
-                    del st.session_state[key]
-            st.rerun()
+            # ── Refresh button ────────────────────────────────────────────
+            if st.button("🔄 Refresh Bracket", use_container_width=True):
+                st.cache_data.clear()
+                for key in list(st.session_state.keys()):
+                    if "bracket" in key.lower() or "result" in key.lower() or "pipeline" in key.lower():
+                        del st.session_state[key]
+                st.rerun()
 
         # ── 2027 placeholder ──────────────────────────────────────────────
         if tournament_year == 2027:
@@ -1257,49 +1256,6 @@ def main() -> None:
         if st.session_state.get("run_ok") and "results" in st.session_state:
             _res = st.session_state["results"]
             _sty = st.session_state.get("selected_style", selected_style)
-
-            # ── Recommended pick cards ────────────────────────────────────
-            _all_types = _res.get("all_types")
-            if _all_types:
-                _card_cols = st.columns(3)
-                for _ci, (_lbl, _internal) in enumerate([
-                    ("Conservative", "safe"),
-                    ("Value",        "value"),
-                    ("Contrarian",   "contrarian"),
-                ]):
-                    _entry = _all_types.get(_internal)
-                    _rec   = _entry.get("recommendation") if _entry else None
-                    _prim  = _rec.primary if _rec else None
-                    _m     = STYLE_META[_lbl]
-                    _active = (_sty == _lbl)
-                    _border = f"2px solid {_m['color']}" if _active else "1px solid #e0e4ef"
-                    _bg     = f"{_m['color']}0f" if _active else "#fff"
-                    with _card_cols[_ci]:
-                        if _prim:
-                            st.markdown(
-                                f'<div class="pick-card" style="border:{_border}; background:{_bg};">'
-                                f'<div style="font-size:0.65rem; font-weight:700; '
-                                f'color:{_m["color"]}; text-transform:uppercase; letter-spacing:1px; '
-                                f'margin-bottom:4px;">{_m["emoji"]} {_lbl} · {_m["best_for"]}</div>'
-                                f'<div style="font-size:1rem; font-weight:800; color:#1a1a2e; '
-                                f'white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">'
-                                f'#{_prim.seed} {_prim.name}</div>'
-                                f'<div style="font-size:0.7rem; color:#888; margin-top:3px;">'
-                                f'{_prim.win_prob:.1%} title chance · {_prim.public_pct:.1%} public</div>'
-                                f'</div>',
-                                unsafe_allow_html=True,
-                            )
-                        else:
-                            st.markdown(
-                                f'<div class="pick-card" style="border:{_border}; background:{_bg};">'
-                                f'<div style="font-size:0.65rem; font-weight:700; '
-                                f'color:{_m["color"]}; text-transform:uppercase; letter-spacing:1px; '
-                                f'margin-bottom:4px;">{_m["emoji"]} {_lbl}</div>'
-                                f'<div style="font-size:0.82rem; color:#aaa;">—</div>'
-                                f'</div>',
-                                unsafe_allow_html=True,
-                            )
-                st.markdown("<div style='margin-bottom:8px;'></div>", unsafe_allow_html=True)
 
             show_results(_res, _sty)
         else:
@@ -1413,6 +1369,12 @@ def main() -> None:
             "Upsets are evaluated using seed, model win probability, historical matchup "
             "rates, and public value. The model does not pick upsets randomly; it selects "
             "them when they are plausible and strategically useful."
+        )
+
+        st.subheader("Simulations")
+        st.write(
+            "For each bracket, the model runs 5,000 simulations to estimate advancement "
+            "probabilities and title chances across all 64 teams."
         )
 
         st.subheader("Important Note")
