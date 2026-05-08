@@ -853,7 +853,68 @@ def main() -> None:
     st.cache_data.clear()
     st.cache_resource.clear()
 
-    st.title("🏀 March Madness Bracket Predictor")
+    # ── Global CSS ────────────────────────────────────────────────────────
+    st.markdown(
+        """
+        <style>
+        /* Tighten default padding */
+        .block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
+
+        /* Tab bar */
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 4px;
+            border-bottom: 2px solid #e8e8e8;
+            margin-bottom: 1rem;
+        }
+        .stTabs [data-baseweb="tab"] {
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            padding: 6px 18px;
+            border-radius: 6px 6px 0 0;
+            color: #666;
+        }
+        .stTabs [aria-selected="true"] {
+            color: #1a1a2e !important;
+            background: #f4f6ff !important;
+            border-bottom: 2px solid #1a1a2e !important;
+        }
+
+        /* Dataframe table */
+        .stDataFrame { border-radius: 8px; overflow: hidden; }
+
+        /* Expander */
+        .streamlit-expanderHeader {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #444;
+        }
+
+        /* Buttons */
+        .stButton > button {
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.82rem;
+        }
+
+        /* Info/warning boxes */
+        .stAlert { border-radius: 8px; }
+
+        /* Subheaders */
+        h3 { font-size: 1rem !important; font-weight: 700 !important; color: #1a1a2e !important; }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # ── Page header ───────────────────────────────────────────────────────
+    st.markdown(
+        '<div style="padding:10px 0 4px 0;">'
+        '<span style="font-size:1.6rem; font-weight:800; color:#1a1a2e; '
+        'letter-spacing:-0.5px;">🏀 March Madness Bracket Predictor</span>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
 
     # ── Top-level tabs ────────────────────────────────────────────────────
     bracket_tab, odds_tab, value_tab, about_tab = st.tabs([
@@ -1079,9 +1140,8 @@ def main() -> None:
     # ══════════════════════════════════════════════════════════════════════
     with value_tab:
         st.caption(
-            "Value edge compares this model's advancement probability to ESPN public "
-            "bracket advancement percentage. Positive edge means the team is underpicked "
-            "by the public."
+            "Value edge compares this model's advancement probability to public bracket "
+            "pick trends. Positive edge means the team is underpicked by the public."
         )
         _adv_csv = PROJECT_ROOT / "data" / "processed" / "advancement_value_edges_2026.csv"
         if _adv_csv.exists():
@@ -1107,8 +1167,8 @@ def main() -> None:
                     "Team":    _adv_df["team"].values,
                     "Round":   _adv_df["round"].values,
                     "Seed":    _adv_df["seed"].astype(int).values,
-                    "Model %": [f"{v:.1%}" for v in _adv_df["model_pct"]],
-                    "ESPN %":  [f"{v:.1%}" for v in _adv_df["public_pct"]],
+                    "Model %":  [f"{v:.1%}" for v in _adv_df["model_pct"]],
+                    "Public %": [f"{v:.1%}" for v in _adv_df["public_pct"]],
                     "Edge":    [f"{v:+.1%}" for v in _adv_df["edge"]],
                     "Ratio":   [f"{v:.2f}x" for v in _adv_df["value_ratio"]],
                     "Value":   _adv_df["Value"].values,
@@ -1132,14 +1192,14 @@ def main() -> None:
 
         st.subheader("Team Strength")
         st.write(
-            "The model uses efficiency-based ratings from KenPom and BartTorvik to estimate "
-            "team quality and matchup win probabilities."
+            "The model uses efficiency-based team ratings to estimate team quality "
+            "and matchup win probabilities."
         )
 
         st.subheader("Public Pick Value")
         st.write(
-            "The model compares its advancement probabilities against public bracket data "
-            "to identify teams that may be underpicked or overpicked."
+            "The model compares its advancement probabilities against public bracket "
+            "pick trends to identify teams that may be underpicked or overpicked."
         )
 
         st.subheader("Pool Size Strategy")
@@ -1161,6 +1221,19 @@ def main() -> None:
             "This tool is designed to support bracket strategy, not guarantee results. "
             "March Madness outcomes are inherently unpredictable."
         )
+
+    # ── Footer ────────────────────────────────────────────────────────────
+    st.markdown(
+        '<div style="margin-top:3rem; padding:12px 0; border-top:1px solid #e8e8e8; '
+        'text-align:center;">'
+        '<span style="font-size:0.68rem; color:#aaa;">'
+        'This tool is an independent bracket strategy model. '
+        'It is not affiliated with or endorsed by the NCAA, ESPN, KenPom, BartTorvik, '
+        'or any other data provider.'
+        '</span>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
 
 
 if __name__ == "__main__":
