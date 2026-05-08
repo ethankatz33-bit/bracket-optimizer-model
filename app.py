@@ -976,20 +976,32 @@ def main() -> None:
             background: transparent;
         }
         .stTabs [data-baseweb="tab"] {
-            font-size: 0.84rem;
-            font-weight: 700;
-            letter-spacing: 0.3px;
             padding: 8px 18px;
             border-radius: 8px 8px 0 0;
-            color: #777;
             background: transparent;
-            transition: color 0.15s, background 0.15s;
+            transition: background 0.15s;
         }
-        .stTabs [data-baseweb="tab"]:hover { color: #1a1a2e; background: #f0f2fa; }
+        .stTabs [data-baseweb="tab"]:hover { background: #f0f2fa; }
         .stTabs [aria-selected="true"] {
-            color: #1a1a2e !important;
             background: #eef1fb !important;
-            border-bottom: 2px solid #1a1a2e !important;
+        }
+
+        /* ── Tab label text — strong selectors to override Streamlit defaults ── */
+        div[data-testid="stTabs"] button[role="tab"] p {
+            color: #111827 !important;
+            font-weight: 800 !important;
+            font-size: 1.02rem !important;
+        }
+        div[data-testid="stTabs"] button[role="tab"] {
+            color: #111827 !important;
+            font-weight: 800 !important;
+        }
+        div[data-testid="stTabs"] button[aria-selected="true"] p {
+            color: #000000 !important;
+            font-weight: 900 !important;
+        }
+        div[data-testid="stTabs"] button[aria-selected="true"] {
+            border-bottom: 3px solid #111827 !important;
         }
 
         /* ── Expander ── */
