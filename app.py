@@ -857,8 +857,106 @@ def main() -> None:
     st.markdown(
         """
         <style>
+        /* ── Hide default Streamlit header padding so our hero has full control ── */
+        header[data-testid="stHeader"] { background: transparent; }
+        #root > div:first-child { padding-top: 0 !important; }
+
         /* ── Layout ── */
-        .block-container { padding-top: 1.25rem; padding-bottom: 2.5rem; max-width: 1280px; }
+        .block-container {
+            padding-top: 0 !important;
+            padding-bottom: 3rem;
+            max-width: 1280px;
+        }
+
+        /* ── Hero header ── */
+        .site-hero {
+            background: linear-gradient(135deg, #0f1628 0%, #1a1a2e 60%, #16213e 100%);
+            border-radius: 0 0 18px 18px;
+            padding: 28px 32px 22px 32px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+        }
+        .site-hero-title {
+            font-size: 1.65rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+        .site-hero-sub {
+            font-size: 0.78rem;
+            color: #8899cc;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+        .substack-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: #ff6719;
+            color: #fff !important;
+            text-decoration: none !important;
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: background 0.15s, transform 0.1s;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(255,103,25,0.35);
+        }
+        .substack-btn:hover { background: #e55a10; transform: translateY(-1px); }
+
+        /* ── Pick cards ── */
+        .pick-card {
+            background: #ffffff;
+            border: 1px solid #e0e4ef;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 6px;
+            box-shadow: 0 2px 8px rgba(26,26,46,0.06);
+            transition: box-shadow 0.15s;
+        }
+        .pick-card:hover { box-shadow: 0 4px 16px rgba(26,26,46,0.12); }
+        @media (prefers-color-scheme: dark) {
+            .pick-card { background: #1e2235; border-color: #2e3450; }
+        }
+
+        /* ── Section card ── */
+        .section-card {
+            background: #fff;
+            border: 1px solid #e8ecf6;
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(26,26,46,0.05);
+        }
+        @media (prefers-color-scheme: dark) {
+            .section-card { background: #1a1f35; border-color: #2a3050; }
+        }
+
+        /* ── Bracket container ── */
+        .bracket-wrap {
+            background: #fafbff;
+            border: 1px solid #e0e4ef;
+            border-radius: 14px;
+            padding: 18px 14px;
+            overflow-x: auto;
+            box-shadow: 0 2px 10px rgba(26,26,46,0.06);
+        }
+
+        /* ── Tables ── */
+        .stDataFrame {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(26,26,46,0.06);
+        }
 
         /* ── Tab bar ── */
         .stTabs [data-baseweb="tab-list"] {
@@ -866,13 +964,14 @@ def main() -> None:
             border-bottom: 2px solid #e0e4ef;
             margin-bottom: 1.25rem;
             flex-wrap: wrap;
+            padding-bottom: 0;
         }
         .stTabs [data-baseweb="tab"] {
             font-size: 0.80rem;
             font-weight: 600;
             letter-spacing: 0.4px;
-            padding: 7px 16px;
-            border-radius: 6px 6px 0 0;
+            padding: 8px 18px;
+            border-radius: 8px 8px 0 0;
             color: #888;
             background: transparent;
             transition: color 0.15s, background 0.15s;
@@ -884,86 +983,80 @@ def main() -> None:
             border-bottom: 2px solid #1a1a2e !important;
         }
 
-        /* ── Cards ── */
-        .pick-card {
-            background: #fff;
-            border: 1px solid #e0e4ef;
-            border-radius: 10px;
-            padding: 14px 16px;
-            margin-bottom: 4px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-        }
-        @media (prefers-color-scheme: dark) {
-            .pick-card { background: #1e2235; border-color: #2e3450; }
-        }
-
-        /* ── Bracket container ── */
-        .bracket-wrap {
-            background: #fafbff;
-            border: 1px solid #e0e4ef;
-            border-radius: 12px;
-            padding: 16px 14px;
-            overflow-x: auto;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        /* ── Tables ── */
-        .stDataFrame { border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
-
         /* ── Expander ── */
         .streamlit-expanderHeader { font-size: 0.82rem; font-weight: 600; color: #444; }
+        details summary { border-radius: 8px !important; }
 
         /* ── Buttons ── */
         .stButton > button {
             border-radius: 8px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.82rem;
-            transition: transform 0.1s;
+            transition: transform 0.1s, box-shadow 0.1s;
         }
+        .stButton > button:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
         .stButton > button:active { transform: scale(0.98); }
 
         /* ── Download buttons ── */
         .stDownloadButton > button {
             border-radius: 8px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.82rem;
             background: #f4f6ff;
             border: 1px solid #c5cce8;
             color: #1a1a2e;
+            transition: background 0.15s;
         }
-        .stDownloadButton > button:hover { background: #e8edf9; }
+        .stDownloadButton > button:hover { background: #e4e9f8; }
 
         /* ── Alerts ── */
-        .stAlert { border-radius: 10px; }
+        .stAlert { border-radius: 12px; }
+
+        /* ── Dividers ── */
+        hr { border-color: #e8ecf6 !important; margin: 1rem 0 !important; }
 
         /* ── Headings ── */
+        h2 { font-size: 1.15rem !important; font-weight: 800 !important; color: #1a1a2e !important; }
         h3 { font-size: 1rem !important; font-weight: 700 !important; color: #1a1a2e !important; }
 
-        /* ── Coming soon placeholder ── */
+        /* ── Coming soon ── */
         .coming-soon {
             text-align: center;
-            padding: 60px 20px;
-            color: #aaa;
-            font-size: 1.1rem;
-            font-weight: 600;
+            padding: 80px 20px;
+            color: #bbb;
+            font-size: 1.2rem;
+            font-weight: 700;
             letter-spacing: 0.5px;
         }
 
-        /* ── Mobile tweaks ── */
+        /* ── Mobile ── */
         @media (max-width: 768px) {
-            .block-container { padding-left: 0.75rem; padding-right: 0.75rem; }
-            .stTabs [data-baseweb="tab"] { padding: 6px 10px; font-size: 0.74rem; }
+            .site-hero { padding: 20px 16px 16px 16px; border-radius: 0 0 12px 12px; }
+            .site-hero-title { font-size: 1.2rem; white-space: normal; }
+            .block-container { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+            .stTabs [data-baseweb="tab"] { padding: 6px 10px; font-size: 0.72rem; }
+            .section-card { padding: 14px 14px; }
         }
         </style>
         """,
         unsafe_allow_html=True,
     )
 
-    # ── Page header ───────────────────────────────────────────────────────
+    # ── Hero header (title + Substack link) ──────────────────────────────
     st.markdown(
-        '<div style="padding:10px 0 4px 0;">'
-        '<span style="font-size:1.6rem; font-weight:800; color:#1a1a2e; '
-        'letter-spacing:-0.5px;">🏀 March Madness Bracket Predictor</span>'
+        '<div class="site-hero">'
+        '  <div>'
+        '    <div class="site-hero-title">🏀 March Madness Bracket Predictor</div>'
+        '    <div class="site-hero-sub">AI-powered pool strategy · 2026 Tournament</div>'
+        '  </div>'
+        '  <a class="substack-btn" href="https://substack.com/@ecbk" target="_blank" rel="noopener">'
+        '    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" '
+        '         xmlns="http://www.w3.org/2000/svg">'
+        '      <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46z"/>'
+        '      <path d="M22.539 0H1.46v2.836h21.08V0z"/>'
+        '    </svg>'
+        '    Read on Substack'
+        '  </a>'
         '</div>',
         unsafe_allow_html=True,
     )
@@ -1017,11 +1110,14 @@ def main() -> None:
         meta           = STYLE_META[selected_style]
         with col_meta:
             st.markdown(
-                f'<div style="padding:8px 12px; background:#f8f8f8; border-radius:6px; '
-                f'border-left:3px solid #ccc; margin-top:22px;">'
-                f'<div style="font-size:0.7rem; color:#888; font-weight:600; '
-                f'text-transform:uppercase; letter-spacing:1px;">{meta["emoji"]} {selected_style}</div>'
-                f'<div style="font-size:0.72rem; color:#555; margin-top:2px;">{meta["tagline"]}</div>'
+                f'<div style="padding:10px 14px; background:linear-gradient(135deg,#f7f9ff,#eef1fb); '
+                f'border-radius:10px; border-left:4px solid {meta["color"]}; margin-top:18px; '
+                f'box-shadow:0 2px 8px rgba(26,26,46,0.06);">'
+                f'<div style="font-size:0.68rem; color:{meta["color"]}; font-weight:700; '
+                f'text-transform:uppercase; letter-spacing:1px;">'
+                f'{meta["emoji"]} {selected_style} · {meta["best_for"]}</div>'
+                f'<div style="font-size:0.74rem; color:#444; margin-top:3px; font-weight:500;">'
+                f'{meta["tagline"]}</div>'
                 f'</div>',
                 unsafe_allow_html=True,
             )
@@ -1068,7 +1164,7 @@ def main() -> None:
         st.divider()
 
         # ── Refresh button ────────────────────────────────────────────────
-        if st.button("Refresh Bracket"):
+        if st.button("🔄 Refresh Bracket"):
             st.cache_data.clear()
             for key in list(st.session_state.keys()):
                 if "bracket" in key.lower() or "result" in key.lower() or "pipeline" in key.lower():
