@@ -268,6 +268,18 @@ UPSET_MAX_BY_ROUND: dict[str, dict[str, int]] = {
     "Championship": {"conservative": 1,  "balanced": 1,  "upset_heavy": 1},
 }
 
+# Separate cap for non-automatic R32 single-digit seed flips (live mode only).
+# 5/6/7 seeds beating 2/3/4 seeds that are NOT model-favored (WP ≤ 0.50) must
+# qualify via mode-specific thresholds and are limited by this cap.
+# Model-favored flips (WP > 0.50) bypass this cap entirely.
+R32_SINGLE_DIGIT_CAP: dict[str, int] = {
+    "conservative": 1,
+    "balanced":     2,
+    "value":        2,
+    "contrarian":   3,
+    "upset_heavy":  3,
+}
+
 # Per-region caps for Round of 64 only.
 # Prevents all three mid-tier upsets (10v7, 11v6, 12v5) from firing in the
 # same region, which would cascade into DD-vs-DD paths in later rounds.
@@ -1121,6 +1133,126 @@ def _select_upset_indices(
         if _live_caps:
             r64_seed_caps = _live_caps
 
+    # ── R32 single-digit seed flip bucket (live mode only) ──────────────────
+    # 5/6/7 seeds beating 2/3/4 seeds are handled in a separate pre-pass
+    # that runs before double-digit upset selection.
+    # • Model-favored (WP > 0.50): auto-advance, no cap, no DD slot consumed.
+    # • Non-automatic: must pass mode-specific qualification; subject to
+    #   R32_SINGLE_DIGIT_CAP; does not consume double-digit upset slots.
+    # Historical backtests are fully unaffected (live_data_mode gate).
+    _r32_sd_diag: list[dict] = []
+    if round_name == "Round of 32" and live_data_mode:
+        _sd_mode_key  = _EARLY_MODE_MAP.get(mode, "balanced")
+        _sd_cap       = R32_SINGLE_DIGIT_CAP.get(mode, 0)
+        _sd_bonus_map = {"conservative": 0.03, "balanced": 0.05, "contrarian": 0.07}
+        _sd_bonus     = _sd_bonus_map.get(_sd_mode_key, 0.05)
+
+        _sd_auto_list:      list = []
+        _sd_qualified_list: list = []
+
+        for _si, (_ta_sd, _tb_sd) in enumerate(matchups):
+            if _is_8v9(_ta_sd["seed"], _tb_sd["seed"]):
+                continue
+            if _ta_sd["seed"] < _tb_sd["seed"]:
+                _fav_sd, _und_sd = _ta_sd, _tb_sd
+            elif _tb_sd["seed"] < _ta_sd["seed"]:
+                _fav_sd, _und_sd = _tb_sd, _ta_sd
+            else:
+                continue
+
+            # Only 5/6/7 underdog vs 2/3/4 favorite (1-seeds never targeted)
+            if _und_sd["seed"] not in (5, 6, 7):
+                continue
+            if _fav_sd["seed"] not in (2, 3, 4):
+                continue
+
+            # Model WP
+            _wp_sd: float | None = None
+            if _HAS_TEAM_RATINGS and "team_rating" in _und_sd and "team_rating" in _fav_sd:
+                _wp_sd = float(_predict_win_probability(_und_sd, _fav_sd)["team_a"])
+
+            # Advancement edge
+            _edge_sd: float | None = None
+            if advancement_edges is not None:
+                _adv_r_sd = ROUND_TO_ADV_ROUND.get(round_name)
+                if _adv_r_sd:
+                    _ei_sd = _get_advancement_edge(_und_sd, _adv_r_sd, advancement_edges)
+                    if _ei_sd is not None:
+                        _edge_sd = _ei_sd.get("edge")
+
+            _auto_sd = _wp_sd is not None and _wp_sd > 0.50
+
+            if _auto_sd:
+                _sd_auto_list.append((_si, _wp_sd, _fav_sd, _und_sd, _edge_sd))
+            else:
+                # Qualification check per mode
+                _qualifies_sd = False
+                if _sd_mode_key == "conservative":
+                    _qualifies_sd = _wp_sd is not None and _wp_sd >= 0.55
+                elif _sd_mode_key == "balanced":
+                    _qualifies_sd = (
+                        (_wp_sd is not None and _wp_sd >= 0.52)
+                        or (_wp_sd is not None and _wp_sd >= 0.48
+                            and _edge_sd is not None and _edge_sd >= 0.06)
+                    )
+                elif _sd_mode_key == "contrarian":
+                    _qualifies_sd = (
+                        (_wp_sd is not None and _wp_sd >= 0.48)
+                        or (_wp_sd is not None and _wp_sd >= 0.45
+                            and _edge_sd is not None and _edge_sd >= 0.05)
+                    )
+
+                if _qualifies_sd:
+                    _desir_sd = round(
+                        _upset_desirability(_ta_sd, _tb_sd, win_rates, round_name)
+                        + _sd_bonus,
+                        5,
+                    )
+                    _sd_qualified_list.append(
+                        (_si, _desir_sd, _fav_sd, _und_sd, _wp_sd, _edge_sd)
+                    )
+                else:
+                    _r32_sd_diag.append({
+                        "i": _si, "team": _und_sd["name"], "seed": _und_sd["seed"],
+                        "opp": _fav_sd["name"], "opp_seed": _fav_sd["seed"],
+                        "wp": _wp_sd, "edge": _edge_sd,
+                        "auto": False, "selected": False, "reason": "not qualified",
+                    })
+
+        # Apply auto-advances (no cap, no DD slot consumed)
+        for _si, _wp_sd, _fav_sd, _und_sd, _edge_sd in _sd_auto_list:
+            selected[_si] = round(_wp_sd, 5)
+            _r32_sd_diag.append({
+                "i": _si, "team": _und_sd["name"], "seed": _und_sd["seed"],
+                "opp": _fav_sd["name"], "opp_seed": _fav_sd["seed"],
+                "wp": _wp_sd, "edge": _edge_sd,
+                "auto": True, "selected": True, "reason": None,
+            })
+            _wp_s_sd   = f"{_wp_sd:.3f}"
+            _edge_s_sd = f"edge={_edge_sd:.3f}" if _edge_sd is not None else "edge=N/A"
+            print(
+                f"  [model-favored R32 seed flip]"
+                f" #{_und_sd['seed']} {_und_sd['name']}"
+                f" over #{_fav_sd['seed']} {_fav_sd['name']}"
+                f"  WP={_wp_s_sd}  {_edge_s_sd}"
+            )
+
+        # Apply qualified non-auto flips up to R32_SINGLE_DIGIT_CAP
+        _sd_qualified_list.sort(key=lambda x: -x[1])
+        _sd_nonauto_count = 0
+        for _si, _desir_sd, _fav_sd, _und_sd, _wp_sd, _edge_sd in _sd_qualified_list:
+            _sel_sd = _sd_nonauto_count < _sd_cap
+            if _sel_sd:
+                selected[_si] = round(_desir_sd, 5)
+                _sd_nonauto_count += 1
+            _r32_sd_diag.append({
+                "i": _si, "team": _und_sd["name"], "seed": _und_sd["seed"],
+                "opp": _fav_sd["name"], "opp_seed": _fav_sd["seed"],
+                "wp": _wp_sd, "edge": _edge_sd, "auto": False,
+                "selected": _sel_sd, "desir": _desir_sd,
+                "reason": None if _sel_sd else "cap reached",
+            })
+
     for i, desir, fav, und, region, value_bypass, adv_boosted, adv_edge, adv_ratio in candidates:
         # Cap check.
         # Live mode: only true upsets (model underdog) consume slots; model-favored
@@ -1324,6 +1456,22 @@ def _select_upset_indices(
             print(
                 f"    {_sel_tag}  #{12} {_d['team']:<22} vs {_d['opp']:<22}"
                 f"  {_wp_str}  {_edge_str}  {_bon_str}{_rej_str}"
+            )
+
+    # ── Post-selection: print R32 single-digit flip diagnostics ──────────────
+    if round_name == "Round of 32" and live_data_mode and _r32_sd_diag:
+        print(f"\n  [R32 single-digit flip diagnostics — {mode}]")
+        for _d in sorted(_r32_sd_diag, key=lambda x: (x["seed"], x["team"])):
+            _auto_tag = "AUTO " if _d["auto"] else "     "
+            _sel_tag  = "SELECTED" if _d["selected"] else "blocked "
+            _wp_str   = f"WP={_d['wp']:.3f}" if _d["wp"] is not None else "WP=N/A "
+            _edge_str = f"edge={_d['edge']:.3f}" if _d["edge"] is not None else "edge=N/A"
+            _rej_str  = f"  [{_d['reason']}]" if _d.get("reason") else ""
+            print(
+                f"    {_auto_tag}{_sel_tag}"
+                f"  #{_d['seed']} {_d['team']:<22} vs #{_d['opp_seed']} {_d['opp']:<22}"
+                f"  {_wp_str}  {_edge_str}"
+                f"  auto_model_favored={'yes' if _d['auto'] else 'no '}{_rej_str}"
             )
 
     return selected
