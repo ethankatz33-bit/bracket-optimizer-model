@@ -337,9 +337,14 @@ def apply_manual_advancement_overrides(
                     if isinstance(old_winner_dict, dict) else ""
                 )
 
-                # Propagate displacement forward through all subsequent rounds
-                seq_idx = _ROUND_SEQ.index(rk)
-                for next_rk in _ROUND_SEQ[seq_idx + 1:]:
+                # Propagate displacement forward, but ONLY through rounds the
+                # team is required to win (i.e. within need_win).  Stopping at
+                # the last required round prevents the team from inheriting wins
+                # in rounds beyond their target (e.g. Siena → Elite 8 should NOT
+                # make Siena win E8/FF/Championship).
+                seq_idx       = _ROUND_SEQ.index(rk)
+                _last_req_idx = _ROUND_SEQ.index(need_win[-1])
+                for next_rk in _ROUND_SEQ[seq_idx + 1 : _last_req_idx + 1]:
                     next_games = _get_round_games(b, next_rk)
                     if not next_games:
                         break
@@ -358,6 +363,56 @@ def apply_manual_advancement_overrides(
             warnings.append(
                 f"Could not apply override for {team_name} → {target}: {exc}"
             )
+
+    # ── Sanitize: rebuild round-by-round so no eliminated team wins later rounds ──
+    def _sanitize_bracket_after_overrides(bkt: dict) -> None:
+        """
+        Walk R32 → Championship.  For each game, if the current winner was
+        eliminated in a prior round (i.e. not in the prior round's winners set),
+        swap winner/loser when the loser IS a prior-round winner.
+        Finally sync bkt['champion'] from the championship game winner.
+        """
+        # Collect R64 winners — these are the valid entrants for R32.
+        valid: set[str] = set()
+        for g in _get_round_games(bkt, "round_of_64"):
+            w = g.get("winner", {})
+            if isinstance(w, dict) and w.get("name"):
+                valid.add(w["name"])
+
+        for rk in _ROUND_SEQ[1:]:   # R32, S16, E8, FF, Championship
+            next_valid: set[str] = set()
+            for g in _get_round_games(bkt, rk):
+                w  = g.get("winner", {})
+                l  = g.get("loser",  {})
+                wn = w.get("name", "") if isinstance(w, dict) else ""
+                ln = l.get("name", "") if isinstance(l, dict) else ""
+
+                w_ok = wn in valid
+                l_ok = ln in valid
+
+                if w_ok:
+                    next_valid.add(wn)          # already correct
+                elif l_ok:
+                    # The loser is the valid team — swap
+                    g["winner"] = l
+                    g["loser"]  = w
+                    next_valid.add(ln)
+                else:
+                    # Neither participant is reachable — can't auto-fix.
+                    # Keep existing winner so the chain doesn't break silently.
+                    if wn:
+                        next_valid.add(wn)
+
+            valid = next_valid
+
+        # Sync bracket['champion'] from championship winner
+        cg_list = _get_round_games(bkt, "championship")
+        if cg_list:
+            champ = cg_list[0].get("winner", {})
+            if isinstance(champ, dict) and champ.get("name"):
+                bkt["champion"] = champ
+
+    _sanitize_bracket_after_overrides(b)
 
     # Conflict detection: same team as winner in multiple games in any one round
     for rk in _ROUND_SEQ:
