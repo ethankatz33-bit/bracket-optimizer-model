@@ -57,7 +57,7 @@ from scripts.predict_future_bracket import (
 
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="March Madness Bracket Predictor",
+    page_title="March Madness Bracket and Survivor Optimizer",
     page_icon="🏀",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -1495,7 +1495,7 @@ def main() -> None:
             box-shadow: 0 4px 24px rgba(0,0,0,0.18);
         }
         .site-hero-title {
-            font-size: 1.65rem;
+            font-size: 1.45rem;
             font-weight: 900;
             color: #ffffff;
             letter-spacing: -0.5px;
@@ -1676,7 +1676,7 @@ def main() -> None:
     st.markdown(
         '<div class="site-hero">'
         '  <div>'
-        '    <div class="site-hero-title">🏀 March Madness Bracket Predictor</div>'
+        '    <div class="site-hero-title">🏀 March Madness Bracket and Survivor Optimizer</div>'
         '  </div>'
         '  <a class="substack-btn" href="https://substack.com/@ecbk" target="_blank" rel="noopener">'
         '    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" '
