@@ -226,209 +226,235 @@ def run_pipeline(
 
 # ── Manual advancement overrides ─────────────────────────────────────────────
 
-def apply_manual_advancement_overrides(
+def _sync_champion_from_bracket(bracket: dict) -> dict:
+    """
+    Authoritatively set bracket['champion'] and bracket['champion_name'] from
+    the championship game winner.  Falls back to the existing 'champion' key if
+    no championship game is present.  Mutates and returns the bracket in-place.
+    """
+    champ = None
+
+    cg_raw = bracket.get("championship")
+    if isinstance(cg_raw, dict):
+        cg_list = [cg_raw]
+    elif isinstance(cg_raw, list):
+        cg_list = [g for g in cg_raw if isinstance(g, dict)]
+    else:
+        cg_list = []
+
+    if cg_list:
+        w = cg_list[0].get("winner", {})
+        if isinstance(w, dict) and w.get("name"):
+            champ = w
+
+    if champ is None:
+        raw = bracket.get("champion")
+        if isinstance(raw, dict):
+            champ = raw
+
+    if champ is not None:
+        bracket["champion"]      = champ
+        bracket["champion_name"] = champ.get("name")
+        if "summary" in bracket and isinstance(bracket["summary"], dict):
+            bracket["summary"]["champion"] = champ.get("name")
+
+    return bracket
+
+
+def rebuild_bracket_with_manual_overrides(
     bracket:   dict,
     overrides: list[dict],   # [{"team": str, "round": str}, ...]
 ) -> tuple[dict, list[str]]:
     """
-    Post-process a bracket copy so that each overridden team wins every game
-    needed to reach their target round.  Returns (updated_bracket, warnings).
+    Return a logically consistent bracket where override constraints are applied
+    by rebuilding each round forward from R64.
 
-    Does NOT modify simulate_bracket or any model files.
+    For each game, participants are determined by the prior round's winners.
+    - If an override forces a team to win this round, that team wins.
+    - Conflicting overrides (both teams forced to win same game) emit a warning.
+    - Otherwise the original model winner is kept if still present; if eliminated,
+      the original model loser advances (they "got lucky" — their opponent is gone).
+    - If both participants changed, the team from the left/top path wins.
+
+    Does NOT modify simulate_bracket() or any model files.
     """
     import copy as _copy
 
-    _ROUND_SEQ = [
+    ROUND_KEYS = [
         "round_of_64", "round_of_32", "sweet_16",
         "elite_8", "final_four", "championship",
     ]
-    _TARGET_WIN_THROUGH: dict[str, list[str]] = {
-        "Round of 32":       _ROUND_SEQ[:1],
-        "Sweet 16":          _ROUND_SEQ[:2],
-        "Elite 8":           _ROUND_SEQ[:3],
-        "Final Four":        _ROUND_SEQ[:4],
-        "Championship Game": _ROUND_SEQ[:5],
-        "Champion":          _ROUND_SEQ[:6],
+
+    # Number of rounds (from R64) that a team is *forced to win* for each target.
+    # "Elite 8" means the team must WIN R64, R32, S16 (3 rounds) to reach E8.
+    TARGET_WIN_COUNT: dict[str, int] = {
+        "Round of 32":       1,
+        "Sweet 16":          2,
+        "Elite 8":           3,
+        "Final Four":        4,
+        "Championship Game": 5,
+        "Champion":          6,
     }
 
-    def _get_round_games(bkt: dict, rk: str) -> list:
-        """
-        Return a list of game dict references for any round storage shape.
-        - list of game dicts  → returned as-is (filtered to dicts only)
-        - single game dict    → wrapped in [game]   (championship case)
-        - missing/None        → []
-        Items are live references into bkt[rk], so in-place mutation works.
-        """
-        raw = bkt.get(rk)
-        if raw is None:
-            return []
-        if isinstance(raw, list):
-            return [g for g in raw if isinstance(g, dict)]
-        if isinstance(raw, dict) and ("winner" in raw or "loser" in raw):
-            return [raw]           # single-game dict (championship)
-        return []
+    forced_wins: dict[str, int] = {}   # team_name → rounds they must win
+    warnings:    list[str]      = []
 
-    def _find(games: list, name: str) -> tuple:
-        for i, g in enumerate(games):
-            w = g.get("winner", {})
-            l = g.get("loser",  {})
-            if isinstance(w, dict) and w.get("name") == name:
-                return i, "winner"
-            if isinstance(l, dict) and l.get("name") == name:
-                return i, "loser"
-        return None, None
-
-    def _replace(games: list, old_name: str, new_dict: dict) -> bool:
-        for g in games:
-            w = g.get("winner", {})
-            l = g.get("loser",  {})
-            if isinstance(w, dict) and w.get("name") == old_name:
-                g["winner"] = new_dict    # in-place on original dict ref
-                return True
-            if isinstance(l, dict) and l.get("name") == old_name:
-                g["loser"] = new_dict
-                return True
-        return False
-
-    b        = _copy.deepcopy(bracket)
-    warnings: list[str] = []
-
-    for override in overrides:
-        team_name = override.get("team", "") if isinstance(override, dict) else ""
-        target    = override.get("round", "") if isinstance(override, dict) else ""
-        need_win  = _TARGET_WIN_THROUGH.get(target, [])
-
-        if not team_name or not need_win:
-            if target:
-                warnings.append(f"Unknown target round '{target}' — skipped.")
+    for ov in overrides:
+        if not isinstance(ov, dict):
             continue
+        team = ov.get("team", "")
+        rnd  = ov.get("round", "")
+        cnt  = TARGET_WIN_COUNT.get(rnd, 0)
+        if not team or not cnt:
+            if rnd:
+                warnings.append(f"Unknown target round '{rnd}' — skipped.")
+            continue
+        forced_wins[team] = max(forced_wins.get(team, 0), cnt)
 
-        try:
-            for rk in need_win:
-                games = _get_round_games(b, rk)
+    if not forced_wins:
+        return _copy.deepcopy(bracket), warnings
 
-                if not games:
-                    warnings.append(
-                        f"Could not apply override for {team_name} → {target}: "
-                        f"no games found in {rk}."
-                    )
-                    break
+    b = _copy.deepcopy(bracket)
 
-                idx, role = _find(games, team_name)
+    def pick_winner(
+        team_a: dict, team_b: dict, orig_game: dict, round_idx: int
+    ) -> tuple[dict, dict]:
+        """
+        Determine (winner, loser) given two participants and the original game.
+        team_a = participant from the "left/top" prior-round slot.
+        team_b = participant from the "right/bottom" prior-round slot.
+        round_idx: 0=R64, 1=R32, 2=S16, 3=E8, 4=FF, 5=Championship.
+        """
+        a_name = team_a.get("name", "")
+        b_name = team_b.get("name", "")
 
-                if idx is None:
-                    warnings.append(
-                        f"Could not apply override for {team_name} → {target}: "
-                        f"team not found in {rk}."
-                    )
-                    break
+        a_forced = round_idx < forced_wins.get(a_name, 0)
+        b_forced = round_idx < forced_wins.get(b_name, 0)
 
-                if role == "winner":
-                    continue          # already winning this round
-
-                # Force team to win — modify the live game dict in-place
-                game            = games[idx]
-                old_winner_dict = game.get("winner", {})
-                team_dict       = game.get("loser",  {})
-                game["winner"]  = team_dict
-                game["loser"]   = old_winner_dict
-                old_winner_name = (
-                    old_winner_dict.get("name", "")
-                    if isinstance(old_winner_dict, dict) else ""
-                )
-
-                # Propagate displacement forward, but ONLY through rounds the
-                # team is required to win (i.e. within need_win).  Stopping at
-                # the last required round prevents the team from inheriting wins
-                # in rounds beyond their target (e.g. Siena → Elite 8 should NOT
-                # make Siena win E8/FF/Championship).
-                seq_idx       = _ROUND_SEQ.index(rk)
-                _last_req_idx = _ROUND_SEQ.index(need_win[-1])
-                for next_rk in _ROUND_SEQ[seq_idx + 1 : _last_req_idx + 1]:
-                    next_games = _get_round_games(b, next_rk)
-                    if not next_games:
-                        break
-                    if not _replace(next_games, old_winner_name, team_dict):
-                        break
-
-            # Sync champion field when targeting full champion
-            if target == "Champion":
-                cg_list = _get_round_games(b, "championship")
-                if cg_list:
-                    w = cg_list[0].get("winner", {})
-                    if isinstance(w, dict) and w.get("name") == team_name:
-                        b["champion"] = w
-
-        except Exception as exc:
+        if a_forced and b_forced:
             warnings.append(
-                f"Could not apply override for {team_name} → {target}: {exc}"
+                f"Conflict: {a_name} and {b_name} both require a win in "
+                f"{ROUND_KEYS[round_idx]}. Remove one override."
             )
+            # Tiebreak: keep whichever matches the original winner
+            orig_w = orig_game.get("winner", {}).get("name", "")
+            return (team_a, team_b) if orig_w != b_name else (team_b, team_a)
 
-    # ── Sanitize: rebuild round-by-round so no eliminated team wins later rounds ──
-    def _sanitize_bracket_after_overrides(bkt: dict) -> None:
-        """
-        Walk R32 → Championship.  For each game, if the current winner was
-        eliminated in a prior round (i.e. not in the prior round's winners set),
-        swap winner/loser when the loser IS a prior-round winner.
-        Finally sync bkt['champion'] from the championship game winner.
-        """
-        # Collect R64 winners — these are the valid entrants for R32.
-        valid: set[str] = set()
-        for g in _get_round_games(bkt, "round_of_64"):
-            w = g.get("winner", {})
-            if isinstance(w, dict) and w.get("name"):
-                valid.add(w["name"])
+        if a_forced:
+            return team_a, team_b
+        if b_forced:
+            return team_b, team_a
 
-        for rk in _ROUND_SEQ[1:]:   # R32, S16, E8, FF, Championship
-            next_valid: set[str] = set()
-            for g in _get_round_games(bkt, rk):
-                w  = g.get("winner", {})
-                l  = g.get("loser",  {})
-                wn = w.get("name", "") if isinstance(w, dict) else ""
-                ln = l.get("name", "") if isinstance(l, dict) else ""
+        # No override — preserve original model result when possible.
+        orig_w = orig_game.get("winner", {}).get("name", "")
+        orig_l = orig_game.get("loser",  {}).get("name", "")
 
-                w_ok = wn in valid
-                l_ok = ln in valid
+        if orig_w == a_name:
+            return team_a, team_b
+        if orig_w == b_name:
+            return team_b, team_a
 
-                if w_ok:
-                    next_valid.add(wn)          # already correct
-                elif l_ok:
-                    # The loser is the valid team — swap
-                    g["winner"] = l
-                    g["loser"]  = w
-                    next_valid.add(ln)
-                else:
-                    # Neither participant is reachable — can't auto-fix.
-                    # Keep existing winner so the chain doesn't break silently.
-                    if wn:
-                        next_valid.add(wn)
+        # Original winner is gone (eliminated by a prior override).
+        # Advance the original loser if they're still present — they "got lucky"
+        # because the team that was supposed to beat them was eliminated.
+        if orig_l == a_name:
+            return team_a, team_b
+        if orig_l == b_name:
+            return team_b, team_a
 
-            valid = next_valid
+        # Both participants changed (rare: both paths were overridden).
+        # Default to team_a, which inherited the original winner's bracket path.
+        return team_a, team_b
 
-        # Sync bracket['champion'] from championship winner
-        cg_list = _get_round_games(bkt, "championship")
-        if cg_list:
-            champ = cg_list[0].get("winner", {})
-            if isinstance(champ, dict) and champ.get("name"):
-                bkt["champion"] = champ
+    def set_game(game: dict, winner: dict, loser: dict) -> None:
+        game["winner"]   = winner
+        game["loser"]    = loser
+        game["is_upset"] = winner.get("seed", 0) > loser.get("seed", 0)
 
-    _sanitize_bracket_after_overrides(b)
+    # ── Regional rounds: R64 → E8 (processed per region) ────────────────────
+    e8_winner_by_region: dict[str, dict] = {}
 
-    # Conflict detection: same team as winner in multiple games in any one round
-    for rk in _ROUND_SEQ:
-        seen: list[str] = []
-        for g in _get_round_games(b, rk):
-            w  = g.get("winner", {})
-            wn = w.get("name", "") if isinstance(w, dict) else ""
-            if wn:
-                if wn in seen:
-                    warnings.append(
-                        f"Conflict detected: {wn} wins multiple games in {rk}. "
-                        "These overrides conflict — remove one and try again."
-                    )
-                else:
-                    seen.append(wn)
+    for region in ("East", "West", "South", "Midwest"):
+        r64 = [g for g in b.get("round_of_64", []) if g.get("region") == region]
+        r32 = [g for g in b.get("round_of_32", []) if g.get("region") == region]
+        s16 = [g for g in b.get("sweet_16",    []) if g.get("region") == region]
+        e8  = [g for g in b.get("elite_8",     []) if g.get("region") == region]
 
+        # R64: original teams are the fixed participants
+        r64_winners: list[dict] = []
+        for game in r64:
+            w, l = pick_winner(game["winner"], game["loser"], game, 0)
+            set_game(game, w, l)
+            r64_winners.append(w)
+
+        # R32: winners of adjacent R64 game pairs feed each R32 game
+        r32_winners: list[dict] = []
+        for i, game in enumerate(r32):
+            if 2 * i + 1 >= len(r64_winners):
+                warnings.append(f"Bracket structure error: {region} R32 game {i}.")
+                break
+            w, l = pick_winner(r64_winners[2*i], r64_winners[2*i+1], game, 1)
+            set_game(game, w, l)
+            r32_winners.append(w)
+
+        # S16: pairs of R32 winners
+        s16_winners: list[dict] = []
+        for i, game in enumerate(s16):
+            if 2 * i + 1 >= len(r32_winners):
+                warnings.append(f"Bracket structure error: {region} S16 game {i}.")
+                break
+            w, l = pick_winner(r32_winners[2*i], r32_winners[2*i+1], game, 2)
+            set_game(game, w, l)
+            s16_winners.append(w)
+
+        # E8: one game from two S16 winners
+        for game in e8:
+            if len(s16_winners) < 2:
+                warnings.append(f"Bracket structure error: {region} E8.")
+                break
+            w, l = pick_winner(s16_winners[0], s16_winners[1], game, 3)
+            set_game(game, w, l)
+            e8_winner_by_region[region] = w
+            break
+
+    # ── Final Four ───────────────────────────────────────────────────────────
+    # bracket_halves encodes which two regions meet in each FF game.
+    bracket_halves = b.get("bracket_halves", [["West", "Midwest"], ["East", "South"]])
+    ff_games  = b.get("final_four", [])
+    ff_winners: list[dict] = []
+
+    for ff_idx, (game, half) in enumerate(zip(ff_games, bracket_halves)):
+        if len(half) < 2:
+            warnings.append(f"Invalid bracket_halves at index {ff_idx}.")
+            ff_winners.append(game.get("winner", {}))
+            continue
+        team_a = e8_winner_by_region.get(half[0], {})
+        team_b = e8_winner_by_region.get(half[1], {})
+        if not team_a or not team_b:
+            warnings.append(
+                f"Missing E8 winner for {half} — cannot rebuild FF game {ff_idx}."
+            )
+            ff_winners.append(game.get("winner", {}))
+            continue
+        w, l = pick_winner(team_a, team_b, game, 4)
+        set_game(game, w, l)
+        ff_winners.append(w)
+
+    # ── Championship ─────────────────────────────────────────────────────────
+    if len(ff_winners) >= 2:
+        orig_cg = b.get("championship")
+        orig_cg = orig_cg if isinstance(orig_cg, dict) else {}
+        w, l    = pick_winner(ff_winners[0], ff_winners[1], orig_cg, 5)
+        b["championship"] = {
+            "winner":        w,
+            "loser":         l,
+            "round":         "Championship",
+            "region":        "National",
+            "is_upset":      w.get("seed", 0) > l.get("seed", 0),
+            "upset_quality": None,
+        }
+
+    _sync_champion_from_bracket(b)
     return b, warnings
 
 
@@ -1379,7 +1405,7 @@ def show_results(res: dict, selected_style: str) -> None:
     # ── Apply manual advancement overrides ───────────────────────────────
     _active_overrides = st.session_state.get("manual_adv_overrides", [])
     if _active_overrides:
-        style_bracket, _ovr_warns = apply_manual_advancement_overrides(
+        style_bracket, _ovr_warns = rebuild_bracket_with_manual_overrides(
             style_bracket, _active_overrides
         )
         for _w in _ovr_warns:
@@ -1400,13 +1426,15 @@ def show_results(res: dict, selected_style: str) -> None:
         st.warning("⚠️ Stale bracket data — please reload the page.")
 
     # ── Champion + style header ───────────────────────────────────────────
+    # Always read champion from the (possibly override-mutated) bracket.
+    # Never fall back to candidate.name, which reflects the pre-override pick.
     champ = style_bracket.get("champion", {})
     cname = champ.get("name", "?")
     cseed = champ.get("seed", "?")
     creg  = champ.get("region", "?")
 
     prob_parts: list[str] = []
-    if candidate:
+    if candidate and not _active_overrides:
         prob_parts.append(f"{candidate.win_prob:.1%} title probability")
         if candidate.mc_ff_prob > 0:
             prob_parts.append(f"{candidate.mc_ff_prob:.1%} FF")
